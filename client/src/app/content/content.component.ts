@@ -15,6 +15,8 @@ import { CommonModule } from '@angular/common';
   import { ActivatedRoute } from '@angular/router';
   import { IContent } from './content.model';
   import { ContentService } from './content.service';
+  import { MatTooltipModule } from '@angular/material/tooltip';
+
   
   @Component({
     selector: 'app-content',
@@ -26,6 +28,7 @@ import { CommonModule } from '@angular/common';
       ReactiveFormsModule,
       MatFormFieldModule,
       MatInputModule,
+      MatTooltipModule,
     ],
     templateUrl: './content.component.html',
     styleUrls: ['./content.component.css'],
@@ -66,9 +69,9 @@ import { CommonModule } from '@angular/common';
     initForm(): void {
       this.contentForm = this.fb.group({
         Id: [null, []],
-        Quiz: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(2048)]],
-      FillBlanks: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(2048)]],
-      TrueFalse: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(2048)]]
+        Quiz: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10240)]],
+      FillBlanks: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10240)]],
+      TrueFalse: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10240)]]
       });
     }
   

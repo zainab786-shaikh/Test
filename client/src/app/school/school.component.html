@@ -25,26 +25,30 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Actions</th>
         <td mat-cell *matCellDef="let element">
-          <button mat-icon-button color="primary" (click)="editSchool(element)">
+          <button mat-icon-button color="primary" (click)="editSchool(element)" matTooltip="Edit school" matTooltipPosition="above">
             <mat-icon>edit</mat-icon>
           </button>
           <button
             mat-icon-button
             color="warn"
             (click)="deleteSchool(element.Id)"
+            matTooltip="Delete school"
+            matTooltipPosition="above"
           >
             <mat-icon>delete</mat-icon>
           </button>
-
+      
           <button
             mat-icon-button
             color="primary"
             (click)="onStandards(element.Id)"
+            matTooltip="View standards"
+            matTooltipPosition="above"
           >
             <mat-icon>list_alt</mat-icon>
           </button>
         </td>
-      </ng-container>
+      </ng-container>          
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>

@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
   import { ActivatedRoute } from '@angular/router';
   import { IStandard } from './standard.model';
   import { StandardService } from './standard.service';
+  import { MatTooltipModule } from '@angular/material/tooltip';
   
   @Component({
     selector: 'app-standard',
@@ -26,6 +27,7 @@ import { CommonModule } from '@angular/common';
       ReactiveFormsModule,
       MatFormFieldModule,
       MatInputModule,
+      MatTooltipModule,
     ],
     templateUrl: './standard.component.html',
     styleUrls: ['./standard.component.css'],

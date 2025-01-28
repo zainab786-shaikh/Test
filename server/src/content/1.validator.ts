@@ -4,9 +4,9 @@ import { Request, Response, NextFunction } from "express";
 
   const contentSchema = z.object({
   Id: z.number().min(1).max(9999).nullable().optional(),
-  Quiz: z.string().min(3).max(2048),
-  FillBlanks: z.string().min(3).max(2048),
-  TrueFalse: z.string().min(3).max(2048),
+  Quiz: z.string().min(3).max(10240),
+  FillBlanks: z.string().min(3).max(10240),
+  TrueFalse: z.string().min(3).max(10240),
   subject: z.number().min(1).max(9999).nullable().optional()
 });
 

@@ -17,19 +17,20 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>Actions</th>
           <td mat-cell *matCellDef="let element">
-            <button mat-icon-button color="primary" (click)="editSubject(element)">
+            <button mat-icon-button color="primary" (click)="editSubject(element)" matTooltip="Edit Subject" matTooltipPosition="above">
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button color="warn" (click)="deleteSubject(element.Id)">
+        
+            <button mat-icon-button color="warn" (click)="deleteSubject(element.Id)" matTooltip="Delete Subject" matTooltipPosition="above">
               <mat-icon>delete</mat-icon>
             </button>
-            
-          <button mat-icon-button color="primary" (click)="onContents(element.Id)">
-            <mat-icon>list_alt</mat-icon>
-          </button>
-          
+        
+            <button mat-icon-button color="primary" (click)="onContents(element.Id)" matTooltip="View Contents" matTooltipPosition="above">
+              <mat-icon>list_alt</mat-icon>
+            </button>
           </td>
         </ng-container>
+        
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>

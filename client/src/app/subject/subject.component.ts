@@ -15,6 +15,8 @@ import { CommonModule } from '@angular/common';
   import { ActivatedRoute } from '@angular/router';
   import { ISubject } from './subject.model';
   import { SubjectService } from './subject.service';
+  import { MatTooltipModule } from '@angular/material/tooltip';
+
   
   @Component({
     selector: 'app-subject',
@@ -26,6 +28,7 @@ import { CommonModule } from '@angular/common';
       ReactiveFormsModule,
       MatFormFieldModule,
       MatInputModule,
+      MatTooltipModule,
     ],
     templateUrl: './subject.component.html',
     styleUrls: ['./subject.component.css'],

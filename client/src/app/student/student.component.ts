@@ -15,7 +15,8 @@ import { CommonModule } from '@angular/common';
   import { ActivatedRoute } from '@angular/router';
   import { IStudent } from './student.model';
   import { StudentService } from './student.service';
-  
+  import { MatTooltipModule } from '@angular/material/tooltip';
+
   @Component({
     selector: 'app-student',
     imports: [
@@ -26,6 +27,7 @@ import { CommonModule } from '@angular/common';
       ReactiveFormsModule,
       MatFormFieldModule,
       MatInputModule,
+      MatTooltipModule,
     ],
     templateUrl: './student.component.html',
     styleUrls: ['./student.component.css'],
