@@ -20,6 +20,10 @@ const TYPES = {
   ControllerContent: Symbol("ControllerContent"),
   ServiceContent: Symbol("ServiceContent"),
   RepoContent: Symbol("RepoContent"),
+
+  ControllerProgress: Symbol("ControllerProgress"),
+  ServiceProgress: Symbol("ServiceProgress"),
+  RepoProgress: Symbol("RepoProgress"),
 };
 
 export default TYPES;

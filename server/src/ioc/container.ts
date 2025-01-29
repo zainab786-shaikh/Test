@@ -33,6 +33,11 @@ import { IServiceContent } from "../content/3.service.model";
 import { ServiceContentImpl } from "../content/4.service";
 import { IRepoContent } from "../content/5.repo.model";
 import { RepoContentImpl } from "../content/6.repo";
+import { ControllerProgress } from "../progress/2.controller";
+import { IServiceProgress } from "../progress/3.service.model";
+import { ServiceProgressImpl } from "../progress/4.service";
+import { IRepoProgress } from "../progress/5.repo.model";
+import { RepoProgressImpl } from "../progress/6.repo";
 
 const container = new Container();
 container.bind<ILogger>(TYPES.LoggerService).to(LoggerService);
@@ -68,4 +73,11 @@ container
   .to(ControllerContent);
 container.bind<IServiceContent>(TYPES.ServiceContent).to(ServiceContentImpl);
 container.bind<IRepoContent>(TYPES.RepoContent).to(RepoContentImpl);
+
+container
+  .bind<ControllerProgress>(TYPES.ControllerProgress)
+  .to(ControllerProgress);
+container.bind<IServiceProgress>(TYPES.ServiceProgress).to(ServiceProgressImpl);
+container.bind<IRepoProgress>(TYPES.RepoProgress).to(RepoProgressImpl);
+
 export { container };

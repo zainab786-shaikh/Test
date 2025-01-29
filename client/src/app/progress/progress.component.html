@@ -1,6 +1,6 @@
 <mat-card>
   <mat-card-title>
-    <span>Content Details</span>
+    <span>Progress Details</span>
     <button
       mat-icon-button
       color="primary"
@@ -12,19 +12,23 @@
   </mat-card-title>
   <mat-card-content>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-      <ng-container matColumnDef="Quiz">
-        <th mat-header-cell *matHeaderCellDef>Quiz</th>
-        <td mat-cell *matCellDef="let element">{{ element.Quiz }}</td>
+      <ng-container matColumnDef="QuizPercentage">
+        <th mat-header-cell *matHeaderCellDef>QuizPercentage</th>
+        <td mat-cell *matCellDef="let element">{{ element.QuizPercentage }}</td>
       </ng-container>
 
-      <ng-container matColumnDef="FillBlanks">
-        <th mat-header-cell *matHeaderCellDef>FillBlanks</th>
-        <td mat-cell *matCellDef="let element">{{ element.FillBlanks }}</td>
+      <ng-container matColumnDef="FillBlanksPercentage">
+        <th mat-header-cell *matHeaderCellDef>FillBlanksPercentage</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.FillBlanksPercentage }}
+        </td>
       </ng-container>
 
-      <ng-container matColumnDef="TrueFalse">
-        <th mat-header-cell *matHeaderCellDef>TrueFalse</th>
-        <td mat-cell *matCellDef="let element">{{ element.TrueFalse }}</td>
+      <ng-container matColumnDef="TrueFalsePercentage">
+        <th mat-header-cell *matHeaderCellDef>TrueFalsePercentage</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.TrueFalsePercentage }}
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="actions">
@@ -33,25 +37,19 @@
           <button
             mat-icon-button
             color="primary"
-            (click)="editContent(element)"
-            matTooltip="Edit Content"
-            matTooltipPosition="right"
+            (click)="editProgress(element)"
           >
             <mat-icon>edit</mat-icon>
           </button>
-
           <button
             mat-icon-button
             color="warn"
-            (click)="deleteContent(element.Id)"
-            matTooltip="Delete Content"
-            matTooltipPosition="right"
+            (click)="deleteProgress(element.Id)"
           >
             <mat-icon>delete</mat-icon>
           </button>
         </td>
       </ng-container>
-
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
@@ -61,36 +59,38 @@
 <mat-card *ngIf="isFormVisible">
   <mat-card-title>
     <mat-icon>{{ isEditMode ? "edit" : "add" }}</mat-icon>
-    {{ isEditMode ? "Update Content" : "Add Content" }}
+    {{ isEditMode ? "Update Progress" : "Add Progress" }}
   </mat-card-title>
   <mat-card-content>
     <form
-      [formGroup]="contentForm"
+      [formGroup]="progressForm"
       (ngSubmit)="onSubmit()"
       class="form-container"
     >
       <mat-form-field appearance="fill">
-        <mat-label>Quiz</mat-label>
-        <textarea matInput formControlName="Quiz" rows="4"></textarea>
-        <mat-error *ngFor="let error of getErrorMessages('Quiz')">{{
+        <mat-label>QuizPercentage</mat-label>
+        <input matInput formControlName="QuizPercentage" />
+        <mat-error *ngFor="let error of getErrorMessages('QuizPercentage')">{{
           error
         }}</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
-        <mat-label>FillBlanks</mat-label>
-        <textarea matInput formControlName="FillBlanks" rows="4"></textarea>
-        <mat-error *ngFor="let error of getErrorMessages('FillBlanks')">{{
-          error
-        }}</mat-error>
+        <mat-label>FillBlanksPercentage</mat-label>
+        <input matInput formControlName="FillBlanksPercentage" />
+        <mat-error
+          *ngFor="let error of getErrorMessages('FillBlanksPercentage')"
+          >{{ error }}</mat-error
+        >
       </mat-form-field>
 
       <mat-form-field appearance="fill">
-        <mat-label>TrueFalse</mat-label>
-        <textarea matInput formControlName="TrueFalse" rows="4"></textarea>
-        <mat-error *ngFor="let error of getErrorMessages('TrueFalse')">{{
-          error
-        }}</mat-error>
+        <mat-label>TrueFalsePercentage</mat-label>
+        <input matInput formControlName="TrueFalsePercentage" />
+        <mat-error
+          *ngFor="let error of getErrorMessages('TrueFalsePercentage')"
+          >{{ error }}</mat-error
+        >
       </mat-form-field>
 
       <div class="form-actions">
@@ -98,7 +98,7 @@
           mat-raised-button
           color="primary"
           type="submit"
-          [disabled]="contentForm.invalid"
+          [disabled]="progressForm.invalid"
         >
           {{ isEditMode ? "Update" : "Add" }}
         </button>

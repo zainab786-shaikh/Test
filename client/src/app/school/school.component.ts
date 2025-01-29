@@ -17,8 +17,6 @@ import { ISchool } from './school.model';
 import { SchoolService } from './school.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-
-
 @Component({
   selector: 'app-school',
   imports: [
@@ -29,7 +27,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatTooltipModule, 
+    MatTooltipModule,
   ],
   templateUrl: './school.component.html',
   styleUrls: ['./school.component.css'],
@@ -105,6 +103,11 @@ export class SchoolComponent implements OnInit {
 
   onStandards(schoolId: number) {
     this.router.navigate(['standard/school', schoolId]);
+  }
+
+  onProgresss(schoolId: number) {
+    //TODO: This will be enabled later
+    //this.router.navigate(['progress/school', schoolId]);
   }
 
   onSubmit(): void {
