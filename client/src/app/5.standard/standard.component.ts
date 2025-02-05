@@ -15,7 +15,6 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { IStandard } from './standard.model';
 import { StandardService } from './standard.service';
-import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-standard',
@@ -27,14 +26,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatTooltipModule,
   ],
   templateUrl: './standard.component.html',
   styleUrls: ['./standard.component.css'],
 })
 export class StandardComponent implements OnInit {
-  schoolId = 0;
-
   displayedColumns: string[] = ['name', 'actions'];
   dataSource: IStandard[] = [];
   isFormVisible = false;
@@ -50,15 +46,12 @@ export class StandardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
-      this.schoolId = +params['schoolId'];
-      this.loadStandards();
-      this.initForm();
-    });
+    this.loadStandards();
+    this.initForm();
   }
 
   loadStandards(): void {
-    this.standardService.getAll(this.schoolId).subscribe((data) => {
+    this.standardService.getAll().subscribe((data) => {
       this.dataSource = data;
     });
   }
@@ -97,21 +90,13 @@ export class StandardComponent implements OnInit {
     });
   }
 
-  onStudents(standardId: number) {
-    this.router.navigate(['student/standard', standardId]);
-  }
-
   onSubjects(standardId: number) {
     this.router.navigate(['subject/standard', standardId]);
   }
 
-  onProgresss(standardId: number) {
-    //TODO: Standard progress will be taken later
-    //this.router.navigate(['progress/standard', standardId]);
-  }
   onSubmit(): void {
     if (this.standardForm.valid) {
-      const standard = { ...this.standardForm.value, school: this.schoolId };
+      const standard = { ...this.standardForm.value };
 
       if (this.isEditMode) {
         this.standardService.edit(standard).subscribe(() => {

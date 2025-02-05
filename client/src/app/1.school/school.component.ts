@@ -15,7 +15,6 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { ISchool } from './school.model';
 import { SchoolService } from './school.service';
-import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-school',
@@ -27,7 +26,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatTooltipModule,
   ],
   templateUrl: './school.component.html',
   styleUrls: ['./school.component.css'],
@@ -76,7 +74,7 @@ export class SchoolComponent implements OnInit {
           Validators.required,
           Validators.minLength(16),
           Validators.maxLength(255),
-          Validators.pattern('^[0-9A-Za-z0-9., ]+$'),
+          Validators.pattern(/^[A-Za-z0-9'.\-, ]*$/),
         ],
       ],
     });
@@ -101,13 +99,8 @@ export class SchoolComponent implements OnInit {
     });
   }
 
-  onStandards(schoolId: number) {
-    this.router.navigate(['standard/school', schoolId]);
-  }
-
-  onProgresss(schoolId: number) {
-    //TODO: This will be enabled later
-    //this.router.navigate(['progress/school', schoolId]);
+  onSchoolStandards(schoolId: number) {
+    this.router.navigate(['schoolstandard/school', schoolId]);
   }
 
   onSubmit(): void {

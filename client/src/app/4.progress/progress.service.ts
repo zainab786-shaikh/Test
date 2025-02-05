@@ -8,10 +8,11 @@ import { IProgress } from './progress.model';
 })
 export class ProgressService {
   private apiUrl = 'http://localhost:3000/v1';
-  subjectId: number = 0;
-  studentId: number = 0;
-  standardId: number = 0;
   schoolId: number = 0;
+  standardId: number = 0;
+  studentId: number = 0;
+  subjectId: number = 0;
+  lessonId: number = 0;
   data: IProgress[] = [];
 
   // Define the headers
@@ -25,17 +26,15 @@ export class ProgressService {
   constructor(private http: HttpClient) {}
 
   getAll(
-    inSubjectId: number,
-    inStudentId: number,
+    inSchoolId: number,
     inStandardId: number,
-    inSchoolId: number
+    inStudentId: number
   ): Observable<IProgress[]> {
-    this.subjectId = inSubjectId;
-    this.studentId = inStudentId;
-    this.standardId = inStandardId;
     this.schoolId = inSchoolId;
+    this.standardId = inStandardId;
+    this.studentId = inStudentId;
     return this.http.get<IProgress[]>(
-      `${this.apiUrl}/progress/subject/${inSubjectId}/student/${inStudentId}/standard/${inStandardId}/school/${inSchoolId}`,
+      `${this.apiUrl}/progress/school/${inSchoolId}/standard/${inStandardId}/student/${inStudentId}`,
       {
         headers: this.headers,
       }

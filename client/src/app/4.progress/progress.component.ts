@@ -31,15 +31,18 @@ import { ProgressService } from './progress.service';
   styleUrls: ['./progress.component.css'],
 })
 export class ProgressComponent implements OnInit {
-  subjectId = 1;
+  schoolId = 0;
+  standardId = 0;
   studentId = 0;
-  standardId = 1;
-  schoolId = 1;
 
   displayedColumns: string[] = [
-    'QuizPercentage',
-    'FillBlanksPercentage',
-    'TrueFalsePercentage',
+    'Quiz',
+    'FillBlanks',
+    'TrueFalse',
+    'School',
+    'Standard',
+    'Subject',
+    'Lesson',
     'actions',
   ];
   dataSource: IProgress[] = [];
@@ -57,10 +60,9 @@ export class ProgressComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      //this.subjectId = +params['subjectId'];
+      this.schoolId = +params['schoolId'];
+      this.standardId = +params['standardId'];
       this.studentId = +params['studentId'];
-      //this.standardId = +params['standardId'];
-      //this.schoolId = +params['schoolId'];
       this.loadProgresss();
       this.initForm();
     });
@@ -68,7 +70,7 @@ export class ProgressComponent implements OnInit {
 
   loadProgresss(): void {
     this.progressService
-      .getAll(this.subjectId, this.studentId, this.standardId, this.schoolId)
+      .getAll(this.schoolId, this.standardId, this.studentId)
       .subscribe((data) => {
         this.dataSource = data;
       });
@@ -77,33 +79,9 @@ export class ProgressComponent implements OnInit {
   initForm(): void {
     this.progressForm = this.fb.group({
       Id: [null, []],
-      QuizPercentage: [
-        null,
-        [
-          Validators.required,
-          Validators.min(0),
-          Validators.max(100),
-          Validators.pattern(/^\d+(\.\d{1,2})?$/),
-        ],
-      ],
-      FillBlanksPercentage: [
-        null,
-        [
-          Validators.required,
-          Validators.min(0),
-          Validators.max(100),
-          Validators.pattern(/^\d+(\.\d{1,2})?$/),
-        ],
-      ],
-      TrueFalsePercentage: [
-        null,
-        [
-          Validators.required,
-          Validators.min(0),
-          Validators.max(100),
-          Validators.pattern(/^\d+(\.\d{1,2})?$/),
-        ],
-      ],
+      Quiz: ['', [Validators.required]],
+      FillBlanks: ['', [Validators.required]],
+      TrueFalse: ['', [Validators.required]],
     });
   }
 
@@ -129,17 +107,13 @@ export class ProgressComponent implements OnInit {
   onSubmit(): void {
     if (this.progressForm.valid) {
       const progress = {
-        QuizPercentage: Number(this.progressForm.get('QuizPercentage')?.value),
-        FillBlanksPercentage: Number(
-          this.progressForm.get('FillBlanksPercentage')?.value
-        ),
-        TrueFalsePercentage: Number(
-          this.progressForm.get('TrueFalsePercentage')?.value
-        ),
-        subject: this.subjectId,
-        student: this.studentId,
-        standard: this.standardId,
+        ...this.progressForm.value,
+        Quiz: Number(this.progressForm.value.Quiz),
+        FillBlanks: Number(this.progressForm.value.FillBlanks),
+        TrueFalse: Number(this.progressForm.value.TrueFalse),
         school: this.schoolId,
+        standard: this.standardId,
+        student: this.studentId,
       };
 
       if (this.isEditMode) {

@@ -8,7 +8,7 @@ import { IStandard } from './standard.model';
 })
 export class StandardService {
   private apiUrl = 'http://localhost:3000/v1';
-  schoolId: number = 0;
+
   data: IStandard[] = [];
 
   // Define the headers
@@ -21,14 +21,10 @@ export class StandardService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(inSchoolId: number): Observable<IStandard[]> {
-    this.schoolId = inSchoolId;
-    return this.http.get<IStandard[]>(
-      `${this.apiUrl}/standard/school/${inSchoolId}`,
-      {
-        headers: this.headers,
-      }
-    );
+  getAll(): Observable<IStandard[]> {
+    return this.http.get<IStandard[]>(`${this.apiUrl}/standard`, {
+      headers: this.headers,
+    });
   }
 
   get(inStandardId: number): Observable<IStandard> {

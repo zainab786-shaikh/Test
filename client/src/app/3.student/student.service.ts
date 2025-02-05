@@ -8,6 +8,7 @@ import { IStudent } from './student.model';
 })
 export class StudentService {
   private apiUrl = 'http://localhost:3000/v1';
+  schoolId: number = 0;
   standardId: number = 0;
   data: IStudent[] = [];
 
@@ -21,10 +22,11 @@ export class StudentService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(inStandardId: number): Observable<IStudent[]> {
+  getAll(inSchoolId: number, inStandardId: number): Observable<IStudent[]> {
+    this.schoolId = inSchoolId;
     this.standardId = inStandardId;
     return this.http.get<IStudent[]>(
-      `${this.apiUrl}/student/standard/${inStandardId}`,
+      `${this.apiUrl}/student/school/${inSchoolId}/standard/${inStandardId}`,
       {
         headers: this.headers,
       }

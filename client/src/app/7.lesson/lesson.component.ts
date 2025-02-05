@@ -13,11 +13,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import { IStudent } from './student.model';
-import { StudentService } from './student.service';
+import { ILesson } from './lesson.model';
+import { LessonService } from './lesson.service';
 
 @Component({
-  selector: 'app-student',
+  selector: 'app-lesson',
   imports: [
     CommonModule,
     MatTableModule,
@@ -27,61 +27,79 @@ import { StudentService } from './student.service';
     MatFormFieldModule,
     MatInputModule,
   ],
-  templateUrl: './student.component.html',
-  styleUrls: ['./student.component.css'],
+  templateUrl: './lesson.component.html',
+  styleUrls: ['./lesson.component.css'],
 })
-export class StudentComponent implements OnInit {
-  schoolId = 0;
-  standardId = 0;
+export class LessonComponent implements OnInit {
+  subjectId = 0;
 
-  displayedColumns: string[] = ['name', 'adhaar', 'actions'];
-  dataSource: IStudent[] = [];
+  displayedColumns: string[] = [
+    'Name',
+    'Quiz',
+    'FillBlanks',
+    'TrueFalse',
+    'actions',
+  ];
+  dataSource: ILesson[] = [];
   isFormVisible = false;
   isEditMode = false;
-  currentStudentId: number | null = null;
-  studentForm!: FormGroup;
+  currentLessonId: number | null = null;
+  lessonForm!: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private studentService: StudentService
+    private lessonService: LessonService
   ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      this.schoolId = +params['schoolId'];
-      this.standardId = +params['standardId'];
-      this.loadStudents();
+      this.subjectId = +params['subjectId'];
+      this.loadLessons();
       this.initForm();
     });
   }
 
-  loadStudents(): void {
-    this.studentService
-      .getAll(this.schoolId, this.standardId)
-      .subscribe((data) => {
-        this.dataSource = data;
-      });
+  loadLessons(): void {
+    this.lessonService.getAll(this.subjectId).subscribe((data) => {
+      this.dataSource = data;
+    });
   }
 
   initForm(): void {
-    this.studentForm = this.fb.group({
+    this.lessonForm = this.fb.group({
       Id: [null, []],
-      name: [
+      Name: [
         '',
         [
           Validators.required,
           Validators.minLength(3),
-          Validators.maxLength(255),
-          Validators.pattern('^[A-Za-z ]+$'),
+          Validators.maxLength(2048),
         ],
       ],
-      adhaar: [
+      Quiz: [
         '',
         [
           Validators.required,
-          Validators.pattern('^[0-9]{4}-[0-9]{4}-[0-9]{4}$'),
+          Validators.minLength(3),
+          Validators.maxLength(10240),
+        ],
+      ],
+      FillBlanks: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(10240),
+        ],
+      ],
+      TrueFalse: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(10240),
         ],
       ],
     });
@@ -90,49 +108,34 @@ export class StudentComponent implements OnInit {
   toggleForm(): void {
     this.isFormVisible = !this.isFormVisible;
     this.isEditMode = false;
-    this.studentForm.reset();
+    this.lessonForm.reset();
   }
 
-  editStudent(student: IStudent): void {
+  editLesson(lesson: ILesson): void {
     this.isFormVisible = true;
     this.isEditMode = true;
-    this.currentStudentId = student.Id ?? null;
-    this.studentForm.patchValue(student);
+    this.currentLessonId = lesson.Id ?? null;
+    this.lessonForm.patchValue(lesson);
   }
 
-  deleteStudent(studentId: number): void {
-    this.studentService.delete(studentId).subscribe(() => {
-      this.loadStudents();
+  deleteLesson(lessonId: number): void {
+    this.lessonService.delete(lessonId).subscribe(() => {
+      this.loadLessons();
     });
   }
 
-  onProgresss(studentId: number) {
-    this.router.navigate([
-      '/progress/school',
-      this.schoolId,
-      'standard',
-      this.standardId,
-      'student',
-      studentId,
-    ]);
-  }
-
   onSubmit(): void {
-    if (this.studentForm.valid) {
-      const student = {
-        ...this.studentForm.value,
-        school: this.schoolId,
-        standard: this.standardId,
-      };
+    if (this.lessonForm.valid) {
+      const lesson = { ...this.lessonForm.value, subject: this.subjectId };
 
       if (this.isEditMode) {
-        this.studentService.edit(student).subscribe(() => {
-          this.loadStudents();
+        this.lessonService.edit(lesson).subscribe(() => {
+          this.loadLessons();
           this.toggleForm();
         });
       } else {
-        this.studentService.add(student).subscribe(() => {
-          this.loadStudents();
+        this.lessonService.add(lesson).subscribe(() => {
+          this.loadLessons();
           this.toggleForm();
         });
       }
@@ -140,7 +143,7 @@ export class StudentComponent implements OnInit {
   }
 
   getErrorMessages(controlName: string): string[] {
-    const control = this.studentForm.get(controlName);
+    const control = this.lessonForm.get(controlName);
     if (control?.touched && control?.invalid) {
       const errors: { [key: string]: string } = {
         required: 'This field is required.',

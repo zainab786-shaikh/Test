@@ -15,7 +15,6 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { ISubject } from './subject.model';
 import { SubjectService } from './subject.service';
-import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-subject',
@@ -27,7 +26,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatTooltipModule,
   ],
   templateUrl: './subject.component.html',
   styleUrls: ['./subject.component.css'],
@@ -72,7 +70,7 @@ export class SubjectComponent implements OnInit {
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(255),
-          Validators.pattern('^[0-9A-Za-z ]+$'),
+          Validators.pattern('^[A-Za-z ]+$'),
         ],
       ],
     });
@@ -97,14 +95,10 @@ export class SubjectComponent implements OnInit {
     });
   }
 
-  onContents(subjectId: number) {
-    this.router.navigate(['content/subject', subjectId]);
+  onLessons(subjectId: number) {
+    this.router.navigate(['lesson/subject', subjectId]);
   }
 
-  onProgresss(subjectId: number) {
-    //TODO: Standard progress will be taken later
-    //this.router.navigate(['progress/subject', subjectId]);
-  }
   onSubmit(): void {
     if (this.subjectForm.valid) {
       const subject = { ...this.subjectForm.value, standard: this.standardId };
