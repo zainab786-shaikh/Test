@@ -41,11 +41,10 @@ export class ControllerStandard extends BaseController {
     );
   }
 
-  @httpGet("/school/:Id")
+  @httpGet("/")
   async getAll(@request() req: Request, @response() res: Response) {
     try {
-      const schoolId = +req.params.Id;
-      const standardList = await this.serviceStandard.getAll(schoolId);
+      const standardList = await this.serviceStandard.getAll();
       this.logger.info("Retrieved standardList:" + standardList?.length);
 
       this.setCommonHeaders(res);

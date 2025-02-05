@@ -4,7 +4,6 @@ import { IStandard } from "./0.model";
 export class DTOStandard extends Model {
   Id?: number;
   name!: string;
-  school?: number;
 }
 
 export const initDTOStandardModel = (
@@ -22,17 +21,6 @@ export const initDTOStandardModel = (
       name: {
         type: DataTypes.STRING,
         allowNull: false,
-      },
-      school: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-          model: {
-            schema: schemaName,
-            tableName: "school",
-          },
-          key: "Id",
-        },
       },
     },
     {

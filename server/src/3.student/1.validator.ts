@@ -8,8 +8,9 @@ const studentSchema = z.object({
     .string()
     .min(3)
     .max(255)
-    .regex(/^[0-9A-Za-z ]+$/),
+    .regex(/^[A-Za-z ]+$/),
   adhaar: z.string().regex(/^[0-9]{4}-[0-9]{4}-[0-9]{4}$/),
+  school: z.number().min(1).max(9999).nullable().optional(),
   standard: z.number().min(1).max(9999).nullable().optional(),
 });
 

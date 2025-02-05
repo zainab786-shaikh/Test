@@ -1,19 +1,20 @@
 import { Sequelize, Model, DataTypes } from "sequelize";
-import { IStudent } from "./0.model";
+import { ILesson } from "./0.model";
 
-export class DTOStudent extends Model {
+export class DTOLesson extends Model {
   Id?: number;
-  name!: string;
-  adhaar!: string;
-  school?: number;
-  standard?: number;
+  Name!: string;
+  Quiz!: string;
+  FillBlanks!: string;
+  TrueFalse!: string;
+  subject?: number;
 }
 
-export const initDTOStudentModel = (
+export const initDTOLessonModel = (
   schemaName: string,
   sequelize: Sequelize
 ) => {
-  DTOStudent.init(
+  DTOLesson.init(
     {
       Id: {
         type: DataTypes.INTEGER,
@@ -21,32 +22,29 @@ export const initDTOStudentModel = (
         autoIncrement: true,
         primaryKey: true,
       },
-      name: {
+      Name: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      adhaar: {
+      Quiz: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      school: {
+      FillBlanks: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      TrueFalse: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      subject: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
           model: {
             schema: schemaName,
-            tableName: "school",
-          },
-          key: "Id",
-        },
-      },
-      standard: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-          model: {
-            schema: schemaName,
-            tableName: "standard",
+            tableName: "subject",
           },
           key: "Id",
         },
@@ -55,7 +53,7 @@ export const initDTOStudentModel = (
     {
       sequelize,
       schema: schemaName,
-      tableName: "student",
+      tableName: "lesson",
       timestamps: false,
     }
   );

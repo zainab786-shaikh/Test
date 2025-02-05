@@ -2,28 +2,23 @@ import { Request, Response, NextFunction } from "express";
 import { z } from "zod";
 import { handleValidationError } from "../common/validation-error";
 
-const schoolSchema = z.object({
+const lessonSchema = z.object({
   Id: z.number().min(1).max(9999).nullable().optional(),
-  name: z
-    .string()
-    .min(3)
-    .max(255)
-    .regex(/^[A-Za-z ]*$/),
-  address: z
-    .string()
-    .min(16)
-    .max(255)
-    .regex(/^[A-Za-z0-9.\-, ]*$/),
+  Name: z.string().min(3).max(2048),
+  Quiz: z.string().min(3).max(10240),
+  FillBlanks: z.string().min(3).max(10240),
+  TrueFalse: z.string().min(3).max(10240),
+  subject: z.number().min(1).max(9999).nullable().optional(),
 });
 
-const validateSchool = (
+const validateLesson = (
   request: Request,
   response: Response,
   next: NextFunction
 ) => {
   try {
     // Validate request body against schema
-    schoolSchema.parse(request.body);
+    lessonSchema.parse(request.body);
     next();
   } catch (error) {
     // Use the common error handler
@@ -31,4 +26,4 @@ const validateSchool = (
   }
 };
 
-export { validateSchool };
+export { validateLesson };

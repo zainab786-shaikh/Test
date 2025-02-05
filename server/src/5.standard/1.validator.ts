@@ -9,7 +9,6 @@ const standardSchema = z.object({
     .min(3)
     .max(255)
     .regex(/^[0-9A-Za-z ]+$/),
-  school: z.number().min(1).max(9999).nullable().optional(),
 });
 
 const validateStandard = (

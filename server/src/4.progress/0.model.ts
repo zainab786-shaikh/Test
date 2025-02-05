@@ -1,10 +1,11 @@
 export interface IProgress {
   Id?: number;
-  QuizPercentage: number;
-  FillBlanksPercentage: number;
-  TrueFalsePercentage: number;
-  subject?: number;
-  student?: number;
-  standard?: number;
+  Quiz: number;
+  FillBlanks: number;
+  TrueFalse: number;
   school?: number;
+  standard?: number;
+  student?: number;
+  subject?: number;
+  lesson?: number;
 }

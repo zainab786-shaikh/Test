@@ -5,7 +5,10 @@ import { ILogger } from "./service/logger.service";
 import { ServiceTenant } from "./service/tenant.service";
 import TYPES from "../ioc/types";
 import { container } from "../ioc/container";
-import { RequestContext, RequestContextProvider } from "./service/request-context.service";
+import {
+  RequestContext,
+  RequestContextProvider,
+} from "./service/request-context.service";
 
 export class Validate {
   private logger: ILogger;

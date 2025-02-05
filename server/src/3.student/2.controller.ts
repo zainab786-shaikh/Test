@@ -22,16 +22,19 @@ import { validateId } from "../common/validator-id";
 import { IStudent } from "./0.model";
 import { validateStudent } from "./1.validator";
 import { IServiceStudent } from "./3.service.model";
+import { ServiceStudentProgressImpl } from "./3.service.student.progress";
 
 @controller("/student")
 export class ControllerStudent extends BaseController {
   private logger: ILogger;
   private serviceStudent: IServiceStudent;
+  private serviceStudentProgressImpl: ServiceStudentProgressImpl;
 
   constructor() {
     super();
     this.logger = container.get(TYPES.LoggerService);
     this.serviceStudent = container.get(TYPES.ServiceStudent);
+    this.serviceStudentProgressImpl = new ServiceStudentProgressImpl();
   }
 
   private setCommonHeaders(res: Response) {
@@ -41,11 +44,15 @@ export class ControllerStudent extends BaseController {
     );
   }
 
-  @httpGet("/standard/:Id")
+  @httpGet("/school/:Id/standard/:Id")
   async getAll(@request() req: Request, @response() res: Response) {
     try {
+      const schoolId = +req.params.Id;
       const standardId = +req.params.Id;
-      const studentList = await this.serviceStudent.getAll(standardId);
+      const studentList = await this.serviceStudent.getAll(
+        schoolId,
+        standardId
+      );
       this.logger.info("Retrieved studentList:" + studentList?.length);
 
       this.setCommonHeaders(res);
@@ -86,9 +93,13 @@ export class ControllerStudent extends BaseController {
   @httpPost("/", validateStudent)
   async create(@request() req: Request, @response() res: Response) {
     try {
-      const status = await this.serviceStudent.create(req.body);
+      const student = req.body as IStudent;
+      const studentObj = await this.serviceStudent.create(student);
+      if (studentObj) {
+        await this.serviceStudentProgressImpl.create(studentObj);
+      }
       this.setCommonHeaders(res);
-      res.status(HttpStatusCode.OK).json(status);
+      res.status(HttpStatusCode.OK).json(studentObj);
     } catch (error: any) {
       this.logger.error(error);
       return this.handleError(error, res);
@@ -112,6 +123,7 @@ export class ControllerStudent extends BaseController {
   async delete(@request() req: Request, @response() res: Response) {
     try {
       const id = +req.params.id;
+      await this.serviceStudentProgressImpl.delete(id);
       const status = await this.serviceStudent.delete(id);
       this.setCommonHeaders(res);
       res.status(HttpStatusCode.OK).json(status);

@@ -14,16 +14,14 @@ export class ServiceProgressImpl implements IServiceProgress {
   }
 
   async getAll(
-    inSubjectId: number,
-    inStudentId: number,
+    inSchoolId: number,
     inStandardId: number,
-    inSchoolId: number
+    inStudentId: number
   ): Promise<IProgress[] | null> {
     const retObject = await this.repoService.getAll(
-      inSubjectId,
-      inStudentId,
+      inSchoolId,
       inStandardId,
-      inSchoolId
+      inStudentId
     );
     return retObject;
   }

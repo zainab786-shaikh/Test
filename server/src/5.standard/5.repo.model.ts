@@ -5,7 +5,7 @@ import { DTOStandard } from "./7.dto.model";
 
 export interface IRepoStandard {
   isExist(inStandardId: number): Promise<boolean>;
-  getAll(inSchoolId: number): Promise<IStandard[] | null>;
+  getAll(): Promise<IStandard[] | null>;
   getById(inStandardId: number): Promise<IStandard | null>;
   create(
     inStandard: IStandard,

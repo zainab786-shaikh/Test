@@ -13,8 +13,8 @@ export class ServiceStandardImpl implements IServiceStandard {
     this.repoService = container.get(TYPE.RepoStandard);
   }
 
-  async getAll(inSchoolId: number): Promise<IStandard[] | null> {
-    const retObject = await this.repoService.getAll(inSchoolId);
+  async getAll(): Promise<IStandard[] | null> {
+    const retObject = await this.repoService.getAll();
     return retObject;
   }
 

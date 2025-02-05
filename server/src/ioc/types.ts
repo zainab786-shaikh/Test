@@ -5,9 +5,17 @@ const TYPES = {
   ServiceSchool: Symbol("ServiceSchool"),
   RepoSchool: Symbol("RepoSchool"),
 
+  ControllerSchoolStandard: Symbol("ControllerSchoolStandard"),
+  ServiceSchoolStandard: Symbol("ServiceSchoolStandard"),
+  RepoSchoolStandard: Symbol("RepoSchoolStandard"),
+
   ControllerStudent: Symbol("ControllerStudent"),
   ServiceStudent: Symbol("ServiceStudent"),
   RepoStudent: Symbol("RepoStudent"),
+
+  ControllerProgress: Symbol("ControllerProgress"),
+  ServiceProgress: Symbol("ServiceProgress"),
+  RepoProgress: Symbol("RepoProgress"),
 
   ControllerStandard: Symbol("ControllerStandard"),
   ServiceStandard: Symbol("ServiceStandard"),
@@ -17,13 +25,9 @@ const TYPES = {
   ServiceSubject: Symbol("ServiceSubject"),
   RepoSubject: Symbol("RepoSubject"),
 
-  ControllerContent: Symbol("ControllerContent"),
-  ServiceContent: Symbol("ServiceContent"),
-  RepoContent: Symbol("RepoContent"),
-
-  ControllerProgress: Symbol("ControllerProgress"),
-  ServiceProgress: Symbol("ServiceProgress"),
-  RepoProgress: Symbol("RepoProgress"),
+  ControllerLesson: Symbol("ControllerLesson"),
+  ServiceLesson: Symbol("ServiceLesson"),
+  RepoLesson: Symbol("RepoLesson"),
 };
 
 export default TYPES;

@@ -19,19 +19,19 @@ import { BaseController } from "../common/base-controller";
 import { HttpStatusCode } from "../common/constant/http-status-code";
 import { validateId } from "../common/validator-id";
 
-import { IProgress } from "./0.model";
-import { validateProgress } from "./1.validator";
-import { IServiceProgress } from "./3.service.model";
+import { ILesson } from "./0.model";
+import { validateLesson } from "./1.validator";
+import { IServiceLesson } from "./3.service.model";
 
-@controller("/progress")
-export class ControllerProgress extends BaseController {
+@controller("/lesson")
+export class ControllerLesson extends BaseController {
   private logger: ILogger;
-  private serviceProgress: IServiceProgress;
+  private serviceLesson: IServiceLesson;
 
   constructor() {
     super();
     this.logger = container.get(TYPES.LoggerService);
-    this.serviceProgress = container.get(TYPES.ServiceProgress);
+    this.serviceLesson = container.get(TYPES.ServiceLesson);
   }
 
   private setCommonHeaders(res: Response) {
@@ -41,27 +41,21 @@ export class ControllerProgress extends BaseController {
     );
   }
 
-  @httpGet("/school/:schoolId/standard/:standardId/student/:studentId")
+  @httpGet("/subject/:Id")
   async getAll(@request() req: Request, @response() res: Response) {
     try {
-      const schoolId = +req.params.schoolId;
-      const standardId = +req.params.standardId;
-      const studentId = +req.params.studentId;
-      const progressList = await this.serviceProgress.getAll(
-        schoolId,
-        standardId,
-        studentId
-      );
-      this.logger.info("Retrieved progressList:" + progressList?.length);
+      const subjectId = +req.params.Id;
+      const lessonList = await this.serviceLesson.getAll(subjectId);
+      this.logger.info("Retrieved lessonList:" + lessonList?.length);
 
       this.setCommonHeaders(res);
-      if (!progressList) {
+      if (!lessonList) {
         return res
           .status(HttpStatusCode.NOT_FOUND)
-          .json({ message: "progressList not found" });
+          .json({ message: "lessonList not found" });
       }
 
-      res.status(HttpStatusCode.OK).json(progressList);
+      res.status(HttpStatusCode.OK).json(lessonList);
     } catch (error: any) {
       this.logger.error(error);
       return this.handleError(error, res);
@@ -72,27 +66,27 @@ export class ControllerProgress extends BaseController {
   async get(@request() req: Request, @response() res: Response) {
     try {
       const id = +req.params.id;
-      const progress = await this.serviceProgress.get(id);
-      this.logger.info("Retrieved progress:" + progress);
+      const lesson = await this.serviceLesson.get(id);
+      this.logger.info("Retrieved lesson:" + lesson);
 
       this.setCommonHeaders(res);
-      if (!progress) {
+      if (!lesson) {
         return res
           .status(HttpStatusCode.NOT_FOUND)
-          .json({ message: "Progress not found" });
+          .json({ message: "Lesson not found" });
       }
 
-      res.status(HttpStatusCode.OK).json(progress);
+      res.status(HttpStatusCode.OK).json(lesson);
     } catch (error: any) {
       this.logger.error(error);
       return this.handleError(error, res);
     }
   }
 
-  @httpPost("/", validateProgress)
+  @httpPost("/", validateLesson)
   async create(@request() req: Request, @response() res: Response) {
     try {
-      const status = await this.serviceProgress.create(req.body);
+      const status = await this.serviceLesson.create(req.body);
       this.setCommonHeaders(res);
       res.status(HttpStatusCode.OK).json(status);
     } catch (error: any) {
@@ -101,11 +95,11 @@ export class ControllerProgress extends BaseController {
     }
   }
 
-  @httpPut("/:id", validateId, validateProgress)
+  @httpPut("/:id", validateId, validateLesson)
   async update(@request() req: Request, @response() res: Response) {
     try {
       const id = +req.params.id;
-      const status = await this.serviceProgress.update(id, req.body);
+      const status = await this.serviceLesson.update(id, req.body);
       this.setCommonHeaders(res);
       res.status(HttpStatusCode.OK).json(status);
     } catch (error: any) {
@@ -118,7 +112,7 @@ export class ControllerProgress extends BaseController {
   async delete(@request() req: Request, @response() res: Response) {
     try {
       const id = +req.params.id;
-      const status = await this.serviceProgress.delete(id);
+      const status = await this.serviceLesson.delete(id);
       this.setCommonHeaders(res);
       res.status(HttpStatusCode.OK).json(status);
     } catch (error: any) {

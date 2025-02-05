@@ -13,8 +13,11 @@ export class ServiceStudentImpl implements IServiceStudent {
     this.repoService = container.get(TYPE.RepoStudent);
   }
 
-  async getAll(inStandardId: number): Promise<IStudent[] | null> {
-    const retObject = await this.repoService.getAll(inStandardId);
+  async getAll(
+    inSchoolId: number,
+    inStandardId: number
+  ): Promise<IStudent[] | null> {
+    const retObject = await this.repoService.getAll(inSchoolId, inStandardId);
     return retObject;
   }
 

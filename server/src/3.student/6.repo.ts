@@ -32,10 +32,13 @@ export class RepoStudentImpl implements IRepoStudent {
     return found !== null;
   }
 
-  async getAll(inStandardId: number): Promise<IStudent[] | null> {
+  async getAll(
+    inSchoolId: number,
+    inStandardId: number
+  ): Promise<IStudent[] | null> {
     const StudentModel = this.getModel(DTOStudent);
     const foundObj = await StudentModel.findAll<DTOStudent>({
-      where: { standard: inStandardId },
+      where: { school: inSchoolId, standard: inStandardId },
     });
     return foundObj?.map((eachObj) => this.convertToObject(eachObj.dataValues));
   }
@@ -95,6 +98,7 @@ export class RepoStudentImpl implements IRepoStudent {
       Id: srcObject.Id,
       name: srcObject.name,
       adhaar: srcObject.adhaar,
+      school: srcObject.school,
       standard: srcObject.standard,
     };
   }

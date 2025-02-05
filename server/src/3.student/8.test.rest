@@ -20,6 +20,7 @@ Authorization: bearer Token
 {
   "name": "John Doe",
   "adhaar": "1234-5678-9012",
+  "school": 0,
   "standard": 0
 }
 
@@ -43,6 +44,7 @@ Authorization: bearer Token
 {
   "name": "John Doe",
   "adhaar": "1234-5678-9012",
+  "school": 0,
   "standard": 0
 }
 

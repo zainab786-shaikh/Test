@@ -21,13 +21,19 @@ export class LoggerService implements ILogger {
     const formatCustomTimestamp = () => {
       const now = new Date();
       const pad = (num: number) => num.toString().padStart(2, "0");
-      return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+      return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(
+        now.getDate()
+      )} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(
+        now.getSeconds()
+      )}`;
     };
 
     return winston.createLogger({
       format: winston.format.combine(
         winston.format.timestamp({ format: formatCustomTimestamp }),
-        winston.format.printf(info => `${info.timestamp}: ${info.level} => ${info.message}`),
+        winston.format.printf(
+          (info) => `${info.timestamp}: ${info.level} => ${info.message}`
+        ),
         winston.format.colorize({ all: true })
       ),
       transports: [

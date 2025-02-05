@@ -8,7 +8,7 @@ const subjectSchema = z.object({
     .string()
     .min(3)
     .max(255)
-    .regex(/^[0-9A-Za-z ]+$/),
+    .regex(/^[A-Za-z ]+$/),
   standard: z.number().min(1).max(9999).nullable().optional(),
 });
 

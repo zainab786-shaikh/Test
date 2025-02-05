@@ -2,10 +2,9 @@ import { IProgress } from "./0.model";
 
 export interface IServiceProgress {
   getAll(
-    inSubjectId: number,
-    inStudentId: number,
+    inSchoolId: number,
     inStandardId: number,
-    inSchoolId: number
+    inStudentId: number
   ): Promise<IProgress[] | null>;
   get(inProgressId: number): Promise<IProgress | null>;
   create(inProgressInfo: IProgress): Promise<IProgress | null>;

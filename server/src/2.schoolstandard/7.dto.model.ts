@@ -1,33 +1,23 @@
 import { Sequelize, Model, DataTypes } from "sequelize";
-import { IStudent } from "./0.model";
+import { ISchoolStandard } from "./0.model";
 
-export class DTOStudent extends Model {
+export class DTOSchoolStandard extends Model {
   Id?: number;
-  name!: string;
-  adhaar!: string;
   school?: number;
   standard?: number;
 }
 
-export const initDTOStudentModel = (
+export const initDTOSchoolStandardModel = (
   schemaName: string,
   sequelize: Sequelize
 ) => {
-  DTOStudent.init(
+  DTOSchoolStandard.init(
     {
       Id: {
         type: DataTypes.INTEGER,
         allowNull: true,
         autoIncrement: true,
         primaryKey: true,
-      },
-      name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      adhaar: {
-        type: DataTypes.STRING,
-        allowNull: false,
       },
       school: {
         type: DataTypes.INTEGER,
@@ -55,7 +45,7 @@ export const initDTOStudentModel = (
     {
       sequelize,
       schema: schemaName,
-      tableName: "student",
+      tableName: "schoolstandard",
       timestamps: false,
     }
   );

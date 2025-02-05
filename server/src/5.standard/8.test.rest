@@ -18,8 +18,7 @@ traceparent: 12345
 Authorization: bearer Token
 
 {
-  "name": "5th",
-  "school": 0
+  "name": "5th"
 }
 
 ### Capture Id from Response
@@ -40,8 +39,7 @@ traceparent: 12345
 Authorization: bearer Token
 
 {
-  "name": "5th",
-  "school": 0
+  "name": "5th"
 }
 
 ####

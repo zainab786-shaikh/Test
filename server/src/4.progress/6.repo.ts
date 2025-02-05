@@ -33,18 +33,16 @@ export class RepoProgressImpl implements IRepoProgress {
   }
 
   async getAll(
-    inSubjectId: number,
-    inStudentId: number,
+    inSchoolId: number,
     inStandardId: number,
-    inSchoolId: number
+    inStudentId: number
   ): Promise<IProgress[] | null> {
     const ProgressModel = this.getModel(DTOProgress);
     const foundObj = await ProgressModel.findAll<DTOProgress>({
       where: {
-        subject: inSubjectId,
-        student: inStudentId,
-        standard: inStandardId,
         school: inSchoolId,
+        standard: inStandardId,
+        student: inStudentId,
       },
     });
     return foundObj?.map((eachObj) => this.convertToObject(eachObj.dataValues));
@@ -103,13 +101,14 @@ export class RepoProgressImpl implements IRepoProgress {
   convertToObject(srcObject: DTOProgress): IProgress {
     return {
       Id: srcObject.Id,
-      QuizPercentage: srcObject.QuizPercentage,
-      FillBlanksPercentage: srcObject.FillBlanksPercentage,
-      TrueFalsePercentage: srcObject.TrueFalsePercentage,
-      subject: srcObject.subject,
-      student: srcObject.student,
-      standard: srcObject.standard,
+      Quiz: srcObject.Quiz,
+      FillBlanks: srcObject.FillBlanks,
+      TrueFalse: srcObject.TrueFalse,
       school: srcObject.school,
+      standard: srcObject.standard,
+      student: srcObject.student,
+      subject: srcObject.subject,
+      lesson: srcObject.lesson,
     };
   }
 }

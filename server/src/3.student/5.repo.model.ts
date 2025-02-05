@@ -5,7 +5,7 @@ import { DTOStudent } from "./7.dto.model";
 
 export interface IRepoStudent {
   isExist(inStudentId: number): Promise<boolean>;
-  getAll(inStandardId: number): Promise<IStudent[] | null>;
+  getAll(inSchoolId: number, inStandardId: number): Promise<IStudent[] | null>;
   getById(inStudentId: number): Promise<IStudent | null>;
   create(
     inStudent: IStudent,

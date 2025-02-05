@@ -3,13 +3,14 @@ import { IProgress } from "./0.model";
 
 export class DTOProgress extends Model {
   Id?: number;
-  QuizPercentage!: number;
-  FillBlanksPercentage!: number;
-  TrueFalsePercentage!: number;
-  subject?: number;
-  student?: number;
-  standard?: number;
+  Quiz!: number;
+  FillBlanks!: number;
+  TrueFalse!: number;
   school?: number;
+  standard?: number;
+  student?: number;
+  subject?: number;
+  lesson?: number;
 }
 
 export const initDTOProgressModel = (
@@ -24,36 +25,25 @@ export const initDTOProgressModel = (
         autoIncrement: true,
         primaryKey: true,
       },
-      QuizPercentage: {
+      Quiz: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      FillBlanksPercentage: {
+      FillBlanks: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      TrueFalsePercentage: {
+      TrueFalse: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      subject: {
+      school: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
           model: {
             schema: schemaName,
-            tableName: "subject",
-          },
-          key: "Id",
-        },
-      },
-      student: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-          model: {
-            schema: schemaName,
-            tableName: "student",
+            tableName: "school",
           },
           key: "Id",
         },
@@ -69,13 +59,35 @@ export const initDTOProgressModel = (
           key: "Id",
         },
       },
-      school: {
+      student: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
           model: {
             schema: schemaName,
-            tableName: "school",
+            tableName: "student",
+          },
+          key: "Id",
+        },
+      },
+      subject: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: {
+            schema: schemaName,
+            tableName: "subject",
+          },
+          key: "Id",
+        },
+      },
+      lesson: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: {
+            schema: schemaName,
+            tableName: "lesson",
           },
           key: "Id",
         },
