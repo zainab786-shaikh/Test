@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
-import { SchoolComponent } from './school/school.component';
-import { StudentComponent } from './student/student.component';
-import { StandardComponent } from './standard/standard.component';
-import { SubjectComponent } from './subject/subject.component';
+import { SchoolComponent } from './1.school/school.component';
+import { StudentComponent } from './3.student/student.component';
+import { StandardComponent } from './5.standard/standard.component';
+import { SubjectComponent } from './6.subject/subject.component';
 import { ContentComponent } from './content/content.component';
-import { ProgressComponent } from './progress/progress.component';
+import { ProgressComponent } from './4.progress/progress.component';
 
 export const routes: Routes = [
   { path: '', component: SchoolComponent },
