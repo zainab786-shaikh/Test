@@ -6,9 +6,10 @@ import { ProgressComponent } from './4.progress/progress.component';
 import { StandardComponent } from './5.standard/standard.component';
 import { SubjectComponent } from './6.subject/subject.component';
 import { LessonComponent } from './7.lesson/lesson.component';
+import { StudentDashboardComponent } from './8.student-dashboard/student-dashboard.component';
 
 export const routes: Routes = [
-  { path: '', component: SchoolComponent },
+  { path: '', component: StudentDashboardComponent },
   { path: 'school', component: SchoolComponent },
   {
     path: 'schoolstandard/school/:schoolId',
@@ -22,7 +23,7 @@ export const routes: Routes = [
     path: 'progress/school/:schoolId/standard/:standardId/student/:studentId',
     component: ProgressComponent,
   },
-  //{ path: 'standard', component: StandardComponent },
-  //{ path: 'subject/standard/:standardId', component: SubjectComponent },
-  //{ path: 'lesson/subject/:subjectId', component: LessonComponent },
+  { path: 'standard', component: StandardComponent },
+  { path: 'subject/standard/:standardId', component: SubjectComponent },
+  { path: 'lesson/subject/:subjectId', component: LessonComponent },
 ];

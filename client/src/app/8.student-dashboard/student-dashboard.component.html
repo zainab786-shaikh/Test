@@ -1,0 +1,94 @@
+<div class="dashboard-container">
+  <div class="overall-performance">
+    <mat-card class="overall-performance-card">
+      <h2>Overall Performance</h2>
+      <plotly-plot
+        [data]="overallPerformanceData"
+        [layout]="overallPerformanceLayout"
+      ></plotly-plot>
+    </mat-card>
+
+    <mat-card class="subject-performance-card">
+      <h2>Progress by Subject</h2>
+      <plotly-plot
+        [data]="subjectPerformanceData"
+        [layout]="subjectPerformanceLayout"
+      ></plotly-plot>
+    </mat-card>
+  </div>
+
+  <div class="overall-subject">
+    <mat-card class="dashboard-card">
+      <h2>Progress by Subject</h2>
+      <plotly-plot
+        [data]="overallSubjectPerformanceData"
+        [layout]="overallSubjectPerformanceLayout"
+      ></plotly-plot>
+    </mat-card>
+
+    <mat-card class="dashboard-card">
+      <h2>Latest Assessment Scores</h2>
+      <table
+        mat-table
+        [dataSource]="latestAssessments"
+        class="mat-elevation-z8"
+      >
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef>Type</th>
+          <td mat-cell *matCellDef="let element">{{ element.type }}</td>
+        </ng-container>
+        <ng-container matColumnDef="subject">
+          <th mat-header-cell *matHeaderCellDef>Subject</th>
+          <td mat-cell *matCellDef="let element">{{ element.subject }}</td>
+        </ng-container>
+        <ng-container matColumnDef="lesson">
+          <th mat-header-cell *matHeaderCellDef>Lesson</th>
+          <td mat-cell *matCellDef="let element">{{ element.lesson }}</td>
+        </ng-container>
+        <ng-container matColumnDef="quiz">
+          <th mat-header-cell *matHeaderCellDef>Quiz</th>
+          <td mat-cell *matCellDef="let element">{{ element.qz }}%</td>
+        </ng-container>
+        <ng-container matColumnDef="fill-blank">
+          <th mat-header-cell *matHeaderCellDef>FillInBlanks</th>
+          <td mat-cell *matCellDef="let element">{{ element.fb }}%</td>
+        </ng-container>
+        <ng-container matColumnDef="true-false">
+          <th mat-header-cell *matHeaderCellDef>TrueFalse</th>
+          <td mat-cell *matCellDef="let element">{{ element.tf }}%</td>
+        </ng-container>
+        <tr
+          mat-header-row
+          *matHeaderRowDef="[
+            'subject',
+            'lesson',
+            'quiz',
+            'fill-blank',
+            'true-false'
+          ]"
+        ></tr>
+        <tr
+          mat-row
+          *matRowDef="
+            let row;
+            columns: ['subject', 'lesson', 'quiz', 'fill-blank', 'true-false']
+          "
+        ></tr>
+      </table>
+    </mat-card>
+  </div>
+
+  <mat-card class="dashboard-card">
+    <h2>Goals</h2>
+    <ul>
+      <li *ngFor="let goal of goals">{{ goal }}</li>
+    </ul>
+  </mat-card>
+
+  <mat-card class="dashboard-card">
+    <h2>Recent Activity</h2>
+    <ul>
+      <li *ngFor="let activity of activityFeed">{{ activity }}</li>
+    </ul>
+  </mat-card>
+</div>
