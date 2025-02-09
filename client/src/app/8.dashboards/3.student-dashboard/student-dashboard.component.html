@@ -11,8 +11,8 @@
     <mat-card class="subject-performance-card">
       <h2>Progress by Subject</h2>
       <plotly-plot
-        [data]="subjectPerformanceData"
-        [layout]="subjectPerformanceLayout"
+        [data]="subjectWisePiePerformanceData"
+        [layout]="subjectWisePiePerformanceLayout"
       ></plotly-plot>
     </mat-card>
   </div>
@@ -21,8 +21,8 @@
     <mat-card class="dashboard-card">
       <h2>Progress by Subject</h2>
       <plotly-plot
-        [data]="overallSubjectPerformanceData"
-        [layout]="overallSubjectPerformanceLayout"
+        [data]="subjectWiseBarPerformanceData"
+        [layout]="subjectWiseBarPerformanceLayout"
       ></plotly-plot>
     </mat-card>
 
@@ -78,6 +78,18 @@
     </mat-card>
   </div>
 
+  <mat-card
+    class="dashboard-card"
+    *ngFor="let eachSubject of lessonPerformance"
+  >
+    <h2>{{ eachSubject.subject }}</h2>
+    <plotly-plot
+      [data]="subjectLesson[eachSubject.subject]"
+      [layout]="overallLessonPerformanceLayout"
+    ></plotly-plot>
+  </mat-card>
+
+  <!--
   <mat-card class="dashboard-card">
     <h2>Goals</h2>
     <ul>
@@ -91,4 +103,5 @@
       <li *ngFor="let activity of activityFeed">{{ activity }}</li>
     </ul>
   </mat-card>
+  -->
 </div>

@@ -1,0 +1,19 @@
+<div class="dashboard-container">
+  <div class="overall-performance">
+    <mat-card class="overall-performance-card">
+      <h2>Overall Performance</h2>
+      <plotly-plot
+        [data]="overallPerformanceData"
+        [layout]="overallPerformanceLayout"
+      ></plotly-plot>
+    </mat-card>
+  </div>
+
+  <mat-card class="dashboard-card">
+    <h2>Progress by Standard</h2>
+    <plotly-plot
+      [data]="standardWiseBarPerformanceData"
+      [layout]="standardWiseBarPerformanceLayout"
+    ></plotly-plot>
+  </mat-card>
+</div>

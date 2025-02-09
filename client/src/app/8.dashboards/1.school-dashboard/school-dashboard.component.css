@@ -20,7 +20,7 @@
 }
 
 .dashboard-card {
-  flex: 1 1 calc(33.333% - 20px); /* Example of a 3-column layout for other cards */
+  flex: 1 1 calc(20.333% - 20px); /* Example of a 3-column layout for other cards */
   padding: 20px;
   border-radius: 8px;
   background-color: white;

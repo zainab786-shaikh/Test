@@ -6,10 +6,12 @@ import { ProgressComponent } from './4.progress/progress.component';
 import { StandardComponent } from './5.standard/standard.component';
 import { SubjectComponent } from './6.subject/subject.component';
 import { LessonComponent } from './7.lesson/lesson.component';
-import { StudentDashboardComponent } from './8.student-dashboard/student-dashboard.component';
+import { StudentDashboardComponent } from './8.dashboards/3.student-dashboard/student-dashboard.component';
+import { StandardDashboardComponent } from './8.dashboards/2.standard-dashboard/standard-dashboard.component';
+import { SchoolDashboardComponent } from './8.dashboards/1.school-dashboard/school-dashboard.component';
 
 export const routes: Routes = [
-  { path: '', component: StudentDashboardComponent },
+  { path: '', component: SchoolDashboardComponent },
   { path: 'school', component: SchoolComponent },
   {
     path: 'schoolstandard/school/:schoolId',

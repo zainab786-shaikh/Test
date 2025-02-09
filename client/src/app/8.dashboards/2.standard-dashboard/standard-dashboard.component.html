@@ -1,0 +1,35 @@
+<div class="dashboard-container">
+  <div class="overall-performance">
+    <mat-card class="overall-performance-card">
+      <h2>Overall Performance</h2>
+      <plotly-plot
+        [data]="overallPerformanceData"
+        [layout]="overallPerformanceLayout"
+      ></plotly-plot>
+    </mat-card>
+
+    <mat-card class="subject-performance-card">
+      <h2>Progress by Subject</h2>
+      <plotly-plot
+        [data]="subjectWisePiePerformanceData"
+        [layout]="subjectWisePiePerformanceLayout"
+      ></plotly-plot>
+    </mat-card>
+  </div>
+
+  <mat-card class="dashboard-card">
+    <h2>Progress by Subject</h2>
+    <plotly-plot
+      [data]="subjectWiseBarPerformanceData"
+      [layout]="subjectWiseBarPerformanceLayout"
+    ></plotly-plot>
+  </mat-card>
+
+  <mat-card class="dashboard-card">
+    <h2>Progress by Student</h2>
+    <plotly-plot
+      [data]="studentWiseBarPerformanceData"
+      [layout]="studentWiseBarPerformanceLayout"
+    ></plotly-plot>
+  </mat-card>
+</div>
