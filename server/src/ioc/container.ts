@@ -8,6 +8,12 @@ import { RequestContextProvider } from "../common/service/request-context.servic
 import { MiddlewareProvider } from "../common/service/middleware.service";
 import { Validate } from "../common/validate";
 
+import { ControllerLoginDetail } from "../0.logindetail/2.controller";
+import { IServiceLoginDetail } from "../0.logindetail/3.service.model";
+import { ServiceLoginDetailImpl } from "../0.logindetail/4.service";
+import { IRepoLoginDetail } from "../0.logindetail/5.repo.model";
+import { RepoLoginDetailImpl } from "../0.logindetail/6.repo";
+
 import { ControllerSchool } from "../1.school/2.controller";
 import { IServiceSchool } from "../1.school/3.service.model";
 import { ServiceSchoolImpl } from "../1.school/4.service";
@@ -56,6 +62,14 @@ container.bind(ServiceTenant).toSelf().inSingletonScope();
 container.bind(RequestContextProvider).toSelf().inSingletonScope();
 container.bind(MiddlewareProvider).toSelf().inSingletonScope();
 container.bind<Validate>(Validate).to(Validate);
+
+container
+  .bind<ControllerLoginDetail>(TYPES.ControllerLoginDetail)
+  .to(ControllerLoginDetail);
+container
+  .bind<IServiceLoginDetail>(TYPES.ServiceLoginDetail)
+  .to(ServiceLoginDetailImpl);
+container.bind<IRepoLoginDetail>(TYPES.RepoLoginDetail).to(RepoLoginDetailImpl);
 
 container.bind<ControllerSchool>(TYPES.ControllerSchool).to(ControllerSchool);
 container.bind<IServiceSchool>(TYPES.ServiceSchool).to(ServiceSchoolImpl);

@@ -23,4 +23,19 @@ const validateId = (
   }
 };
 
-export { validateId };
+const validateName = (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  try {
+    const id = request.params.name; // Extracting id from URL
+    idSchema.parse({ id });
+    next();
+  } catch (error) {
+    // Use the common error handler
+    handleValidationError(error, response, next);
+  }
+};
+
+export { validateId, validateName };

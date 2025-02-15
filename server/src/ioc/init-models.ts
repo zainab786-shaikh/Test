@@ -1,4 +1,5 @@
 import { Sequelize } from "sequelize";
+import { initDTOLoginDetailModel } from "../0.logindetail/7.dto.model";
 import { initDTOSchoolModel } from "../1.school/7.dto.model";
 import { initDTOSchoolStandardModel } from "../2.schoolstandard/7.dto.model";
 import { initDTOStudentModel } from "../3.student/7.dto.model";
@@ -8,6 +9,7 @@ import { initDTOSubjectModel } from "../6.subject/7.dto.model";
 import { initDTOLessonModel } from "../7.lesson/7.dto.model";
 
 export async function initModels(schemaName: string, sequelize: Sequelize) {
+  initDTOLoginDetailModel(schemaName, sequelize);
   initDTOSchoolModel(schemaName, sequelize);
   initDTOSchoolStandardModel(schemaName, sequelize);
   initDTOStudentModel(schemaName, sequelize);

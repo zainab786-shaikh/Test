@@ -5,6 +5,10 @@ const TYPES = {
   ServiceSchool: Symbol("ServiceSchool"),
   RepoSchool: Symbol("RepoSchool"),
 
+  ControllerLoginDetail: Symbol("ControllerLoginDetail"),
+  ServiceLoginDetail: Symbol("ServiceLoginDetail"),
+  RepoLoginDetail: Symbol("RepoLoginDetail"),
+
   ControllerSchoolStandard: Symbol("ControllerSchoolStandard"),
   ServiceSchoolStandard: Symbol("ServiceSchoolStandard"),
   RepoSchoolStandard: Symbol("RepoSchoolStandard"),
