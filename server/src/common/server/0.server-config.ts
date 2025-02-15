@@ -17,7 +17,7 @@ const serverConfig = {
   environment: process.env.NODE_ENV || "development",
   port: getEnvVariable("PORT", "3000"),
   healthPort: getEnvVariable("HEALTH_PORT", "3001"),
-  limit: getEnvVariable("REQUEST_PAYLOAD_LIMIT", "1mb"),
+  limit: getEnvVariable("REQUEST_PAYLOAD_LIMIT", "10mb"),
 
   corsOption: {
     origin: function (origin: any, callback: any) {

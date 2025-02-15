@@ -74,7 +74,7 @@
 
       <mat-form-field appearance="fill">
         <mat-label>Quiz</mat-label>
-        <input matInput formControlName="Quiz" />
+        <textarea matInput formControlName="Quiz" rows="10"></textarea>
         <mat-error *ngFor="let error of getErrorMessages('Quiz')">{{
           error
         }}</mat-error>
@@ -82,7 +82,7 @@
 
       <mat-form-field appearance="fill">
         <mat-label>FillBlanks</mat-label>
-        <input matInput formControlName="FillBlanks" />
+        <textarea matInput formControlName="FillBlanks" rows="10"></textarea>
         <mat-error *ngFor="let error of getErrorMessages('FillBlanks')">{{
           error
         }}</mat-error>
@@ -90,7 +90,7 @@
 
       <mat-form-field appearance="fill">
         <mat-label>TrueFalse</mat-label>
-        <input matInput formControlName="TrueFalse" />
+        <textarea matInput formControlName="TrueFalse" rows="10"></textarea>
         <mat-error *ngFor="let error of getErrorMessages('TrueFalse')">{{
           error
         }}</mat-error>

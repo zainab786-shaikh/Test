@@ -29,6 +29,7 @@
             mat-icon-button
             color="primary"
             (click)="editStudent(element)"
+			matTooltip="Edit Student" matTooltipPosition="above"
           >
             <mat-icon>edit</mat-icon>
           </button>
@@ -36,6 +37,7 @@
             mat-icon-button
             color="warn"
             (click)="deleteStudent(element.Id)"
+			matTooltip="Delete Student" matTooltipPosition="above"
           >
             <mat-icon>delete</mat-icon>
           </button>
@@ -44,6 +46,7 @@
             mat-icon-button
             color="primary"
             (click)="onProgresss(element.Id)"
+			matTooltip="List Progress" matTooltipPosition="above"
           >
             <mat-icon>list_alt</mat-icon>
           </button>

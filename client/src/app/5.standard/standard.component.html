@@ -24,6 +24,8 @@
             mat-icon-button
             color="primary"
             (click)="editStandard(element)"
+			matTooltip="Edit Standard" 
+			matTooltipPosition="above"
           >
             <mat-icon>edit</mat-icon>
           </button>
@@ -31,6 +33,7 @@
             mat-icon-button
             color="warn"
             (click)="deleteStandard(element.Id)"
+			matTooltip="Delete Standard" matTooltipPosition="above"
           >
             <mat-icon>delete</mat-icon>
           </button>
@@ -39,6 +42,7 @@
             mat-icon-button
             color="primary"
             (click)="onSubjects(element.Id)"
+			matTooltip="View Subjects" matTooltipPosition="above"
           >
             <mat-icon>list_alt</mat-icon>
           </button>

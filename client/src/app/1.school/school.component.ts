@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { ISchool } from './school.model';
 import { SchoolService } from './school.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-school',
@@ -26,6 +27,7 @@ import { SchoolService } from './school.service';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatTooltipModule, 
   ],
   templateUrl: './school.component.html',
   styleUrls: ['./school.component.css'],
