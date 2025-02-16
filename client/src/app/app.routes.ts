@@ -13,7 +13,8 @@ import { SchoolDashboardComponent } from './8.dashboards/1.school-dashboard/scho
 import { LoginComponent } from './0.login/login.component';
 
 export const routes: Routes = [
-  { path: '', component: SchoolComponent },
+  { path: '', component: LoginComponent },
+  { path: 'login-details', component: LoginDetailComponent },
   { path: 'school', component: SchoolComponent },
   {
     path: 'schoolstandard/school/:schoolId',

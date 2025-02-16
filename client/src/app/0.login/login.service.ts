@@ -8,15 +8,21 @@ import { lastValueFrom } from 'rxjs';
   providedIn: 'root',
 })
 export class LoginService {
+  userInfo: ILoginDetail | null = null;
   constructor(private loginDetailService: LoginDetailService) {}
 
   async validateUser(username: string, password: string): Promise<boolean> {
-    let userInfo = await lastValueFrom(this.loginDetailService.getByUser(username)); 
-    
+    this.userInfo = await lastValueFrom(
+      this.loginDetailService.getByUser(username)
+    );
+
     //const passwordHash = await sha256(password);
     return (
-      username === userInfo.name &&
-      password === userInfo.password
+      username === this.userInfo.name && password === this.userInfo.password
     );
+  }
+
+  getUserInfo() {
+    return this.userInfo;
   }
 }

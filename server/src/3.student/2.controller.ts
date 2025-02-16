@@ -44,11 +44,11 @@ export class ControllerStudent extends BaseController {
     );
   }
 
-  @httpGet("/school/:Id/standard/:Id")
+  @httpGet("/school/:schoolId/standard/:standardId")
   async getAll(@request() req: Request, @response() res: Response) {
     try {
-      const schoolId = +req.params.Id;
-      const standardId = +req.params.Id;
+      const schoolId = +req.params.schoolId;
+      const standardId = +req.params.standardId;
       const studentList = await this.serviceStudent.getAll(
         schoolId,
         standardId
