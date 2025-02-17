@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { EvaluationService } from '../evaluation.service';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -14,12 +14,14 @@ import { IFillBlankComponent } from './fillblank.component.model';
     MatCardModule,
     MatIconModule,
     FormsModule,
-    MatSelectModule
+    MatSelectModule,
   ],
   templateUrl: './fillblank.component.html',
   styleUrl: './fillblank.component.css',
 })
 export class FillBlankComponent implements OnInit {
+  @Output() score = new EventEmitter<number>(); // Ensure this emits a number
+
   fillBlanks: IFillBlankComponent[] = [];
 
   constructor(private evaluationService: EvaluationService) {}
@@ -43,9 +45,14 @@ export class FillBlankComponent implements OnInit {
   }
 
   submitAnswers() {
-    this.fillBlanks.forEach((question) => {
-      question.answered = true;
+    let calculatedScore = 0;
+    this.fillBlanks.forEach((eachFillBlanks) => {
+      calculatedScore += +(
+        eachFillBlanks.answer == eachFillBlanks.selectedAnswer
+      );
+      eachFillBlanks.answered = true;
     });
+    this.score.emit((calculatedScore / this.fillBlanks.length) * 100);
   }
 
   isAnyAnswerSelected(): boolean {

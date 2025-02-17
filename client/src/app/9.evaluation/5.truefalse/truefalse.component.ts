@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { EvaluationService } from '../evaluation.service'; // Import service if you are fetching the data from backend
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -20,6 +20,8 @@ import { ITrueFalseComponent } from './truefalse.component.model';
   styleUrls: ['./truefalse.component.css'],
 })
 export class TrueFalseComponent implements OnInit {
+  @Output() score = new EventEmitter<number>(); // Ensure this emits a number
+
   trueFalseQuestions: ITrueFalseComponent[] = [];
 
   constructor(private evaluationService: EvaluationService) {}
@@ -41,9 +43,14 @@ export class TrueFalseComponent implements OnInit {
 
   // Handle Submit
   submitAnswers() {
-    this.trueFalseQuestions.forEach((question) => {
-      question.answered = true;
+    let calculatedScore = 0;
+    this.trueFalseQuestions.forEach((eachTrueFalse) => {
+      calculatedScore += +(
+        eachTrueFalse.answer == eachTrueFalse.selectedAnswer
+      );
+      eachTrueFalse.answered = true;
     });
+    this.score.emit((calculatedScore / this.trueFalseQuestions.length) * 100);
   }
 
   // Reset the questions

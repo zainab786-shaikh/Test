@@ -11,13 +11,14 @@ import { StudentDashboardComponent } from './8.dashboards/3.student-dashboard/st
 import { StandardDashboardComponent } from './8.dashboards/2.standard-dashboard/standard-dashboard.component';
 import { SchoolDashboardComponent } from './8.dashboards/1.school-dashboard/school-dashboard.component';
 import { LoginComponent } from './0.login/login.component';
-import { QuizComponent } from './9.evaluation/quiz/quiz.component';
-import { FillBlankComponent } from './9.evaluation/fillblank/fillblank.component';
-import { TrueFalseComponent } from './9.evaluation/truefalse/truefalse.component';
+import { QuizComponent } from './9.evaluation/3.quiz/quiz.component';
+import { FillBlankComponent } from './9.evaluation/4.fillblank/fillblank.component';
+import { TrueFalseComponent } from './9.evaluation/5.truefalse/truefalse.component';
+import { EvaluationComponent } from './9.evaluation/1.evaluation/evaluation.component';
 
 export const routes: Routes = [
   //{ path: '', component: LoginComponent },
-  { path: '', component: TrueFalseComponent },
+  { path: '', component: EvaluationComponent },
 
   { path: 'login-details', component: LoginDetailComponent },
   { path: 'school', component: SchoolComponent },

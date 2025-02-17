@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { EvaluationService } from '../evaluation.service';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -22,6 +22,8 @@ import { IQuizComponent } from './quiz.component.model';
   styleUrl: './quiz.component.css',
 })
 export class QuizComponent implements OnInit {
+  @Output() score = new EventEmitter<number>(); // Ensure this emits a number
+
   quizzes: IQuizComponent[] = [];
 
   constructor(private evalationService: EvaluationService) {}
@@ -35,7 +37,7 @@ export class QuizComponent implements OnInit {
       }));
     });
   }
-  
+
   ngOnInit() {
     this.load();
   }
@@ -45,9 +47,12 @@ export class QuizComponent implements OnInit {
   }
 
   submitAnswers() {
-    this.quizzes.forEach((quiz) => {
-      quiz.answered = true;
+    let calculatedScore = 0;
+    this.quizzes.forEach((eachQuiz) => {
+      calculatedScore += +(eachQuiz.answer == eachQuiz.selectedAnswer);
+      eachQuiz.answered = true;
     });
+    this.score.emit((calculatedScore / this.quizzes.length) * 100);
   }
   isAnyQuizAttempted(): boolean {
     return this.quizzes.some((quiz) => quiz.selectedAnswer !== null);
