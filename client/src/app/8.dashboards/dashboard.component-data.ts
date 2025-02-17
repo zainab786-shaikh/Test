@@ -46,6 +46,7 @@ export class DashboardData {
       {
         Id: 1,
         Name: 'Algebra',
+        Explanation: 'Algebra Explanation',
         Quiz: '80',
         FillBlanks: '75',
         TrueFalse: '85',
@@ -54,6 +55,7 @@ export class DashboardData {
       {
         Id: 2,
         Name: 'Geometry',
+        Explanation: 'Geometry Explanation',
         Quiz: '80',
         FillBlanks: '75',
         TrueFalse: '85',
@@ -62,6 +64,7 @@ export class DashboardData {
       {
         Id: 3,
         Name: 'The Sun',
+        Explanation: 'The Sun Explanation',
         Quiz: '80',
         FillBlanks: '75',
         TrueFalse: '85',
@@ -70,6 +73,7 @@ export class DashboardData {
       {
         Id: 4,
         Name: 'The Moon',
+        Explanation: 'The Moon Explanation',
         Quiz: '80',
         FillBlanks: '75',
         TrueFalse: '85',
@@ -78,6 +82,7 @@ export class DashboardData {
       {
         Id: 5,
         Name: 'The Earth',
+        Explanation: 'The Earth Explanation',
         Quiz: '80',
         FillBlanks: '75',
         TrueFalse: '85',

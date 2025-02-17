@@ -19,6 +19,7 @@ Authorization: bearer Token
 
 {
   "Name": "",
+  "Explanation": "",
   "Quiz": "",
   "FillBlanks": "",
   "TrueFalse": "",
@@ -44,6 +45,7 @@ Authorization: bearer Token
 
 {
   "Name": "",
+  "Explanation": "",
   "Quiz": "",
   "FillBlanks": "",
   "TrueFalse": "",

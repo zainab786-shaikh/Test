@@ -17,19 +17,32 @@
         <td mat-cell *matCellDef="let element">{{ element.Name }}</td>
       </ng-container>
 
+      <ng-container matColumnDef="Explanation">
+        <th mat-header-cell *matHeaderCellDef>Explanation</th>
+        <td mat-cell *matCellDef="let element">
+          <span class="truncate-text">{{ element.Explanation }}</span>
+        </td>
+      </ng-container>
+
       <ng-container matColumnDef="Quiz">
         <th mat-header-cell *matHeaderCellDef>Quiz</th>
-        <td mat-cell *matCellDef="let element">{{ element.Quiz }}</td>
+        <td mat-cell *matCellDef="let element">
+          <span class="truncate-text">{{ element.Quiz }}</span>
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="FillBlanks">
         <th mat-header-cell *matHeaderCellDef>FillBlanks</th>
-        <td mat-cell *matCellDef="let element">{{ element.FillBlanks }}</td>
+        <td mat-cell *matCellDef="let element">
+          <span class="truncate-text">{{ element.FillBlanks }}</span>
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="TrueFalse">
         <th mat-header-cell *matHeaderCellDef>TrueFalse</th>
-        <td mat-cell *matCellDef="let element">{{ element.TrueFalse }}</td>
+        <td mat-cell *matCellDef="let element">
+          <span class="truncate-text">{{ element.TrueFalse }}</span>
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="actions">
@@ -64,10 +77,20 @@
       (ngSubmit)="onSubmit()"
       class="form-container"
     >
+      <div class="lesson-name">
+        <mat-form-field appearance="fill">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="Name" />
+          <mat-error *ngFor="let error of getErrorMessages('Name')">{{
+            error
+          }}</mat-error>
+        </mat-form-field>
+      </div>
+
       <mat-form-field appearance="fill">
-        <mat-label>Name</mat-label>
-        <input matInput formControlName="Name" />
-        <mat-error *ngFor="let error of getErrorMessages('Name')">{{
+        <mat-label>Explanation</mat-label>
+        <textarea matInput formControlName="Explanation" rows="10"></textarea>
+        <mat-error *ngFor="let error of getErrorMessages('Explanation')">{{
           error
         }}</mat-error>
       </mat-form-field>

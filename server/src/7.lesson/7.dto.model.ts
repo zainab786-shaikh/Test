@@ -4,6 +4,7 @@ import { ILesson } from "./0.model";
 export class DTOLesson extends Model {
   Id?: number;
   Name!: string;
+  Explanation!: string;
   Quiz!: string;
   FillBlanks!: string;
   TrueFalse!: string;
@@ -26,16 +27,20 @@ export const initDTOLessonModel = (
         type: DataTypes.STRING,
         allowNull: false,
       },
+      Explanation: {
+        type: DataTypes.TEXT("long"),
+        allowNull: false,
+      },
       Quiz: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT("long"),
         allowNull: false,
       },
       FillBlanks: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT("long"),
         allowNull: false,
       },
       TrueFalse: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT("long"),
         allowNull: false,
       },
       subject: {

@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { ILesson } from './lesson.model';
 import { LessonService } from './lesson.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-lesson',
@@ -35,6 +36,7 @@ export class LessonComponent implements OnInit {
 
   displayedColumns: string[] = [
     'Name',
+    'Explanation',
     'Quiz',
     'FillBlanks',
     'TrueFalse',
@@ -66,6 +68,9 @@ export class LessonComponent implements OnInit {
       this.dataSource = data;
     });
   }
+  loadSingleLessons(lessonId: number): Observable<ILesson> {
+    return this.lessonService.get(lessonId);
+  }
 
   initForm(): void {
     this.lessonForm = this.fb.group({
@@ -78,12 +83,20 @@ export class LessonComponent implements OnInit {
           Validators.maxLength(2048),
         ],
       ],
+      Explanation: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(102400),
+        ],
+      ],
       Quiz: [
         '',
         [
           Validators.required,
           Validators.minLength(3),
-          Validators.maxLength(10240),
+          Validators.maxLength(102400),
         ],
       ],
       FillBlanks: [
@@ -91,7 +104,7 @@ export class LessonComponent implements OnInit {
         [
           Validators.required,
           Validators.minLength(3),
-          Validators.maxLength(10240),
+          Validators.maxLength(102400),
         ],
       ],
       TrueFalse: [
@@ -99,7 +112,7 @@ export class LessonComponent implements OnInit {
         [
           Validators.required,
           Validators.minLength(3),
-          Validators.maxLength(10240),
+          Validators.maxLength(102400),
         ],
       ],
     });
@@ -115,7 +128,11 @@ export class LessonComponent implements OnInit {
     this.isFormVisible = true;
     this.isEditMode = true;
     this.currentLessonId = lesson.Id ?? null;
-    this.lessonForm.patchValue(lesson);
+    if (this.currentLessonId) {
+      this.loadSingleLessons(this.currentLessonId).subscribe((lessonData) => {
+        this.lessonForm.patchValue(lessonData);
+      });
+    }
   }
 
   deleteLesson(lessonId: number): void {

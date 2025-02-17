@@ -5,9 +5,10 @@ import { handleValidationError } from "../common/validation-error";
 const lessonSchema = z.object({
   Id: z.number().min(1).max(9999).nullable().optional(),
   Name: z.string().min(3).max(2048),
-  Quiz: z.string().min(3).max(10240),
-  FillBlanks: z.string().min(3).max(10240),
-  TrueFalse: z.string().min(3).max(10240),
+  Explanation: z.string().min(3).max(102400),
+  Quiz: z.string().min(3).max(102400),
+  FillBlanks: z.string().min(3).max(102400),
+  TrueFalse: z.string().min(3).max(102400),
   subject: z.number().min(1).max(9999).nullable().optional(),
 });
 
