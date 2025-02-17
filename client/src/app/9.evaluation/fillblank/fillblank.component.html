@@ -1,0 +1,53 @@
+<mat-card class="quiz-container">
+  <mat-card-title>
+    <span>Fill in the Blank</span>
+  </mat-card-title>
+  <mat-card-content>
+    <div *ngFor="let eachFillBlank of fillBlanks" class="quiz-item">
+      <mat-card class="sub-card">
+        <p>
+          <span>{{ eachFillBlank.question.split("______")[0] }}</span>
+          <mat-select
+            [(ngModel)]="eachFillBlank.selectedAnswer"
+            class="blank-dropdown"
+          >
+            <mat-option
+              *ngFor="let option of eachFillBlank.options; let i = index"
+              [value]="i + 1"
+            >
+              {{ option }}
+            </mat-option>
+          </mat-select>
+          <span>{{ eachFillBlank.question.split("______")[1] }}</span>
+        </p>
+        <mat-icon
+          *ngIf="eachFillBlank.answered"
+          [ngClass]="{
+            'success-icon':
+              eachFillBlank.selectedAnswer === eachFillBlank.answer,
+            'error-icon': eachFillBlank.selectedAnswer !== eachFillBlank.answer
+          }"
+        >
+          {{
+            eachFillBlank.selectedAnswer === eachFillBlank.answer
+              ? "check_circle"
+              : "cancel"
+          }}
+        </mat-icon>
+      </mat-card>
+    </div>
+    <div class="button-container">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="submitAnswers()"
+        [disabled]="!isAnyAnswerSelected()"
+      >
+        Submit
+      </button>
+      <button mat-raised-button color="primary" (click)="resetFillBlank()">
+        Reset
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>
