@@ -18,7 +18,7 @@ import { EvaluationComponent } from './9.evaluation/1.evaluation/evaluation.comp
 
 export const routes: Routes = [
   //{ path: '', component: LoginComponent },
-  { path: '', component: EvaluationComponent },
+  { path: '', component: LoginComponent },
 
   { path: 'login-details', component: LoginDetailComponent },
   { path: 'school', component: SchoolComponent },

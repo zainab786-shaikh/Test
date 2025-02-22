@@ -33,6 +33,15 @@ export class StudentService {
     );
   }
 
+  getByAdhaar(inStudentAdhaar: string): Observable<IStudent> {
+    return this.http.get<IStudent>(
+      `${this.apiUrl}/student/adhaar/${inStudentAdhaar}`,
+      {
+        headers: this.headers,
+      }
+    );
+  }
+
   get(inStudentId: number): Observable<IStudent> {
     return this.http.get<IStudent>(`${this.apiUrl}/student/${inStudentId}`, {
       headers: this.headers,

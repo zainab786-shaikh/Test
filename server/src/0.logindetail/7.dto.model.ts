@@ -1,9 +1,10 @@
 import { Sequelize, Model, DataTypes } from "sequelize";
-import { ILoginDetail } from "./0.model";
+import { ILoginDetail, roleList } from "./0.model";
 
 export class DTOLoginDetail extends Model {
   Id?: number;
   name!: string;
+  adhaar!: string;
   password!: string;
   role!: string | number | boolean;
 }
@@ -24,12 +25,16 @@ export const initDTOLoginDetailModel = (
         type: DataTypes.STRING,
         allowNull: false,
       },
+      adhaar: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       password: {
         type: DataTypes.STRING,
         allowNull: false,
       },
       role: {
-        type: DataTypes.ENUM("admin", "teacher", "student", "parent"),
+        type: DataTypes.ENUM(...roleList),
         allowNull: false,
       },
     },

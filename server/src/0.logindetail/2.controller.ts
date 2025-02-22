@@ -20,7 +20,7 @@ import { HttpStatusCode } from "../common/constant/http-status-code";
 import { validateId, validateName } from "../common/validator-id";
 
 import { ILoginDetail } from "./0.model";
-import { validateLoginDetail } from "./1.validator";
+import { validateLoginData, validateLoginDetail } from "./1.validator";
 import { IServiceLoginDetail } from "./3.service.model";
 
 @controller("/logindetail")
@@ -97,6 +97,21 @@ export class ControllerLoginDetail extends BaseController {
       }
 
       res.status(HttpStatusCode.OK).json(logindetail);
+    } catch (error: any) {
+      this.logger.error(error);
+      return this.handleError(error, res);
+    }
+  }
+
+  @httpPost("/validate", validateLoginData)
+  async validate(@request() req: Request, @response() res: Response) {
+    try {
+      const username = req.body.name;
+      const password = req.body.password;
+      const status = await this.serviceLoginDetail.validate(username, password);
+      this.logger.info("Retrieved logindetail:" + status);
+      this.setCommonHeaders(res);
+      res.status(HttpStatusCode.OK).json(status);
     } catch (error: any) {
       this.logger.error(error);
       return this.handleError(error, res);

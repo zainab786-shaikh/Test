@@ -15,9 +15,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import { ILoginDetail } from './logindetail.model';
+import { ILoginDetail, roleList } from './logindetail.model';
 import { LoginDetailService } from './logindetail.service';
 import { MatOptionModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-logindetail',
@@ -30,18 +31,25 @@ import { MatOptionModule } from '@angular/material/core';
     MatFormFieldModule,
     MatInputModule,
     MatOptionModule,
+    MatSelectModule,
   ],
   templateUrl: './logindetail.component.html',
   styleUrls: ['./logindetail.component.css'],
 })
 export class LoginDetailComponent implements OnInit {
-  displayedColumns: string[] = ['name', 'password', 'role', 'actions'];
+  displayedColumns: string[] = [
+    'name',
+    'adhaar',
+    'password',
+    'role',
+    'actions',
+  ];
   dataSource: ILoginDetail[] = [];
   isFormVisible = false;
   isEditMode = false;
   currentLoginDetailId: number | null = null;
   logindetailForm!: FormGroup;
-  roleList = ['admin', 'teacher', 'student', 'parent'];
+  roleInformation = [...roleList];
 
   constructor(
     private fb: FormBuilder,
@@ -73,11 +81,18 @@ export class LoginDetailComponent implements OnInit {
           Validators.pattern('^[A-Za-z ]+$'),
         ],
       ],
+      adhaar: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('^[0-9]{4}-[0-9]{4}-[0-9]{4}$'),
+        ],
+      ],
       password: [
         '',
         [
           Validators.required,
-          Validators.minLength(8),
+          Validators.minLength(5),
           Validators.maxLength(128),
           Validators.pattern(/^[A-Za-z0-9'.\-, ]+$/),
         ],
@@ -87,7 +102,9 @@ export class LoginDetailComponent implements OnInit {
         [
           Validators.required,
           (control: any) => {
-            return this.roleList.includes(control.value?.toLowerCase().trim())
+            return this.roleInformation.includes(
+              control.value?.toLowerCase().trim()
+            )
               ? null
               : { invalidData: true };
           },

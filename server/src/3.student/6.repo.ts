@@ -54,6 +54,17 @@ export class RepoStudentImpl implements IRepoStudent {
     return null;
   }
 
+  async getByAdhaar(inAdhaar: string): Promise<IStudent | null> {
+    const StudentModel = this.getModel(DTOStudent);
+    const foundObj = await StudentModel.findOne<DTOStudent>({
+      where: { adhaar: inAdhaar },
+    });
+    if (foundObj?.dataValues) {
+      return this.convertToObject(foundObj?.dataValues);
+    }
+    return null;
+  }
+
   async create(
     inStudent: Partial<IStudent>,
     transaction?: Transaction

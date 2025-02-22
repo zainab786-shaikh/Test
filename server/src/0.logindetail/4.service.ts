@@ -28,6 +28,14 @@ export class ServiceLoginDetailImpl implements IServiceLoginDetail {
     return retObject;
   }
 
+  async validate(
+    username: string,
+    password: string
+  ): Promise<ILoginDetail | null> {
+    const retObject = await this.repoService.getByName(username);
+    return retObject?.password == password ? retObject : null;
+  }
+
   async create(inLoginDetailInfo: ILoginDetail): Promise<ILoginDetail | null> {
     const retObject = await this.repoService.create(inLoginDetailInfo);
     return retObject;

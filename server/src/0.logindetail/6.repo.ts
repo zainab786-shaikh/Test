@@ -1,6 +1,6 @@
 import { Model, Sequelize, Transaction } from "sequelize";
 import { injectable } from "inversify";
-import { ILoginDetail } from "./0.model";
+import { ILoginDetail, RoleType } from "./0.model";
 import { IRepoLoginDetail } from "./5.repo.model";
 import { DTOLoginDetail } from "./7.dto.model";
 import { RequestContextProvider } from "../common/service/request-context.service";
@@ -103,8 +103,9 @@ export class RepoLoginDetailImpl implements IRepoLoginDetail {
     return {
       Id: srcObject.Id,
       name: srcObject.name,
+      adhaar: srcObject.adhaar,
       password: srcObject.password,
-      role: srcObject.role as "admin" | "teacher" | "student" | "parent",
+      role: srcObject.role as RoleType,
     };
   }
 }

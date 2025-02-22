@@ -36,15 +36,6 @@ export class LoginDetailService {
     );
   }
 
-  getByUser(inLoginDetailUsername: string): Observable<ILoginDetail> {
-    return this.http.get<ILoginDetail>(
-      `${this.apiUrl}/logindetail/user/${inLoginDetailUsername}`,
-      {
-        headers: this.headers,
-      }
-    );
-  }
-
   add(inLoginDetail: ILoginDetail): Observable<ILoginDetail> {
     return this.http.post<ILoginDetail>(
       `${this.apiUrl}/logindetail`,

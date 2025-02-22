@@ -46,26 +46,29 @@ export class LoginComponent {
     }
 
     const { username, password } = this.loginForm.value;
-    const isValid = await this.loginService.validateUser(username, password);
-
-    if (isValid) {
-      let userInfo = this.loginService.getUserInfo();
-      if (userInfo?.role == 'admin') {
-        this.router.navigate(['school']);
-      } else if (userInfo?.role == 'teacher') {
-        this.router.navigate(['standard']);
-      } else if (userInfo?.role == 'student') {
-        this.router.navigate([
-          'progress/school',
-          '1',
-          'standard',
-          '1',
-          'student',
-          '1',
-        ]);
+    this.loginService.validate(username, password).subscribe((userInfo) => {
+      if (userInfo) {
+        if (userInfo?.role == 'admin') {
+          this.router.navigate(['school']);
+        } else if (userInfo?.role == 'teacher') {
+          this.router.navigate(['standard']);
+        } else if (userInfo?.role == 'student') {
+          this.loginService
+            .getByAdhaar(userInfo.adhaar)
+            .subscribe((student) => {
+              this.router.navigate([
+                'progress/school',
+                student.school,
+                'standard',
+                student.standard,
+                'student',
+                student.Id,
+              ]);
+            });
+        }
+      } else {
+        this.errorMessage = 'Invalid username or password';
       }
-    } else {
-      this.errorMessage = 'Invalid username or password';
-    }
+    });
   }
 }

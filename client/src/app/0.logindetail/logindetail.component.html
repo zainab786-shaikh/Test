@@ -17,6 +17,11 @@
         <td mat-cell *matCellDef="let element">{{ element.name }}</td>
       </ng-container>
 
+      <ng-container matColumnDef="adhaar">
+        <th mat-header-cell *matHeaderCellDef>Adhaar</th>
+        <td mat-cell *matCellDef="let element">{{ element.adhaar }}</td>
+      </ng-container>
+
       <ng-container matColumnDef="password">
         <th mat-header-cell *matHeaderCellDef>Password</th>
         <td mat-cell *matCellDef="let element">{{ element.password }}</td>
@@ -72,6 +77,14 @@
       </mat-form-field>
 
       <mat-form-field appearance="fill">
+        <mat-label>Adhaar</mat-label>
+        <input matInput formControlName="adhaar" />
+        <mat-error *ngFor="let error of getErrorMessages('adhaar')">{{
+          error
+        }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
         <mat-label>Password</mat-label>
         <input matInput formControlName="password" />
         <mat-error *ngFor="let error of getErrorMessages('password')">{{
@@ -82,7 +95,7 @@
       <mat-form-field appearance="fill">
         <mat-label>Role</mat-label>
         <mat-select formControlName="role">
-          <mat-option *ngFor="let role of roleList" [value]="role">{{
+          <mat-option *ngFor="let role of roleInformation" [value]="role">{{
             role
           }}</mat-option>
         </mat-select>

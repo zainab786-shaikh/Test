@@ -29,4 +29,23 @@ const validateStudent = (
   }
 };
 
-export { validateStudent };
+const validateAdhaar = (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  try {
+    const adhaar = request.params.adhaar; // Extracting id from URL
+    const studentSchema = z.object({
+      adhaar: z.string().regex(/^[0-9]{4}-[0-9]{4}-[0-9]{4}$/),
+    });
+
+    studentSchema.parse({ adhaar });
+    next();
+  } catch (error) {
+    // Use the common error handler
+    handleValidationError(error, response, next);
+  }
+};
+
+export { validateStudent, validateAdhaar };

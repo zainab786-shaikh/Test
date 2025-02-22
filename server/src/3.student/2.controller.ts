@@ -20,7 +20,7 @@ import { HttpStatusCode } from "../common/constant/http-status-code";
 import { validateId } from "../common/validator-id";
 
 import { IStudent } from "./0.model";
-import { validateStudent } from "./1.validator";
+import { validateAdhaar, validateStudent } from "./1.validator";
 import { IServiceStudent } from "./3.service.model";
 import { ServiceStudentProgressImpl } from "./3.service.student.progress";
 
@@ -63,6 +63,27 @@ export class ControllerStudent extends BaseController {
       }
 
       res.status(HttpStatusCode.OK).json(studentList);
+    } catch (error: any) {
+      this.logger.error(error);
+      return this.handleError(error, res);
+    }
+  }
+
+  @httpGet("/adhaar/:adhaar", validateAdhaar)
+  async getByAdhaar(@request() req: Request, @response() res: Response) {
+    try {
+      const adhaar = req.params.adhaar;
+      const student = await this.serviceStudent.getByAdhaar(adhaar);
+      this.logger.info("Retrieved student:" + student);
+
+      this.setCommonHeaders(res);
+      if (!student) {
+        return res
+          .status(HttpStatusCode.NOT_FOUND)
+          .json({ message: "Student not found" });
+      }
+
+      res.status(HttpStatusCode.OK).json(student);
     } catch (error: any) {
       this.logger.error(error);
       return this.handleError(error, res);
