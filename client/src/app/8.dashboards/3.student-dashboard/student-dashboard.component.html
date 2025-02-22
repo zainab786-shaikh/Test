@@ -89,6 +89,45 @@
     ></plotly-plot>
   </mat-card>
 
+  <mat-card *ngFor="let subject of subjectWisePerformance">
+    <mat-expansion-panel
+      [expanded]="subject.expanded"
+      (click)="togglePanel(subject, $event)"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title class="mat-progress-bar-title-container">
+          <span
+            matTooltip="{{ subject.subject }}"
+            class="mat-progress-bar-subject-name"
+            >{{ subject.subject }}</span
+          >
+          <mat-progress-bar
+            class="mat-progress-bar-progress-bar"
+            mode="determinate"
+            [value]="subject.score"
+          ></mat-progress-bar>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div
+        *ngFor="let item of subjectWisePerformance"
+        class="mat-progress-bar-progress-container"
+      >
+        <button mat-button (click)="onProgressBarClick(item.value)">
+          <span
+            matTooltip="{{ item.subject }}"
+            class="mat-progress-bar-subject-name"
+            >{{ item.subject }}</span
+          >
+          <mat-progress-bar
+            class="mat-progress-bar-progress-bar"
+            mode="determinate"
+            [value]="item.score"
+          ></mat-progress-bar>
+        </button>
+      </div>
+    </mat-expansion-panel>
+  </mat-card>
+
   <!--
   <mat-card class="dashboard-card">
     <h2>Goals</h2>

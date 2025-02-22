@@ -6,12 +6,23 @@ import { CommonModule } from '@angular/common';
 import * as PlotlyJS from 'plotly.js-dist-min';
 import { PlotlyModule } from 'angular-plotly.js';
 import { DashboardServiceHelper } from '../dashboard.component.servicehelper';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
 @Component({
   selector: 'app-student-dashboard',
-  imports: [CommonModule, MatCardModule, MatTableModule, PlotlyModule],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatTableModule,
+    PlotlyModule,
+    MatExpansionModule,
+    MatProgressBarModule,
+    MatTooltipModule,
+  ],
   templateUrl: './student-dashboard.component.html',
   styleUrl: './student-dashboard.component.css',
 })
@@ -22,7 +33,11 @@ export class StudentDashboardComponent {
   studentId: number = 1;
 
   overallPerformance!: number;
-  subjectWisePerformance!: { subject: string; score: number }[];
+  subjectWisePerformance!: {
+    subject: string;
+    score: number;
+    expanded: boolean;
+  }[];
   latestAssessments!: {
     subject: string;
     lesson: string;
@@ -184,5 +199,19 @@ export class StudentDashboardComponent {
         x: subject.lessonList.map((eachLesson: any) => eachLesson.score),
       },
     ];
+  }
+
+  togglePanel(subjectItem: any, event: Event) {
+    event.stopPropagation();
+    this.subjectWisePerformance.forEach((eachSubject) => {
+      if (eachSubject.subject !== subjectItem.subject) {
+        eachSubject.expanded = false;
+      }
+    });
+    subjectItem.expanded = !subjectItem.expanded;
+  }
+
+  onProgressBarClick(value: number) {
+    console.log(`Progress bar with value ${value}% clicked`);
   }
 }

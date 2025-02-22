@@ -99,6 +99,7 @@ export class DashboardServiceHelper {
     return Array.from(subjectMap.entries()).map(([subject, data]) => ({
       subject: this.subjects.find((s) => s.Id === subject)?.name || 'Unknown',
       score: data.total / data.count,
+      expanded: false,
     }));
   }
 
