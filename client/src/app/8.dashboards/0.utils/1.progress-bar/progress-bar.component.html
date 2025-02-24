@@ -1,0 +1,43 @@
+<div class="dashboard-container">
+  <mat-card *ngFor="let eachParent of parentList">
+    <mat-expansion-panel
+      [expanded]="eachParent.expanded"
+      (click)="togglePanel(eachParent, $event)"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title class="mat-progress-bar-title-container">
+          <span
+            matTooltip="{{ eachParent.name }}"
+            class="mat-progress-bar-subject-name"
+            >{{ eachParent.name }}</span
+          >
+          <mat-progress-bar
+            class="mat-progress-bar-progress-bar"
+            mode="determinate"
+            [value]="eachParent.score"
+          ></mat-progress-bar>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div
+        *ngFor="let eachChild of eachParent.childList"
+        class="mat-progress-bar-progress-container"
+      >
+        <button
+          mat-button
+          (click)="onProgressBarClick(eachParent.Id, eachChild.Id)"
+        >
+          <span
+            matTooltip="{{ eachChild.name }}"
+            class="mat-progress-bar-subject-name"
+            >{{ eachChild.name }}</span
+          >
+          <mat-progress-bar
+            class="mat-progress-bar-progress-bar"
+            mode="determinate"
+            [value]="eachChild.score"
+          ></mat-progress-bar>
+        </button>
+      </div>
+    </mat-expansion-panel>
+  </mat-card>
+</div>
