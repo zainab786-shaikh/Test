@@ -1,40 +1,39 @@
-
 mat-progress-bar {
-    width: 100%;
-  }
-  
-  mat-progress-bar-button {
-    width: 90%;
-    padding: 10px;
-    margin: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-  }
-  
-  .mat-progress-bar-title-container {
-    display: flex;
-    align-items: center;
-    width: 100%;
-  }
-  
-  .mat-progress-bar-subject-name {
-    max-width: 150px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-right: 10px;
-    display: inline-block;
-  }
-  
-  .mat-progress-bar-progress-bar {
-    flex-grow: 1;
-    min-width: 200px;
-  }
-  
-  .mat-progress-bar-progress-container {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 10px;
-  }
+  width: 100%;
+}
+
+mat-progress-bar-button {
+  width: 70%;
+  padding: 10px;
+  margin: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.mat-progress-bar-title-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.mat-progress-bar-subject-name {
+  max-width: 350px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 10px;
+  display: inline-block;
+}
+
+.mat-progress-bar-progress-bar {
+  flex-grow: 1;
+  min-width: 1500px;
+}
+
+.mat-progress-bar-progress-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}

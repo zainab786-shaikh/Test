@@ -3,33 +3,19 @@
     <mat-card class="overall-performance-card">
       <h2>Overall Performance</h2>
       <plotly-plot
-        [data]="overallPerformanceData"
-        [layout]="overallPerformanceLayout"
-      ></plotly-plot>
-    </mat-card>
-
-    <mat-card class="subject-performance-card">
-      <h2>Progress by Subject</h2>
-      <plotly-plot
-        [data]="subjectWisePiePerformanceData"
-        [layout]="subjectWisePiePerformanceLayout"
+        [data]="perfOverallPlotter.barData"
+        [layout]="perfOverallPlotter.barLayout"
       ></plotly-plot>
     </mat-card>
   </div>
 
   <mat-card class="dashboard-card">
     <h2>Progress by Subject</h2>
-    <plotly-plot
-      [data]="subjectWiseBarPerformanceData"
-      [layout]="subjectWiseBarPerformanceLayout"
-    ></plotly-plot>
+    <app-progress-bar [parentList]="perfPerSubject"></app-progress-bar>
   </mat-card>
 
   <mat-card class="dashboard-card">
     <h2>Progress by Student</h2>
-    <plotly-plot
-      [data]="studentWiseBarPerformanceData"
-      [layout]="studentWiseBarPerformanceLayout"
-    ></plotly-plot>
+    <app-progress-bar [parentList]="perfPerStudent"></app-progress-bar>
   </mat-card>
 </div>

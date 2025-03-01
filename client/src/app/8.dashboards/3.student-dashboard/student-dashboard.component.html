@@ -3,129 +3,14 @@
     <mat-card class="overall-performance-card">
       <h2>Overall Performance</h2>
       <plotly-plot
-        [data]="overallPerformanceData"
-        [layout]="overallPerformanceLayout"
-      ></plotly-plot>
-    </mat-card>
-
-    <mat-card class="subject-performance-card">
-      <h2>Progress by Subject</h2>
-      <plotly-plot
-        [data]="subjectWisePiePerformanceData"
-        [layout]="subjectWisePiePerformanceLayout"
+        [data]="perfOverallPlotter.barData"
+        [layout]="perfOverallPlotter.barLayout"
       ></plotly-plot>
     </mat-card>
   </div>
 
-  <div class="overall-subject">
-    <mat-card class="dashboard-card">
-      <h2>Progress by Subject</h2>
-      <plotly-plot
-        [data]="subjectWiseBarPerformanceData"
-        [layout]="subjectWiseBarPerformanceLayout"
-      ></plotly-plot>
-    </mat-card>
-
-    <mat-card class="dashboard-card">
-      <h2>Latest Assessment Scores</h2>
-      <table
-        mat-table
-        [dataSource]="latestAssessments"
-        class="mat-elevation-z8"
-      >
-        <ng-container matColumnDef="type">
-          <th mat-header-cell *matHeaderCellDef>Type</th>
-          <td mat-cell *matCellDef="let element">{{ element.type }}</td>
-        </ng-container>
-        <ng-container matColumnDef="subject">
-          <th mat-header-cell *matHeaderCellDef>Subject</th>
-          <td mat-cell *matCellDef="let element">{{ element.subject }}</td>
-        </ng-container>
-        <ng-container matColumnDef="lesson">
-          <th mat-header-cell *matHeaderCellDef>Lesson</th>
-          <td mat-cell *matCellDef="let element">{{ element.lesson }}</td>
-        </ng-container>
-        <ng-container matColumnDef="quiz">
-          <th mat-header-cell *matHeaderCellDef>Quiz</th>
-          <td mat-cell *matCellDef="let element">{{ element.qz }}%</td>
-        </ng-container>
-        <ng-container matColumnDef="fill-blank">
-          <th mat-header-cell *matHeaderCellDef>FillInBlanks</th>
-          <td mat-cell *matCellDef="let element">{{ element.fb }}%</td>
-        </ng-container>
-        <ng-container matColumnDef="true-false">
-          <th mat-header-cell *matHeaderCellDef>TrueFalse</th>
-          <td mat-cell *matCellDef="let element">{{ element.tf }}%</td>
-        </ng-container>
-        <tr
-          mat-header-row
-          *matHeaderRowDef="[
-            'subject',
-            'lesson',
-            'quiz',
-            'fill-blank',
-            'true-false'
-          ]"
-        ></tr>
-        <tr
-          mat-row
-          *matRowDef="
-            let row;
-            columns: ['subject', 'lesson', 'quiz', 'fill-blank', 'true-false']
-          "
-        ></tr>
-      </table>
-    </mat-card>
-  </div>
-
-  <mat-card
-    class="dashboard-card"
-    *ngFor="let eachSubject of lessonPerformance"
-  >
-    <h2>{{ eachSubject.subject }}</h2>
-    <plotly-plot
-      [data]="subjectLesson[eachSubject.subject]"
-      [layout]="overallLessonPerformanceLayout"
-    ></plotly-plot>
-  </mat-card>
-
-  <mat-card *ngFor="let subject of subjectWisePerformance">
-    <mat-expansion-panel
-      [expanded]="subject.expanded"
-      (click)="togglePanel(subject, $event)"
-    >
-      <mat-expansion-panel-header>
-        <mat-panel-title class="mat-progress-bar-title-container">
-          <span
-            matTooltip="{{ subject.subject }}"
-            class="mat-progress-bar-subject-name"
-            >{{ subject.subject }}</span
-          >
-          <mat-progress-bar
-            class="mat-progress-bar-progress-bar"
-            mode="determinate"
-            [value]="subject.score"
-          ></mat-progress-bar>
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-      <div
-        *ngFor="let item of subjectWisePerformance"
-        class="mat-progress-bar-progress-container"
-      >
-        <button mat-button (click)="onProgressBarClick(item.value)">
-          <span
-            matTooltip="{{ item.subject }}"
-            class="mat-progress-bar-subject-name"
-            >{{ item.subject }}</span
-          >
-          <mat-progress-bar
-            class="mat-progress-bar-progress-bar"
-            mode="determinate"
-            [value]="item.score"
-          ></mat-progress-bar>
-        </button>
-      </div>
-    </mat-expansion-panel>
+  <mat-card class="dashboard-card">
+    <app-progress-bar [parentList]="lessonData" ></app-progress-bar>
   </mat-card>
 
   <!--

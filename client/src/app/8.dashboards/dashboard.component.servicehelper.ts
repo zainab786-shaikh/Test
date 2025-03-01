@@ -45,41 +45,41 @@ export class DashboardServiceHelper {
 
   // School => Standard => Student => Subject => Lesson
   private getPerfPerStandard(progressList: IProgress[]): IChildNode[] {
-    const standardMap = new Map<number, { total: number; count: number }>();
+    const standardMap = new Map<number, { score: number; count: number }>();
     progressList.forEach((p) => {
       if (!standardMap.has(p.standard!)) {
-        standardMap.set(p.standard!, { total: 0, count: 0 });
+        standardMap.set(p.standard!, { score: 0, count: 0 });
       }
-      let std = standardMap.get(p.subject!)!;
+      let std = standardMap.get(p.standard!)!;
 
-      std.total += p.Quiz + p.FillBlanks + p.TrueFalse;
+      std.score += p.Quiz + p.FillBlanks + p.TrueFalse;
       std.count += 3;
     });
 
     return Array.from(standardMap.entries()).map(([standard, data]) => ({
       Id: standard,
       name: this.standards.find((s) => s.Id === standard)?.name || 'Unknown',
-      score: data.total / data.count,
+      score: data.score / data.count,
       expanded: false,
     }));
   }
 
   private getPerfPerSubject(progressList: IProgress[]): IChildNode[] {
-    const subjectMap = new Map<number, { total: number; count: number }>();
+    const subjectMap = new Map<number, { score: number; count: number }>();
     progressList.forEach((p) => {
       if (!subjectMap.has(p.subject!)) {
-        subjectMap.set(p.subject!, { total: 0, count: 0 });
+        subjectMap.set(p.subject!, { score: 0, count: 0 });
       }
       let subj = subjectMap.get(p.subject!)!;
 
-      subj.total += p.Quiz + p.FillBlanks + p.TrueFalse;
+      subj.score += p.Quiz + p.FillBlanks + p.TrueFalse;
       subj.count += 3;
     });
 
     return Array.from(subjectMap.entries()).map(([subject, data]) => ({
       Id: subject,
       name: this.subjects.find((s) => s.Id === subject)?.name || 'Unknown',
-      score: data.total / data.count,
+      score: data.score / data.count,
       expanded: false,
     }));
   }
@@ -115,10 +115,9 @@ export class DashboardServiceHelper {
     });
 
     return Array.from(lessonMap.entries()).map(([lessonId, data]) => {
-      let foundLesson = this.lessons.find((s) => s.Id === lessonId);
       return {
-        Id: foundLesson?.Id || 0,
-        name: foundLesson?.Name || 'Unknown',
+        Id: lessonId || 0,
+        name: this.lessons.find((s) => s.Id === lessonId)?.Name || 'Unknown',
         score: data.score / data.count,
       };
     });
