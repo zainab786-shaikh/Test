@@ -8,6 +8,19 @@ import { ISubject } from '../6.subject/subject.model';
 import { ILesson } from '../7.lesson/lesson.model';
 import { DashboardData } from './dashboard.component-data';
 
+export interface IChildNode {
+  Id: number;
+  name: string;
+  score: number;
+}
+export interface IParentNode {
+  Id: number;
+  name: string;
+  score: number;
+  expanded: boolean;
+  childList: IChildNode[];
+}
+
 export class DashboardServiceHelper {
   dashboardData = new DashboardData();
 
@@ -31,6 +44,84 @@ export class DashboardServiceHelper {
   }
 
   // School => Standard => Student => Subject => Lesson
+  private getPerfPerStandard(progressList: IProgress[]): IChildNode[] {
+    const standardMap = new Map<number, { score: number; count: number }>();
+    progressList.forEach((p) => {
+      if (!standardMap.has(p.standard!)) {
+        standardMap.set(p.standard!, { score: 0, count: 0 });
+      }
+      let std = standardMap.get(p.standard!)!;
+
+      std.score += p.Quiz + p.FillBlanks + p.TrueFalse;
+      std.count += 3;
+    });
+
+    return Array.from(standardMap.entries()).map(([standard, data]) => ({
+      Id: standard,
+      name: this.standards.find((s) => s.Id === standard)?.name || 'Unknown',
+      score: data.score / data.count,
+      expanded: false,
+    }));
+  }
+
+  private getPerfPerSubject(progressList: IProgress[]): IChildNode[] {
+    const subjectMap = new Map<number, { score: number; count: number }>();
+    progressList.forEach((p) => {
+      if (!subjectMap.has(p.subject!)) {
+        subjectMap.set(p.subject!, { score: 0, count: 0 });
+      }
+      let subj = subjectMap.get(p.subject!)!;
+
+      subj.score += p.Quiz + p.FillBlanks + p.TrueFalse;
+      subj.count += 3;
+    });
+
+    return Array.from(subjectMap.entries()).map(([subject, data]) => ({
+      Id: subject,
+      name: this.subjects.find((s) => s.Id === subject)?.name || 'Unknown',
+      score: data.score / data.count,
+      expanded: false,
+    }));
+  }
+
+  private getPerfPerStudent(progressList: IProgress[]): IChildNode[] {
+    const studentMap = new Map<number, { score: number; count: number }>();
+    progressList.forEach((p) => {
+      if (!studentMap.has(p.student!)) {
+        studentMap.set(p.student!, { score: 0, count: 0 });
+      }
+      let student = studentMap.get(p.student!)!;
+      student.score += p.Quiz + p.FillBlanks + p.TrueFalse;
+      student.count += 3;
+    });
+
+    return Array.from(studentMap.entries()).map(([student, data]) => ({
+      Id: student,
+      name: this.students.find((s) => s.Id === student)?.name || 'Unknown',
+      score: data.score / data.count,
+      expanded: false,
+    }));
+  }
+
+  private getPerfPerLesson(progressList: IProgress[]): IChildNode[] {
+    const lessonMap = new Map<number, { score: number; count: number }>();
+    progressList.forEach((p) => {
+      if (!lessonMap.has(p.lesson!)) {
+        lessonMap.set(p.lesson!, { score: 0, count: 0 });
+      }
+      let lesson = lessonMap.get(p.lesson!)!;
+      lesson.score += p.Quiz + p.FillBlanks + p.TrueFalse;
+      lesson.count += 3;
+    });
+
+    return Array.from(lessonMap.entries()).map(([lessonId, data]) => {
+      return {
+        Id: lessonId || 0,
+        name: this.lessons.find((s) => s.Id === lessonId)?.Name || 'Unknown',
+        score: data.score / data.count,
+      };
+    });
+  }
 
   //==========================================================| Overall Performance
   private getOverallPerformance(progressList: IProgress[]): number {
@@ -42,7 +133,7 @@ export class DashboardServiceHelper {
   }
 
   // School => Overall
-  getPerSchoolOverallPerformance(schoolId: number): number {
+  getOverallPerfForSchool(schoolId: number): number {
     let filteredProgress = this.progress.filter(
       (eachProgress) => eachProgress.school == schoolId
     );
@@ -50,7 +141,7 @@ export class DashboardServiceHelper {
   }
 
   // Standard => Overall
-  getPerStandardOverallPerformance(
+  getOverallPerfForSchoolPerStandard(
     schoolId: number,
     standardId: number
   ): number {
@@ -62,7 +153,7 @@ export class DashboardServiceHelper {
   }
 
   // Standard => Overall
-  getPerStudentOverallPerformance(
+  getOverallPerfForSchoolStandardPerStudent(
     schoolId: number,
     standardId: number,
     studentId: number
@@ -74,180 +165,6 @@ export class DashboardServiceHelper {
         eachProgress.student == studentId
     );
     return this.getOverallPerformance(filteredProgress);
-  }
-
-  //==========================================================| Subject Performance
-  // School => Subject
-  // Standard => Subject
-  // Student => Subject
-  // Student => Subject => Lesson
-
-  // School => Student
-  // Standard => Student
-  // Subject => Student
-  private getSubjectPerformance(progressList: IProgress[]) {
-    const subjectMap = new Map<number, { total: number; count: number }>();
-    progressList.forEach((p) => {
-      if (!subjectMap.has(p.subject!)) {
-        subjectMap.set(p.subject!, { total: 0, count: 0 });
-      }
-      let subj = subjectMap.get(p.subject!)!;
-      subj.total += p.Quiz + p.FillBlanks + p.TrueFalse;
-      subj.count += 3;
-    });
-
-    return Array.from(subjectMap.entries()).map(([subject, data]) => ({
-      subject: this.subjects.find((s) => s.Id === subject)?.name || 'Unknown',
-      score: data.total / data.count,
-      expanded: false,
-    }));
-  }
-
-  getPerSchoolSubjectPerformance(schoolId: number) {
-    let filteredProgress = this.progress.filter(
-      (eachProgress) => eachProgress.school == schoolId
-    );
-    return this.getSubjectPerformance(filteredProgress);
-  }
-
-  getPerStandardSubjectPerformance(schoolId: number, standardId: number) {
-    let filteredProgress = this.progress.filter(
-      (eachProgress) =>
-        eachProgress.school == schoolId && eachProgress.standard == standardId
-    );
-    return this.getSubjectPerformance(filteredProgress);
-  }
-
-  getPerStudentSubjectPerformance(
-    schoolId: number,
-    standardId: number,
-    studentId: number
-  ) {
-    let filteredProgress = this.progress.filter(
-      (eachProgress) =>
-        eachProgress.school == schoolId &&
-        eachProgress.standard == standardId &&
-        eachProgress.student == studentId
-    );
-    return this.getSubjectPerformance(filteredProgress);
-  }
-
-  //==========================================================| Student Performance
-  private getStudentPerformance(progressList: IProgress[]) {
-    const studentMap = new Map<number, { total: number; count: number }>();
-    progressList.forEach((p) => {
-      if (!studentMap.has(p.student!)) {
-        studentMap.set(p.student!, { total: 0, count: 0 });
-      }
-      let student = studentMap.get(p.student!)!;
-      student.total += p.Quiz + p.FillBlanks + p.TrueFalse;
-      student.count += 3;
-    });
-
-    return Array.from(studentMap.entries()).map(([student, data]) => ({
-      student: this.students.find((s) => s.Id === student)?.name || 'Unknown',
-      score: data.total / data.count,
-    }));
-  }
-
-  getPerStandardStudentsPerformance(schoolId: number, standardId: number) {
-    let filteredProgress = this.progress.filter(
-      (eachProgress) =>
-        eachProgress.school == schoolId && eachProgress.standard == standardId
-    );
-    return this.getStudentPerformance(filteredProgress);
-  }
-
-  //==========================================================| Student Performance
-  private getStandardPerformance(progressList: IProgress[]) {
-    const standardMap = new Map<number, { total: number; count: number }>();
-    progressList.forEach((p) => {
-      if (!standardMap.has(p.standard!)) {
-        standardMap.set(p.standard!, { total: 0, count: 0 });
-      }
-      let standard = standardMap.get(p.student!)!;
-      standard.total += p.Quiz + p.FillBlanks + p.TrueFalse;
-      standard.count += 3;
-    });
-
-    return Array.from(standardMap.entries()).map(([standard, data]) => ({
-      standard:
-        this.standards.find((s) => s.Id === standard)?.name || 'Unknown',
-      score: data.total / data.count,
-    }));
-  }
-
-  getPerSchoolStandardPerformance(schoolId: number) {
-    let filteredProgress = this.progress.filter(
-      (eachProgress) => eachProgress.school == schoolId
-    );
-    return this.getStandardPerformance(filteredProgress);
-  }
-
-  //==========================================================| Each Lesson Performance
-  private getLessonPerformance(
-    schoolId: number,
-    standardId: number,
-    studentId: number,
-    subjectId: number
-  ) {
-    let filteredProgress = this.progress.filter(
-      (eachProgress) =>
-        eachProgress.school == schoolId &&
-        eachProgress.standard == standardId &&
-        eachProgress.student == studentId &&
-        eachProgress.subject == subjectId
-    );
-
-    const lessonMap = new Map<number, { total: number; count: number }>();
-    filteredProgress.forEach((p) => {
-      if (!lessonMap.has(p.lesson!)) {
-        lessonMap.set(p.lesson!, { total: 0, count: 0 });
-      }
-      let lesson = lessonMap.get(p.lesson!)!;
-      lesson.total += p.Quiz + p.FillBlanks + p.TrueFalse;
-      lesson.count += 3;
-    });
-
-    return Array.from(lessonMap.entries()).map(([lessonId, data]) => ({
-      name: this.lessons.find((s) => s.Id === lessonId)?.Name || 'Unknown',
-      score: data.total / data.count,
-    }));
-  }
-
-  getPerSubjectLessonPerformance(
-    schoolId: number,
-    standardId: number,
-    studentId: number
-  ) {
-    let filteredStudentProgress = this.progress.filter(
-      (eachProgress) =>
-        eachProgress.school == schoolId &&
-        eachProgress.standard == standardId &&
-        eachProgress.student == studentId
-    );
-
-    const subjectMap = new Map<
-      number,
-      { lessonList: { name: string; score: number }[] }
-    >();
-    filteredStudentProgress.forEach((p) => {
-      if (!subjectMap.has(p.subject!)) {
-        subjectMap.set(p.subject!, {
-          lessonList: this.getLessonPerformance(
-            schoolId,
-            standardId,
-            studentId,
-            p.subject!
-          ),
-        });
-      }
-    });
-
-    return Array.from(subjectMap.entries()).map(([subject, data]) => ({
-      subject: this.subjects.find((s) => s.Id === subject)?.name || 'Unknown',
-      lessonList: data.lessonList,
-    }));
   }
 
   //==========================================================| Each Latest Assesment
@@ -295,6 +212,99 @@ export class DashboardServiceHelper {
       fb: data.fb,
       tf: data.tf,
     }));
+  }
+
+  //====================================| school =>  standard / subject
+  getPerfForSchoolPerStandard(schoolId: number): IChildNode[] {
+    let filteredProgress = this.progress.filter(
+      (eachProgress) => eachProgress.school == schoolId
+    );
+    return this.getPerfPerStandard(filteredProgress);
+  }
+
+  getPerfForSchoolPerSubject(schoolId: number): IChildNode[] {
+    let filteredProgress = this.progress.filter(
+      (eachProgress) => eachProgress.school == schoolId
+    );
+    return this.getPerfPerSubject(filteredProgress);
+  }
+
+  //====================================| standard => subject / student
+  getPerfForStandardPerSubject(
+    schoolId: number,
+    standardId: number
+  ): IChildNode[] {
+    let filteredProgress = this.progress.filter(
+      (eachProgress) =>
+        eachProgress.school == schoolId && eachProgress.standard == standardId
+    );
+    return this.getPerfPerSubject(filteredProgress);
+  }
+
+  getPerfForStandardPerStudent(
+    schoolId: number,
+    standardId: number
+  ): IChildNode[] {
+    let filteredProgress = this.progress.filter(
+      (eachProgress) =>
+        eachProgress.school == schoolId && eachProgress.standard == standardId
+    );
+    return this.getPerfPerStudent(filteredProgress);
+  }
+
+  //====================================| subject => standard / student
+  getPerfForSubjectPerStandard(
+    schoolId: number,
+    subjectId: number
+  ): IChildNode[] {
+    let filteredProgress = this.progress.filter(
+      (eachProgress) =>
+        eachProgress.school == schoolId && eachProgress.subject == subjectId
+    );
+    return this.getPerfPerStandard(filteredProgress);
+  }
+
+  getPerfForSubjectPerStudent(
+    schoolId: number,
+    subjectId: number
+  ): IChildNode[] {
+    let filteredProgress = this.progress.filter(
+      (eachProgress) =>
+        eachProgress.school == schoolId && eachProgress.subject == subjectId
+    );
+    return this.getPerfPerStudent(filteredProgress);
+  }
+
+  //====================================| student => subject
+  getPerfForStudentPerSubject(
+    schoolId: number,
+    standardId: number,
+    studentId: number
+  ): IChildNode[] {
+    let filteredProgress = this.progress.filter(
+      (eachProgress) =>
+        eachProgress.school == schoolId &&
+        eachProgress.standard == standardId &&
+        eachProgress.student == studentId
+    );
+    return this.getPerfPerSubject(filteredProgress);
+  }
+
+  //====================================| subject => lesson
+  getPerfForStudentPerSubjectLesson(
+    schoolId: number,
+    standardId: number,
+    studentId: number,
+    subjectId: number
+  ): IChildNode[] {
+    let filteredProgress = this.progress.filter(
+      (eachProgress) =>
+        eachProgress.school == schoolId &&
+        eachProgress.standard == standardId &&
+        eachProgress.student == studentId &&
+        eachProgress.subject == subjectId
+    );
+    return this.getPerfPerLesson(filteredProgress);
   }
 
   // getComparisonData() {
