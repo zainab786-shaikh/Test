@@ -25,7 +25,30 @@ export class ProgressService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(
+  getAllSchool(inSchoolId: number): Observable<IProgress[]> {
+    return this.http.get<IProgress[]>(
+      `${this.apiUrl}/progress/school/${inSchoolId}`,
+      {
+        headers: this.headers,
+      }
+    );
+  }
+
+  getAllStandard(
+    inSchoolId: number,
+    inStandardId: number
+  ): Observable<IProgress[]> {
+    this.schoolId = inSchoolId;
+    this.standardId = inStandardId;
+    return this.http.get<IProgress[]>(
+      `${this.apiUrl}/progress/school/${inSchoolId}/standard/${inStandardId}`,
+      {
+        headers: this.headers,
+      }
+    );
+  }
+
+  getAllStudent(
     inSchoolId: number,
     inStandardId: number,
     inStudentId: number

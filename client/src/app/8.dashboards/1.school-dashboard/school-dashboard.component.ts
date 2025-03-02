@@ -11,6 +11,7 @@ import {
 } from '../dashboard.component.servicehelper';
 import { BarPlotter } from '../dashboard.component.servicePlotter';
 import { UtilProgressBarComponent } from '../0.utils/1.progress-bar/progress-bar.component';
+import { ProgressService } from '../../4.progress/progress.service';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -27,7 +28,6 @@ PlotlyModule.plotlyjs = PlotlyJS;
   styleUrl: './school-dashboard.component.css',
 })
 export class SchoolDashboardComponent {
-  serviceHelper = new DashboardServiceHelper();
   schoolId: number = 1;
 
   perfOverall!: number;
@@ -36,47 +36,47 @@ export class SchoolDashboardComponent {
   perfPerStandard!: IParentNode[];
   perfPerSubject!: IParentNode[];
 
-  constructor() {
+  constructor(
+    private progressService: ProgressService,
+    private serviceHelper: DashboardServiceHelper
+  ) {
     this.schoolId = 1;
   }
 
   ngOnInit(): void {
-    this.perfOverall = this.serviceHelper.getOverallPerfForSchool(
-      this.schoolId
-    );
+    this.serviceHelper.initializeDashboardData(this.schoolId);
+    this.progressService.getAllSchool(this.schoolId).subscribe((data) => {
+      this.perfOverall = this.serviceHelper.getOverallPerformance(data);
 
-    this.perfOverallPlotter! = new BarPlotter(
-      [this.perfOverall],
-      [0],
-      'Overall Performance'
-    );
+      // Standard => Overall
+      let perfPerStandardTemp = this.serviceHelper.getPerfPerStandard(data);
+      this.perfPerStandard = perfPerStandardTemp.map((eachStandard) => {
+        return {
+          Id: eachStandard.Id,
+          name: eachStandard.name,
+          score: eachStandard.score,
+          expanded: false,
+          childList: [],
+        } as IParentNode;
+      });
 
-    let perfPerStandardTemp = this.serviceHelper.getPerfForSchoolPerStandard(
-      this.schoolId
-    );
+      this.perfOverallPlotter! = new BarPlotter(
+        [this.perfOverall],
+        [0],
+        'Overall Performance'
+      );
 
-    this.perfPerStandard = perfPerStandardTemp.map((eachStandard) => {
-      return {
-        Id: eachStandard.Id,
-        name: eachStandard.name,
-        score: eachStandard.score,
-        expanded: false,
-        childList: [],
-      } as IParentNode;
-    });
-
-    let perfPerSubjectTemp = this.serviceHelper.getPerfForSchoolPerSubject(
-      this.schoolId
-    );
-
-    this.perfPerSubject = perfPerSubjectTemp.map((eachSubject) => {
-      return {
-        Id: eachSubject.Id,
-        name: eachSubject.name,
-        score: eachSubject.score,
-        expanded: false,
-        childList: [],
-      } as IParentNode;
+      // Subject => Overall
+      let perfPerSubjectTemp = this.serviceHelper.getPerfPerSubject(data);
+      this.perfPerSubject = perfPerSubjectTemp.map((eachSubject) => {
+        return {
+          Id: eachSubject.Id,
+          name: eachSubject.name,
+          score: eachSubject.score,
+          expanded: false,
+          childList: [],
+        } as IParentNode;
+      });
     });
   }
 

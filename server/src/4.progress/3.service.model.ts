@@ -1,7 +1,12 @@
 import { IProgress } from "./0.model";
 
 export interface IServiceProgress {
-  getAll(
+  getAllSchool(inSchoolId: number): Promise<IProgress[] | null>;
+  getAllStandard(
+    inSchoolId: number,
+    inStandardId: number
+  ): Promise<IProgress[] | null>;
+  getAllStudent(
     inSchoolId: number,
     inStandardId: number,
     inStudentId: number

@@ -13,12 +13,28 @@ export class ServiceProgressImpl implements IServiceProgress {
     this.repoService = container.get(TYPE.RepoProgress);
   }
 
-  async getAll(
+  async getAllSchool(inSchoolId: number): Promise<IProgress[] | null> {
+    const retObject = await this.repoService.getAllSchool(inSchoolId);
+    return retObject;
+  }
+
+  async getAllStandard(
+    inSchoolId: number,
+    inStandardId: number
+  ): Promise<IProgress[] | null> {
+    const retObject = await this.repoService.getAllStandard(
+      inSchoolId,
+      inStandardId
+    );
+    return retObject;
+  }
+
+  async getAllStudent(
     inSchoolId: number,
     inStandardId: number,
     inStudentId: number
   ): Promise<IProgress[] | null> {
-    const retObject = await this.repoService.getAll(
+    const retObject = await this.repoService.getAllStudent(
       inSchoolId,
       inStandardId,
       inStudentId

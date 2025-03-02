@@ -17,6 +17,7 @@ import {
   UtilProgressBarComponent,
 } from '../0.utils/1.progress-bar/progress-bar.component';
 import { BarPlotter } from '../dashboard.component.servicePlotter';
+import { ProgressService } from '../../4.progress/progress.service';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -36,8 +37,6 @@ PlotlyModule.plotlyjs = PlotlyJS;
   styleUrl: './student-dashboard.component.css',
 })
 export class StudentDashboardComponent {
-  serviceHelper = new DashboardServiceHelper();
-
   schoolId!: number;
   standardId!: number;
   studentId!: number;
@@ -48,47 +47,41 @@ export class StudentDashboardComponent {
   perfPerSubject!: IChildNode[];
   lessonData!: IParentNode[];
 
-  constructor() {
+  constructor(
+    private progressService: ProgressService,
+    private serviceHelper: DashboardServiceHelper
+  ) {
     this.schoolId = 1;
     this.standardId = 1;
     this.studentId = 1;
   }
 
   ngOnInit(): void {
-    //====================================| Plot
-    this.perfOverall =
-      this.serviceHelper.getOverallPerfForSchoolStandardPerStudent(
-        this.schoolId,
-        this.standardId,
-        this.studentId
-      );
+    this.serviceHelper.initializeDashboardData(this.schoolId);
+    this.progressService
+      .getAllStudent(this.schoolId, this.standardId, this.studentId)
+      .subscribe((data) => {
+        this.perfOverall = this.serviceHelper.getOverallPerformance(data);
+        this.perfOverallPlotter! = new BarPlotter(
+          [this.perfOverall],
+          [0],
+          'Overall Performance'
+        );
 
-    this.perfOverallPlotter! = new BarPlotter(
-      [this.perfOverall],
-      [0],
-      'Overall Performance'
-    );
-
-    this.perfPerSubject = this.serviceHelper.getPerfForStudentPerSubject(
-      this.schoolId,
-      this.standardId,
-      this.studentId
-    );
-
-    this.lessonData = this.perfPerSubject.map((eachSubject) => {
-      return {
-        Id: eachSubject.Id,
-        name: eachSubject.name,
-        score: eachSubject.score,
-        expanded: false,
-        childList: this.serviceHelper.getPerfForStudentPerSubjectLesson(
-          this.schoolId,
-          this.standardId,
-          this.studentId,
-          eachSubject.Id
-        ),
-      };
-    });
+        this.perfPerSubject = this.serviceHelper.getPerfPerSubject(data);
+        this.lessonData = this.perfPerSubject.map((eachSubject) => {
+          let lessonList = data.filter(
+            (eachProgress) => eachProgress.subject == eachSubject.Id
+          );
+          return {
+            Id: eachSubject.Id,
+            name: eachSubject.name,
+            score: eachSubject.score,
+            expanded: false,
+            childList: this.serviceHelper.getPerfPerLesson(lessonList),
+          };
+        });
+      });
   }
 
   clickByLesson(event: { parentId: number; childId: number }) {

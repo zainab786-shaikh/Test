@@ -41,13 +41,59 @@ export class ControllerProgress extends BaseController {
     );
   }
 
+  @httpGet("/school/:schoolId")
+  async getAllSchool(@request() req: Request, @response() res: Response) {
+    try {
+      const schoolId = +req.params.schoolId;
+      const progressList = await this.serviceProgress.getAllSchool(schoolId);
+      this.logger.info("Retrieved progressList:" + progressList?.length);
+
+      this.setCommonHeaders(res);
+      if (!progressList) {
+        return res
+          .status(HttpStatusCode.NOT_FOUND)
+          .json({ message: "progressList not found" });
+      }
+
+      res.status(HttpStatusCode.OK).json(progressList);
+    } catch (error: any) {
+      this.logger.error(error);
+      return this.handleError(error, res);
+    }
+  }
+
+  @httpGet("/school/:schoolId/standard/:standardId")
+  async getAllStandard(@request() req: Request, @response() res: Response) {
+    try {
+      const schoolId = +req.params.schoolId;
+      const standardId = +req.params.standardId;
+      const progressList = await this.serviceProgress.getAllStandard(
+        schoolId,
+        standardId
+      );
+      this.logger.info("Retrieved progressList:" + progressList?.length);
+
+      this.setCommonHeaders(res);
+      if (!progressList) {
+        return res
+          .status(HttpStatusCode.NOT_FOUND)
+          .json({ message: "progressList not found" });
+      }
+
+      res.status(HttpStatusCode.OK).json(progressList);
+    } catch (error: any) {
+      this.logger.error(error);
+      return this.handleError(error, res);
+    }
+  }
+
   @httpGet("/school/:schoolId/standard/:standardId/student/:studentId")
-  async getAll(@request() req: Request, @response() res: Response) {
+  async getAllStudent(@request() req: Request, @response() res: Response) {
     try {
       const schoolId = +req.params.schoolId;
       const standardId = +req.params.standardId;
       const studentId = +req.params.studentId;
-      const progressList = await this.serviceProgress.getAll(
+      const progressList = await this.serviceProgress.getAllStudent(
         schoolId,
         standardId,
         studentId

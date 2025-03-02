@@ -1,4 +1,15 @@
-import { filter } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {
+  filter,
+  forkJoin,
+  from,
+  map,
+  mergeMap,
+  switchMap,
+  toArray,
+} from 'rxjs';
 import { ISchool } from '../1.school/school.model';
 import { ISchoolStandard } from '../2.schoolstandard/schoolstandard.model';
 import { IStudent } from '../3.student/student.model';
@@ -6,7 +17,11 @@ import { IProgress } from '../4.progress/progress.model';
 import { IStandard } from '../5.standard/standard.model';
 import { ISubject } from '../6.subject/subject.model';
 import { ILesson } from '../7.lesson/lesson.model';
-import { DashboardData } from './dashboard.component-data';
+import { SchoolService } from '../1.school/school.service';
+import { SchoolStandardService } from '../2.schoolstandard/schoolstandard.service';
+import { SubjectService } from '../6.subject/subject.service';
+import { LessonService } from '../7.lesson/lesson.service';
+import { StudentService } from '../3.student/student.service';
 
 export interface IChildNode {
   Id: number;
@@ -21,30 +36,91 @@ export interface IParentNode {
   childList: IChildNode[];
 }
 
+@Injectable({
+  providedIn: 'root',
+})
 export class DashboardServiceHelper {
-  dashboardData = new DashboardData();
-
-  schools: ISchool[];
-  schoolStandards: ISchoolStandard[];
-  students: IStudent[];
-  standards: IStandard[];
-  subjects: ISubject[];
-  lessons: ILesson[];
-  progress: IProgress[];
+  schools!: ISchool[];
+  schoolStandard!: ISchoolStandard[];
+  students!: IStudent[];
+  standards!: IStandard[];
+  subjects!: ISubject[];
+  lessons!: ILesson[];
 
   //====================================| Dummy Data
-  constructor() {
-    this.schools = this.dashboardData.getSchool();
-    this.schoolStandards = this.dashboardData.getSchoolStandard();
-    this.students = this.dashboardData.getStudent();
-    this.standards = this.dashboardData.getStandard();
-    this.subjects = this.dashboardData.getSubject();
-    this.lessons = this.dashboardData.getLesson();
-    this.progress = this.dashboardData.getProgress();
+  constructor(
+    private schoolService: SchoolService,
+    private schoolStandardService: SchoolStandardService,
+    private subjectService: SubjectService,
+    private lessonService: LessonService,
+    private studentService: StudentService
+  ) {}
+
+  public initializeDashboardData(inSchoolId: number) {
+    this.schoolService
+      .get(inSchoolId)
+      .pipe(
+        switchMap((school) => {
+          this.schools = [school];
+          return this.schoolStandardService.getAll(inSchoolId);
+        }),
+        switchMap((schoolStandards) => {
+          this.schoolStandard = schoolStandards;
+
+          return forkJoin({
+            subjects: this.getSubjects(schoolStandards),
+            students: this.getStudents(inSchoolId, schoolStandards),
+          });
+        }),
+        switchMap(({ subjects, students }) => {
+          this.subjects = subjects;
+          this.students = students;
+          return this.getLessons(subjects);
+        })
+      )
+      .subscribe((lessons) => {
+        this.lessons = lessons;
+      });
   }
 
+  private getSubjects(schoolStandards: ISchoolStandard[]) {
+    return from(schoolStandards).pipe(
+      mergeMap((standard) => this.subjectService.getAll(standard.standard!)),
+      toArray(),
+      map((subjectLists) => subjectLists.flat())
+    );
+  }
+
+  private getStudents(inSchoolId: number, schoolStandards: ISchoolStandard[]) {
+    return from(schoolStandards).pipe(
+      mergeMap((standard) =>
+        this.studentService.getAll(inSchoolId, standard.standard!)
+      ),
+      toArray(),
+      map((studentLists) => studentLists.flat())
+    );
+  }
+
+  private getLessons(subjects: ISubject[]) {
+    return from(subjects).pipe(
+      mergeMap((subject) => this.lessonService.getAll(subject.Id!)),
+      toArray(),
+      map((lessonLists) => lessonLists.flat())
+    );
+  }
+
+  //==========================================================| Overall Performance
+  public getOverallPerformance(progressList: IProgress[]): number {
+    const total = progressList.reduce(
+      (sum, p) => sum + p.Quiz + p.FillBlanks + p.TrueFalse,
+      0
+    );
+    return total / (progressList.length * 3);
+  }
+
+  //==========================================================| Performance Grouping
   // School => Standard => Student => Subject => Lesson
-  private getPerfPerStandard(progressList: IProgress[]): IChildNode[] {
+  public getPerfPerStandard(progressList: IProgress[]): IChildNode[] {
     const standardMap = new Map<number, { score: number; count: number }>();
     progressList.forEach((p) => {
       if (!standardMap.has(p.standard!)) {
@@ -64,7 +140,7 @@ export class DashboardServiceHelper {
     }));
   }
 
-  private getPerfPerSubject(progressList: IProgress[]): IChildNode[] {
+  public getPerfPerSubject(progressList: IProgress[]): IChildNode[] {
     const subjectMap = new Map<number, { score: number; count: number }>();
     progressList.forEach((p) => {
       if (!subjectMap.has(p.subject!)) {
@@ -84,7 +160,7 @@ export class DashboardServiceHelper {
     }));
   }
 
-  private getPerfPerStudent(progressList: IProgress[]): IChildNode[] {
+  public getPerfPerStudent(progressList: IProgress[]): IChildNode[] {
     const studentMap = new Map<number, { score: number; count: number }>();
     progressList.forEach((p) => {
       if (!studentMap.has(p.student!)) {
@@ -103,7 +179,7 @@ export class DashboardServiceHelper {
     }));
   }
 
-  private getPerfPerLesson(progressList: IProgress[]): IChildNode[] {
+  public getPerfPerLesson(progressList: IProgress[]): IChildNode[] {
     const lessonMap = new Map<number, { score: number; count: number }>();
     progressList.forEach((p) => {
       if (!lessonMap.has(p.lesson!)) {
@@ -123,189 +199,52 @@ export class DashboardServiceHelper {
     });
   }
 
-  //==========================================================| Overall Performance
-  private getOverallPerformance(progressList: IProgress[]): number {
-    const total = progressList.reduce(
-      (sum, p) => sum + p.Quiz + p.FillBlanks + p.TrueFalse,
-      0
-    );
-    return total / (this.progress.length * 3);
-  }
-
-  // School => Overall
-  getOverallPerfForSchool(schoolId: number): number {
-    let filteredProgress = this.progress.filter(
-      (eachProgress) => eachProgress.school == schoolId
-    );
-    return this.getOverallPerformance(filteredProgress);
-  }
-
-  // Standard => Overall
-  getOverallPerfForSchoolPerStandard(
-    schoolId: number,
-    standardId: number
-  ): number {
-    let filteredProgress = this.progress.filter(
-      (eachProgress) =>
-        eachProgress.school == schoolId && eachProgress.standard == standardId
-    );
-    return this.getOverallPerformance(filteredProgress);
-  }
-
-  // Standard => Overall
-  getOverallPerfForSchoolStandardPerStudent(
-    schoolId: number,
-    standardId: number,
-    studentId: number
-  ): number {
-    let filteredProgress = this.progress.filter(
-      (eachProgress) =>
-        eachProgress.school == schoolId &&
-        eachProgress.standard == standardId &&
-        eachProgress.student == studentId
-    );
-    return this.getOverallPerformance(filteredProgress);
-  }
-
   //==========================================================| Each Latest Assesment
-  getLatestAssessments(
-    schoolId: number,
-    standardId: number,
-    studentId: number
-  ) {
-    let filteredProgress = this.progress.filter(
-      (eachProgress) =>
-        eachProgress.school == schoolId &&
-        eachProgress.standard == standardId &&
-        eachProgress.student == studentId
-    );
+  // getLatestAssessments(
+  //   schoolId: number,
+  //   standardId: number,
+  //   studentId: number
+  // ) {
+  //   let filteredProgress = this.progress.filter(
+  //     (eachProgress) =>
+  //       eachProgress.school == schoolId &&
+  //       eachProgress.standard == standardId &&
+  //       eachProgress.student == studentId
+  //   );
 
-    const subjectMap = new Map<
-      number,
-      { lesson: number; qz: number; fb: number; tf: number }
-    >();
+  //   const subjectMap = new Map<
+  //     number,
+  //     { lesson: number; qz: number; fb: number; tf: number }
+  //   >();
 
-    filteredProgress.forEach((p) => {
-      if (!subjectMap.has(p.subject!)) {
-        subjectMap.set(p.subject!, {
-          lesson: p.lesson!,
-          qz: p.Quiz,
-          fb: p.FillBlanks,
-          tf: p.TrueFalse,
-        });
-      }
+  //   filteredProgress.forEach((p) => {
+  //     if (!subjectMap.has(p.subject!)) {
+  //       subjectMap.set(p.subject!, {
+  //         lesson: p.lesson!,
+  //         qz: p.Quiz,
+  //         fb: p.FillBlanks,
+  //         tf: p.TrueFalse,
+  //       });
+  //     }
 
-      if (p.Quiz != 0 || p.FillBlanks != 0 || p.TrueFalse != 0) {
-        let data = subjectMap.get(p.subject!)!;
-        data.lesson = p.lesson!;
-        data.qz = p.Quiz;
-        data.fb = p.FillBlanks;
-        data.tf = p.TrueFalse;
-      }
-    });
+  //     if (p.Quiz != 0 || p.FillBlanks != 0 || p.TrueFalse != 0) {
+  //       let data = subjectMap.get(p.subject!)!;
+  //       data.lesson = p.lesson!;
+  //       data.qz = p.Quiz;
+  //       data.fb = p.FillBlanks;
+  //       data.tf = p.TrueFalse;
+  //     }
+  //   });
 
-    return Array.from(subjectMap.entries()).map(([subject, data]) => ({
-      subject: this.subjects.find((s) => s.Id === subject)?.name || 'Unknown',
-      lesson:
-        this.lessons.find((l) => l.Id === data.lesson!)?.Name || 'Unknown',
-      qz: data.qz,
-      fb: data.fb,
-      tf: data.tf,
-    }));
-  }
-
-  //====================================| school =>  standard / subject
-  getPerfForSchoolPerStandard(schoolId: number): IChildNode[] {
-    let filteredProgress = this.progress.filter(
-      (eachProgress) => eachProgress.school == schoolId
-    );
-    return this.getPerfPerStandard(filteredProgress);
-  }
-
-  getPerfForSchoolPerSubject(schoolId: number): IChildNode[] {
-    let filteredProgress = this.progress.filter(
-      (eachProgress) => eachProgress.school == schoolId
-    );
-    return this.getPerfPerSubject(filteredProgress);
-  }
-
-  //====================================| standard => subject / student
-  getPerfForStandardPerSubject(
-    schoolId: number,
-    standardId: number
-  ): IChildNode[] {
-    let filteredProgress = this.progress.filter(
-      (eachProgress) =>
-        eachProgress.school == schoolId && eachProgress.standard == standardId
-    );
-    return this.getPerfPerSubject(filteredProgress);
-  }
-
-  getPerfForStandardPerStudent(
-    schoolId: number,
-    standardId: number
-  ): IChildNode[] {
-    let filteredProgress = this.progress.filter(
-      (eachProgress) =>
-        eachProgress.school == schoolId && eachProgress.standard == standardId
-    );
-    return this.getPerfPerStudent(filteredProgress);
-  }
-
-  //====================================| subject => standard / student
-  getPerfForSubjectPerStandard(
-    schoolId: number,
-    subjectId: number
-  ): IChildNode[] {
-    let filteredProgress = this.progress.filter(
-      (eachProgress) =>
-        eachProgress.school == schoolId && eachProgress.subject == subjectId
-    );
-    return this.getPerfPerStandard(filteredProgress);
-  }
-
-  getPerfForSubjectPerStudent(
-    schoolId: number,
-    subjectId: number
-  ): IChildNode[] {
-    let filteredProgress = this.progress.filter(
-      (eachProgress) =>
-        eachProgress.school == schoolId && eachProgress.subject == subjectId
-    );
-    return this.getPerfPerStudent(filteredProgress);
-  }
-
-  //====================================| student => subject
-  getPerfForStudentPerSubject(
-    schoolId: number,
-    standardId: number,
-    studentId: number
-  ): IChildNode[] {
-    let filteredProgress = this.progress.filter(
-      (eachProgress) =>
-        eachProgress.school == schoolId &&
-        eachProgress.standard == standardId &&
-        eachProgress.student == studentId
-    );
-    return this.getPerfPerSubject(filteredProgress);
-  }
-
-  //====================================| subject => lesson
-  getPerfForStudentPerSubjectLesson(
-    schoolId: number,
-    standardId: number,
-    studentId: number,
-    subjectId: number
-  ): IChildNode[] {
-    let filteredProgress = this.progress.filter(
-      (eachProgress) =>
-        eachProgress.school == schoolId &&
-        eachProgress.standard == standardId &&
-        eachProgress.student == studentId &&
-        eachProgress.subject == subjectId
-    );
-    return this.getPerfPerLesson(filteredProgress);
-  }
+  //   return Array.from(subjectMap.entries()).map(([subject, data]) => ({
+  //     subject: this.subjects.find((s) => s.Id === subject)?.name || 'Unknown',
+  //     lesson:
+  //       this.lessons.find((l) => l.Id === data.lesson!)?.Name || 'Unknown',
+  //     qz: data.qz,
+  //     fb: data.fb,
+  //     tf: data.tf,
+  //   }));
+  // }
 
   // getComparisonData() {
   //   return this.subjectScores.map((s) => ({
@@ -324,24 +263,24 @@ export class DashboardServiceHelper {
   //     );
   // }
 
-  generateActivityFeed() {
-    const completed = this.progress.map(
-      (p) =>
-        `Completed ${
-          this.lessons.find((l) => l.Id === p.lesson)?.Name || 'Unknown'
-        } in ${
-          this.subjects.find((s) => s.Id === p.subject)?.name || 'Unknown'
-        } - Score: ${p.Quiz}%`
-    );
-    const nextLessons = this.lessons.filter(
-      (l) => !this.progress.some((p) => p.lesson === l.Id)
-    );
-    const upcoming = nextLessons.map(
-      (l) =>
-        `Upcoming lesson: ${l.Name} in ${
-          this.subjects.find((s) => s.Id === l.subject)?.name || 'Unknown'
-        }`
-    );
-    return [...completed, ...upcoming];
-  }
+  // generateActivityFeed() {
+  //   const completed = this.progress.map(
+  //     (p) =>
+  //       `Completed ${
+  //         this.lessons.find((l) => l.Id === p.lesson)?.Name || 'Unknown'
+  //       } in ${
+  //         this.subjects.find((s) => s.Id === p.subject)?.name || 'Unknown'
+  //       } - Score: ${p.Quiz}%`
+  //   );
+  //   const nextLessons = this.lessons.filter(
+  //     (l) => !this.progress.some((p) => p.lesson === l.Id)
+  //   );
+  //   const upcoming = nextLessons.map(
+  //     (l) =>
+  //       `Upcoming lesson: ${l.Name} in ${
+  //         this.subjects.find((s) => s.Id === l.subject)?.name || 'Unknown'
+  //       }`
+  //   );
+  //   return [...completed, ...upcoming];
+  // }
 }

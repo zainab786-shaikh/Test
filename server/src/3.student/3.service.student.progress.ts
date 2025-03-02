@@ -60,7 +60,7 @@ export class ServiceStudentProgressImpl {
       throw Error("Error: Student School Or Standard or Id is emtpy");
     }
 
-    const progressList = await this.serviceProgress.getAll(
+    const progressList = await this.serviceProgress.getAllStudent(
       studentObj.school,
       studentObj.standard,
       studentObj.Id

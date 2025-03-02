@@ -32,7 +32,31 @@ export class RepoProgressImpl implements IRepoProgress {
     return found !== null;
   }
 
-  async getAll(
+  async getAllSchool(inSchoolId: number): Promise<IProgress[] | null> {
+    const ProgressModel = this.getModel(DTOProgress);
+    const foundObj = await ProgressModel.findAll<DTOProgress>({
+      where: {
+        school: inSchoolId,
+      },
+    });
+    return foundObj?.map((eachObj) => this.convertToObject(eachObj.dataValues));
+  }
+
+  async getAllStandard(
+    inSchoolId: number,
+    inStandardId: number
+  ): Promise<IProgress[] | null> {
+    const ProgressModel = this.getModel(DTOProgress);
+    const foundObj = await ProgressModel.findAll<DTOProgress>({
+      where: {
+        school: inSchoolId,
+        standard: inStandardId,
+      },
+    });
+    return foundObj?.map((eachObj) => this.convertToObject(eachObj.dataValues));
+  }
+
+  async getAllStudent(
     inSchoolId: number,
     inStandardId: number,
     inStudentId: number

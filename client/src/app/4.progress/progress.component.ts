@@ -70,7 +70,7 @@ export class ProgressComponent implements OnInit {
 
   loadProgresss(): void {
     this.progressService
-      .getAll(this.schoolId, this.standardId, this.studentId)
+      .getAllStudent(this.schoolId, this.standardId, this.studentId)
       .subscribe((data) => {
         this.dataSource = data;
       });
