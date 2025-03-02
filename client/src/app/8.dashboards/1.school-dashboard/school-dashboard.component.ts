@@ -79,4 +79,12 @@ export class SchoolDashboardComponent {
       } as IParentNode;
     });
   }
+
+  clickByStandard(parentId: number) {
+    console.log('Standard Id: ' + parentId);
+  }
+
+  clickBySubject(parentId: number) {
+    console.log('Subject Id: ' + parentId);
+  }
 }

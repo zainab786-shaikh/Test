@@ -10,7 +10,10 @@
   </div>
 
   <mat-card class="dashboard-card">
-    <app-progress-bar [parentList]="lessonData" ></app-progress-bar>
+    <app-progress-bar
+      [parentList]="lessonData"
+      (onChildClick)="clickByLesson($event)"
+    ></app-progress-bar>
   </mat-card>
 
   <!--

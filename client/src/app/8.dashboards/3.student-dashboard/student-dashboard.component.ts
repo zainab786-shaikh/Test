@@ -12,7 +12,10 @@ import {
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { IParentNode, UtilProgressBarComponent } from '../0.utils/1.progress-bar/progress-bar.component';
+import {
+  IParentNode,
+  UtilProgressBarComponent,
+} from '../0.utils/1.progress-bar/progress-bar.component';
 import { BarPlotter } from '../dashboard.component.servicePlotter';
 
 PlotlyModule.plotlyjs = PlotlyJS;
@@ -88,5 +91,10 @@ export class StudentDashboardComponent {
     });
   }
 
+  clickByLesson(event: { parentId: number; childId: number }) {
+    console.log(
+      'Subject Id: ' + event.parentId + ' Lesson Id: ' + event.childId
+    );
+  }
   //====================================| Calculations
 }

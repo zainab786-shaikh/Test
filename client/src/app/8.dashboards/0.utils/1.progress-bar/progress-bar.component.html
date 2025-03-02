@@ -3,6 +3,7 @@
     <mat-expansion-panel
       [expanded]="eachParent.expanded"
       (click)="togglePanel(eachParent, $event)"
+      [disabled]="eachParent.childList.length === 0"
     >
       <mat-expansion-panel-header>
         <mat-panel-title class="mat-progress-bar-title-container">
@@ -24,18 +25,20 @@
       >
         <button
           mat-button
-          (click)="onProgressBarClick(eachParent.Id, eachChild.Id)"
+          (click)="onEachChildClick(eachParent.Id, eachChild.Id, $event)"
         >
           <span
             matTooltip="{{ eachChild.name }}"
             class="mat-progress-bar-subject-name"
-            >{{ eachChild.name }}</span
           >
+            {{ eachChild.name }}
+          </span>
           <mat-progress-bar
             class="mat-progress-bar-progress-bar"
             mode="determinate"
             [value]="eachChild.score"
-          ></mat-progress-bar>
+          >
+          </mat-progress-bar>
         </button>
       </div>
     </mat-expansion-panel>

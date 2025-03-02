@@ -10,12 +10,18 @@
   </div>
 
   <mat-card class="dashboard-card">
-    <h2>Progress by Subject</h2>
-    <app-progress-bar [parentList]="perfPerStandard"></app-progress-bar>
+    <h2>Progress by Standard</h2>
+    <app-progress-bar
+      [parentList]="perfPerStandard"
+      (onParentClick)="clickByStandard($event)"
+    ></app-progress-bar>
   </mat-card>
 
   <mat-card class="dashboard-card">
-    <h2>Progress by Student</h2>
-    <app-progress-bar [parentList]="perfPerSubject"></app-progress-bar>
+    <h2>Progress by Subject</h2>
+    <app-progress-bar
+      [parentList]="perfPerSubject"
+      (onParentClick)="clickBySubject($event)"
+    ></app-progress-bar>
   </mat-card>
 </div>

@@ -18,23 +18,25 @@ import { EvaluationComponent } from './9.evaluation/1.evaluation/evaluation.comp
 
 export const routes: Routes = [
   //{ path: '', component: LoginComponent },
-  { path: '', component: StudentDashboardComponent },
+  { path: 'school', component: SchoolDashboardComponent },
+  { path: 'standard', component: StandardDashboardComponent },
+  { path: 'student', component: StudentDashboardComponent },
 
-  { path: 'login-details', component: LoginDetailComponent },
-  { path: 'school', component: SchoolComponent },
-  {
-    path: 'schoolstandard/school/:schoolId',
-    component: SchoolStandardComponent,
-  },
-  {
-    path: 'student/school/:schoolId/standard/:standardId',
-    component: StudentComponent,
-  },
-  {
-    path: 'progress/school/:schoolId/standard/:standardId/student/:studentId',
-    component: ProgressComponent,
-  },
-  { path: 'standard', component: StandardComponent },
-  { path: 'subject/standard/:standardId', component: SubjectComponent },
-  { path: 'lesson/subject/:subjectId', component: LessonComponent },
+  //   { path: 'login-details', component: LoginDetailComponent },
+  //   { path: 'school', component: SchoolComponent },
+  //   {
+  //     path: 'schoolstandard/school/:schoolId',
+  //     component: SchoolStandardComponent,
+  //   },
+  //   {
+  //     path: 'student/school/:schoolId/standard/:standardId',
+  //     component: StudentComponent,
+  //   },
+  //   {
+  //     path: 'progress/school/:schoolId/standard/:standardId/student/:studentId',
+  //     component: ProgressComponent,
+  //   },
+  //   { path: 'standard', component: StandardComponent },
+  //   { path: 'subject/standard/:standardId', component: SubjectComponent },
+  //   { path: 'lesson/subject/:subjectId', component: LessonComponent },
 ];

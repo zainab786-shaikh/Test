@@ -33,10 +33,11 @@ export interface IParentNode {
 })
 export class UtilProgressBarComponent {
   @Input() parentList: IParentNode[] = [];
-  @Output() progressBarClick = new EventEmitter<{
+  @Output() onChildClick = new EventEmitter<{
     parentId: number;
     childId: number;
-  }>(); // EventEmitter defined
+  }>();
+  @Output() onParentClick = new EventEmitter<number>();
 
   constructor() {}
 
@@ -50,12 +51,14 @@ export class UtilProgressBarComponent {
       }
     });
     inParent.expanded = !inParent.expanded;
+    this.onParentClick.emit(inParent.Id);
   }
 
-  onProgressBarClick(parentId: number, childId: number) {
+  onEachChildClick(parentId: number, childId: number, event: Event) {
     console.log(
-      `Progress bar clicked: Parent ID = ${parentId}, Child ID = ${childId}`
+      `Child clicked: Parent ID = ${parentId}, Child ID = ${childId}`
     );
-    this.progressBarClick.emit({ parentId, childId }); // Emit the event
+    this.onChildClick.emit({ parentId, childId });
+    event.stopPropagation();
   }
 }
