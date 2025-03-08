@@ -48,7 +48,32 @@ export class ServiceProgressImpl implements IServiceProgress {
   }
 
   async create(inProgressInfo: IProgress): Promise<IProgress | null> {
-    const retObject = await this.repoService.create(inProgressInfo);
+    let foundProgress: IProgress | null = null;
+    if (
+      inProgressInfo.school &&
+      inProgressInfo.standard &&
+      inProgressInfo.student &&
+      inProgressInfo.subject &&
+      inProgressInfo.lesson
+    ) {
+      foundProgress = await this.repoService.isExistProgress(
+        inProgressInfo.school,
+        inProgressInfo.standard,
+        inProgressInfo.student,
+        inProgressInfo.subject,
+        inProgressInfo.lesson
+      );
+    }
+
+    let retObject: IProgress | null = null;
+    if (foundProgress) {
+      inProgressInfo.Id = foundProgress.Id;
+      await this.repoService.update(foundProgress.Id!, inProgressInfo);
+      retObject = inProgressInfo;
+    } else {
+      retObject = await this.repoService.create(inProgressInfo);
+    }
+
     return retObject;
   }
 

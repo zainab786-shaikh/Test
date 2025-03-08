@@ -9,6 +9,7 @@ import { FillBlankComponent } from '../4.fillblank/fillblank.component';
 import { QuizComponent } from '../3.quiz/quiz.component';
 import { TrueFalseComponent } from '../5.truefalse/truefalse.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ProgressService } from '../../4.progress/progress.service';
 
 @Component({
   selector: 'app-evaluation',
@@ -41,7 +42,11 @@ export class EvaluationComponent {
   trueFalseScore = 0;
   fillBlankScore = 0;
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private progressService: ProgressService
+  ) {
     this.route.params.subscribe((params) => {
       this.schoolId = +params['schoolId'];
       this.standardId = +params['standardId'];
@@ -51,8 +56,33 @@ export class EvaluationComponent {
     });
   }
 
+  doneStep() {
+    this.progressService;
+    this.progressService.add({
+      Quiz: this.quizScore,
+      FillBlanks: this.fillBlankScore,
+      TrueFalse: this.trueFalseScore,
+      school: this.schoolId,
+      standard: this.standardId,
+      student: this.studentId,
+      subject: this.subjectId,
+      lesson: this.lessonId,
+    });
+
+    this.router.navigate([
+      'student-dashboard',
+      'school',
+      this.schoolId,
+      'standard',
+      this.standardId,
+      'student',
+      this.studentId,
+    ]);
+  }
   nextStep() {
     if (this.progress == 100) {
+      this.doneStep();
+
       this.router.navigate([
         'student-dashboard',
         'school',

@@ -5,6 +5,14 @@ import { DTOProgress } from "./7.dto.model";
 
 export interface IRepoProgress {
   isExist(inProgressId: number): Promise<boolean>;
+  isExistProgress(
+    inSchoolId: number,
+    inStandardId: number,
+    inStudentId: number,
+    inSubjectId: number,
+    inLessonId: number
+  ): Promise<IProgress | null>;
+
   getAllSchool(inSchoolId: number): Promise<IProgress[] | null>;
   getAllStandard(
     inSchoolId: number,
