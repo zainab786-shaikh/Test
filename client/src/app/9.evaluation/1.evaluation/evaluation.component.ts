@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,6 +8,7 @@ import { ExplanationComponent } from '../2.explanation/explanation.component';
 import { FillBlankComponent } from '../4.fillblank/fillblank.component';
 import { QuizComponent } from '../3.quiz/quiz.component';
 import { TrueFalseComponent } from '../5.truefalse/truefalse.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-evaluation',
@@ -26,6 +27,12 @@ import { TrueFalseComponent } from '../5.truefalse/truefalse.component';
   styleUrls: ['./evaluation.component.scss'],
 })
 export class EvaluationComponent {
+  schoolId = 1;
+  standardId = 1;
+  studentId = 1;
+  subjectId = 1;
+  lessonId = 1;
+
   steps = ['Explanation', 'Quiz', 'TrueFalse', 'FillBlank'];
   currentStep = 0;
   progress = 0;
@@ -34,20 +41,42 @@ export class EvaluationComponent {
   trueFalseScore = 0;
   fillBlankScore = 0;
 
+  constructor(private route: ActivatedRoute, private router: Router) {
+    this.route.params.subscribe((params) => {
+      this.schoolId = +params['schoolId'];
+      this.standardId = +params['standardId'];
+      this.studentId = +params['studentId'];
+      this.subjectId = +params['subjectId'];
+      this.lessonId = +params['lessonId'];
+    });
+  }
+
   nextStep() {
     if (this.progress == 100) {
-      alert('This is done!');
+      this.router.navigate([
+        'student-dashboard',
+        'school',
+        this.schoolId,
+        'standard',
+        this.standardId,
+        'student',
+        this.studentId,
+      ]);
     } else if (this.currentStep === 0) {
       this.currentStep++;
+      this.updateProgress();
     } else if (this.currentStep === 1 && this.quizScore >= 90) {
       this.currentStep++;
+      this.updateProgress();
     } else if (this.currentStep === 2 && this.trueFalseScore >= 90) {
       this.currentStep++;
+      this.updateProgress();
     } else if (this.currentStep === 3 && this.fillBlankScore >= 90) {
       this.currentStep++;
+      this.updateProgress();
+    } else {
+      //do nothing
     }
-
-    this.updateProgress();
   }
 
   updateProgress() {
@@ -55,8 +84,15 @@ export class EvaluationComponent {
   }
 
   updateScore(component: string, score: number) {
-    if (component === 'Quiz') this.quizScore = score;
-    if (component === 'TrueFalse') this.trueFalseScore = score;
-    if (component === 'FillBlank') this.fillBlankScore = score;
+    if (component === 'Quiz') {
+      this.quizScore = score;
+      this.nextStep();
+    } else if (component === 'TrueFalse') {
+      this.trueFalseScore = score;
+      this.nextStep();
+    } else if (component === 'FillBlank') {
+      this.fillBlankScore = score;
+      this.nextStep();
+    }
   }
 }

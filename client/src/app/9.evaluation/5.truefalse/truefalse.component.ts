@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { EvaluationService } from '../evaluation.service'; // Import service if you are fetching the data from backend
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -20,6 +20,7 @@ import { ITrueFalseComponent } from './truefalse.component.model';
   styleUrls: ['./truefalse.component.css'],
 })
 export class TrueFalseComponent implements OnInit {
+  @Input() lessonId!: number;
   @Output() score = new EventEmitter<number>(); // Ensure this emits a number
 
   trueFalseQuestions: ITrueFalseComponent[] = [];
@@ -28,7 +29,7 @@ export class TrueFalseComponent implements OnInit {
 
   // Load the questions
   private load() {
-    this.evaluationService.getTrueFalse().subscribe((data) => {
+    this.evaluationService.getTrueFalse(this.lessonId).subscribe((data) => {
       this.trueFalseQuestions = data.map((q) => ({
         ...q,
         selectedAnswer: null,

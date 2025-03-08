@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { EvaluationService } from '../evaluation.service';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -22,6 +22,7 @@ import { IQuizComponent } from './quiz.component.model';
   styleUrl: './quiz.component.css',
 })
 export class QuizComponent implements OnInit {
+  @Input() lessonId!: number;
   @Output() score = new EventEmitter<number>(); // Ensure this emits a number
 
   quizzes: IQuizComponent[] = [];
@@ -29,7 +30,7 @@ export class QuizComponent implements OnInit {
   constructor(private evalationService: EvaluationService) {}
 
   private load() {
-    this.evalationService.getQuizzes().subscribe((data) => {
+    this.evalationService.getQuizzes(this.lessonId).subscribe((data) => {
       this.quizzes = data.map((q) => ({
         ...q,
         selectedAnswer: null,

@@ -6,6 +6,7 @@
     <div *ngFor="let eachQuiz of quizzes" class="quiz-item">
       <mat-card class="sub-card">
         <p>{{ eachQuiz.question }}</p>
+        <p>{{ eachQuiz.answer }}</p>
         <mat-radio-group [(ngModel)]="eachQuiz.selectedAnswer">
           <mat-radio-button
             *ngFor="let option of eachQuiz.options; let i = index"

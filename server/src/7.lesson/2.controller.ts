@@ -41,7 +41,7 @@ export class ControllerLesson extends BaseController {
     );
   }
 
-  @httpGet("/lesson/:Id/explanation")
+  @httpGet("/:Id/explanation")
   async getExplanation(@request() req: Request, @response() res: Response) {
     try {
       const lessonId = +req.params.Id;
@@ -62,7 +62,7 @@ export class ControllerLesson extends BaseController {
     }
   }
 
-  @httpGet("/lesson/:Id/quiz")
+  @httpGet("/:Id/quiz")
   async getQuiz(@request() req: Request, @response() res: Response) {
     try {
       const lessonId = +req.params.Id;
@@ -83,7 +83,7 @@ export class ControllerLesson extends BaseController {
     }
   }
 
-  @httpGet("/lesson/:Id/fillblank")
+  @httpGet("/:Id/fillblank")
   async getFillBlank(@request() req: Request, @response() res: Response) {
     try {
       const lessonId = +req.params.Id;
@@ -104,7 +104,7 @@ export class ControllerLesson extends BaseController {
     }
   }
 
-  @httpGet("/lesson/:Id/truefalse")
+  @httpGet("/:Id/truefalse")
   async getTrueFalse(@request() req: Request, @response() res: Response) {
     try {
       const lessonId = +req.params.Id;

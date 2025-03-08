@@ -94,5 +94,21 @@ export class StudentDashboardComponent {
     console.log(
       'Subject Id: ' + event.parentId + ' Lesson Id: ' + event.childId
     );
+    let subjectId = event.parentId;
+    let lessonId = event.childId;
+    //'evaluation/school/:schoolId/standard/:standardId/student/:studentId/subject/:subjectId/lesson/:lessonId',
+    this.router.navigate([
+      'evaluation',
+      'school',
+      this.schoolId,
+      'standard',
+      this.standardId,
+      'student',
+      this.studentId,
+      'subject',
+      subjectId,
+      'lesson',
+      lessonId,
+    ]);
   }
 }

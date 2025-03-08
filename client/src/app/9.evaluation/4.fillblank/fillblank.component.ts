@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { EvaluationService } from '../evaluation.service';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -20,6 +20,7 @@ import { IFillBlankComponent } from './fillblank.component.model';
   styleUrl: './fillblank.component.css',
 })
 export class FillBlankComponent implements OnInit {
+  @Input() lessonId!: number;
   @Output() score = new EventEmitter<number>(); // Ensure this emits a number
 
   fillBlanks: IFillBlankComponent[] = [];
@@ -27,7 +28,7 @@ export class FillBlankComponent implements OnInit {
   constructor(private evaluationService: EvaluationService) {}
 
   private load() {
-    this.evaluationService.getFillBlanks().subscribe((data) => {
+    this.evaluationService.getFillBlanks(this.lessonId).subscribe((data) => {
       this.fillBlanks = data.map((q) => ({
         ...q,
         selectedAnswer: null,

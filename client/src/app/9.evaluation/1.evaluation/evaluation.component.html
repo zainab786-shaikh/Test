@@ -8,21 +8,26 @@
       ></mat-progress-bar>
 
       <ng-container *ngIf="currentStep === 0">
-        <app-explanation></app-explanation>
+        <app-explanation [lessonId]="lessonId"></app-explanation>
       </ng-container>
 
       <ng-container *ngIf="currentStep === 1">
-        <app-quiz (score)="updateScore('Quiz', $event)"> </app-quiz>
+        <app-quiz
+          [lessonId]="lessonId"
+          (score)="updateScore('Quiz', $event)"
+        ></app-quiz>
       </ng-container>
 
       <ng-container *ngIf="currentStep === 2">
         <app-truefalse
+          [lessonId]="lessonId"
           (score)="updateScore('TrueFalse', $event)"
         ></app-truefalse>
       </ng-container>
 
       <ng-container *ngIf="currentStep === 3">
         <app-fillblank
+          [lessonId]="lessonId"
           (score)="updateScore('FillBlank', $event)"
         ></app-fillblank>
       </ng-container>

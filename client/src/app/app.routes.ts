@@ -57,6 +57,10 @@ export const routes: Routes = [
     component: StudentDashboardComponent,
   },
   {
+    path: 'evaluation/school/:schoolId/standard/:standardId/student/:studentId/subject/:subjectId/lesson/:lessonId',
+    component: EvaluationComponent,
+  },
+  {
     path: 'progress/school/:schoolId/standard/:standardId/student/:studentId',
     component: ProgressComponent,
   },
