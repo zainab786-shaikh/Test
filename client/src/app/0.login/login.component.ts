@@ -49,15 +49,19 @@ export class LoginComponent {
     this.loginService.validate(username, password).subscribe((userInfo) => {
       if (userInfo) {
         if (userInfo?.role == 'admin') {
-          this.router.navigate(['school']);
-        } else if (userInfo?.role == 'teacher') {
-          this.router.navigate(['standard']);
+          this.router.navigate(['admin']);
+        } else if (
+          userInfo?.role == 'teacher' ||
+          userInfo?.role == 'principal'
+        ) {
+          this.router.navigate(['school-dashboard']);
         } else if (userInfo?.role == 'student') {
           this.loginService
             .getByAdhaar(userInfo.adhaar)
             .subscribe((student) => {
               this.router.navigate([
-                'progress/school',
+                'student-dashboard',
+                'school',
                 student.school,
                 'standard',
                 student.standard,

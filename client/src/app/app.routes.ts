@@ -17,7 +17,7 @@ import { TrueFalseComponent } from './9.evaluation/5.truefalse/truefalse.compone
 import { EvaluationComponent } from './9.evaluation/1.evaluation/evaluation.component';
 
 export const routes: Routes = [
-  //{ path: '', component: LoginComponent },
+  { path: '', component: LoginComponent },
   { path: 'login-details', component: LoginDetailComponent },
 
   //====================================| Principal/Teachers routes
