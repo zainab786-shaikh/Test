@@ -52,7 +52,7 @@ CREATE TABLE `tenanta.progress` (
 
 LOCK TABLES `tenanta.progress` WRITE;
 /*!40000 ALTER TABLE `tenanta.progress` DISABLE KEYS */;
-INSERT INTO `tenanta.progress` VALUES (1,100,100,100,1,1,1,1,1),(2,50,50,50,1,1,2,1,1),(3,50,50,50,1,1,3,1,1);
+INSERT INTO `tenanta.progress` VALUES (1,50,50,50,1,1,1,1,1);
 /*!40000 ALTER TABLE `tenanta.progress` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -65,4 +65,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-03-08 16:14:09
+-- Dump completed on 2025-03-08 17:11:27
