@@ -213,9 +213,16 @@ export class DashboardServiceHelper {
     return perfPerLesson.filter((eachLesson) => eachLesson.score > 90);
   }
 
-  public getPerfPerLessonInprogress(progressList: IProgress[]): IChildNode[] {
+  public notStartedLessonData(progressList: IProgress[]): IChildNode[] {
     let perfPerLesson = this.getPerfPerLesson(progressList);
     return perfPerLesson.filter((eachLesson) => eachLesson.score < 90);
+  }
+  public nextLessonData(progressList: IProgress[]): IChildNode[] {
+    let perfPerLesson = this.getPerfPerLesson(progressList);
+    return perfPerLesson
+      .filter((eachLesson) => eachLesson.score < 90)
+      .sort()
+      .slice(0, 1);
   }
 
   //==========================================================| Each Latest Assesment
