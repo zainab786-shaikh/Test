@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.40, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.41, for Win64 (x86_64)
 --
 -- Host: localhost    Database: tenanta
 -- ------------------------------------------------------
--- Server version	8.0.40
+-- Server version	9.1.0
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -43,7 +43,7 @@ CREATE TABLE `tenanta.progress` (
   CONSTRAINT `tenanta.progress_ibfk_3` FOREIGN KEY (`student`) REFERENCES `tenanta.student` (`Id`),
   CONSTRAINT `tenanta.progress_ibfk_4` FOREIGN KEY (`subject`) REFERENCES `tenanta.subject` (`Id`),
   CONSTRAINT `tenanta.progress_ibfk_5` FOREIGN KEY (`lesson`) REFERENCES `tenanta.lesson` (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -52,6 +52,7 @@ CREATE TABLE `tenanta.progress` (
 
 LOCK TABLES `tenanta.progress` WRITE;
 /*!40000 ALTER TABLE `tenanta.progress` DISABLE KEYS */;
+INSERT INTO `tenanta.progress` VALUES (1,100,100,100,1,1,1,1,1),(2,50,50,50,1,1,2,1,1),(3,50,50,50,1,1,3,1,1);
 /*!40000 ALTER TABLE `tenanta.progress` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -64,4 +65,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-02-22  2:22:21
+-- Dump completed on 2025-03-08 16:14:09

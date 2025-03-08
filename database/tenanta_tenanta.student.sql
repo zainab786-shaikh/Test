@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.40, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.41, for Win64 (x86_64)
 --
 -- Host: localhost    Database: tenanta
 -- ------------------------------------------------------
--- Server version	8.0.40
+-- Server version	9.1.0
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -42,7 +42,7 @@ CREATE TABLE `tenanta.student` (
 
 LOCK TABLES `tenanta.student` WRITE;
 /*!40000 ALTER TABLE `tenanta.student` DISABLE KEYS */;
-INSERT INTO `tenanta.student` VALUES (1,'Arif','1234-1234-1234',1,1),(2,'tarique','1234-1234-1234',1,1),(3,'Aun','1234-1234-1234',1,1),(4,'amjali','1234-1234-1234',1,2),(5,'geetanjali','1234-1234-1234',1,2),(6,'Maheshwari','1234-1234-1234',1,2);
+INSERT INTO `tenanta.student` VALUES (1,'Arif','3333-3333-3333',1,1),(2,'tarique','1234-1234-1234',1,1),(3,'Aun','1234-1234-1234',1,1),(4,'amjali','1234-1234-1234',1,2),(5,'geetanjali','1234-1234-1234',1,2),(6,'Maheshwari','1234-1234-1234',1,2);
 /*!40000 ALTER TABLE `tenanta.student` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-02-22  2:22:22
+-- Dump completed on 2025-03-08 16:14:17
