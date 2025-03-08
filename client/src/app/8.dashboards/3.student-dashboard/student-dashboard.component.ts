@@ -46,7 +46,8 @@ export class StudentDashboardComponent {
   perfOverallPlotter: BarPlotter = new BarPlotter([], [], 'Loading...'); // Initialize with default
 
   perfPerSubject!: IChildNode[];
-  lessonData!: IParentNode[];
+  completedLessonData!: IParentNode[];
+  inprogressLessonData!: IParentNode[];
 
   constructor(
     private route: ActivatedRoute,
@@ -74,7 +75,7 @@ export class StudentDashboardComponent {
           );
 
           this.perfPerSubject = this.serviceHelper.getPerfPerSubject(data);
-          this.lessonData = this.perfPerSubject.map((eachSubject) => {
+          this.completedLessonData = this.perfPerSubject.map((eachSubject) => {
             let lessonList = data.filter(
               (eachProgress) => eachProgress.subject == eachSubject.Id
             );
@@ -83,7 +84,22 @@ export class StudentDashboardComponent {
               name: eachSubject.name,
               score: eachSubject.score,
               expanded: false,
-              childList: this.serviceHelper.getPerfPerLesson(lessonList),
+              childList:
+                this.serviceHelper.getPerfPerLessonCompleted(lessonList),
+            };
+          });
+
+          this.inprogressLessonData = this.perfPerSubject.map((eachSubject) => {
+            let lessonList = data.filter(
+              (eachProgress) => eachProgress.subject == eachSubject.Id
+            );
+            return {
+              Id: eachSubject.Id,
+              name: eachSubject.name,
+              score: eachSubject.score,
+              expanded: false,
+              childList:
+                this.serviceHelper.getPerfPerLessonInprogress(lessonList),
             };
           });
         });

@@ -208,6 +208,16 @@ export class DashboardServiceHelper {
     });
   }
 
+  public getPerfPerLessonCompleted(progressList: IProgress[]): IChildNode[] {
+    let perfPerLesson = this.getPerfPerLesson(progressList);
+    return perfPerLesson.filter((eachLesson) => eachLesson.score > 90);
+  }
+
+  public getPerfPerLessonInprogress(progressList: IProgress[]): IChildNode[] {
+    let perfPerLesson = this.getPerfPerLesson(progressList);
+    return perfPerLesson.filter((eachLesson) => eachLesson.score < 90);
+  }
+
   //==========================================================| Each Latest Assesment
   // getLatestAssessments(
   //   schoolId: number,
