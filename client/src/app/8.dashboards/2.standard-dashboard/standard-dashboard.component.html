@@ -3,6 +3,7 @@
     <mat-card class="overall-performance-card">
       <h2>Overall Performance</h2>
       <plotly-plot
+        *ngIf="perfOverallPlotter"
         [data]="perfOverallPlotter.barData"
         [layout]="perfOverallPlotter.barLayout"
       ></plotly-plot>

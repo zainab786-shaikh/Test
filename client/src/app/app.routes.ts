@@ -18,25 +18,46 @@ import { EvaluationComponent } from './9.evaluation/1.evaluation/evaluation.comp
 
 export const routes: Routes = [
   //{ path: '', component: LoginComponent },
-  { path: 'school', component: SchoolDashboardComponent },
-  { path: 'standard', component: StandardDashboardComponent },
-  { path: 'student', component: StudentDashboardComponent },
+  { path: 'login-details', component: LoginDetailComponent },
 
-  //   { path: 'login-details', component: LoginDetailComponent },
-  //   { path: 'school', component: SchoolComponent },
-  //   {
-  //     path: 'schoolstandard/school/:schoolId',
-  //     component: SchoolStandardComponent,
-  //   },
-  //   {
-  //     path: 'student/school/:schoolId/standard/:standardId',
-  //     component: StudentComponent,
-  //   },
-  //   {
-  //     path: 'progress/school/:schoolId/standard/:standardId/student/:studentId',
-  //     component: ProgressComponent,
-  //   },
-  //   { path: 'standard', component: StandardComponent },
-  //   { path: 'subject/standard/:standardId', component: SubjectComponent },
-  //   { path: 'lesson/subject/:subjectId', component: LessonComponent },
+  //====================================| Principal/Teachers routes
+  { path: 'principal', redirectTo: 'school-dashboard', pathMatch: 'full' },
+  { path: 'teacher', redirectTo: 'school-dashboard', pathMatch: 'full' },
+
+  { path: 'school-dashboard', component: SchoolDashboardComponent },
+  {
+    path: 'standard-dashboard/school/:schoolId/standard/:standardId',
+    component: StandardDashboardComponent,
+  },
+
+  //====================================| Admin routes
+  { path: 'admin', redirectTo: 'school', pathMatch: 'full' },
+  { path: 'school', component: SchoolComponent },
+  {
+    path: 'schoolstandard/school/:schoolId',
+    component: SchoolStandardComponent,
+  },
+  { path: 'standard', component: StandardComponent },
+  {
+    path: 'student/school/:schoolId/standard/:standardId',
+    component: StudentComponent,
+  },
+  { path: 'standard', component: StandardComponent },
+  { path: 'subject/standard/:standardId', component: SubjectComponent },
+  { path: 'lesson/subject/:subjectId', component: LessonComponent },
+
+  //====================================| Students routes
+  {
+    path: 'student/school/:schoolId/standard/:standardId/student/:studentId',
+    redirectTo: 'student-dashboard',
+    pathMatch: 'full',
+  },
+  {
+    path: 'student-dashboard/school/:schoolId/standard/:standardId/student/:studentId',
+    component: StudentDashboardComponent,
+  },
+  {
+    path: 'progress/school/:schoolId/standard/:standardId/student/:studentId',
+    component: ProgressComponent,
+  },
 ];

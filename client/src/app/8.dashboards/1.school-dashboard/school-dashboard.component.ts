@@ -7,11 +7,18 @@ import * as PlotlyJS from 'plotly.js-dist-min';
 import { PlotlyModule } from 'angular-plotly.js';
 import {
   DashboardServiceHelper,
-  IParentNode,
+  IChildNode,
 } from '../dashboard.component.servicehelper';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import {
+  IParentNode,
+  UtilProgressBarComponent,
+} from '../0.utils/1.progress-bar/progress-bar.component';
 import { BarPlotter } from '../dashboard.component.servicePlotter';
-import { UtilProgressBarComponent } from '../0.utils/1.progress-bar/progress-bar.component';
 import { ProgressService } from '../../4.progress/progress.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -22,6 +29,9 @@ PlotlyModule.plotlyjs = PlotlyJS;
     MatCardModule,
     MatTableModule,
     PlotlyModule,
+    MatExpansionModule,
+    MatProgressBarModule,
+    MatTooltipModule,
     UtilProgressBarComponent,
   ],
   templateUrl: './school-dashboard.component.html',
@@ -37,6 +47,8 @@ export class SchoolDashboardComponent {
   perfPerSubject!: IParentNode[];
 
   constructor(
+    private route: ActivatedRoute,
+    private router: Router,
     private progressService: ProgressService,
     private serviceHelper: DashboardServiceHelper
   ) {
@@ -44,44 +56,51 @@ export class SchoolDashboardComponent {
   }
 
   ngOnInit(): void {
-    this.serviceHelper.initializeDashboardData(this.schoolId);
-    this.progressService.getAllSchool(this.schoolId).subscribe((data) => {
-      this.perfOverall = this.serviceHelper.getOverallPerformance(data);
+    this.serviceHelper.initializeDashboardData(this.schoolId).subscribe(() => {
+      this.progressService.getAllSchool(this.schoolId).subscribe((data) => {
+        this.perfOverall = this.serviceHelper.getOverallPerformance(data);
 
-      // Standard => Overall
-      let perfPerStandardTemp = this.serviceHelper.getPerfPerStandard(data);
-      this.perfPerStandard = perfPerStandardTemp.map((eachStandard) => {
-        return {
-          Id: eachStandard.Id,
-          name: eachStandard.name,
-          score: eachStandard.score,
-          expanded: false,
-          childList: [],
-        } as IParentNode;
-      });
+        // Standard => Overall
+        let perfPerStandardTemp = this.serviceHelper.getPerfPerStandard(data);
+        this.perfPerStandard = perfPerStandardTemp.map((eachStandard) => {
+          return {
+            Id: eachStandard.Id,
+            name: eachStandard.name,
+            score: eachStandard.score,
+            expanded: false,
+            childList: [],
+          } as IParentNode;
+        });
 
-      this.perfOverallPlotter! = new BarPlotter(
-        [this.perfOverall],
-        [0],
-        'Overall Performance'
-      );
+        this.perfOverallPlotter! = new BarPlotter(
+          [this.perfOverall],
+          [0],
+          'Overall Performance'
+        );
 
-      // Subject => Overall
-      let perfPerSubjectTemp = this.serviceHelper.getPerfPerSubject(data);
-      this.perfPerSubject = perfPerSubjectTemp.map((eachSubject) => {
-        return {
-          Id: eachSubject.Id,
-          name: eachSubject.name,
-          score: eachSubject.score,
-          expanded: false,
-          childList: [],
-        } as IParentNode;
+        let perfPerSubjectTemp = this.serviceHelper.getPerfPerSubject(data);
+        this.perfPerSubject = perfPerSubjectTemp.map((eachSubject) => {
+          return {
+            Id: eachSubject.Id,
+            name: eachSubject.name,
+            score: eachSubject.score,
+            expanded: false,
+            childList: [],
+          } as IParentNode;
+        });
       });
     });
   }
 
   clickByStandard(parentId: number) {
     console.log('Standard Id: ' + parentId);
+    this.router.navigate([
+      'standard-dashboard',
+      'school',
+      this.schoolId,
+      'standard',
+      parentId,
+    ]);
   }
 
   clickBySubject(parentId: number) {

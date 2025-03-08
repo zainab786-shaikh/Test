@@ -22,6 +22,7 @@ import { SchoolStandardService } from '../2.schoolstandard/schoolstandard.servic
 import { SubjectService } from '../6.subject/subject.service';
 import { LessonService } from '../7.lesson/lesson.service';
 import { StudentService } from '../3.student/student.service';
+import { StandardService } from '../5.standard/standard.service';
 
 export interface IChildNode {
   Id: number;
@@ -51,36 +52,44 @@ export class DashboardServiceHelper {
   constructor(
     private schoolService: SchoolService,
     private schoolStandardService: SchoolStandardService,
+    private standardService: StandardService,
     private subjectService: SubjectService,
     private lessonService: LessonService,
     private studentService: StudentService
   ) {}
 
-  public initializeDashboardData(inSchoolId: number) {
-    this.schoolService
-      .get(inSchoolId)
-      .pipe(
-        switchMap((school) => {
-          this.schools = [school];
-          return this.schoolStandardService.getAll(inSchoolId);
-        }),
-        switchMap((schoolStandards) => {
-          this.schoolStandard = schoolStandards;
-
-          return forkJoin({
-            subjects: this.getSubjects(schoolStandards),
-            students: this.getStudents(inSchoolId, schoolStandards),
-          });
-        }),
-        switchMap(({ subjects, students }) => {
-          this.subjects = subjects;
-          this.students = students;
-          return this.getLessons(subjects);
-        })
-      )
-      .subscribe((lessons) => {
+  public initializeDashboardData(inSchoolId: number): Observable<void> {
+    return this.schoolService.get(inSchoolId).pipe(
+      switchMap((school) => {
+        this.schools = [school];
+        return this.schoolStandardService.getAll(inSchoolId);
+      }),
+      switchMap((schoolStandards) => {
+        this.schoolStandard = schoolStandards;
+        return forkJoin({
+          standards: this.getStandards(schoolStandards),
+          subjects: this.getSubjects(schoolStandards),
+          students: this.getStudents(inSchoolId, schoolStandards),
+        });
+      }),
+      switchMap(({ standards, subjects, students }) => {
+        this.standards = standards;
+        this.subjects = subjects;
+        this.students = students;
+        return this.getLessons(subjects);
+      }),
+      map((lessons) => {
         this.lessons = lessons;
-      });
+      })
+    );
+  }
+
+  private getStandards(schoolStandards: ISchoolStandard[]) {
+    return from(schoolStandards).pipe(
+      mergeMap((standard) => this.standardService.getAll()),
+      toArray(),
+      map((standardLists) => standardLists.flat())
+    );
   }
 
   private getSubjects(schoolStandards: ISchoolStandard[]) {

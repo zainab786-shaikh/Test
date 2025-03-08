@@ -18,6 +18,7 @@ import {
 } from '../0.utils/1.progress-bar/progress-bar.component';
 import { BarPlotter } from '../dashboard.component.servicePlotter';
 import { ProgressService } from '../../4.progress/progress.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -42,46 +43,51 @@ export class StudentDashboardComponent {
   studentId!: number;
 
   perfOverall!: number;
-  perfOverallPlotter!: BarPlotter;
+  perfOverallPlotter: BarPlotter = new BarPlotter([], [], 'Loading...'); // Initialize with default
 
   perfPerSubject!: IChildNode[];
   lessonData!: IParentNode[];
 
   constructor(
+    private route: ActivatedRoute,
+    private router: Router,
     private progressService: ProgressService,
     private serviceHelper: DashboardServiceHelper
   ) {
-    this.schoolId = 1;
-    this.standardId = 1;
-    this.studentId = 1;
+    this.route.params.subscribe((params) => {
+      this.schoolId = +params['schoolId'];
+      this.standardId = +params['standardId'];
+      this.studentId = +params['studentId'];
+    });
   }
 
   ngOnInit(): void {
-    this.serviceHelper.initializeDashboardData(this.schoolId);
-    this.progressService
-      .getAllStudent(this.schoolId, this.standardId, this.studentId)
-      .subscribe((data) => {
-        this.perfOverall = this.serviceHelper.getOverallPerformance(data);
-        this.perfOverallPlotter! = new BarPlotter(
-          [this.perfOverall],
-          [0],
-          'Overall Performance'
-        );
-
-        this.perfPerSubject = this.serviceHelper.getPerfPerSubject(data);
-        this.lessonData = this.perfPerSubject.map((eachSubject) => {
-          let lessonList = data.filter(
-            (eachProgress) => eachProgress.subject == eachSubject.Id
+    this.serviceHelper.initializeDashboardData(this.schoolId).subscribe(() => {
+      this.progressService
+        .getAllStudent(this.schoolId, this.standardId, this.studentId)
+        .subscribe((data) => {
+          this.perfOverall = this.serviceHelper.getOverallPerformance(data);
+          this.perfOverallPlotter = new BarPlotter(
+            [this.perfOverall],
+            [0],
+            'Overall Performance'
           );
-          return {
-            Id: eachSubject.Id,
-            name: eachSubject.name,
-            score: eachSubject.score,
-            expanded: false,
-            childList: this.serviceHelper.getPerfPerLesson(lessonList),
-          };
+
+          this.perfPerSubject = this.serviceHelper.getPerfPerSubject(data);
+          this.lessonData = this.perfPerSubject.map((eachSubject) => {
+            let lessonList = data.filter(
+              (eachProgress) => eachProgress.subject == eachSubject.Id
+            );
+            return {
+              Id: eachSubject.Id,
+              name: eachSubject.name,
+              score: eachSubject.score,
+              expanded: false,
+              childList: this.serviceHelper.getPerfPerLesson(lessonList),
+            };
+          });
         });
-      });
+    });
   }
 
   clickByLesson(event: { parentId: number; childId: number }) {
@@ -89,5 +95,4 @@ export class StudentDashboardComponent {
       'Subject Id: ' + event.parentId + ' Lesson Id: ' + event.childId
     );
   }
-  //====================================| Calculations
 }
