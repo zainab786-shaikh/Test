@@ -66,7 +66,7 @@ export class ServiceProgressImpl implements IServiceProgress {
     }
 
     let retObject: IProgress | null = null;
-    if (foundProgress) {
+    if (foundProgress && foundProgress.Id) {
       inProgressInfo.Id = foundProgress.Id;
       await this.repoService.update(foundProgress.Id!, inProgressInfo);
       retObject = inProgressInfo;

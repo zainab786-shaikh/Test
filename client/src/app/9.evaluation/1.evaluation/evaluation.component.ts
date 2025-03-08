@@ -57,27 +57,28 @@ export class EvaluationComponent {
   }
 
   doneStep() {
-    this.progressService;
-    this.progressService.add({
-      Quiz: this.quizScore,
-      FillBlanks: this.fillBlankScore,
-      TrueFalse: this.trueFalseScore,
-      school: this.schoolId,
-      standard: this.standardId,
-      student: this.studentId,
-      subject: this.subjectId,
-      lesson: this.lessonId,
-    });
-
-    this.router.navigate([
-      'student-dashboard',
-      'school',
-      this.schoolId,
-      'standard',
-      this.standardId,
-      'student',
-      this.studentId,
-    ]);
+    this.progressService
+      .add({
+        Quiz: this.quizScore,
+        FillBlanks: this.fillBlankScore,
+        TrueFalse: this.trueFalseScore,
+        school: this.schoolId,
+        standard: this.standardId,
+        student: this.studentId,
+        subject: this.subjectId,
+        lesson: this.lessonId,
+      })
+      .subscribe((data) => {
+        this.router.navigate([
+          'student-dashboard',
+          'school',
+          this.schoolId,
+          'standard',
+          this.standardId,
+          'student',
+          this.studentId,
+        ]);
+      });
   }
   nextStep() {
     if (this.progress == 100) {

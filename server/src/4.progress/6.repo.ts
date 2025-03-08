@@ -50,7 +50,7 @@ export class RepoProgressImpl implements IRepoProgress {
       },
     });
 
-    return foundObj ? this.convertToObject(foundObj) : null;
+    return foundObj ? this.convertToObject(foundObj.dataValues) : null;
   }
 
   async getAllSchool(inSchoolId: number): Promise<IProgress[] | null> {
