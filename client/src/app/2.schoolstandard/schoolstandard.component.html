@@ -1,6 +1,6 @@
 <mat-card>
   <mat-card-title>
-    <span>SchoolStandard Details</span>
+    <span>College Semister Details</span>
     <button
       mat-icon-button
       color="primary"
@@ -19,10 +19,24 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Actions</th>
         <td mat-cell *matCellDef="let element">
+          <!-- 
+          <button
+            mat-icon-button
+            color="primary"
+            (click)="editSchoolStandard(element)"
+            matTooltip="Edit Semister"
+            matTooltipPosition="above"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+           -->
+
           <button
             mat-icon-button
             color="warn"
             (click)="deleteSchoolStandard(element.Id)"
+            matTooltip="Delete Semister"
+            matTooltipPosition="above"
           >
             <mat-icon>delete</mat-icon>
           </button>
@@ -31,6 +45,8 @@
             mat-icon-button
             color="primary"
             (click)="onStudents(element.Id, element.standard)"
+            matTooltip="List Students"
+            matTooltipPosition="above"
           >
             <mat-icon>list_alt</mat-icon>
           </button>
@@ -45,7 +61,7 @@
 <mat-card *ngIf="isFormVisible">
   <mat-card-title>
     <mat-icon>{{ "add" }}</mat-icon>
-    {{ "Add SchoolStandard" }}
+    {{ "Add College Semister" }}
   </mat-card-title>
   <mat-card-content>
     <form
@@ -55,7 +71,7 @@
     >
       <!-- Dropdown for selecting standard -->
       <mat-form-field appearance="fill">
-        <mat-label>Select Standard</mat-label>
+        <mat-label>Select Semister</mat-label>
         <mat-select formControlName="standard" required>
           <mat-option
             *ngFor="let standard of standardList"

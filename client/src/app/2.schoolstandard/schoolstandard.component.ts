@@ -33,7 +33,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatFormFieldModule,
     MatInputModule,
     MatOptionModule,
-    MatSelectModule
+    MatSelectModule,
   ],
   templateUrl: './schoolstandard.component.html',
   styleUrls: ['./schoolstandard.component.css'],
@@ -46,6 +46,7 @@ export class SchoolStandardComponent implements OnInit {
   displayedColumns: string[] = ['name', 'actions'];
   dataSource: ISchoolStandard[] = [];
   isFormVisible = false;
+  //isEditMode = false;
   currentSchoolStandardId: number | null = null;
   schoolstandardForm!: FormGroup;
 
@@ -94,8 +95,16 @@ export class SchoolStandardComponent implements OnInit {
 
   toggleForm(): void {
     this.isFormVisible = !this.isFormVisible;
+    //this.isEditMode = false;
     this.schoolstandardForm.reset();
   }
+
+  // editSchoolStandard(schoolstandardId: ISchoolStandard): void {
+  //   this.isFormVisible = true;
+  //   this.isEditMode = true;
+  //   this.currentSchoolStandardId = schoolstandardId.Id ?? null;
+  //   this.schoolstandardForm.patchValue(schoolstandardId);
+  // }
 
   deleteSchoolStandard(schoolstandardId: number): void {
     this.schoolstandardService.delete(schoolstandardId).subscribe(() => {
