@@ -11,18 +11,17 @@
   </div>
 
   <mat-card class="dashboard-card">
-    <h2>Completed Lessons</h2>
+    <h2>Next Lessons</h2>
     <app-progress-bar
-      [parentList]="completedLessonSectionData"
-      (onChildClick)="clickByLesson($event)"
+      [parentList]="nextLessonSectionData"
+      (onGrandChildClick)="clickByLessonSection($event)"
     ></app-progress-bar>
   </mat-card>
 
   <mat-card class="dashboard-card">
-    <h2>Next Lessons</h2>
+    <h2>Completed Lessons</h2>
     <app-progress-bar
-      [parentList]="nextLessonSectionData"
-      (onChildClick)="clickByLesson($event)"
+      [parentList]="completedLessonSectionData"
     ></app-progress-bar>
   </mat-card>
 
@@ -30,7 +29,6 @@
     <h2>Pending Lessons</h2>
     <app-progress-bar
       [parentList]="pendingLessonSectionData"
-      (onChildClick)="clickByLesson($event)"
     ></app-progress-bar>
   </mat-card>
 

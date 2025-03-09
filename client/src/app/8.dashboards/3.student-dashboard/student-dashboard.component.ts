@@ -165,12 +165,22 @@ export class StudentDashboardComponent {
     });
   }
 
-  clickByLesson(event: { parentId: number; childId: number }) {
+  clickByLessonSection(event: {
+    parentId: number;
+    childId: number;
+    grandChildId: number;
+  }) {
     console.log(
-      'Subject Id: ' + event.parentId + ' Lesson Id: ' + event.childId
+      'Subject Id: ' +
+        event.parentId +
+        ' Lesson Id: ' +
+        event.childId +
+        'Lesson Section Id: ',
+      event.grandChildId
     );
     let subjectId = event.parentId;
     let lessonId = event.childId;
+    let lessonSectionId = event.grandChildId;
     //'evaluation/school/:schoolId/standard/:standardId/student/:studentId/subject/:subjectId/lesson/:lessonId',
     this.router.navigate([
       'evaluation',
@@ -184,6 +194,8 @@ export class StudentDashboardComponent {
       subjectId,
       'lesson',
       lessonId,
+      'lessonsection',
+      lessonSectionId,
     ]);
   }
 }
