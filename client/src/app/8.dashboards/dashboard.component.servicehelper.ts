@@ -25,27 +25,7 @@ import { StudentService } from '../3.student/student.service';
 import { StandardService } from '../5.standard/standard.service';
 import { LessonSectionService } from '../7.lessonsection/lessonsection.service';
 import { ILessonSection } from '../7.lessonsection/lessonsection.model';
-
-export interface IParentNode {
-  Id: number;
-  name: string;
-  score: number;
-  expanded: boolean;
-  childList: IChildNode[];
-}
-
-export interface IChildNode {
-  Id: number;
-  name: string;
-  score: number;
-  grandchildList?: IGrandChildNode[];
-}
-
-export interface IGrandChildNode {
-  Id: number;
-  name: string;
-  score: number;
-}
+import { IChildNode } from './0.utils/1.progress-bar/progress-bar.component';
 
 @Injectable({
   providedIn: 'root',
@@ -230,6 +210,7 @@ export class DashboardServiceHelper {
         Id: lessonId || 0,
         name: this.lessons.find((s) => s.Id === lessonId)?.name || 'Unknown',
         score: data.score / data.count,
+        expanded: false,
       };
     });
   }
@@ -256,34 +237,10 @@ export class DashboardServiceHelper {
             this.lessonsections.find((s) => s.Id === lessonsectionId)?.name ||
             'Unknown',
           score: data.score / data.count,
+          expanded: false,
         };
       }
     );
-  }
-
-  //==========================================================| Each Latest Assesment
-  public getPerfPerLessonSectionCompleted(
-    progressList: IProgress[]
-  ): IGrandChildNode[] {
-    let perfPerLessonSection = this.getPerfPerLessonSection(progressList);
-    return perfPerLessonSection.filter(
-      (eachLessonSection) => eachLessonSection.score > 90
-    );
-  }
-  public notStartedLessonSectionData(
-    progressList: IProgress[]
-  ): IGrandChildNode[] {
-    let perfPerLessonSection = this.getPerfPerLessonSection(progressList);
-    return perfPerLessonSection.filter(
-      (eachLessonSection) => eachLessonSection.score < 90
-    );
-  }
-  public nextLessonSectionData(progressList: IProgress[]): IGrandChildNode[] {
-    let perfPerLessonSection = this.getPerfPerLessonSection(progressList);
-    return perfPerLessonSection
-      .filter((eachLessonSection) => eachLessonSection.score < 90)
-      .sort()
-      .slice(0, 1);
   }
 
   //==========================================================| Each Latest Assesment

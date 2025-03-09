@@ -5,16 +5,12 @@ import { CommonModule } from '@angular/common';
 
 import * as PlotlyJS from 'plotly.js-dist-min';
 import { PlotlyModule } from 'angular-plotly.js';
-import {
-  DashboardServiceHelper,
-  IChildNode,
-  IGrandChildNode,
-} from '../dashboard.component.servicehelper';
+import { DashboardServiceHelper } from '../dashboard.component.servicehelper';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {
-  IParentNode,
+  IChildNode,
   UtilProgressBarComponent,
 } from '../0.utils/1.progress-bar/progress-bar.component';
 import { BarPlotter } from '../dashboard.component.servicePlotter';
@@ -55,14 +51,10 @@ export class StudentDashboardComponent {
   perfPerSubject!: IChildNode[];
   perfPerLesson!: IChildNode[];
 
-  lessonSectionData!: {
-    completed: IParentNode[];
-    next: IParentNode[];
-    pending: IParentNode[];
-  };
-  completedLessonSectionData!: IParentNode[];
-  nextLessonSectionData!: IParentNode[];
-  pendingLessonSectionData!: IParentNode[];
+  subjectData!: IChildNode[];
+  completedLessonSectionData!: IChildNode[] | [];
+  nextLessonSectionData!: IChildNode[] | [];
+  pendingLessonSectionData!: IChildNode[] | [];
 
   constructor(
     private route: ActivatedRoute,
@@ -90,114 +82,86 @@ export class StudentDashboardComponent {
           );
 
           this.perfPerSubject = this.serviceHelper.getPerfPerSubject(data);
-          this.completedLessonSectionData = this.perfPerSubject.map(
-            (eachSubject) => {
-              let lessonInSubjectProgressList = data.filter(
-                (eachProgress) => eachProgress.subject == eachSubject.Id
+          this.subjectData = this.perfPerSubject.map((eachSubject) => {
+            let lessonDataProgressList = data.filter(
+              (eachProgress) => eachProgress.subject == eachSubject.Id
+            );
+
+            eachSubject.childList = this.serviceHelper.getPerfPerLesson(
+              lessonDataProgressList
+            );
+
+            eachSubject.childList?.map((eachLesson) => {
+              let lessonSectionDataProgressList = data.filter(
+                (eachProgress) =>
+                  eachProgress.subject == eachSubject.Id &&
+                  eachProgress.lesson == eachLesson.Id
               );
 
-              return {
-                Id: eachSubject.Id,
-                name: eachSubject.name,
-                score: eachSubject.score,
-                expanded: false,
-                childList: this.GetChildList(
-                  data,
-                  eachSubject,
-                  lessonInSubjectProgressList,
-                  tagChildList.completed
-                ),
-              };
+              eachLesson.childList = this.serviceHelper.getPerfPerLessonSection(
+                lessonSectionDataProgressList
+              );
+            });
+
+            return eachSubject;
+          });
+
+          let copiedSubjectData: IChildNode[] = JSON.parse(
+            JSON.stringify(this.subjectData)
+          );
+          this.completedLessonSectionData = copiedSubjectData.map(
+            (eachSubject) => {
+              let pendingLessonList = eachSubject.childList?.filter(
+                (eachLesson) => eachLesson.score <= 100
+              );
+              if (pendingLessonList && pendingLessonList?.length > 0) {
+                pendingLessonList.map((eachLesson) => {
+                  let pendingLessonSectionList = eachLesson.childList?.filter(
+                    (eachLessonSection) => eachLessonSection.score == 100
+                  );
+                  eachLesson.childList = pendingLessonSectionList;
+                });
+              }
+              eachSubject.childList = pendingLessonList;
+
+              return eachSubject;
             }
           );
 
-          this.nextLessonSectionData = this.perfPerSubject.map(
+          copiedSubjectData = JSON.parse(JSON.stringify(this.subjectData));
+          this.pendingLessonSectionData = copiedSubjectData.map(
             (eachSubject) => {
-              let lessonList = data.filter(
-                (eachProgress) => eachProgress.subject == eachSubject.Id
+              let pendingLessonList = eachSubject.childList?.filter(
+                (eachLesson) => eachLesson.score < 100
               );
+              if (pendingLessonList && pendingLessonList?.length > 0) {
+                pendingLessonList.map((eachLesson) => {
+                  let pendingLessonSectionList = eachLesson.childList?.filter(
+                    (eachLessonSection) => eachLessonSection.score < 100
+                  );
+                  eachLesson.childList = pendingLessonSectionList;
+                });
+              }
+              eachSubject.childList = pendingLessonList;
 
-              return {
-                Id: eachSubject.Id,
-                name: eachSubject.name,
-                score: eachSubject.score,
-                expanded: false,
-                childList: this.GetChildList(
-                  data,
-                  eachSubject,
-                  lessonList,
-                  tagChildList.next
-                ),
-              };
+              return eachSubject;
             }
           );
 
-          this.pendingLessonSectionData = this.perfPerSubject.map(
-            (eachSubject) => {
-              let lessonList = data.filter(
-                (eachProgress) => eachProgress.subject == eachSubject.Id
-              );
-
-              return {
-                Id: eachSubject.Id,
-                name: eachSubject.name,
-                score: eachSubject.score,
-                expanded: false,
-                childList: this.GetChildList(
-                  data,
-                  eachSubject,
-                  lessonList,
-                  tagChildList.pending
-                ),
-              };
-            }
+          copiedSubjectData = JSON.parse(
+            JSON.stringify(this.pendingLessonSectionData)
           );
+          this.nextLessonSectionData = copiedSubjectData.map((eachSubject) => {
+            let firstLesson = eachSubject.childList?.slice(0, 1);
+            if (firstLesson && firstLesson?.length > 0) {
+              let firstLessonSection = firstLesson[0].childList?.slice(0, 1);
+              firstLesson[0].childList = firstLessonSection;
+            }
+            eachSubject.childList = firstLesson;
+
+            return eachSubject;
+          });
         });
-    });
-  }
-
-  private GetChildList(
-    data: IProgress[],
-    eachSubject: IChildNode,
-    lessonInSubjectProgressList: IProgress[],
-    state: tagChildList
-  ): {
-    Id: number;
-    name: string;
-    score: number;
-    expanded: boolean;
-    grandChildList?: IGrandChildNode[] | null;
-  }[] {
-    const lessonInSubjectList = this.serviceHelper.getPerfPerLesson(
-      lessonInSubjectProgressList
-    );
-    return lessonInSubjectList.map((eachLesson) => {
-      let lessonSectionProgressList = data.filter(
-        (eachProgress) => eachProgress.lesson == eachLesson.Id
-      );
-
-      let retValue = null;
-      if (state == tagChildList.completed) {
-        retValue = this.serviceHelper.getPerfPerLessonSectionCompleted(
-          lessonSectionProgressList
-        );
-      } else if (state == tagChildList.next) {
-        retValue = this.serviceHelper.nextLessonSectionData(
-          lessonSectionProgressList
-        );
-      } else if (state == tagChildList.pending) {
-        retValue = this.serviceHelper.notStartedLessonSectionData(
-          lessonSectionProgressList
-        );
-      }
-
-      return {
-        Id: eachLesson.Id,
-        name: eachLesson.name,
-        score: eachLesson.score,
-        expanded: false,
-        grandChildList: retValue,
-      };
     });
   }
 

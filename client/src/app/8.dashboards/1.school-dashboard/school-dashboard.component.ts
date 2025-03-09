@@ -5,15 +5,12 @@ import { CommonModule } from '@angular/common';
 
 import * as PlotlyJS from 'plotly.js-dist-min';
 import { PlotlyModule } from 'angular-plotly.js';
-import {
-  DashboardServiceHelper,
-  IChildNode,
-} from '../dashboard.component.servicehelper';
+import { DashboardServiceHelper } from '../dashboard.component.servicehelper';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {
-  IParentNode,
+  IChildNode,
   UtilProgressBarComponent,
 } from '../0.utils/1.progress-bar/progress-bar.component';
 import { BarPlotter } from '../dashboard.component.servicePlotter';
@@ -43,8 +40,8 @@ export class SchoolDashboardComponent {
   perfOverall!: number;
   perfOverallPlotter!: BarPlotter;
 
-  perfPerStandard!: IParentNode[];
-  perfPerSubject!: IParentNode[];
+  perfPerStandard!: IChildNode[];
+  perfPerSubject!: IChildNode[];
 
   constructor(
     private route: ActivatedRoute,
@@ -69,7 +66,7 @@ export class SchoolDashboardComponent {
             score: eachStandard.score,
             expanded: false,
             childList: [],
-          } as IParentNode;
+          } as IChildNode;
         });
 
         this.perfOverallPlotter! = new BarPlotter(
@@ -86,7 +83,7 @@ export class SchoolDashboardComponent {
             score: eachSubject.score,
             expanded: false,
             childList: [],
-          } as IParentNode;
+          } as IChildNode;
         });
       });
     });

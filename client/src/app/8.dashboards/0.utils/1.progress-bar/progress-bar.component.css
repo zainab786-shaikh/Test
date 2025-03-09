@@ -33,6 +33,7 @@ mat-progress-bar-button {
 
 .mat-progress-bar-progress-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 10px;
 }

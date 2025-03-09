@@ -3,7 +3,7 @@
     <mat-expansion-panel
       [expanded]="eachParent.expanded"
       (click)="togglePanel(eachParent, $event)"
-      [disabled]="eachParent.childList.length === 0"
+      [disabled]="eachParent.childList?.length === 0"
     >
       <mat-expansion-panel-header>
         <mat-panel-title class="mat-progress-bar-title-container">
@@ -42,9 +42,9 @@
             </mat-progress-bar>
           </button>
         </div>
-        <div *ngIf="eachChild.grandChildList">
+        <div *ngIf="eachChild.childList">
           <div
-            *ngFor="let eachGrandChild of eachChild.grandChildList"
+            *ngFor="let eachGrandChild of eachChild.childList"
             class="progress-bar-grandchild"
           >
             <button

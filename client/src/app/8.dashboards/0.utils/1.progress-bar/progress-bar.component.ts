@@ -5,24 +5,12 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-export interface IParentNode {
-  Id: number;
-  name: string;
-  score: number;
-  expanded: boolean;
-  childList: IChildNode[];
-}
 export interface IChildNode {
   Id: number;
   name: string;
   score: number;
-  grandChildList?: IGrandChildNode[] | null;
-}
-
-export interface IGrandChildNode {
-  Id: number;
-  name: string;
-  score: number;
+  expanded: boolean;
+  childList?: IChildNode[] | null;
 }
 
 @Component({
@@ -39,7 +27,7 @@ export interface IGrandChildNode {
   styleUrls: ['./progress-bar.component.css'],
 })
 export class UtilProgressBarComponent {
-  @Input() parentList: IParentNode[] = [];
+  @Input() parentList: IChildNode[] | [] = [];
   @Output() onParentClick = new EventEmitter<number>();
   @Output() onChildClick = new EventEmitter<{
     parentId: number;
@@ -55,7 +43,7 @@ export class UtilProgressBarComponent {
 
   ngOnInit(): void {}
 
-  togglePanel(inParent: IParentNode, event: Event) {
+  togglePanel(inParent: IChildNode, event: Event) {
     event.stopPropagation();
     this.parentList.forEach((eachParent) => {
       if (eachParent.name !== inParent.name) {
