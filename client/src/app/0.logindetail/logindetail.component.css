@@ -1,39 +1,127 @@
-mat-card {
+/* Main Card Styling */
+.main-card {
   margin: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* Card Title Styling */
+.card-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background-color: #f5f5f5;
+  border-radius: 8px 8px 0 0;
+}
+
+/* Table Styling */
 .mat-elevation-z8 {
   width: 100%;
   overflow: auto;
+  border-radius: 8px;
 }
 
 table {
   width: 100%;
 }
 
-button {
-  margin: 0 5px;
+th.mat-header-cell {
+  font-weight: 600;
+  background-color: #f5f5f5;
 }
 
-mat-card-title {
+tr.mat-row:hover {
+  background-color: #f5f5f5;
+}
+
+/* Form Card Styling */
+.form-card {
+  margin: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Title Styling */
+.form-title {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 8px;
+  padding: 16px;
+  background-color: #f5f5f5;
+  border-radius: 8px 8px 0 0;
 }
 
+/* Form Container Styling */
 form.form-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Align with table columns */
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
+  padding: 16px;
 }
 
 mat-form-field {
   width: 100%;
 }
 
+/* Form Actions Styling */
 .form-actions {
-  grid-column: span 3; /* Stretch buttons across the row */
+  grid-column: span 2;
   display: flex;
   justify-content: flex-end;
   gap: 10px;
+  margin-top: 16px;
+}
+
+/* Button Styling */
+button {
+  margin: 0 5px;
+}
+
+button[mat-icon-button] {
+  transition: transform 0.2s ease;
+}
+
+button[mat-icon-button]:hover {
+  transform: scale(1.1);
+}
+
+/* Dropdown Styling */
+.mat-select-panel {
+  background-color: white; /* Set background color */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Add shadow */
+}
+
+.mat-option {
+  padding: 8px 16px; /* Add padding to options */
+  font-size: 14px; /* Adjust font size */
+}
+
+.mat-option:hover {
+  background-color: #f5f5f5; /* Hover effect for options */
+}
+
+.mat-select-trigger {
+  display: flex;
+  align-items: center;
+}
+
+.mat-select-value {
+  color: #333; /* Text color for selected value */
+}
+
+.mat-select-arrow {
+  color: #333; /* Arrow color */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  form.form-container {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    grid-column: span 1;
+  }
 }
