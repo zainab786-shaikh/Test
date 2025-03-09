@@ -24,26 +24,29 @@ DROP TABLE IF EXISTS `tenanta.progress`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tenanta.progress` (
   `Id` int NOT NULL AUTO_INCREMENT,
-  `Quiz` int NOT NULL,
-  `FillBlanks` int NOT NULL,
-  `TrueFalse` int NOT NULL,
+  `quiz` int NOT NULL,
+  `fillblanks` int NOT NULL,
+  `truefalse` int NOT NULL,
   `school` int NOT NULL,
   `standard` int NOT NULL,
   `student` int NOT NULL,
-  `subject` int NOT NULL,
-  `lesson` int NOT NULL,
+  `subject` int DEFAULT NULL,
+  `lesson` int DEFAULT NULL,
+  `lessonsection` int DEFAULT NULL,
   PRIMARY KEY (`Id`),
   KEY `school` (`school`),
   KEY `standard` (`standard`),
   KEY `student` (`student`),
   KEY `subject` (`subject`),
   KEY `lesson` (`lesson`),
+  KEY `lessonsection` (`lessonsection`),
   CONSTRAINT `tenanta.progress_ibfk_1` FOREIGN KEY (`school`) REFERENCES `tenanta.school` (`Id`),
   CONSTRAINT `tenanta.progress_ibfk_2` FOREIGN KEY (`standard`) REFERENCES `tenanta.standard` (`Id`),
   CONSTRAINT `tenanta.progress_ibfk_3` FOREIGN KEY (`student`) REFERENCES `tenanta.student` (`Id`),
   CONSTRAINT `tenanta.progress_ibfk_4` FOREIGN KEY (`subject`) REFERENCES `tenanta.subject` (`Id`),
-  CONSTRAINT `tenanta.progress_ibfk_5` FOREIGN KEY (`lesson`) REFERENCES `tenanta.lesson` (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `tenanta.progress_ibfk_5` FOREIGN KEY (`lesson`) REFERENCES `tenanta.lesson` (`Id`),
+  CONSTRAINT `tenanta.progress_ibfk_6` FOREIGN KEY (`lessonsection`) REFERENCES `tenanta.lessonsection` (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -52,6 +55,7 @@ CREATE TABLE `tenanta.progress` (
 
 LOCK TABLES `tenanta.progress` WRITE;
 /*!40000 ALTER TABLE `tenanta.progress` DISABLE KEYS */;
+INSERT INTO `tenanta.progress` VALUES (1,0,0,0,1,1,8,10,2,5),(2,0,0,0,1,1,8,10,2,2),(3,0,0,0,1,1,8,10,2,3),(4,0,0,0,1,1,8,10,2,6),(5,0,0,0,1,1,8,10,2,7),(6,0,0,0,1,1,8,10,2,8),(7,0,0,0,1,1,9,10,2,2),(8,0,0,0,1,1,9,10,2,3),(9,0,0,0,1,1,9,10,2,7),(10,0,0,0,1,1,9,10,2,8),(11,0,0,0,1,1,9,10,2,5),(12,0,0,0,1,1,9,10,2,6);
 /*!40000 ALTER TABLE `tenanta.progress` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -64,4 +68,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-03-09 16:02:56
+-- Dump completed on 2025-03-09 19:57:46

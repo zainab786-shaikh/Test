@@ -8,7 +8,7 @@ mat-progress-bar-button {
   margin: 5px;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 
 .mat-progress-bar-title-container {
@@ -17,8 +17,8 @@ mat-progress-bar-button {
   width: 100%;
 }
 
-.mat-progress-bar-subject-name {
-  max-width: 350px;
+.mat-progress-bar-name {
+  max-width: 500px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -28,12 +28,21 @@ mat-progress-bar-button {
 
 .mat-progress-bar-progress-bar {
   flex-grow: 1;
-  min-width: 1500px;
+  min-width: 1000px;
 }
 
 .mat-progress-bar-progress-container {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
   gap: 10px;
+}
+
+.progress-bar-child {
+  display: flex;
+  justify-content: flex-start;
+  width: 70%;
+}
+.progress-bar-grandchild {
+  display: flex;
+  justify-content: flex-end;
 }

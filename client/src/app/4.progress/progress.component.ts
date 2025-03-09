@@ -80,9 +80,9 @@ export class ProgressComponent implements OnInit {
   initForm(): void {
     this.progressForm = this.fb.group({
       Id: [null, []],
-      Quiz: ['', [Validators.required]],
-      FillBlanks: ['', [Validators.required]],
-      TrueFalse: ['', [Validators.required]],
+      quiz: ['', [Validators.required]],
+      fillblanks: ['', [Validators.required]],
+      truefalse: ['', [Validators.required]],
     });
   }
 
@@ -109,9 +109,9 @@ export class ProgressComponent implements OnInit {
     if (this.progressForm.valid) {
       const progress = {
         ...this.progressForm.value,
-        Quiz: Number(this.progressForm.value.Quiz),
-        FillBlanks: Number(this.progressForm.value.FillBlanks),
-        TrueFalse: Number(this.progressForm.value.TrueFalse),
+        quiz: Number(this.progressForm.value.quiz),
+        fillblanks: Number(this.progressForm.value.fillblanks),
+        truefalse: Number(this.progressForm.value.truefalse),
         school: this.schoolId,
         standard: this.standardId,
         student: this.studentId,

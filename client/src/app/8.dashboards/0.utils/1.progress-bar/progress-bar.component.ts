@@ -5,17 +5,24 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-export interface IChildNode {
-  Id: number;
-  name: string;
-  score: number;
-}
 export interface IParentNode {
   Id: number;
   name: string;
   score: number;
   expanded: boolean;
   childList: IChildNode[];
+}
+export interface IChildNode {
+  Id: number;
+  name: string;
+  score: number;
+  grandChildList?: IGrandChildNode[] | null;
+}
+
+export interface IGrandChildNode {
+  Id: number;
+  name: string;
+  score: number;
 }
 
 @Component({
@@ -33,11 +40,16 @@ export interface IParentNode {
 })
 export class UtilProgressBarComponent {
   @Input() parentList: IParentNode[] = [];
+  @Output() onParentClick = new EventEmitter<number>();
   @Output() onChildClick = new EventEmitter<{
     parentId: number;
     childId: number;
   }>();
-  @Output() onParentClick = new EventEmitter<number>();
+  @Output() onGrandChildClick = new EventEmitter<{
+    parentId: number;
+    childId: number;
+    grandChildId: number;
+  }>();
 
   constructor() {}
 
@@ -59,6 +71,18 @@ export class UtilProgressBarComponent {
       `Child clicked: Parent ID = ${parentId}, Child ID = ${childId}`
     );
     this.onChildClick.emit({ parentId, childId });
+    event.stopPropagation();
+  }
+  onEachGrandChildClick(
+    parentId: number,
+    childId: number,
+    grandChildId: number,
+    event: Event
+  ) {
+    console.log(
+      `Child clicked: Parent ID = ${parentId}, Child ID = ${childId} Grand Child ID = ${grandChildId}`
+    );
+    this.onGrandChildClick.emit({ parentId, childId, grandChildId });
     event.stopPropagation();
   }
 }

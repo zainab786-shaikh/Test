@@ -37,7 +37,8 @@ export class RepoProgressImpl implements IRepoProgress {
     inStandardId: number,
     inStudentId: number,
     inSubjectId: number,
-    inLessonId: number
+    inLessonId: number,
+    inLessonSectionId: number
   ): Promise<IProgress | null> {
     const ProgressModel = this.getModel(DTOProgress);
     const foundObj = await ProgressModel.findOne({
@@ -47,6 +48,7 @@ export class RepoProgressImpl implements IRepoProgress {
         student: inStudentId,
         subject: inSubjectId,
         lesson: inLessonId,
+        lessonsection: inLessonSectionId,
       },
     });
 
@@ -146,14 +148,15 @@ export class RepoProgressImpl implements IRepoProgress {
   convertToObject(srcObject: DTOProgress): IProgress {
     return {
       Id: srcObject.Id,
-      Quiz: srcObject.Quiz,
-      FillBlanks: srcObject.FillBlanks,
-      TrueFalse: srcObject.TrueFalse,
+      quiz: srcObject.quiz,
+      fillblanks: srcObject.fillblanks,
+      truefalse: srcObject.truefalse,
       school: srcObject.school,
       standard: srcObject.standard,
       student: srcObject.student,
       subject: srcObject.subject,
       lesson: srcObject.lesson,
+      lessonsection: srcObject.lessonsection,
     };
   }
 }

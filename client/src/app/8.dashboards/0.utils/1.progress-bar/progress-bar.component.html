@@ -9,7 +9,7 @@
         <mat-panel-title class="mat-progress-bar-title-container">
           <span
             matTooltip="{{ eachParent.name }}"
-            class="mat-progress-bar-subject-name"
+            class="mat-progress-bar-name"
             >{{ eachParent.name }}</span
           >
           <mat-progress-bar
@@ -23,23 +23,56 @@
         *ngFor="let eachChild of eachParent.childList"
         class="mat-progress-bar-progress-container"
       >
-        <button
-          mat-button
-          (click)="onEachChildClick(eachParent.Id, eachChild.Id, $event)"
-        >
-          <span
-            matTooltip="{{ eachChild.name }}"
-            class="mat-progress-bar-subject-name"
+        <div class="progress-bar-child">
+          <button
+            mat-button
+            (click)="onEachChildClick(eachParent.Id, eachChild.Id, $event)"
           >
-            {{ eachChild.name }}
-          </span>
-          <mat-progress-bar
-            class="mat-progress-bar-progress-bar"
-            mode="determinate"
-            [value]="eachChild.score"
+            <span
+              matTooltip="{{ eachChild.name }}"
+              class="mat-progress-bar-name"
+            >
+              {{ eachChild.name }}
+            </span>
+            <mat-progress-bar
+              class="mat-progress-bar-progress-bar"
+              mode="determinate"
+              [value]="eachChild.score"
+            >
+            </mat-progress-bar>
+          </button>
+        </div>
+        <div *ngIf="eachChild.grandChildList">
+          <div
+            *ngFor="let eachGrandChild of eachChild.grandChildList"
+            class="progress-bar-grandchild"
           >
-          </mat-progress-bar>
-        </button>
+            <button
+              mat-button
+              (click)="
+                onEachGrandChildClick(
+                  eachParent.Id,
+                  eachChild.Id,
+                  eachGrandChild.Id,
+                  $event
+                )
+              "
+            >
+              <span
+                matTooltip="{{ eachGrandChild.name }}"
+                class="mat-progress-bar-name"
+              >
+                {{ eachGrandChild.name }}
+              </span>
+              <mat-progress-bar
+                class="mat-progress-bar-progress-bar"
+                mode="determinate"
+                [value]="eachGrandChild.score"
+              >
+              </mat-progress-bar>
+            </button>
+          </div>
+        </div>
       </div>
     </mat-expansion-panel>
   </mat-card>

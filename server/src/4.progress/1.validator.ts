@@ -4,9 +4,9 @@ import { handleValidationError } from "../common/validation-error";
 
 const progressSchema = z.object({
   Id: z.number().min(1).max(9999).nullable().optional(),
-  Quiz: z.number().max(100),
-  FillBlanks: z.number().max(100),
-  TrueFalse: z.number().max(100),
+  quiz: z.number().max(100),
+  fillblanks: z.number().max(100),
+  truefalse: z.number().max(100),
   school: z.number().min(1).max(9999).nullable().optional(),
   standard: z.number().min(1).max(9999).nullable().optional(),
   student: z.number().min(1).max(9999).nullable().optional(),

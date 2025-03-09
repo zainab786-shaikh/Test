@@ -3,14 +3,15 @@ import { IProgress } from "./0.model";
 
 export class DTOProgress extends Model {
   Id?: number;
-  Quiz!: number;
-  FillBlanks!: number;
-  TrueFalse!: number;
+  quiz!: number;
+  fillblanks!: number;
+  truefalse!: number;
   school?: number;
   standard?: number;
   student?: number;
   subject?: number;
   lesson?: number;
+  lessonsection?: number;
 }
 
 export const initDTOProgressModel = (
@@ -25,15 +26,15 @@ export const initDTOProgressModel = (
         autoIncrement: true,
         primaryKey: true,
       },
-      Quiz: {
+      quiz: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      FillBlanks: {
+      fillblanks: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      TrueFalse: {
+      truefalse: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
@@ -72,7 +73,8 @@ export const initDTOProgressModel = (
       },
       subject: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
+        defaultValue: null,
         references: {
           model: {
             schema: schemaName,
@@ -83,11 +85,24 @@ export const initDTOProgressModel = (
       },
       lesson: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
+        defaultValue: null,
         references: {
           model: {
             schema: schemaName,
             tableName: "lesson",
+          },
+          key: "Id",
+        },
+      },
+      lessonsection: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: null,
+        references: {
+          model: {
+            schema: schemaName,
+            tableName: "lessonsection",
           },
           key: "Id",
         },

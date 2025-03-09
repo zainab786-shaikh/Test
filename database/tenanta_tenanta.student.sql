@@ -33,7 +33,7 @@ CREATE TABLE `tenanta.student` (
   KEY `standard` (`standard`),
   CONSTRAINT `tenanta.student_ibfk_1` FOREIGN KEY (`school`) REFERENCES `tenanta.school` (`Id`),
   CONSTRAINT `tenanta.student_ibfk_2` FOREIGN KEY (`standard`) REFERENCES `tenanta.standard` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `tenanta.student` (
 
 LOCK TABLES `tenanta.student` WRITE;
 /*!40000 ALTER TABLE `tenanta.student` DISABLE KEYS */;
-INSERT INTO `tenanta.student` VALUES (1,'Arif','3333-3333-3333',1,1),(2,'tarique','1234-1234-1234',1,1),(3,'Aun','1234-1234-1234',1,1),(4,'amjali','1234-1234-1234',1,2),(5,'geetanjali','1234-1234-1234',1,2),(6,'Maheshwari','1234-1234-1234',1,2);
+INSERT INTO `tenanta.student` VALUES (8,'Arif Shaikh','3333-3333-3333',1,1),(9,'Tarique Shaikh','3333-3333-3334',1,1);
 /*!40000 ALTER TABLE `tenanta.student` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-03-09 16:02:54
+-- Dump completed on 2025-03-09 19:57:48

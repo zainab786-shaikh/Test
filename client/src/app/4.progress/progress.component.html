@@ -14,17 +14,17 @@
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="Quiz">
         <th mat-header-cell *matHeaderCellDef>Quiz</th>
-        <td mat-cell *matCellDef="let element">{{ element.Quiz }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.quiz }}</td>
       </ng-container>
 
       <ng-container matColumnDef="FillBlanks">
         <th mat-header-cell *matHeaderCellDef>FillBlanks</th>
-        <td mat-cell *matCellDef="let element">{{ element.FillBlanks }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.fillblanks }}</td>
       </ng-container>
 
       <ng-container matColumnDef="TrueFalse">
         <th mat-header-cell *matHeaderCellDef>TrueFalse</th>
-        <td mat-cell *matCellDef="let element">{{ element.TrueFalse }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.truefalse }}</td>
       </ng-container>
 
       <ng-container matColumnDef="School">
@@ -93,24 +93,24 @@
     >
       <mat-form-field appearance="fill">
         <mat-label>Quiz</mat-label>
-        <input matInput formControlName="Quiz" />
-        <mat-error *ngFor="let error of getErrorMessages('Quiz')">{{
+        <input matInput formControlName="quiz" />
+        <mat-error *ngFor="let error of getErrorMessages('quiz')">{{
           error
         }}</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label>FillBlanks</mat-label>
-        <input matInput formControlName="FillBlanks" />
-        <mat-error *ngFor="let error of getErrorMessages('FillBlanks')">{{
+        <input matInput formControlName="fillblanks" />
+        <mat-error *ngFor="let error of getErrorMessages('fillblanks')">{{
           error
         }}</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label>TrueFalse</mat-label>
-        <input matInput formControlName="TrueFalse" />
-        <mat-error *ngFor="let error of getErrorMessages('TrueFalse')">{{
+        <input matInput formControlName="truefalse" />
+        <mat-error *ngFor="let error of getErrorMessages('truefalse')">{{
           error
         }}</mat-error>
       </mat-form-field>

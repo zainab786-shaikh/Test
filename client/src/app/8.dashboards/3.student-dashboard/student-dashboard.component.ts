@@ -8,6 +8,7 @@ import { PlotlyModule } from 'angular-plotly.js';
 import {
   DashboardServiceHelper,
   IChildNode,
+  IGrandChildNode,
 } from '../dashboard.component.servicehelper';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -19,9 +20,15 @@ import {
 import { BarPlotter } from '../dashboard.component.servicePlotter';
 import { ProgressService } from '../../4.progress/progress.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { IProgress } from '../../4.progress/progress.model';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
+enum tagChildList {
+  completed,
+  next,
+  pending,
+}
 @Component({
   selector: 'app-student-dashboard',
   imports: [
@@ -48,6 +55,11 @@ export class StudentDashboardComponent {
   perfPerSubject!: IChildNode[];
   perfPerLesson!: IChildNode[];
 
+  lessonSectionData!: {
+    completed: IParentNode[];
+    next: IParentNode[];
+    pending: IParentNode[];
+  };
   completedLessonSectionData!: IParentNode[];
   nextLessonSectionData!: IParentNode[];
   pendingLessonSectionData!: IParentNode[];
@@ -80,7 +92,7 @@ export class StudentDashboardComponent {
           this.perfPerSubject = this.serviceHelper.getPerfPerSubject(data);
           this.completedLessonSectionData = this.perfPerSubject.map(
             (eachSubject) => {
-              let lessonList = data.filter(
+              let lessonInSubjectProgressList = data.filter(
                 (eachProgress) => eachProgress.subject == eachSubject.Id
               );
 
@@ -89,40 +101,12 @@ export class StudentDashboardComponent {
                 name: eachSubject.name,
                 score: eachSubject.score,
                 expanded: false,
-                childList: lessonList.map((eachLesson) => {
-                  let lessonSectionList = data.filter(
-                    (eachProgress) =>
-                      eachProgress.subject == eachLesson.subject &&
-                      eachProgress.lessonsection == eachLesson.Id
-                  );
-
-                  return {
-                    Id: eachSubject.Id,
-                    name: eachSubject.name,
-                    score: eachSubject.score,
-                    expanded: false,
-                    grandChildList:
-                      this.serviceHelper.getPerfPerLessonSectionCompleted(
-                        lessonSectionList
-                      ),
-                  };
-                }),
-              };
-            }
-          );
-
-          this.pendingLessonSectionData = this.perfPerSubject.map(
-            (eachSubject) => {
-              let lessonList = data.filter(
-                (eachProgress) => eachProgress.subject == eachSubject.Id
-              );
-              return {
-                Id: eachSubject.Id,
-                name: eachSubject.name,
-                score: eachSubject.score,
-                expanded: false,
-                childList:
-                  this.serviceHelper.notStartedLessonSectionData(lessonList),
+                childList: this.GetChildList(
+                  data,
+                  eachSubject,
+                  lessonInSubjectProgressList,
+                  tagChildList.completed
+                ),
               };
             }
           );
@@ -132,16 +116,88 @@ export class StudentDashboardComponent {
               let lessonList = data.filter(
                 (eachProgress) => eachProgress.subject == eachSubject.Id
               );
+
               return {
                 Id: eachSubject.Id,
                 name: eachSubject.name,
                 score: eachSubject.score,
                 expanded: false,
-                childList: this.serviceHelper.nextLessonSectionData(lessonList),
+                childList: this.GetChildList(
+                  data,
+                  eachSubject,
+                  lessonList,
+                  tagChildList.next
+                ),
+              };
+            }
+          );
+
+          this.pendingLessonSectionData = this.perfPerSubject.map(
+            (eachSubject) => {
+              let lessonList = data.filter(
+                (eachProgress) => eachProgress.subject == eachSubject.Id
+              );
+
+              return {
+                Id: eachSubject.Id,
+                name: eachSubject.name,
+                score: eachSubject.score,
+                expanded: false,
+                childList: this.GetChildList(
+                  data,
+                  eachSubject,
+                  lessonList,
+                  tagChildList.pending
+                ),
               };
             }
           );
         });
+    });
+  }
+
+  private GetChildList(
+    data: IProgress[],
+    eachSubject: IChildNode,
+    lessonInSubjectProgressList: IProgress[],
+    state: tagChildList
+  ): {
+    Id: number;
+    name: string;
+    score: number;
+    expanded: boolean;
+    grandChildList?: IGrandChildNode[] | null;
+  }[] {
+    const lessonInSubjectList = this.serviceHelper.getPerfPerLesson(
+      lessonInSubjectProgressList
+    );
+    return lessonInSubjectList.map((eachLesson) => {
+      let lessonSectionProgressList = data.filter(
+        (eachProgress) => eachProgress.lesson == eachLesson.Id
+      );
+
+      let retValue = null;
+      if (state == tagChildList.completed) {
+        retValue = this.serviceHelper.getPerfPerLessonSectionCompleted(
+          lessonSectionProgressList
+        );
+      } else if (state == tagChildList.next) {
+        retValue = this.serviceHelper.nextLessonSectionData(
+          lessonSectionProgressList
+        );
+      } else if (state == tagChildList.pending) {
+        retValue = this.serviceHelper.notStartedLessonSectionData(
+          lessonSectionProgressList
+        );
+      }
+
+      return {
+        Id: eachLesson.Id,
+        name: eachLesson.name,
+        score: eachLesson.score,
+        expanded: false,
+        grandChildList: retValue,
+      };
     });
   }
 

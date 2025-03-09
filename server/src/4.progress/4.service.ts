@@ -54,14 +54,16 @@ export class ServiceProgressImpl implements IServiceProgress {
       inProgressInfo.standard &&
       inProgressInfo.student &&
       inProgressInfo.subject &&
-      inProgressInfo.lesson
+      inProgressInfo.lesson &&
+      inProgressInfo.lessonsection
     ) {
       foundProgress = await this.repoService.isExistProgress(
         inProgressInfo.school,
         inProgressInfo.standard,
         inProgressInfo.student,
         inProgressInfo.subject,
-        inProgressInfo.lesson
+        inProgressInfo.lesson,
+        inProgressInfo.lessonsection
       );
     }
 

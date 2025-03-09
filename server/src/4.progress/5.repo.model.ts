@@ -10,7 +10,8 @@ export interface IRepoProgress {
     inStandardId: number,
     inStudentId: number,
     inSubjectId: number,
-    inLessonId: number
+    inLessonId: number,
+    inLessonSectionId: number
   ): Promise<IProgress | null>;
 
   getAllSchool(inSchoolId: number): Promise<IProgress[] | null>;
