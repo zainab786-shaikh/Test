@@ -26,7 +26,7 @@ CREATE TABLE `tenanta.standard` (
   `Id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -35,7 +35,7 @@ CREATE TABLE `tenanta.standard` (
 
 LOCK TABLES `tenanta.standard` WRITE;
 /*!40000 ALTER TABLE `tenanta.standard` DISABLE KEYS */;
-INSERT INTO `tenanta.standard` VALUES (1,'5th Standard'),(2,'6th Standard'),(3,'7th Standard');
+INSERT INTO `tenanta.standard` VALUES (1,'1st Semester'),(2,'2nd Semester'),(3,'3rd Semester'),(4,'4th Semester'),(5,'5th Semester'),(6,'6th Semester');
 /*!40000 ALTER TABLE `tenanta.standard` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -48,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-03-08 17:11:30
+-- Dump completed on 2025-03-09 16:02:52

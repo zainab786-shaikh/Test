@@ -55,6 +55,11 @@ import { IServiceLesson } from "../7.lesson/3.service.model";
 import { ServiceLessonImpl } from "../7.lesson/4.service";
 import { IRepoLesson } from "../7.lesson/5.repo.model";
 import { RepoLessonImpl } from "../7.lesson/6.repo";
+import { ControllerLessonSection } from "../7.lessonsection/2.controller";
+import { IServiceLessonSection } from "../7.lessonsection/3.service.model";
+import { ServiceLessonSectionImpl } from "../7.lessonsection/4.service";
+import { RepoLessonSectionImpl } from "../7.lessonsection/6.repo";
+import { IRepoLessonSection } from "../7.lessonsection/5.repo.model";
 
 const container = new Container();
 container.bind<ILogger>(TYPES.LoggerService).to(LoggerService);
@@ -112,5 +117,15 @@ container.bind<IRepoSubject>(TYPES.RepoSubject).to(RepoSubjectImpl);
 container.bind<ControllerLesson>(TYPES.ControllerLesson).to(ControllerLesson);
 container.bind<IServiceLesson>(TYPES.ServiceLesson).to(ServiceLessonImpl);
 container.bind<IRepoLesson>(TYPES.RepoLesson).to(RepoLessonImpl);
+
+container
+  .bind<ControllerLessonSection>(TYPES.ControllerLessonSection)
+  .to(ControllerLessonSection);
+container
+  .bind<IServiceLessonSection>(TYPES.ServiceLessonSection)
+  .to(ServiceLessonSectionImpl);
+container
+  .bind<IRepoLessonSection>(TYPES.RepoLessonSection)
+  .to(RepoLessonSectionImpl);
 
 export { container };

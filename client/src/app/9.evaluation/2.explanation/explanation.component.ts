@@ -11,5 +11,6 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class ExplanationComponent {
   @Input() lessonId!: number;
+  @Input() lessonsectionId!: number;
   @Input() explanationText: string = 'This is a default explanation.';
 }

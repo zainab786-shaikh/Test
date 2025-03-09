@@ -15,7 +15,6 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { ILesson } from './lesson.model';
 import { LessonService } from './lesson.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-lesson',
@@ -34,14 +33,7 @@ import { Observable } from 'rxjs';
 export class LessonComponent implements OnInit {
   subjectId = 0;
 
-  displayedColumns: string[] = [
-    'Name',
-    'Explanation',
-    'Quiz',
-    'FillBlanks',
-    'TrueFalse',
-    'actions',
-  ];
+  displayedColumns: string[] = ['name', 'actions'];
   dataSource: ILesson[] = [];
   isFormVisible = false;
   isEditMode = false;
@@ -68,51 +60,17 @@ export class LessonComponent implements OnInit {
       this.dataSource = data;
     });
   }
-  loadSingleLessons(lessonId: number): Observable<ILesson> {
-    return this.lessonService.get(lessonId);
-  }
 
   initForm(): void {
     this.lessonForm = this.fb.group({
       Id: [null, []],
-      Name: [
+      name: [
         '',
         [
           Validators.required,
           Validators.minLength(3),
-          Validators.maxLength(2048),
-        ],
-      ],
-      Explanation: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(102400),
-        ],
-      ],
-      Quiz: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(102400),
-        ],
-      ],
-      FillBlanks: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(102400),
-        ],
-      ],
-      TrueFalse: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(102400),
+          Validators.maxLength(255),
+          Validators.pattern('^[A-Za-z0-9 ]+$'),
         ],
       ],
     });
@@ -128,17 +86,22 @@ export class LessonComponent implements OnInit {
     this.isFormVisible = true;
     this.isEditMode = true;
     this.currentLessonId = lesson.Id ?? null;
-    if (this.currentLessonId) {
-      this.loadSingleLessons(this.currentLessonId).subscribe((lessonData) => {
-        this.lessonForm.patchValue(lessonData);
-      });
-    }
+    this.lessonForm.patchValue(lesson);
   }
 
   deleteLesson(lessonId: number): void {
     this.lessonService.delete(lessonId).subscribe(() => {
       this.loadLessons();
     });
+  }
+
+  onLessonSections(lessonId: number) {
+    this.router.navigate([
+      'lessonsection/subject',
+      this.subjectId,
+      'lesson',
+      lessonId,
+    ]);
   }
 
   onSubmit(): void {

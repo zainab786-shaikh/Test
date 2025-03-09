@@ -43,6 +43,7 @@ export class ProgressComponent implements OnInit {
     'Standard',
     'Subject',
     'Lesson',
+    'LessonSection',
     'actions',
   ];
   dataSource: IProgress[] = [];

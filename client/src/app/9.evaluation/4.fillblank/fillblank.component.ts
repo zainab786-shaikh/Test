@@ -21,6 +21,7 @@ import { IFillBlankComponent } from './fillblank.component.model';
 })
 export class FillBlankComponent implements OnInit {
   @Input() lessonId!: number;
+  @Input() lessonsectionId!: number;
   @Output() score = new EventEmitter<number>(); // Ensure this emits a number
 
   fillBlanks: IFillBlankComponent[] = [];

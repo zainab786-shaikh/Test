@@ -33,6 +33,7 @@ export class EvaluationComponent {
   studentId = 1;
   subjectId = 1;
   lessonId = 1;
+  lessonsectionId = 1;
 
   steps = ['Explanation', 'Quiz', 'TrueFalse', 'FillBlank'];
   currentStep = 0;
@@ -53,20 +54,22 @@ export class EvaluationComponent {
       this.studentId = +params['studentId'];
       this.subjectId = +params['subjectId'];
       this.lessonId = +params['lessonId'];
+      this.lessonsectionId = +params['lessonsectionId'];
     });
   }
 
   doneStep() {
     this.progressService
       .add({
-        Quiz: this.quizScore,
-        FillBlanks: this.fillBlankScore,
-        TrueFalse: this.trueFalseScore,
+        quiz: this.quizScore,
+        fillblanks: this.fillBlankScore,
+        truefalse: this.trueFalseScore,
         school: this.schoolId,
         standard: this.standardId,
         student: this.studentId,
         subject: this.subjectId,
         lesson: this.lessonId,
+        lessonsection: this.lessonsectionId,
       })
       .subscribe((data) => {
         this.router.navigate([

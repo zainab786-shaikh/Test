@@ -23,6 +23,7 @@ import { IQuizComponent } from './quiz.component.model';
 })
 export class QuizComponent implements OnInit {
   @Input() lessonId!: number;
+  @Input() lessonsectionId!: number;
   @Output() score = new EventEmitter<number>(); // Ensure this emits a number
 
   quizzes: IQuizComponent[] = [];

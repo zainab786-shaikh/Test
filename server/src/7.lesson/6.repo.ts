@@ -37,9 +37,7 @@ export class RepoLessonImpl implements IRepoLesson {
     const foundObj = await LessonModel.findAll<DTOLesson>({
       where: { subject: inSubjectId },
     });
-    return foundObj?.map((eachObj) =>
-      this.convertToShortObject(eachObj.dataValues)
-    );
+    return foundObj?.map((eachObj) => this.convertToObject(eachObj.dataValues));
   }
 
   async getById(inLessonId: number): Promise<ILesson | null> {
@@ -92,23 +90,7 @@ export class RepoLessonImpl implements IRepoLesson {
   convertToObject(srcObject: DTOLesson): ILesson {
     return {
       Id: srcObject.Id,
-      Name: srcObject.Name,
-      Explanation: srcObject.Explanation,
-      Quiz: srcObject.Quiz,
-      FillBlanks: srcObject.FillBlanks,
-      TrueFalse: srcObject.TrueFalse,
-      subject: srcObject.subject,
-    };
-  }
-
-  convertToShortObject(srcObject: DTOLesson): ILesson {
-    return {
-      Id: srcObject.Id,
-      Name: srcObject.Name,
-      Explanation: srcObject.Explanation?.slice(0, 1000),
-      Quiz: srcObject.Quiz?.slice(0, 1000),
-      FillBlanks: srcObject.FillBlanks?.slice(0, 1000),
-      TrueFalse: srcObject.TrueFalse?.slice(0, 1000),
+      name: srcObject.name,
       subject: srcObject.subject,
     };
   }

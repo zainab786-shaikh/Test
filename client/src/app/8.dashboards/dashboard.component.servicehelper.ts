@@ -23,18 +23,28 @@ import { SubjectService } from '../6.subject/subject.service';
 import { LessonService } from '../7.lesson/lesson.service';
 import { StudentService } from '../3.student/student.service';
 import { StandardService } from '../5.standard/standard.service';
+import { LessonSectionService } from '../7.lessonsection/lessonsection.service';
+import { ILessonSection } from '../7.lessonsection/lessonsection.model';
 
-export interface IChildNode {
-  Id: number;
-  name: string;
-  score: number;
-}
 export interface IParentNode {
   Id: number;
   name: string;
   score: number;
   expanded: boolean;
   childList: IChildNode[];
+}
+
+export interface IChildNode {
+  Id: number;
+  name: string;
+  score: number;
+  grandchildList?: IGrandChildNode[];
+}
+
+export interface IGrandChildNode {
+  Id: number;
+  name: string;
+  score: number;
 }
 
 @Injectable({
@@ -47,15 +57,17 @@ export class DashboardServiceHelper {
   standards!: IStandard[];
   subjects!: ISubject[];
   lessons!: ILesson[];
+  lessonsections!: ILessonSection[];
 
   //====================================| Dummy Data
   constructor(
     private schoolService: SchoolService,
     private schoolStandardService: SchoolStandardService,
     private standardService: StandardService,
+    private studentService: StudentService,
     private subjectService: SubjectService,
     private lessonService: LessonService,
-    private studentService: StudentService
+    private lessonSectionService: LessonSectionService
   ) {}
 
   public initializeDashboardData(inSchoolId: number): Observable<void> {
@@ -78,8 +90,12 @@ export class DashboardServiceHelper {
         this.students = students;
         return this.getLessons(subjects);
       }),
-      map((lessons) => {
+      switchMap((lessons) => {
         this.lessons = lessons;
+        return this.getLessonSections(lessons);
+      }),
+      map((lessonSections) => {
+        this.lessonsections = lessonSections;
       })
     );
   }
@@ -118,10 +134,20 @@ export class DashboardServiceHelper {
     );
   }
 
+  private getLessonSections(lessons: ILesson[]) {
+    return from(lessons).pipe(
+      mergeMap((lessons) =>
+        this.lessonSectionService.getAll(lessons.subject!, lessons.Id!)
+      ),
+      toArray(),
+      map((lessonSectionList) => lessonSectionList.flat())
+    );
+  }
+
   //==========================================================| Overall Performance
   public getOverallPerformance(progressList: IProgress[]): number {
     const total = progressList.reduce(
-      (sum, p) => sum + p.Quiz + p.FillBlanks + p.TrueFalse,
+      (sum, p) => sum + p.quiz + p.fillblanks + p.truefalse,
       0
     );
     return total / (progressList.length * 3);
@@ -137,7 +163,7 @@ export class DashboardServiceHelper {
       }
       let std = standardMap.get(p.standard!)!;
 
-      std.score += p.Quiz + p.FillBlanks + p.TrueFalse;
+      std.score += p.quiz + p.fillblanks + p.truefalse;
       std.count += 3;
     });
 
@@ -157,7 +183,7 @@ export class DashboardServiceHelper {
       }
       let subj = subjectMap.get(p.subject!)!;
 
-      subj.score += p.Quiz + p.FillBlanks + p.TrueFalse;
+      subj.score += p.quiz + p.fillblanks + p.truefalse;
       subj.count += 3;
     });
 
@@ -176,7 +202,7 @@ export class DashboardServiceHelper {
         studentMap.set(p.student!, { score: 0, count: 0 });
       }
       let student = studentMap.get(p.student!)!;
-      student.score += p.Quiz + p.FillBlanks + p.TrueFalse;
+      student.score += p.quiz + p.fillblanks + p.truefalse;
       student.count += 3;
     });
 
@@ -195,32 +221,65 @@ export class DashboardServiceHelper {
         lessonMap.set(p.lesson!, { score: 0, count: 0 });
       }
       let lesson = lessonMap.get(p.lesson!)!;
-      lesson.score += p.Quiz + p.FillBlanks + p.TrueFalse;
+      lesson.score += p.quiz + p.fillblanks + p.truefalse;
       lesson.count += 3;
     });
 
     return Array.from(lessonMap.entries()).map(([lessonId, data]) => {
       return {
         Id: lessonId || 0,
-        name: this.lessons.find((s) => s.Id === lessonId)?.Name || 'Unknown',
+        name: this.lessons.find((s) => s.Id === lessonId)?.name || 'Unknown',
         score: data.score / data.count,
       };
     });
   }
 
-  public getPerfPerLessonCompleted(progressList: IProgress[]): IChildNode[] {
-    let perfPerLesson = this.getPerfPerLesson(progressList);
-    return perfPerLesson.filter((eachLesson) => eachLesson.score > 90);
+  public getPerfPerLessonSection(progressList: IProgress[]): IChildNode[] {
+    const lessonSectionMap = new Map<
+      number,
+      { score: number; count: number }
+    >();
+    progressList.forEach((p) => {
+      if (!lessonSectionMap.has(p.lessonsection!)) {
+        lessonSectionMap.set(p.lessonsection!, { score: 0, count: 0 });
+      }
+      let lessonsection = lessonSectionMap.get(p.lessonsection!)!;
+      lessonsection.score += p.quiz + p.fillblanks + p.truefalse;
+      lessonsection.count += 3;
+    });
+
+    return Array.from(lessonSectionMap.entries()).map(
+      ([lessonsectionId, data]) => {
+        return {
+          Id: lessonsectionId || 0,
+          name:
+            this.lessonsections.find((s) => s.Id === lessonsectionId)?.name ||
+            'Unknown',
+          score: data.score / data.count,
+        };
+      }
+    );
   }
 
-  public notStartedLessonData(progressList: IProgress[]): IChildNode[] {
-    let perfPerLesson = this.getPerfPerLesson(progressList);
-    return perfPerLesson.filter((eachLesson) => eachLesson.score < 90);
+  //==========================================================| Each Latest Assesment
+  public getPerfPerLessonSectionCompleted(
+    progressList: IProgress[]
+  ): IChildNode[] {
+    let perfPerLessonSection = this.getPerfPerLessonSection(progressList);
+    return perfPerLessonSection.filter(
+      (eachLessonSection) => eachLessonSection.score > 90
+    );
   }
-  public nextLessonData(progressList: IProgress[]): IChildNode[] {
-    let perfPerLesson = this.getPerfPerLesson(progressList);
-    return perfPerLesson
-      .filter((eachLesson) => eachLesson.score < 90)
+  public notStartedLessonSectionData(progressList: IProgress[]): IChildNode[] {
+    let perfPerLessonSection = this.getPerfPerLessonSection(progressList);
+    return perfPerLessonSection.filter(
+      (eachLessonSection) => eachLessonSection.score < 90
+    );
+  }
+  public nextLessonSectionData(progressList: IProgress[]): IChildNode[] {
+    let perfPerLessonSection = this.getPerfPerLessonSection(progressList);
+    return perfPerLessonSection
+      .filter((eachLessonSection) => eachLessonSection.score < 90)
       .sort()
       .slice(0, 1);
   }

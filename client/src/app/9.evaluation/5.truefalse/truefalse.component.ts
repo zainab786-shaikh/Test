@@ -21,6 +21,7 @@ import { ITrueFalseComponent } from './truefalse.component.model';
 })
 export class TrueFalseComponent implements OnInit {
   @Input() lessonId!: number;
+  @Input() lessonsectionId!: number;
   @Output() score = new EventEmitter<number>(); // Ensure this emits a number
 
   trueFalseQuestions: ITrueFalseComponent[] = [];

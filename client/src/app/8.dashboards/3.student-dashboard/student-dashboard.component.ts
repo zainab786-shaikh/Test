@@ -46,10 +46,11 @@ export class StudentDashboardComponent {
   perfOverallPlotter: BarPlotter = new BarPlotter([], [], 'Loading...'); // Initialize with default
 
   perfPerSubject!: IChildNode[];
-  
-  completedLessonData!: IParentNode[];
-  nextLessonData!: IParentNode[];
-  pendingLessonData!: IParentNode[];
+  perfPerLesson!: IChildNode[];
+
+  completedLessonSectionData!: IParentNode[];
+  nextLessonSectionData!: IParentNode[];
+  pendingLessonSectionData!: IParentNode[];
 
   constructor(
     private route: ActivatedRoute,
@@ -77,45 +78,69 @@ export class StudentDashboardComponent {
           );
 
           this.perfPerSubject = this.serviceHelper.getPerfPerSubject(data);
-          this.completedLessonData = this.perfPerSubject.map((eachSubject) => {
-            let lessonList = data.filter(
-              (eachProgress) => eachProgress.subject == eachSubject.Id
-            );
-            return {
-              Id: eachSubject.Id,
-              name: eachSubject.name,
-              score: eachSubject.score,
-              expanded: false,
-              childList:
-                this.serviceHelper.getPerfPerLessonCompleted(lessonList),
-            };
-          });
+          this.completedLessonSectionData = this.perfPerSubject.map(
+            (eachSubject) => {
+              let lessonList = data.filter(
+                (eachProgress) => eachProgress.subject == eachSubject.Id
+              );
 
-          this.pendingLessonData = this.perfPerSubject.map((eachSubject) => {
-            let lessonList = data.filter(
-              (eachProgress) => eachProgress.subject == eachSubject.Id
-            );
-            return {
-              Id: eachSubject.Id,
-              name: eachSubject.name,
-              score: eachSubject.score,
-              expanded: false,
-              childList: this.serviceHelper.notStartedLessonData(lessonList),
-            };
-          });
+              return {
+                Id: eachSubject.Id,
+                name: eachSubject.name,
+                score: eachSubject.score,
+                expanded: false,
+                childList: lessonList.map((eachLesson) => {
+                  let lessonSectionList = data.filter(
+                    (eachProgress) =>
+                      eachProgress.subject == eachLesson.subject &&
+                      eachProgress.lessonsection == eachLesson.Id
+                  );
 
-          this.nextLessonData = this.perfPerSubject.map((eachSubject) => {
-            let lessonList = data.filter(
-              (eachProgress) => eachProgress.subject == eachSubject.Id
-            );
-            return {
-              Id: eachSubject.Id,
-              name: eachSubject.name,
-              score: eachSubject.score,
-              expanded: false,
-              childList: this.serviceHelper.nextLessonData(lessonList),
-            };
-          });
+                  return {
+                    Id: eachSubject.Id,
+                    name: eachSubject.name,
+                    score: eachSubject.score,
+                    expanded: false,
+                    grandChildList:
+                      this.serviceHelper.getPerfPerLessonSectionCompleted(
+                        lessonSectionList
+                      ),
+                  };
+                }),
+              };
+            }
+          );
+
+          this.pendingLessonSectionData = this.perfPerSubject.map(
+            (eachSubject) => {
+              let lessonList = data.filter(
+                (eachProgress) => eachProgress.subject == eachSubject.Id
+              );
+              return {
+                Id: eachSubject.Id,
+                name: eachSubject.name,
+                score: eachSubject.score,
+                expanded: false,
+                childList:
+                  this.serviceHelper.notStartedLessonSectionData(lessonList),
+              };
+            }
+          );
+
+          this.nextLessonSectionData = this.perfPerSubject.map(
+            (eachSubject) => {
+              let lessonList = data.filter(
+                (eachProgress) => eachProgress.subject == eachSubject.Id
+              );
+              return {
+                Id: eachSubject.Id,
+                name: eachSubject.name,
+                score: eachSubject.score,
+                expanded: false,
+                childList: this.serviceHelper.nextLessonSectionData(lessonList),
+              };
+            }
+          );
         });
     });
   }

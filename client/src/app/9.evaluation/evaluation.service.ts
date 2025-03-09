@@ -8,7 +8,7 @@ import { IFillInTheBlank, IQuiz, ITrueFalse } from './evaluation.service.model';
   providedIn: 'root',
 })
 export class EvaluationService {
-  private apiUrl = 'http://localhost:3000/v1/lesson';
+  private apiUrl = 'http://localhost:3000/v1/lessonsection';
   NUMBER_OF_QUESTIONS = 3;
 
   // Define the headers
@@ -33,9 +33,11 @@ export class EvaluationService {
     return { ...quiz, options, answer: options.indexOf(correctAnswer) };
   }
 
-  getQuizzes(lessonId: number): Observable<IQuiz[]> {
+  getQuizzes(lessonSectionId: number): Observable<IQuiz[]> {
     return this.http
-      .get<string>(`${this.apiUrl}/${lessonId}/quiz`, { headers: this.headers })
+      .get<string>(`${this.apiUrl}/${lessonSectionId}/quiz`, {
+        headers: this.headers,
+      })
       .pipe(
         map((response) => {
           const quizzes: IQuiz[] = JSON.parse(response);
@@ -46,9 +48,9 @@ export class EvaluationService {
       );
   }
 
-  getFillBlanks(lessonId: number): Observable<IFillInTheBlank[]> {
+  getFillBlanks(lessonSectionId: number): Observable<IFillInTheBlank[]> {
     return this.http
-      .get<string>(`${this.apiUrl}/${lessonId}/fillblank`, {
+      .get<string>(`${this.apiUrl}/${lessonSectionId}/fillblank`, {
         headers: this.headers,
       })
       .pipe(
@@ -59,9 +61,9 @@ export class EvaluationService {
       );
   }
 
-  getTrueFalse(lessonId: number): Observable<ITrueFalse[]> {
+  getTrueFalse(lessonSectionId: number): Observable<ITrueFalse[]> {
     return this.http
-      .get<string>(`${this.apiUrl}/${lessonId}/truefalse`, {
+      .get<string>(`${this.apiUrl}/${lessonSectionId}/truefalse`, {
         headers: this.headers,
       })
       .pipe(
@@ -72,9 +74,12 @@ export class EvaluationService {
       );
   }
 
-  getLessonExplanation(lessonId: number): Observable<string> {
-    return this.http.get<string>(`${this.apiUrl}/${lessonId}/explanation`, {
-      headers: this.headers,
-    });
+  getLessonExplanation(lessonSectionId: number): Observable<string> {
+    return this.http.get<string>(
+      `${this.apiUrl}/${lessonSectionId}/explanation`,
+      {
+        headers: this.headers,
+      }
+    );
   }
 }

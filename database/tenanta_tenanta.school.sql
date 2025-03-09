@@ -36,7 +36,7 @@ CREATE TABLE `tenanta.school` (
 
 LOCK TABLES `tenanta.school` WRITE;
 /*!40000 ALTER TABLE `tenanta.school` DISABLE KEYS */;
-INSERT INTO `tenanta.school` VALUES (1,'Anjuman Mufidul Yatama','Madanpura Mumbai');
+INSERT INTO `tenanta.school` VALUES (1,'Saboo Siddik Polytechnic','Nagpada, Byculla, Mumbai');
 /*!40000 ALTER TABLE `tenanta.school` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -49,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-03-08 17:11:23
+-- Dump completed on 2025-03-09 16:02:45

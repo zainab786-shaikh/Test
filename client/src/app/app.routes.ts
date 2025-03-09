@@ -15,6 +15,7 @@ import { QuizComponent } from './9.evaluation/3.quiz/quiz.component';
 import { FillBlankComponent } from './9.evaluation/4.fillblank/fillblank.component';
 import { TrueFalseComponent } from './9.evaluation/5.truefalse/truefalse.component';
 import { EvaluationComponent } from './9.evaluation/1.evaluation/evaluation.component';
+import { LessonSectionComponent } from './7.lessonsection/lessonsection.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -45,6 +46,10 @@ export const routes: Routes = [
   { path: 'standard', component: StandardComponent },
   { path: 'subject/standard/:standardId', component: SubjectComponent },
   { path: 'lesson/subject/:subjectId', component: LessonComponent },
+  {
+    path: 'lessonsection/subject/:subjectId/lesson/:lessonId',
+    component: LessonSectionComponent,
+  },
 
   //====================================| Students routes
   {
