@@ -1,10 +1,64 @@
-/* Centering container */
+/* Centering container with gradient background */
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Full height of the viewport */
-  background-color: #f4f4f4;
+  min-height: 100vh;
+  padding: 16px;
+  background: linear-gradient(135deg, #3a1c71, #d76d77, #ffaf7b);
+  background-size: 400% 400%;
+  animation: gradientBackground 15s ease infinite;
+}
+
+/* Login wrapper to contain all elements */
+.login-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 420px;
+  animation: fadeIn 0.7s ease-in-out;
+}
+
+/* Brand section styling */
+.brand-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+  animation: slideDown 0.8s ease-in-out;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  margin-bottom: 12px;
+}
+
+.logo-icon {
+  font-size: 36px;
+  height: 36px;
+  width: 36px;
+  color: #3a1c71;
+}
+
+.app-name {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  margin: 0;
+}
+
+.app-name .highlight {
+  color: #ffaf7b;
+  font-weight: 800;
 }
 
 /* Styling for the login card */
@@ -12,43 +66,275 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 400px;
-  padding: 24px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  border-radius: 16px;
   background: white;
+  overflow: visible;
+  position: relative;
 }
 
-mat-card-title {
-  padding: 10px;
-}
-/* Ensure full width for form fields */
-mat-form-field {
-  width: 100%;
+/* Card Title Styling */
+.login-container mat-card-title.login-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
 }
 
-/* Button styling */
-.submit-button {
+.login-container mat-card-subtitle {
+  color: #666;
+  margin-bottom: 24px;
+}
+
+/* Form Field Styling */
+.login-container .input-field {
   width: 100%;
-  padding: 12px;
-  font-size: 16px;
-  border-radius: 24px; /* Makes the button rounded */
+  margin-bottom: 20px;
+}
+
+.field-icon {
+  color: #3a1c71;
+}
+
+.login-container mat-form-field.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #d1d1d1;
+}
+
+.login-container mat-form-field.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline {
+  color: #3a1c71;
+}
+
+.login-container .input-field .mat-form-field-wrapper {
+  padding-bottom: 0;
+}
+
+/* Button Styling */
+.login-container .submit-button {
+  width: 100%;
+  padding: 10px 16px;
+  font-size: 1rem;
+  border-radius: 8px;
   font-weight: 600;
-  text-transform: uppercase;
-  border: 1px solid black;
-}
-
-/* Center button */
-mat-card-actions {
+  letter-spacing: 0.5px;
   display: flex;
   justify-content: center;
-  margin-top: 16px;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #3a1c71, #d76d77) !important;
+  color: white !important;
+  box-shadow: 0 4px 15px rgba(215, 109, 119, 0.3);
+  transition: all 0.3s ease;
+  margin-top: 8px;
 }
 
-/* Error message styling */
-.error {
-  color: red;
+.login-container .submit-button:hover:not([disabled]) {
+  box-shadow: 0 6px 20px rgba(215, 109, 119, 0.5);
+  transform: translateY(-2px);
+}
+
+.login-container .submit-button:disabled {
+  background: linear-gradient(135deg, #9c8cb1, #e0b1b8) !important;
+  box-shadow: none;
+}
+
+.login-container .submit-button mat-icon {
+  transition: transform 0.3s ease;
+}
+
+.login-container .submit-button:hover:not([disabled]) mat-icon {
+  transform: translateX(4px);
+}
+
+/* Forgot Password Link */
+.login-container .forgot-password {
+  text-align: right;
+  margin-bottom: 16px;
+}
+
+.login-container .forgot-password a {
+  color: #3a1c71;
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: color 0.3s ease;
+}
+
+.login-container .forgot-password a:hover {
+  color: #d76d77;
+  text-decoration: underline;
+}
+
+/* User Role Section */
+.user-role-section {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.role-label {
+  color: white;
+  font-size: 0.875rem;
+  margin-bottom: 8px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.role-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.role-buttons button {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  transition: all 0.3s ease;
+}
+
+.role-buttons button:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Error Message Styling */
+.error-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: rgba(211, 47, 47, 0.1);
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 16px;
+  animation: shake 0.5s ease-in-out;
+}
+
+.error-icon {
+  color: #d32f2f;
+}
+
+.error-message {
+  color: #d32f2f;
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+/* Gradient Background Animation */
+@keyframes gradientBackground {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Slide-down Animation */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Shake Animation for Errors */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  50% { transform: translateX(8px); }
+  75% { transform: translateX(-8px); }
+  100% { transform: translateX(0); }
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .login-wrapper {
+    max-width: 380px;
+  }
+
+  .login-container {
+    padding: 24px;
+  }
+
+  .app-name {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 16px;
+  }
+
+  .login-wrapper {
+    max-width: 100%;
+  }
+
+  .login-container {
+    padding: 20px;
+    border-radius: 12px;
+  }
+
+  .app-name {
+    font-size: 1.8rem;
+  }
+
+  .login-container mat-card-title.login-title {
+    font-size: 1.5rem;
+  }
+
+  .role-buttons {
+    gap: 8px;
+  }
+
+  .role-buttons button {
+    font-size: 0.8rem;
+    padding: 4px 8px;
+  }
+}
+
+/* Add this to your existing CSS */
+
+/* Button spinner styling */
+.login-container .submit-button .button-spinner {
+  margin: 0 auto;
+}
+
+/* Testing links section */
+.testing-links {
+  margin-top: 16px;
+  border-top: 1px solid #eee;
+  padding-top: 16px;
   text-align: center;
-  margin-top: 10px;
-  font-size: 14px;
+}
+
+.testing-links p {
+  margin-bottom: 8px;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.testing-links button {
+  margin: 0 4px;
 }

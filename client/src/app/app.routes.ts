@@ -17,6 +17,9 @@ import { TrueFalseComponent } from './9.evaluation/5.truefalse/truefalse.compone
 import { EvaluationComponent } from './9.evaluation/1.evaluation/evaluation.component';
 import { LessonSectionComponent } from './7.lessonsection/lessonsection.component';
 
+import { SubjectDashboard2Component } from './8.dashboards/4.subject-dashboard2/subject-dashboard2.component';
+import { ProfileDashboardComponent } from './8.dashboards/5.profile-dashboard/profile-dashboard.component';
+
 export const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'login-details', component: LoginDetailComponent },
@@ -68,5 +71,15 @@ export const routes: Routes = [
   {
     path: 'progress/school/:schoolId/standard/:standardId/student/:studentId',
     component: ProgressComponent,
+  },
+  // ✅ NEW ROUTE for Subject Dashboard 2
+  {
+    path: 'subject-dashboard2/school/:schoolId/standard/:standardId/student/:studentId',
+    component: SubjectDashboard2Component,
+  },
+  // ✅ NEW ROUTE for Profile Dashboard
+  {
+    path: 'profile-dashboard/school/:schoolId/standard/:standardId/student/:studentId',
+    component: ProfileDashboardComponent,
   },
 ];

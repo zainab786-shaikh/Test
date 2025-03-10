@@ -64,4 +64,10 @@ export class LoginDetailService {
       }
     );
   }
+  // ✅ Add this method to get logged-in user details
+  getLoggedInUser(): Observable<ILoginDetail> {
+    return this.http.get<ILoginDetail>(`${this.getLoggedInUser}/user/me`, {
+      headers: this.headers,
+    });
+  }
 }

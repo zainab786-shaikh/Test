@@ -28,6 +28,9 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   loginForm: FormGroup;
   errorMessage: string = '';
+  hidePassword: boolean = true; // Toggle password visibility
+  showVisibilityIcon: boolean = false; // Control visibility of the eye icon
+  isLoading: boolean = false; // Track login state
 
   constructor(
     private router: Router,
@@ -40,38 +43,73 @@ export class LoginComponent {
     });
   }
 
+  // Handle password input event
+  onPasswordInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.showVisibilityIcon = input.value.length > 0; // Show icon if input is not empty
+  }
+
+  // Fill demo credentials for different roles (for demonstration purposes)
+  fillDemoCredentials(role: string): void {
+    this.errorMessage = ''; // Clear any previous error
+
+    switch(role) {
+      case 'admin':
+        this.loginForm.setValue({ username: 'admin', password: 'admin123' });
+        break;
+      case 'teacher':
+        this.loginForm.setValue({ username: 'teacher', password: 'teacher123' });
+        break;
+      case 'student':
+        this.loginForm.setValue({ username: 'student', password: 'student123' });
+        break;
+    }
+
+    this.showVisibilityIcon = true;
+  }
+
   async onSubmit() {
     if (this.loginForm.invalid) {
       return;
     }
 
+    this.isLoading = true;
+    this.errorMessage = '';
+
     const { username, password } = this.loginForm.value;
-    this.loginService.validate(username, password).subscribe((userInfo) => {
-      if (userInfo) {
-        if (userInfo?.role == 'admin') {
-          this.router.navigate(['admin']);
-        } else if (
-          userInfo?.role == 'teacher' ||
-          userInfo?.role == 'principal'
-        ) {
-          this.router.navigate(['school-dashboard']);
-        } else if (userInfo?.role == 'student') {
-          this.loginService
-            .getByAdhaar(userInfo.adhaar)
-            .subscribe((student) => {
-              this.router.navigate([
-                'student-dashboard',
-                'school',
-                student.school,
-                'standard',
-                student.standard,
-                'student',
-                student.Id,
-              ]);
-            });
+    this.loginService.validate(username, password).subscribe({
+      next: (userInfo) => {
+        if (userInfo) {
+          if (userInfo?.role == 'admin') {
+            this.router.navigate(['admin']);
+          } else if (
+            userInfo?.role == 'teacher' ||
+            userInfo?.role == 'principal'
+          ) {
+            this.router.navigate(['school-dashboard']);
+          } else if (userInfo?.role == 'student') {
+            this.loginService
+              .getByAdhaar(userInfo.adhaar)
+              .subscribe((student) => {
+                this.router.navigate([
+                  'student-dashboard',
+                  'school',
+                  student.school,
+                  'standard',
+                  student.standard,
+                  'student',
+                  student.Id,
+                ]);
+              });
+          }
+        } else {
+          this.errorMessage = 'Invalid username or password';
         }
-      } else {
-        this.errorMessage = 'Invalid username or password';
+        this.isLoading = false;
+      },
+      error: (error) => {
+        this.errorMessage = 'Login failed. Please try again.';
+        this.isLoading = false;
       }
     });
   }
