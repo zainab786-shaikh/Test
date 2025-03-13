@@ -1,12 +1,48 @@
-<mat-card class="quiz-container">
-  <mat-card-title>
-    <span>Explanation</span>
-  </mat-card-title>
-  <mat-card-content>
-    <div>
+<mat-card class="explanation-container">
+  <!-- Explanation Column -->
+  <mat-card class="explanation-card">
+    <mat-card-title>Explanation</mat-card-title>
+    <mat-card-content class="explanation-content">
       <mat-card class="sub-card">
-        <div [innerHTML]="explanationText"></div>
+        <div class="scrollable-content" [innerHTML]="explanationText"></div>
       </mat-card>
-    </div>
-  </mat-card-content>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Chatbot Column -->
+  <mat-card class="chatbot-card">
+    <mat-card-title>Study Assistant</mat-card-title>
+    <mat-card-content class="chat-container">
+      <div class="messages-container">
+        <div
+          *ngFor="let message of messages"
+          [class.user-message]="message.isUser"
+          [class.bot-message]="!message.isUser"
+        >
+          {{ message.content }}
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <div class="input-container">
+        <mat-form-field appearance="fill" class="input-question">
+          <input
+            matInput
+            [(ngModel)]="userQuestion"
+            placeholder="Ask a question..."
+            (keyup.enter)="sendQuestion()"
+          />
+        </mat-form-field>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="sendQuestion()"
+          [disabled]="!userQuestion"
+          class="input-send-button"
+        >
+          Send
+        </button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
 </mat-card>
