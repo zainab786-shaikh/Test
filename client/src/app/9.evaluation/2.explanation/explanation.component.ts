@@ -70,7 +70,7 @@ export class ExplanationComponent {
 
     const context = {
       explanation: this.explanation, // The raw explanation text
-      question: this.userQuestion,
+      messages: this.messages,
     };
 
     this.loading = true;
