@@ -21,6 +21,15 @@ export class EvaluationService {
 
   constructor(private http: HttpClient) {}
 
+  getLessonExplanation(lessonSectionId: number): Observable<string> {
+    return this.http.get<string>(
+      `${this.apiUrl}/${lessonSectionId}/explanation`,
+      {
+        headers: this.headers,
+      }
+    );
+  }
+
   private shuffleOptions(quiz: IQuiz): IQuiz {
     const options = [...quiz.options];
     const correctAnswer = options[quiz.answer];
@@ -72,14 +81,5 @@ export class EvaluationService {
           return trueFalseQuestions.slice(0, this.NUMBER_OF_QUESTIONS); // Return only the first 3 true/false questions
         })
       );
-  }
-
-  getLessonExplanation(lessonSectionId: number): Observable<string> {
-    return this.http.get<string>(
-      `${this.apiUrl}/${lessonSectionId}/explanation`,
-      {
-        headers: this.headers,
-      }
-    );
   }
 }
