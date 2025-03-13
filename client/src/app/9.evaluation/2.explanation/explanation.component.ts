@@ -32,6 +32,7 @@ export class ExplanationComponent {
   @Input() explanationText: SafeHtml = 'This is a default explanation.';
 
   explanation: string = '';
+  lastResponse = 0;
 
   // Chat properties
   userQuestion = '';
@@ -59,36 +60,35 @@ export class ExplanationComponent {
     this.load();
   }
 
-  sendQuestion() {
-    if (!this.userQuestion.trim()) return;
+  sendQuestion(): void {
+    const question = this.userQuestion.trim();
+    if (!question) return;
 
-    // Add user question to messages
-    this.messages.push({
-      content: this.userQuestion,
-      isUser: true,
-    });
+    // Add user message
+    this.messages.push({ content: question, isUser: true });
 
-    const context = {
-      explanation: this.explanation, // The raw explanation text
-      messages: this.messages,
-    };
+    // Create empty message placeholder for response
+    const serverMsg = { content: '', isUser: false };
+    this.messages.push(serverMsg);
 
     this.loading = true;
-    this.evaluationService.submitChatQuestion(context).subscribe({
-      next: (response) => {
-        this.messages.push({
-          content: response.answer,
-          isUser: false,
-        });
-        this.userQuestion = '';
+    const prompt = this.explanation
+      ? `${this.explanation}\n\n${question}`
+      : question;
+
+    this.evaluationService.submitChatQuestion(prompt).subscribe({
+      next: (token: string) => {
+        serverMsg.content += token; // Update UI with each token
       },
       error: (error) => {
-        this.messages.push({
-          content: 'Sorry, there was an error processing your question.',
-          isUser: false,
-        });
+        console.error('Chat error:', error);
+        serverMsg.content = 'Error retrieving response. Please try again.';
+        this.loading = false;
       },
-      complete: () => (this.loading = false),
+      complete: () => {
+        this.userQuestion = '';
+        this.loading = false;
+      },
     });
   }
 }

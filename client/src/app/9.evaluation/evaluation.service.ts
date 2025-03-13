@@ -4,8 +4,15 @@ import {
   HttpHeaders,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { EMPTY, from, Observable, of, throwError } from 'rxjs';
+import {
+  catchError,
+  concatMap,
+  map,
+  reduce,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { IFillInTheBlank, IQuiz, ITrueFalse } from './evaluation.service.model';
 
 @Injectable({
@@ -87,11 +94,11 @@ export class EvaluationService {
       );
   }
 
-  submitChatQuestion(context: any): Observable<any> {
-    return this.http
-      .post<any>(`${this.apiUrl}/chat`, context)
-      .pipe(catchError(this.handleError));
-  }
+  // submitChatQuestion(context: any): Observable<any> {
+  //   return this.http
+  //     .post<any>(`${this.apiUrl}/chat`, context)
+  //     .pipe(catchError(this.handleError));
+  // }
 
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
@@ -108,5 +115,58 @@ export class EvaluationService {
     return throwError(
       () => new Error('Something bad happened; please try again later.')
     );
+  }
+
+  submitChatQuestion(
+    prompt: string,
+    model: string = 'llama3.2'
+  ): Observable<string> {
+    const payload = { model, prompt, stream: true };
+
+    return new Observable((observer) => {
+      const url = `http://localhost:11434/api/generate`;
+
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', url, true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+
+      // Track processed response length to avoid re-processing the same chunks
+      let processedLength = 0;
+
+      xhr.onprogress = () => {
+        const newResponse = xhr.responseText.slice(processedLength);
+        processedLength = xhr.responseText.length;
+
+        // Process only new chunks
+        const newChunks = newResponse.split('\n');
+        newChunks.forEach((chunk) => {
+          if (!chunk.trim()) return;
+
+          try {
+            const parsed = JSON.parse(chunk);
+            if (parsed.response) {
+              observer.next(parsed.response);
+            }
+          } catch (error) {
+            console.error('Streaming JSON Parse Error:', error);
+          }
+        });
+      };
+
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          observer.complete();
+        }
+      };
+
+      xhr.onerror = () => {
+        observer.error('Network error while streaming response');
+      };
+
+      xhr.send(JSON.stringify(payload));
+
+      // Return cleanup function
+      return () => xhr.abort();
+    });
   }
 }
