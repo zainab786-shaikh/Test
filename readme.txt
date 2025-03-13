@@ -1,116 +1,86 @@
-<mat-card class="overall-performance-card">
-    <h2>Overall Performance</h2>
-    <plotly-plot
-    [data]="overallPerformanceData"
-    [layout]="overallPerformanceLayout"
-    ></plotly-plot>
-</mat-card>
+import express, { Request, Response } from "express";
+import axios from "axios";
+import bodyParser from "body-parser";
 
-<mat-card class="subject-performance-card">
-    <h2>Progress by Subject</h2>
-    <plotly-plot
-    [data]="subjectWisePiePerformanceData"
-    [layout]="subjectWisePiePerformanceLayout"
-    ></plotly-plot>
-</mat-card>
+const app = express();
+const PORT = 3000;
 
-------------------------------------------------------------
-this.overallPerformanceData = [
-      {
-        type: 'bar',
-        x: [this.overallPerformance], // X-axis represents the value (horizontal bar)
-        y: [0],
-        orientation: 'h', // Ensures it's a horizontal bar chart
-        marker: {
-          color:
-            this.overallPerformance >= 75
-              ? 'green'
-              : this.overallPerformance >= 50
-              ? 'yellow'
-              : 'red',
-        },
-      },
-    ];
+app.use(bodyParser.json());
 
-    this.overallPerformanceLayout = {
-      title: 'Overall Performance',
-      xaxis: { range: [0, 100], title: 'Percentage' },
-      yaxis: { range: [0, 1] },
-      showlegend: false,
-      height: 130,
-      margin: { l: 30, r: 30, t: 30, b: 30 },
+// Function to generate text using Ollama with streaming
+async function generateWithOllamaStream(prompt: string, model: string = "llama3.2", host: string): Promise<string | null> {
+    const url = `http://${host}:11434/api/generate`;
+    const payload = {
+        model,
+        prompt,
+        stream: true
     };
 
-    this.subjectWisePiePerformanceData = [
-      {
-        type: 'pie',
-        labels: this.subjectWisePerformance.map((s) => s.subject),
-        values: this.subjectWisePerformance.map((s) => s.score),
-        hole: 0.4,
-      },
-    ];
+    try {
+        console.log("Sending request to Ollama server...");
+        const startTime = Date.now();
 
-    this.subjectWisePiePerformanceLayout = {
-      title: 'Progress by Subject',
-      height: 130,
-      margin: { l: 30, r: 30, t: 30, b: 30 },
-    };
+        const response = await axios.post(url, payload, { responseType: "stream", timeout: 10000 });
 
-    this.subjectWiseBarPerformanceData = [
-      {
-        type: 'bar',
-        x: this.subjectWisePerformance.map((s) => s.score), // X-axis represents the value (horizontal bar)
-        y: this.subjectWisePerformance.map((s) => s.subject),
-        orientation: 'h', // Ensures it's a horizontal bar chart
-      },
-    ];
+        console.log("\nReceiving response:");
+        console.log("-".repeat(50));
 
-    --------------------------------------------------------------
-    .dashboard-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding: 20px;
-}
-.overall-performance {
-  display: flex;
-  width: 100%;
-}
-.overall-performance-card {
-  width: 70%;
-}
-.subject-performance-card {
-  width: 30%;
-}
-.overall-subject {
-  display: flex;
-  width: 100%;
-}
+        let fullResponse = "";
+        
+        response.data.on("data", (chunk: Buffer) => {
+            const lines = chunk.toString().split("\n");
+            lines.forEach(line => {
+                if (line) {
+                    try {
+                        const json = JSON.parse(line);
+                        const token = json.response || "";
+                        process.stdout.write(token);
+                        fullResponse += token;
+                    } catch (error) {
+                        console.error("Error parsing chunk", error);
+                    }
+                }
+            });
+        });
+        
+        return new Promise(resolve => {
+            response.data.on("end", () => {
+                console.log("\n" + "-".repeat(50));
+                console.log(`\nRequest completed in ${(Date.now() - startTime) / 1000} seconds`);
+                resolve(fullResponse);
+            });
+        });
 
-.dashboard-card {
-  flex: 1 1 calc(20.333% - 20px); /* Example of a 3-column layout for other cards */
-  padding: 20px;
-  border-radius: 8px;
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            if (error.code === "ECONNREFUSED") {
+                console.error("Error: Failed to connect to the Ollama server. Make sure the VM is running and accessible.");
+            } else if (error.code === "ETIMEDOUT") {
+                console.error("Error: Request timed out.");
+            } else {
+                console.error("Error: ", error.message);
+            }
+        }
+        return null;
+    }
 }
 
-table {
-  width: 100%;
-}
+// API route to generate text
+app.post("/generate", async (req: Request, res: Response) => {
+    const { prompt, model, host } = req.body;
+    if (!prompt || !host) {
+        return res.status(400).json({ error: "Prompt and host are required." });
+    }
+    
+    const responseText = await generateWithOllamaStream(prompt, model, host);
+    if (responseText) {
+        res.json({ response: responseText });
+    } else {
+        res.status(500).json({ error: "Failed to generate response." });
+    }
+});
 
-.mat-elevation-z8 {
-  border-radius: 8px;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-ul li {
-  background: #f4f4f4;
-  margin: 5px 0;
-  padding: 10px;
-  border-radius: 5px;
-}
+// Start server
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+});

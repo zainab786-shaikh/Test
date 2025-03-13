@@ -55,13 +55,13 @@ export class LoginComponent {
 
     switch(role) {
       case 'admin':
-        this.loginForm.setValue({ username: 'admin', password: 'admin123' });
+        this.loginForm.setValue({ username: 'admin', password: 'admin' });
         break;
       case 'teacher':
-        this.loginForm.setValue({ username: 'teacher', password: 'teacher123' });
+        this.loginForm.setValue({ username: 'teacher', password: 'teacher' });
         break;
       case 'student':
-        this.loginForm.setValue({ username: 'student', password: 'student123' });
+        this.loginForm.setValue({ username: 'student', password: 'student' });
         break;
     }
 
