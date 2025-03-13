@@ -42,6 +42,15 @@
         >
           Send
         </button>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="stopGeneration()"
+          [disabled]="!userQuestion"
+          class="input-send-button"
+        >
+          Stop
+        </button>
       </div>
     </mat-card-actions>
   </mat-card>

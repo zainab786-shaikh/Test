@@ -1,17 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { EvaluationService } from '../evaluation.service';
-import {
-  BrowserModule,
-  DomSanitizer,
-  SafeHtml,
-} from '@angular/platform-browser';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { EvaluationService } from '../evaluation.service';
 
 @Component({
   selector: 'app-explanation',
@@ -26,13 +21,13 @@ import { MatInputModule } from '@angular/material/input';
   templateUrl: './explanation.component.html',
   styleUrls: ['./explanation.component.css'],
 })
-export class ExplanationComponent {
+export class ExplanationComponent implements OnInit {
   @Input() lessonId!: number;
   @Input() lessonsectionId!: number;
   @Input() explanationText: SafeHtml = 'This is a default explanation.';
 
   explanation: string = '';
-  lastResponse = 0;
+  activeSubscription: any;
 
   // Chat properties
   userQuestion = '';
@@ -46,7 +41,7 @@ export class ExplanationComponent {
 
   // Load the questions
   private load() {
-    this.evaluationService
+    this.activeSubscription = this.evaluationService
       .getLessonExplanation(this.lessonId)
       .subscribe((data) => {
         this.explanation = data;
@@ -60,29 +55,24 @@ export class ExplanationComponent {
     this.load();
   }
 
-  sendQuestion(): void {
-    const question = this.userQuestion.trim();
-    if (!question) return;
+  sendQuestion() {
+    if (!this.userQuestion.trim()) return;
 
-    // Add user message
-    this.messages.push({ content: question, isUser: true });
+    // Add user message and create response placeholder
+    this.messages.push({ content: this.userQuestion, isUser: true });
+    const botMsg = { content: '', isUser: false };
+    this.messages.push(botMsg);
 
-    // Create empty message placeholder for response
-    const serverMsg = { content: '', isUser: false };
-    this.messages.push(serverMsg);
-
+    // Start streaming
     this.loading = true;
-    const prompt = this.explanation
-      ? `${this.explanation}\n\n${question}`
-      : question;
 
-    this.evaluationService.submitChatQuestion(prompt).subscribe({
-      next: (token: string) => {
-        serverMsg.content += token; // Update UI with each token
-      },
-      error: (error) => {
-        console.error('Chat error:', error);
-        serverMsg.content = 'Error retrieving response. Please try again.';
+    // Use the raw explanation string instead of SafeHtml
+    const fullPrompt = this.explanation + '\n\n' + this.userQuestion;
+
+    this.evaluationService.submitChatQuestion(fullPrompt).subscribe({
+      next: (token) => (botMsg.content += token),
+      error: () => {
+        botMsg.content = 'Error retrieving response.';
         this.loading = false;
       },
       complete: () => {
@@ -90,5 +80,15 @@ export class ExplanationComponent {
         this.loading = false;
       },
     });
+  }
+
+  stopGeneration() {
+    // Cancel the subscription
+    if (this.activeSubscription) {
+      this.activeSubscription.unsubscribe();
+      this.evaluationService.stopGeneration();
+      this.activeSubscription = null;
+    }
+    this.loading = false;
   }
 }

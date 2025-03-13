@@ -20,6 +20,9 @@ import { IFillInTheBlank, IQuiz, ITrueFalse } from './evaluation.service.model';
 })
 export class EvaluationService {
   private apiUrl = 'http://localhost:3000/v1/lessonsection';
+  private baseUrl = `http://localhost:11434/api/generate`;
+  private abortController: AbortController | null = null;
+
   NUMBER_OF_QUESTIONS = 3;
 
   // Define the headers
@@ -117,56 +120,48 @@ export class EvaluationService {
     );
   }
 
-  submitChatQuestion(
-    prompt: string,
-    model: string = 'llama3.2'
-  ): Observable<string> {
-    const payload = { model, prompt, stream: true };
+  submitChatQuestion(prompt: string, model = 'llama3.2'): Observable<string> {
+    this.abortController = new AbortController();
 
     return new Observable((observer) => {
-      const url = `http://localhost:11434/api/generate`;
-
       const xhr = new XMLHttpRequest();
-      xhr.open('POST', url, true);
+      let lastProcessedIndex = 0;
+
+      xhr.open('POST', this.baseUrl);
       xhr.setRequestHeader('Content-Type', 'application/json');
 
-      // Track processed response length to avoid re-processing the same chunks
-      let processedLength = 0;
-
       xhr.onprogress = () => {
-        const newResponse = xhr.responseText.slice(processedLength);
-        processedLength = xhr.responseText.length;
+        // Process only new data since last check
+        const newText = xhr.responseText.substring(lastProcessedIndex);
+        lastProcessedIndex = xhr.responseText.length;
 
-        // Process only new chunks
-        const newChunks = newResponse.split('\n');
-        newChunks.forEach((chunk) => {
-          if (!chunk.trim()) return;
-
-          try {
-            const parsed = JSON.parse(chunk);
-            if (parsed.response) {
-              observer.next(parsed.response);
-            }
-          } catch (error) {
-            console.error('Streaming JSON Parse Error:', error);
-          }
-        });
-      };
-
-      xhr.onreadystatechange = () => {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-          observer.complete();
+        // Process only if we have new content
+        if (newText) {
+          newText.split('\n').forEach((line) => {
+            if (!line.trim()) return;
+            try {
+              const token = JSON.parse(line).response;
+              if (token) observer.next(token);
+            } catch (e) {}
+          });
         }
       };
 
-      xhr.onerror = () => {
-        observer.error('Network error while streaming response');
+      xhr.onload = () => observer.complete();
+      xhr.onerror = () => observer.error('Request failed');
+      xhr.send(JSON.stringify({ model, prompt, stream: true }));
+
+      return () => {
+        xhr.abort();
+        this.abortController = null;
       };
-
-      xhr.send(JSON.stringify(payload));
-
-      // Return cleanup function
-      return () => xhr.abort();
     });
+  }
+
+  stopGeneration() {
+    if (this.abortController) {
+      this.abortController.abort();
+      this.abortController = null;
+    }
   }
 }
