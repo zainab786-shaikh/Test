@@ -2296,7 +2296,6 @@
             <div class="p-4">
                 <h2 class="text-2xl font-bold text-blue-600">LearnZy</h2>
             </div>
-            <!-- navigation.component.html -->
             <!-- Navigation menu for student dashboard -->
             <nav class="mt-6">
             <a *ngFor="let item of menuItems"
@@ -2348,7 +2347,6 @@
                             <div class="bg-white overflow-hidden shadow rounded-lg">
                               <div class="px-4 py-5 sm:p-6">
                                 <h4 class="text-lg font-medium text-gray-900">{{ completedLessonSectionData[0]?.name }}</h4>
-                                <p class="mt-1 text-sm text-gray-500">Grammar, Literature, Writing</p>
                                 <div class="mt-4">
                                   <div class="relative pt-1">
                                     <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200">
@@ -2364,7 +2362,6 @@
                             <div class="bg-white overflow-hidden shadow rounded-lg">
                               <div class="px-4 py-5 sm:p-6">
                                 <h4 class="text-lg font-medium text-gray-900">{{ completedLessonSectionData[0]?.name }}</h4>
-                                <p class="mt-1 text-sm text-gray-500">Grammar, Literature, Writing</p>
                                 <div class="mt-4">
                                   <div class="relative pt-1">
                                     <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-green-200">
@@ -2380,7 +2377,6 @@
                             <div class="bg-white overflow-hidden shadow rounded-lg">
                               <div class="px-4 py-5 sm:p-6">
                                 <h4 class="text-lg font-medium text-gray-900">{{ completedLessonSectionData[0]?.name }}</h4>
-                                <p class="mt-1 text-sm text-gray-500">Grammar, Literature, Writing</p>
                                 <div class="mt-4">
                                   <div class="relative pt-1">
                                     <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-yellow-200">
@@ -2408,7 +2404,7 @@
                         </mat-card>
                       </div>
 
-                      <mat-card class="dashboard-card">
+                      <!-- <mat-card class="dashboard-card">
                         <h2>Next Lessons</h2>
                         <app-progress-bar
                           [parentList]="nextLessonSectionData"
@@ -2428,7 +2424,7 @@
                         <app-progress-bar
                           [parentList]="pendingLessonSectionData"
                         ></app-progress-bar>
-                      </mat-card>
+                      </mat-card> -->
 
                       <!--
                       <mat-card class="dashboard-card">
@@ -2446,6 +2442,65 @@
                       </mat-card>
                       -->
                     </div>
+                    <div id="lessons-overview" class="mb-8">
+                      <h3 class="text-lg font-medium text-gray-900 mb-4">Upcoming Lessons</h3>
+                      <div class="bg-white shadow overflow-hidden sm:rounded-md">
+                        <ul class="divide-y divide-gray-200">
+                          <ng-container *ngFor="let subject of nextLessonSectionData">
+                            <ng-container *ngFor="let lesson of subject.childList">
+                              <li>
+                                <a [routerLink]="[
+                                  '/subject-dashboard2/school', schoolId,
+                                  'standard', standardId,
+                                  'student', studentId
+                                ]"
+                                class="block hover:bg-gray-50">
+                                <div class="px-4 py-4 sm:px-6">
+                                  <div class="flex items-center justify-between">
+                                    <!-- Display Lesson Name -->
+                                    <p class="text-sm font-medium text-blue-600 truncate">
+                                      {{ lesson.name }}
+                                    </p>
+                                    <!-- Display Subject Name -->
+                                    <div class="ml-2 flex-shrink-0 flex">
+                                      <p
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                        {{ subject.name }}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </a>
+
+                              </li>
+                            </ng-container>
+                          </ng-container>
+                        </ul>
+                      </div>
+                    </div>
+
+
+                    <div id="learning-progress" class="mb-8">
+                      <h3 class="text-lg font-medium text-gray-900 mb-4">Learning Progress</h3>
+                      <div class="bg-white overflow-hidden shadow rounded-lg">
+                          <div class="p-5">
+                              <div class="flex items-center">
+                                  <div class="flex-shrink-0">
+                                      <div class="relative">
+                                          <div class="w-24 h-24 rounded-full bg-blue-100 flex items-center justify-center">
+                                              <span class="text-2xl font-bold text-blue-600">{{ overallProgress }}%</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="ml-5">
+                                      <h4 class="text-lg font-medium text-gray-900">Overall Progress</h4>
+                                      <p class="text-sm text-gray-500">You've completed {{ completedLessons }} out of {{ totalLessons }} lessons</p>
+                                      <p class="text-sm text-gray-500">{{ coveredSubjects }} out of {{ totalSubjects }} subjects covered</p>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
 
 
                     <div id="quick-actions">

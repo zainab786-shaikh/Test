@@ -1,68 +1,82 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { MatTableModule } from '@angular/material/table';
+import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
-import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 
+import * as PlotlyJS from 'plotly.js-dist-min';
+import { PlotlyModule } from 'angular-plotly.js';
+import { DashboardServiceHelper } from '../dashboard.component.servicehelper';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import {
+  IChildNode,
+  UtilProgressBarComponent,
+} from '../0.utils/1.progress-bar/progress-bar.component';
+import { BarPlotter } from '../dashboard.component.servicePlotter';
+import { ProgressService } from '../../4.progress/progress.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { IProgress } from '../../4.progress/progress.model';
+import { RouterModule } from '@angular/router'; // Add this import
+import { ViewEncapsulation } from '@angular/core';
+
+PlotlyModule.plotlyjs = PlotlyJS;
+
+enum tagChildList {
+  completed,
+  next,
+  pending,
+}
 @Component({
-  selector: 'app-subject-dashboard2',
-  standalone: true,
-  imports: [CommonModule, RouterModule], // Add RouterModule here
+  selector: 'app-student-dashboard',
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatTableModule,
+    PlotlyModule,
+    MatExpansionModule,
+    MatProgressBarModule,
+    MatTooltipModule,
+    RouterModule,
+  ],
   templateUrl: './subject-dashboard2.component.html',
-  styleUrls: ['./subject-dashboard2.component.css']
+  styleUrl: './subject-dashboard2.component.css',
+  encapsulation: ViewEncapsulation.None, // Disable encapsulation
 })
-export class SubjectDashboard2Component implements OnInit {
-  expandedSubject: any = null; // Stores the currently expanded subject
+export class SubjectDashboard2Component {
   schoolId!: number;
   standardId!: number;
   studentId!: number;
 
-  menuItems: any[] = []; // Initialize as an empty array
+  perfOverall!: number;
+  perfOverallPlotter: BarPlotter = new BarPlotter([], [], 'Loading...'); // Initialize with default
 
-  subjects = [
-    {
-      name: 'Mathematics',
-      color: 'blue',
-      icon: 'calculator',
-      progress: 45,
-      lessons: [
-        { title: 'Lesson 1: Algebra Basics', description: 'Introduction to algebraic concepts and operations.' },
-        { title: 'Lesson 2: Geometry Fundamentals', description: 'Understanding shapes and measurements.' }
-      ]
-    },
-    {
-      name: 'Science',
-      color: 'green',
-      icon: 'flask',
-      progress: 60,
-      lessons: [
-        { title: 'Lesson 1: Physics Basics', description: 'Learn about motion and energy.' },
-        { title: 'Lesson 2: Chemistry Concepts', description: 'Study elements and reactions.' }
-      ]
-    },
-    {
-      name: 'English',
-      color: 'purple',
-      icon: 'book',
-      progress: 75,
-      lessons: [
-        { title: 'Lesson 1: Grammar Essentials', description: 'Understand the rules of English grammar.' },
-        { title: 'Lesson 2: Literature Analysis', description: 'Analyze famous literary works.' }
-      ]
-    }
-  ];
+  perfPerSubject!: IChildNode[];
+  perfPerLesson!: IChildNode[];
+
+  subjectData!: IChildNode[];
+  completedLessonSectionData!: IChildNode[] | [];
+  nextLessonSectionData!: IChildNode[] | [];
+  pendingLessonSectionData!: IChildNode[] | [];
+
+  menuItems: any[] = []; // Initialize as an empty array
+  showDashboard: boolean = false; // Initially hidden
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router
-  ) {}
-
-  ngOnInit(): void {
-    // Subscribe to route parameters to get schoolId, standardId, and studentId
+    private router: Router,
+    private progressService: ProgressService,
+    private serviceHelper: DashboardServiceHelper
+  ) {
     this.route.params.subscribe((params) => {
       this.schoolId = +params['schoolId'];
       this.standardId = +params['standardId'];
       this.studentId = +params['studentId'];
+    });
+  }
 
-      // Initialize menuItems after IDs are set
+  ngOnInit(): void {
+    // Initialize menuItems after IDs are set
       this.menuItems = [
         {
           path: ['/student-dashboard', 'school', this.schoolId, 'standard', this.standardId, 'student', this.studentId],
@@ -93,10 +107,136 @@ export class SubjectDashboard2Component implements OnInit {
           viewBox: '0 0 512 512'
         }
       ];
+
+    this.serviceHelper.initializeDashboardData(this.schoolId).subscribe(() => {
+      this.progressService
+        .getAllStudent(this.schoolId, this.standardId, this.studentId)
+        .subscribe((data) => {
+          this.perfOverall = this.serviceHelper.getOverallPerformance(data);
+          this.perfOverallPlotter = new BarPlotter(
+            [this.perfOverall],
+            [0],
+            'Overall Performance'
+          );
+
+          this.perfPerSubject = this.serviceHelper.getPerfPerSubject(data);
+          this.subjectData = this.perfPerSubject.map((eachSubject) => {
+            let lessonDataProgressList = data.filter(
+              (eachProgress) => eachProgress.subject == eachSubject.Id
+            );
+
+            eachSubject.childList = this.serviceHelper.getPerfPerLesson(
+              lessonDataProgressList
+            );
+
+            eachSubject.childList?.map((eachLesson) => {
+              let lessonSectionDataProgressList = data.filter(
+                (eachProgress) =>
+                  eachProgress.subject == eachSubject.Id &&
+                  eachProgress.lesson == eachLesson.Id
+              );
+
+              eachLesson.childList = this.serviceHelper.getPerfPerLessonSection(
+                lessonSectionDataProgressList
+              );
+            });
+
+            return eachSubject;
+          });
+
+          let copiedSubjectData: IChildNode[] = JSON.parse(
+            JSON.stringify(this.subjectData)
+          );
+          this.completedLessonSectionData = copiedSubjectData.map(
+            (eachSubject) => {
+              let pendingLessonList = eachSubject.childList?.filter(
+                (eachLesson) => eachLesson.score <= 100
+              );
+              if (pendingLessonList && pendingLessonList?.length > 0) {
+                pendingLessonList.map((eachLesson) => {
+                  let pendingLessonSectionList = eachLesson.childList?.filter(
+                    (eachLessonSection) => eachLessonSection.score == 100
+                  );
+                  eachLesson.childList = pendingLessonSectionList;
+                });
+              }
+              eachSubject.childList = pendingLessonList;
+
+              return eachSubject;
+            }
+          );
+
+          copiedSubjectData = JSON.parse(JSON.stringify(this.subjectData));
+          this.pendingLessonSectionData = copiedSubjectData.map(
+            (eachSubject) => {
+              let pendingLessonList = eachSubject.childList?.filter(
+                (eachLesson) => eachLesson.score < 100
+              );
+              if (pendingLessonList && pendingLessonList?.length > 0) {
+                pendingLessonList.map((eachLesson) => {
+                  let pendingLessonSectionList = eachLesson.childList?.filter(
+                    (eachLessonSection) => eachLessonSection.score < 100
+                  );
+                  eachLesson.childList = pendingLessonSectionList;
+                });
+              }
+              eachSubject.childList = pendingLessonList;
+
+              return eachSubject;
+            }
+          );
+
+          copiedSubjectData = JSON.parse(
+            JSON.stringify(this.pendingLessonSectionData)
+          );
+          this.nextLessonSectionData = copiedSubjectData.map((eachSubject) => {
+            let firstLesson = eachSubject.childList?.slice(0, 1);
+            if (firstLesson && firstLesson?.length > 0) {
+              let firstLessonSection = firstLesson[0].childList?.slice(0, 1);
+              firstLesson[0].childList = firstLessonSection;
+            }
+            eachSubject.childList = firstLesson;
+
+            return eachSubject;
+          });
+        });
     });
   }
+  toggleDashboard() {
+    this.showDashboard = !this.showDashboard; // Toggle visibility
+  }
 
-  toggleDropdown(subject: any) {
-    this.expandedSubject = this.expandedSubject === subject ? null : subject;
+  clickByLessonSection(event: {
+    parentId: number;
+    childId: number;
+    grandChildId: number;
+  }) {
+    console.log(
+      'Subject Id: ' +
+        event.parentId +
+        ' Lesson Id: ' +
+        event.childId +
+        'Lesson Section Id: ',
+      event.grandChildId
+    );
+    let subjectId = event.parentId;
+    let lessonId = event.childId;
+    let lessonSectionId = event.grandChildId;
+    //'evaluation/school/:schoolId/standard/:standardId/student/:studentId/subject/:subjectId/lesson/:lessonId',
+    this.router.navigate([
+      'evaluation',
+      'school',
+      this.schoolId,
+      'standard',
+      this.standardId,
+      'student',
+      this.studentId,
+      'subject',
+      subjectId,
+      'lesson',
+      lessonId,
+      'lessonsection',
+      lessonSectionId,
+    ]);
   }
 }

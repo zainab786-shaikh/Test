@@ -69,7 +69,7 @@ export class LoginComponent {
   }
 
   async onSubmit() {
-    if (this.loginForm.invalid) {
+    if (this.loginForm.invalid) { 
       return;
     }
 
