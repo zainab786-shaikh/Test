@@ -9,6 +9,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { EvaluationService } from '../evaluation.service';
 import { Observable } from 'rxjs';
 import { MarkdownModule } from 'ngx-markdown';
+import { convert } from 'html-to-text';
 
 @Component({
   selector: 'app-explanation',
@@ -72,10 +73,11 @@ export class ExplanationComponent implements OnInit {
 
     this.errorMessage = '';
     this.isLoading = true;
+    let textExplanation = this.convertHtmlToPlainText(this.explanation);
 
-    let modifiedPrompt = `The context is ${this.explanation}. 
-    Use only brief answer unless asked explicitly to explain in detail.
-    Be crisp and clear. Answer the question within the context only. The question is ${this.prompt}.
+    let modifiedPrompt = `The context is: \n ${textExplanation}. 
+    \n\n Use only brief answer unless asked explicitly to explain in detail.
+    Be crisp and clear. Answer the question within the context only. \n\n The question is: ${this.prompt}.
     Else simply mention 'You are asking question outside the context'
     `;
     this.response$ = this.evaluationService.generateResponse(modifiedPrompt);
@@ -108,5 +110,15 @@ export class ExplanationComponent implements OnInit {
           this.messagesContainer.nativeElement.scrollHeight;
       }
     }, 100);
+  }
+
+  private convertHtmlToPlainText(htmlText: string) {
+    let plainText = convert(htmlText, {
+      wordwrap: 130, // Adjust line breaks for better readability
+    });
+
+    plainText = plainText.replace(/[\p{Emoji}\p{Symbol}]/gu, '');
+
+    return plainText;
   }
 }
