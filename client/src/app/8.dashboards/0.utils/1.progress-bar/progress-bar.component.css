@@ -1,49 +1,35 @@
-mat-progress-bar {
-  width: 100%;
+.progress-bar-child,
+.progress-bar-grandchild {
+  display: flex;
+  align-items: center;
+  width: 80%;
 }
 
-mat-progress-bar-button {
-  width: 70%;
-  padding: 10px;
-  margin: 5px;
+.progress-bar-child {
+  padding-left: 30px; /* Indent child level */
+}
+
+.progress-bar-grandchild {
+  padding-left: 60px; /* Further indent grandchild level */
+}
+
+/* Ensures button content is aligned properly */
+.progress-bar-child button,
+.progress-bar-grandchild button {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-}
-
-.mat-progress-bar-title-container {
-  display: flex;
-  align-items: center;
   width: 100%;
 }
 
 .mat-progress-bar-name {
-  max-width: 500px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-right: 10px;
-  display: inline-block;
+  flex-shrink: 0;
 }
 
 .mat-progress-bar-progress-bar {
   flex-grow: 1;
-  min-width: 1000px;
-}
-
-.mat-progress-bar-progress-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-
-.progress-bar-child {
-  display: flex;
-  justify-content: flex-start;
-  width: 70%;
-}
-.progress-bar-grandchild {
-  display: flex;
-  justify-content: flex-end;
+  min-width: 200px; /* Prevents shrinking too much */
 }

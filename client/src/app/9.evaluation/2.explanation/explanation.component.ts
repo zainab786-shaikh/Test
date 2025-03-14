@@ -48,7 +48,7 @@ export class ExplanationComponent implements OnInit {
   // Load the questions
   private load() {
     this.activeSubscription = this.evaluationService
-      .getLessonExplanation(this.lessonId)
+      .getLessonExplanation(this.lessonsectionId)
       .subscribe((data) => {
         this.explanation = data;
         this.explanationText = this.sanitizer.bypassSecurityTrustHtml(

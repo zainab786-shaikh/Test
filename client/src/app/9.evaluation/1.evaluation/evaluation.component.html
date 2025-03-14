@@ -8,7 +8,10 @@
       ></mat-progress-bar>
 
       <ng-container *ngIf="currentStep === 0">
-        <app-explanation [lessonId]="lessonId"></app-explanation>
+        <app-explanation
+          [lessonId]="lessonId"
+          [lessonsectionId]="lessonsectionId"
+        ></app-explanation>
       </ng-container>
 
       <ng-container *ngIf="currentStep === 1">

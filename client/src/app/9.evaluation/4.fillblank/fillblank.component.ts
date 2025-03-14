@@ -29,7 +29,7 @@ export class FillBlankComponent implements OnInit {
   constructor(private evaluationService: EvaluationService) {}
 
   private load() {
-    this.evaluationService.getFillBlanks(this.lessonId).subscribe((data) => {
+    this.evaluationService.getFillBlanks(this.lessonsectionId).subscribe((data) => {
       this.fillBlanks = data.map((q) => ({
         ...q,
         selectedAnswer: null,
