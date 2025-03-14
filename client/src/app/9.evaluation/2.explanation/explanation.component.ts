@@ -73,7 +73,12 @@ export class ExplanationComponent implements OnInit {
     this.errorMessage = '';
     this.isLoading = true;
 
-    this.response$ = this.evaluationService.generateResponse(this.prompt);
+    let modifiedPrompt = `The context is ${this.explanation}. 
+    Use only brief answer unless asked explicitly to explain in detail.
+    Be crisp and clear. Answer the question within the context only. The question is ${this.prompt}.
+    Else simply mention 'You are asking question outside the context'
+    `;
+    this.response$ = this.evaluationService.generateResponse(modifiedPrompt);
     this.response$.subscribe(
       (chunk) => {
         this.responseText += chunk;
