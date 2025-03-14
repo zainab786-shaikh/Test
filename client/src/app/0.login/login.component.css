@@ -1,3 +1,6 @@
+*{
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
 /* Centering container */
 .container {
   display: flex;
@@ -14,7 +17,7 @@
   width: 100%;
   max-width: 400px;
   padding: 24px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 5px rgb(0, 0, 0);
   border-radius: 12px;
   background: white;
 }
@@ -25,6 +28,9 @@ mat-card-title {
 /* Ensure full width for form fields */
 mat-form-field {
   width: 100%;
+  input{
+    padding-left: 12px;
+  }
 }
 
 /* Button styling */
@@ -36,6 +42,11 @@ mat-form-field {
   font-weight: 600;
   text-transform: uppercase;
   border: 1px solid black;
+  transition: background-color 1s, color 1s;
+}
+.submit-button:hover{
+  background-color: #000000;
+  color: #fff;
 }
 
 /* Center button */

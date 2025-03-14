@@ -66,13 +66,13 @@ mat-card-title .add-btn {
   transform: translateY(-50%);
   background-color: #e3f2fd;
   border-radius: 50%;
-  transition: transform 0.2s;
+  transition: scale 1s, box-shadow 1s;
 }
 
 mat-card-title .add-btn:hover {
-  transform: scale(1.1);
+  scale: 1.1;
+  box-shadow: 0 0 10px rgb(172, 206, 214);
 }
-
 
 form.form-container {
   display: grid;

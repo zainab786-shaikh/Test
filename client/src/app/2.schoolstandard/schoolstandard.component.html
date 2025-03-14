@@ -1,6 +1,6 @@
 <mat-card>
   <mat-card-title>
-    <span>College Semister Details</span>
+    <span>College Semester Details</span>
     <button
       mat-icon-button
       color="primary"
@@ -11,7 +11,7 @@
     </button>
   </mat-card-title>
   <mat-card-content>
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 detail-table">
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef>Name</th>
         <td mat-cell *matCellDef="let element">{{ element.name }}</td>
@@ -34,6 +34,7 @@
           <button
             mat-icon-button
             color="warn"
+            class="delete"
             (click)="deleteSchoolStandard(element.Id)"
             matTooltip="Delete Semister"
             matTooltipPosition="above"
@@ -42,6 +43,7 @@
           </button>
 
           <button
+          class="list"
             mat-icon-button
             color="primary"
             (click)="onStudents(element.Id, element.standard)"
@@ -71,7 +73,7 @@
     >
       <!-- Dropdown for selecting standard -->
       <mat-form-field appearance="fill">
-        <mat-label>Select Semister</mat-label>
+        <mat-label>Select Semester</mat-label>
         <mat-select formControlName="standard" required>
           <mat-option
             *ngFor="let standard of standardList"
@@ -88,6 +90,7 @@
       <!-- Other form fields -->
       <div class="form-actions">
         <button
+        class="edit-save"
           mat-raised-button
           color="primary"
           type="submit"
@@ -95,7 +98,7 @@
         >
           {{ "Add" }}
         </button>
-        <button mat-button type="button" (click)="toggleForm()">Cancel</button>
+        <button mat-button type="button" (click)="toggleForm()" class="cancel">Cancel</button>
       </div>
     </form>
   </mat-card-content>

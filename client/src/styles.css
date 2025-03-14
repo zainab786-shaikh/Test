@@ -1,1 +1,162 @@
 /* You can add global styles to this file, and also import other style files */
+*{
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+.form-container{
+    border:1px solid rgba(0, 0, 0, 0.2);
+    padding:10px;
+    border-radius: 1rem;
+}
+.add-btn {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease-in-out, background-color 0.3s;
+    cursor: pointer;
+  }
+  
+.delete, .edit, .list {
+    transition: background-color 1s, color 1s; /* Color transition bhi add kar diya */
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+    background-color: lightgray; /* Default background color */
+}
+
+/* Hover Effects */
+.delete:hover {
+    background-color: red !important;
+    color: aliceblue;
+}
+.edit:hover {
+    background-color: green !important;
+    color: aliceblue;
+}
+.list:hover {
+    background-color: blue !important;
+    color: aliceblue;
+}
+.page-title{
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+.column-head{
+    background-color: #acecff !important;
+}
+.detail-table table {
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    width: 100% !important;
+    border: 1px solid #ddd !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+}
+
+.detail-table th:first-child {
+    border-top-left-radius: 12px !important;
+}
+
+.detail-table th:last-child {
+    border-top-right-radius: 12px !important;
+}
+
+.custom-tooltip {
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 14px;
+    margin-bottom: -9px;
+  }
+
+.edit-save{
+    background-color: #00c3ff;
+    color: #002c50;
+    cursor:pointer;
+}
+.edit-save:hover{
+    background-color: #008cff !important;
+}
+.cancel, .edit-save{
+    border-radius: 2rem;
+    border:none;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
+}
+.edit-form{
+    border-radius: 1rem;
+    background-color: #fff;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.4);
+}
+.font-small{
+    font-size: 10px;
+}
+.dashboard-container {
+    display: flex;
+    flex-wrap: wrap; /* Allows items to wrap within the screen */
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    max-width: 100%;
+    overflow-x: hidden; /* Prevents horizontal overflow */
+    padding: 16px;
+    box-sizing: border-box;
+}
+.dashboard-card {
+    width: 100%;
+    max-width: fit-content; /* Adjust as per your design */
+    padding: 16px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding-left: 20px !important;
+}
+.card1{
+    background-color: #ffc8dd !important;
+    .mat-expansion-panel-header[aria-disabled=true]{
+        background-color: #ff1f75;
+        cursor: pointer;
+    }
+    .mat-expansion-panel-header:not([aria-disabled=true]) {
+        cursor: pointer;
+        background-color: #ff1f75;
+    }
+}
+.card2{
+    background-color: #bde0fe !important;
+    .mat-expansion-panel-header[aria-disabled=true]{
+        background-color: #2198ff;
+        cursor: pointer;
+    }
+    .mat-expansion-panel-header:not([aria-disabled=true]) {
+        cursor: pointer;
+        background-color: #2198ff;
+    }
+}
+.card3{
+    background-color: #a2d2ff !important;
+    .mat-expansion-panel-header[aria-disabled=true]{
+        background-color: #2a98ff;
+        cursor: pointer;
+    }
+    .mat-expansion-panel-header:not([aria-disabled=true]) {
+        cursor: pointer;
+        background-color: #2a98ff;
+    }
+}
+.card4{
+    background-color: #cdb4db !important;
+    .mat-expansion-panel-header[aria-disabled=true]{
+        background-color: #932acf;
+    }
+    .mat-expansion-panel-header:not([aria-disabled=true]) {
+        cursor: pointer;
+        background-color: #932acf;
+    }
+}
+app-progress-bar {
+    display: block;
+    width: 100%;
+    max-width: fit-content; /* Ensures it doesn't exceed parent width */
+    overflow: hidden;
+    color: rgb(255, 255, 255);
+    border-radius: 1rem;
+}
+

@@ -1,6 +1,6 @@
 <mat-card>
   <mat-card-title>
-    <span>College Details</span>
+    <span class="page-title">College Details</span>
     <button
       mat-icon-button
       color="primary"
@@ -11,46 +11,52 @@
     </button>
   </mat-card-title>
   <mat-card-content>
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 detail-table">
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <th mat-header-cell *matHeaderCellDef  class="column-head">Name</th>
         <td mat-cell *matCellDef="let element">{{ element.name }}</td>
       </ng-container>
 
       <ng-container matColumnDef="address">
-        <th mat-header-cell *matHeaderCellDef>Address</th>
+        <th mat-header-cell *matHeaderCellDef  class="column-head">Address</th>
         <td mat-cell *matCellDef="let element">{{ element.address }}</td>
       </ng-container>
 
       <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <th mat-header-cell *matHeaderCellDef  class="column-head">Actions</th>
         <td mat-cell *matCellDef="let element">
           <button
+            class="edit"
             mat-icon-button
             color="primary"
             (click)="editSchool(element)"
-            matTooltip="Edit college"
+            matTooltip="Edit"
             matTooltipPosition="above"
+            matTooltipClass="custom-tooltip"
           >
             <mat-icon>edit</mat-icon>
           </button>
           
           <button
+            class="delete"
             mat-icon-button
             color="warn"
             (click)="deleteSchool(element.Id)"
-            matTooltip="Delete college"
+            matTooltip="Delete"
             matTooltipPosition="above"
+            matTooltipClass="custom-tooltip"
           >
             <mat-icon>delete</mat-icon>
           </button>
 
           <button
+            class="list"
             mat-icon-button
             color="primary"
             (click)="onSchoolStandards(element.Id)"
-            matTooltip="List Semister"
+            matTooltip="Semesters"
             matTooltipPosition="above"
+            matTooltipClass="custom-tooltip"
           >
             <mat-icon>list_alt</mat-icon>
           </button>
@@ -67,7 +73,7 @@
     <mat-icon>{{ isEditMode ? "edit" : "add" }}</mat-icon>
     {{ isEditMode ? "Update College" : "Add College" }}
   </mat-card-title>
-  <mat-card-content>
+  <mat-card-content class="edit-form">
     <form
       [formGroup]="schoolForm"
       (ngSubmit)="onSubmit()"
@@ -91,6 +97,7 @@
 
       <div class="form-actions">
         <button
+          class="edit-save"
           mat-raised-button
           color="primary"
           type="submit"
@@ -98,7 +105,7 @@
         >
           {{ isEditMode ? "Update" : "Add" }}
         </button>
-        <button mat-button type="button" (click)="toggleForm()">Cancel</button>
+        <button mat-button type="button" (click)="toggleForm()" class="cancel">Cancel</button>
       </div>
     </form>
   </mat-card-content>

@@ -11,7 +11,7 @@
     </button>
   </mat-card-title>
   <mat-card-content>
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 detail-table">
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef>Name</th>
         <td mat-cell *matCellDef="let element">{{ element.name }}</td>
@@ -26,6 +26,7 @@
         <th mat-header-cell *matHeaderCellDef>Actions</th>
         <td mat-cell *matCellDef="let element">
           <button
+          class="edit"
             mat-icon-button
             color="primary"
             (click)="editStudent(element)"
@@ -34,6 +35,7 @@
             <mat-icon>edit</mat-icon>
           </button>
           <button
+          class="delete"
             mat-icon-button
             color="warn"
             (click)="deleteStudent(element.Id)"
@@ -43,6 +45,7 @@
           </button>
 
           <button
+          class="list"
             mat-icon-button
             color="primary"
             (click)="onProgresss(element.Id)"
@@ -87,6 +90,7 @@
 
       <div class="form-actions">
         <button
+          class="edit-save"
           mat-raised-button
           color="primary"
           type="submit"
@@ -94,7 +98,7 @@
         >
           {{ isEditMode ? "Update" : "Add" }}
         </button>
-        <button mat-button type="button" (click)="toggleForm()">Cancel</button>
+        <button mat-button type="button" (click)="toggleForm()" class="cancel">Cancel</button>
       </div>
     </form>
   </mat-card-content>
