@@ -42,7 +42,6 @@ CREATE TABLE `tenanta.student` (
 
 LOCK TABLES `tenanta.student` WRITE;
 /*!40000 ALTER TABLE `tenanta.student` DISABLE KEYS */;
-INSERT INTO `tenanta.student` VALUES (8,'Arif Shaikh','3333-3333-3333',1,1),(9,'Tarique Shaikh','3333-3333-3334',1,1);
 /*!40000 ALTER TABLE `tenanta.student` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-03-10  0:21:29
+-- Dump completed on 2025-03-14 14:47:27

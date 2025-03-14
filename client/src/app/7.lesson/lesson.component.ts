@@ -70,7 +70,7 @@ export class LessonComponent implements OnInit {
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(255),
-          Validators.pattern('^[A-Za-z0-9 ]+$'),
+          Validators.pattern('^[A-Za-z0-9 .,\-]+$'),
         ],
       ],
     });

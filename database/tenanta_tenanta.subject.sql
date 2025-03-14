@@ -29,7 +29,7 @@ CREATE TABLE `tenanta.subject` (
   PRIMARY KEY (`Id`),
   KEY `standard` (`standard`),
   CONSTRAINT `tenanta.subject_ibfk_1` FOREIGN KEY (`standard`) REFERENCES `tenanta.standard` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE `tenanta.subject` (
 
 LOCK TABLES `tenanta.subject` WRITE;
 /*!40000 ALTER TABLE `tenanta.subject` DISABLE KEYS */;
-INSERT INTO `tenanta.subject` VALUES (10,'Management',1);
+INSERT INTO `tenanta.subject` VALUES (12,'Environmental Studies',5),(13,'Operating Systems',5),(14,'Management',6),(15,'Programming with Python',6);
 /*!40000 ALTER TABLE `tenanta.subject` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-03-10  0:21:39
+-- Dump completed on 2025-03-14 14:47:31

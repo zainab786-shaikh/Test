@@ -40,7 +40,6 @@ CREATE TABLE `tenanta.schoolstandard` (
 
 LOCK TABLES `tenanta.schoolstandard` WRITE;
 /*!40000 ALTER TABLE `tenanta.schoolstandard` DISABLE KEYS */;
-INSERT INTO `tenanta.schoolstandard` VALUES (1,1,1),(2,1,2);
 /*!40000 ALTER TABLE `tenanta.schoolstandard` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-03-10  0:21:35
+-- Dump completed on 2025-03-14 14:47:29
