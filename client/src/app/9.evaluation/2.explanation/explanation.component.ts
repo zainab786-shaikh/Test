@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -7,6 +7,8 @@ import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { EvaluationService } from '../evaluation.service';
+import { Observable } from 'rxjs';
+import { MarkdownModule } from 'ngx-markdown';
 
 @Component({
   selector: 'app-explanation',
@@ -17,6 +19,7 @@ import { EvaluationService } from '../evaluation.service';
     FormsModule,
     MatInputModule,
     MatFormFieldModule,
+    MarkdownModule,
   ],
   templateUrl: './explanation.component.html',
   styleUrls: ['./explanation.component.css'],
@@ -26,13 +29,16 @@ export class ExplanationComponent implements OnInit {
   @Input() lessonsectionId!: number;
   @Input() explanationText: SafeHtml = 'This is a default explanation.';
 
+  @ViewChild('messagesContainer') private messagesContainer!: ElementRef;
+
   explanation: string = '';
   activeSubscription: any;
 
-  // Chat properties
-  userQuestion = '';
-  messages: { content: string; isUser: boolean }[] = [];
-  loading = false;
+  prompt: string = '';
+  responseText: string = ''; // Store accumulated response
+  response$?: Observable<string>; // Observable for streaming
+  isLoading: boolean = false;
+  errorMessage: string = '';
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -54,41 +60,48 @@ export class ExplanationComponent implements OnInit {
   ngOnInit() {
     this.load();
   }
-
-  sendQuestion() {
-    if (!this.userQuestion.trim()) return;
-
-    // Add user message and create response placeholder
-    this.messages.push({ content: this.userQuestion, isUser: true });
-    const botMsg = { content: '', isUser: false };
-    this.messages.push(botMsg);
-
-    // Start streaming
-    this.loading = true;
-
-    // Use the raw explanation string instead of SafeHtml
-    const fullPrompt = this.explanation + '\n\n' + this.userQuestion;
-
-    this.evaluationService.submitChatQuestion(fullPrompt).subscribe({
-      next: (token) => (botMsg.content += token),
-      error: () => {
-        botMsg.content = 'Error retrieving response.';
-        this.loading = false;
-      },
-      complete: () => {
-        this.userQuestion = '';
-        this.loading = false;
-      },
-    });
+  ngAfterViewInit() {
+    this.scrollToBottom();
   }
 
-  stopGeneration() {
-    // Cancel the subscription
-    if (this.activeSubscription) {
-      this.activeSubscription.unsubscribe();
-      this.evaluationService.stopGeneration();
-      this.activeSubscription = null;
+  sendQuestion() {
+    if (!this.prompt.trim()) {
+      this.errorMessage = 'Please enter a prompt.';
+      return;
     }
-    this.loading = false;
+
+    this.errorMessage = '';
+    this.isLoading = true;
+
+    this.response$ = this.evaluationService.generateResponse(this.prompt);
+    this.response$.subscribe(
+      (chunk) => {
+        this.responseText += chunk;
+        this.scrollToBottom();
+      },
+      (error) => {
+        this.errorMessage = 'Error fetching response. Please try again.';
+        console.error('Error:', error);
+      },
+      () => {
+        this.responseText += '\n\n\n';
+        this.prompt = '';
+        this.isLoading = false;
+      }
+    );
+  }
+
+  stopResponse() {
+    this.evaluationService.stopGeneration();
+    this.isLoading = false;
+  }
+
+  private scrollToBottom() {
+    setTimeout(() => {
+      if (this.messagesContainer) {
+        this.messagesContainer.nativeElement.scrollTop =
+          this.messagesContainer.nativeElement.scrollHeight;
+      }
+    }, 100);
   }
 }

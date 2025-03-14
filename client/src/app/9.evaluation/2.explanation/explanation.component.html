@@ -13,14 +13,8 @@
   <mat-card class="chatbot-card">
     <mat-card-title>Study Assistant</mat-card-title>
     <mat-card-content class="chat-container">
-      <div class="messages-container">
-        <div
-          *ngFor="let message of messages"
-          [class.user-message]="message.isUser"
-          [class.bot-message]="!message.isUser"
-        >
-          {{ message.content }}
-        </div>
+      <div class="messages-container" #messagesContainer>
+        <markdown [data]="responseText"></markdown>
       </div>
     </mat-card-content>
     <mat-card-actions>
@@ -28,16 +22,17 @@
         <mat-form-field appearance="fill" class="input-question">
           <input
             matInput
-            [(ngModel)]="userQuestion"
+            [(ngModel)]="prompt"
             placeholder="Ask a question..."
             (keyup.enter)="sendQuestion()"
+            [disabled]="isLoading"
           />
         </mat-form-field>
         <button
           mat-raised-button
           color="primary"
           (click)="sendQuestion()"
-          [disabled]="!userQuestion"
+          [disabled]="!prompt"
           class="input-send-button"
         >
           Send
@@ -45,8 +40,8 @@
         <button
           mat-raised-button
           color="primary"
-          (click)="stopGeneration()"
-          [disabled]="!userQuestion"
+          (click)="stopResponse()"
+          [disabled]="!prompt"
           class="input-send-button"
         >
           Stop

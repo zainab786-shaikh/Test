@@ -97,12 +97,6 @@ export class EvaluationService {
       );
   }
 
-  // submitChatQuestion(context: any): Observable<any> {
-  //   return this.http
-  //     .post<any>(`${this.apiUrl}/chat`, context)
-  //     .pipe(catchError(this.handleError));
-  // }
-
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
@@ -120,41 +114,62 @@ export class EvaluationService {
     );
   }
 
-  submitChatQuestion(prompt: string, model = 'llama3.2'): Observable<string> {
-    this.abortController = new AbortController();
-
+  generateResponse(prompt: string): Observable<string> {
     return new Observable((observer) => {
-      const xhr = new XMLHttpRequest();
-      let lastProcessedIndex = 0;
+      this.stopGeneration(); // Abort previous request if any
+      this.abortController = new AbortController();
 
-      xhr.open('POST', this.baseUrl);
-      xhr.setRequestHeader('Content-Type', 'application/json');
-
-      xhr.onprogress = () => {
-        // Process only new data since last check
-        const newText = xhr.responseText.substring(lastProcessedIndex);
-        lastProcessedIndex = xhr.responseText.length;
-
-        // Process only if we have new content
-        if (newText) {
-          newText.split('\n').forEach((line) => {
-            if (!line.trim()) return;
-            try {
-              const token = JSON.parse(line).response;
-              if (token) observer.next(token);
-            } catch (e) {}
-          });
-        }
+      const requestBody = {
+        model: 'llama3.2',
+        prompt: prompt,
+        stream: true,
       };
 
-      xhr.onload = () => observer.complete();
-      xhr.onerror = () => observer.error('Request failed');
-      xhr.send(JSON.stringify({ model, prompt, stream: true }));
+      fetch(this.baseUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody),
+        signal: this.abortController.signal,
+      })
+        .then(async (response) => {
+          const reader = response.body?.getReader();
+          const decoder = new TextDecoder();
+          let buffer = '';
 
-      return () => {
-        xhr.abort();
-        this.abortController = null;
-      };
+          if (!reader) {
+            observer.error('Failed to read stream');
+            return;
+          }
+
+          while (true) {
+            const { value, done } = await reader.read();
+            if (done) break;
+
+            buffer += decoder.decode(value, { stream: true });
+            const parts = buffer.split('\n');
+            buffer = parts.pop() || ''; // Keep incomplete part
+
+            parts.forEach((jsonString) => {
+              try {
+                if (jsonString.trim()) {
+                  const jsonResponse = JSON.parse(jsonString);
+                  observer.next(jsonResponse.response); // Send chunk to Angular
+                  if (jsonResponse.done) observer.complete();
+                }
+              } catch (error) {
+                console.error('⚠️ Error parsing JSON:', error, jsonString);
+              }
+            });
+          }
+          observer.complete();
+        })
+        .catch((error) => {
+          if (error.name === 'AbortError') {
+            console.log('⛔ Request aborted by user');
+          } else {
+            observer.error('Streaming error: ' + error);
+          }
+        });
     });
   }
 
@@ -162,6 +177,11 @@ export class EvaluationService {
     if (this.abortController) {
       this.abortController.abort();
       this.abortController = null;
+      console.log('⛔ Generation stopped.');
     }
+  }
+
+  ngOnDestroy() {
+    this.stopGeneration();
   }
 }
