@@ -1,4 +1,174 @@
+/* Dashboard container */
+.dashboard-container {
+  padding: 20px;
+  background-color: #ffffff;
+}
+
+/* Parent card styling */
+.parent-card {
+  margin-bottom: 16px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+
+/* Panel styling */
+.parent-panel {
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+.parent-header {
+  padding: 0;
+  height: auto !important;
+  min-height: 56px !important;
+}
+
+.mat-progress-bar-title-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px;
+}
+
+/* Name styling */
+.mat-progress-bar-name {
+  font-weight: 500;
+  font-size: 16px;
+  color: #333;
+  margin-right: 16px;
+  flex-shrink: 0;
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Progress bar wrapper */
+.progress-wrapper {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+/* Progress bar styling */
 mat-progress-bar {
+  height: 4px !important;
+  border-radius: 2px !important;
+  flex-grow: 1;
+}
+
+::ng-deep .mat-mdc-progress-bar {
+  height: 4px !important;
+  border-radius: 2px !important;
+}
+
+/* Use a simple black progress bar */
+::ng-deep .mat-mdc-progress-bar .mdc-linear-progress__bar-inner {
+  background-color: #000000 !important;
+}
+
+/* Score label */
+.score-label {
+  min-width: 40px;
+  text-align: right;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  margin-left: 16px;
+}
+
+/* Progress container */
+.mat-progress-bar-progress-container {
+  padding: 0;
+}
+
+/* Child styling */
+.progress-bar-child {
+  padding: 0;
+}
+
+.progress-button {
+  width: 100%;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  height: auto;
+  line-height: normal;
+  background-color: transparent;
+  border-radius: 0;
+  transition: background-color 0.2s;
+}
+
+.progress-button:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.button-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+
+/* Grandchild styling */
+.grandchild-container {
+  margin-left: 16px;
+  border-left: 1px solid #f0f0f0;
+}
+
+.progress-bar-grandchild {
+  width: 100%;
+}
+
+.grandchild-button {
+  padding-left: 32px;
+}
+
+/* Override material design styles */
+::ng-deep .mat-expansion-panel-body {
+  padding: 0 !important;
+}
+
+::ng-deep .mat-expansion-panel-header {
+  padding: 0 !important;
+}
+
+::ng-deep .mat-expansion-panel:not([class*=mat-elevation-z]) {
+  box-shadow: none !important;
+}
+
+::ng-deep .mat-expansion-indicator::after {
+  color: #888;
+}
+
+/* Override progress bar colors */
+::ng-deep .mat-primary .mat-mdc-progress-bar-fill::after {
+  background-color: #000000 !important;
+}
+
+::ng-deep .mat-accent .mat-mdc-progress-bar-fill::after {
+  background-color: #000000 !important;
+}
+
+::ng-deep .mat-warn .mat-mdc-progress-bar-fill::after {
+  background-color: #000000 !important;
+}
+
+::ng-deep .mat-mdc-progress-bar .mdc-linear-progress__buffer-bar {
+  background-color: #f0f0f0 !important;
+}
+
+
+
+
+/* mat-progress-bar {
   width: 100%;
 }
 
@@ -46,4 +216,4 @@ mat-progress-bar-button {
 .progress-bar-grandchild {
   display: flex;
   justify-content: flex-end;
-}
+} */

@@ -1,4 +1,55 @@
 <div class="dashboard-container">
+  <div class="dashboard-header">
+    <h1>Teacher  Dashboard</h1>
+  </div>
+
+  <div class="overall-performance">
+    <mat-card class="overall-performance-card">
+      <mat-card-header>
+        <mat-card-title>Overall Performance</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <plotly-plot
+          *ngIf="perfOverallPlotter"
+          [data]="perfOverallPlotter.barData"
+          [layout]="perfOverallPlotter.barLayout"
+        ></plotly-plot>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="progress-cards">
+    <mat-card class="dashboard-card">
+      <mat-card-header>
+        <mat-card-title>Progress by Semester</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <app-progress-bar
+          [parentList]="perfPerStandard"
+          (onParentClick)="clickByStandard($event)"
+        ></app-progress-bar>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="dashboard-card">
+      <mat-card-header>
+        <mat-card-title>Progress by Subject</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <app-progress-bar
+          [parentList]="perfPerSubject"
+          (onParentClick)="clickBySubject($event)"
+        ></app-progress-bar>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+
+
+
+
+<!-- <div class="dashboard-container">
   <div class="overall-performance">
     <mat-card class="overall-performance-card">
       <h2>Overall Performance</h2>
@@ -25,4 +76,4 @@
       (onParentClick)="clickBySubject($event)"
     ></app-progress-bar>
   </mat-card>
-</div>
+</div> -->
