@@ -75,8 +75,9 @@ export class ExplanationComponent implements OnInit {
     this.isLoading = true;
     let textExplanation = this.convertHtmlToPlainText(this.explanation);
 
-    let modifiedPrompt = `The context is: \n ${textExplanation}. 
-    \n\n Use only brief answer unless asked explicitly to explain in detail.
+    let modifiedPrompt =
+      //`The context is: \n ${textExplanation}.\n\n
+      `Use only brief answer unless asked explicitly to explain in detail.
     Be crisp and clear. Answer the question within the context only. \n\n The question is: ${this.prompt}.
     Else simply mention 'You are asking question outside the context'
     `;
