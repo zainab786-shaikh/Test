@@ -31,7 +31,7 @@ CREATE TABLE `tenanta.schoolstandard` (
   KEY `standard` (`standard`),
   CONSTRAINT `tenanta.schoolstandard_ibfk_1` FOREIGN KEY (`school`) REFERENCES `tenanta.school` (`Id`),
   CONSTRAINT `tenanta.schoolstandard_ibfk_2` FOREIGN KEY (`standard`) REFERENCES `tenanta.standard` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,6 +40,7 @@ CREATE TABLE `tenanta.schoolstandard` (
 
 LOCK TABLES `tenanta.schoolstandard` WRITE;
 /*!40000 ALTER TABLE `tenanta.schoolstandard` DISABLE KEYS */;
+INSERT INTO `tenanta.schoolstandard` VALUES (6,1,5),(7,1,6);
 /*!40000 ALTER TABLE `tenanta.schoolstandard` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-03-14 14:47:29
+-- Dump completed on 2025-03-14 16:56:32
