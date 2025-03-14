@@ -178,22 +178,31 @@ mat-progress-bar-button {
   margin: 5px;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  width: 80%;
 }
 
-.mat-progress-bar-title-container {
+.progress-bar-child {
+  padding-left: 30px; /* Indent child level */
+}
+
+.progress-bar-grandchild {
+  padding-left: 60px; /* Further indent grandchild level */
+}
+
+/* Ensures button content is aligned properly */
+.progress-bar-child button,
+.progress-bar-grandchild button {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   width: 100%;
 }
 
 .mat-progress-bar-name {
-  max-width: 500px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-right: 10px;
-  display: inline-block;
+  flex-shrink: 0;
 }
 
 .mat-progress-bar-progress-bar {

@@ -149,49 +149,17 @@ export class StudentDashboardComponent {
             return eachSubject;
           });
 
+          this.completedLessonSectionData = this.filterSubjectData(
+            this.subjectData,
+            (lessonSection) => lessonSection.score === 100
+          );
+
+          this.pendingLessonSectionData = this.filterSubjectData(
+            this.subjectData,
+            (lessonSection) => lessonSection.score < 100
+          );
+
           let copiedSubjectData: IChildNode[] = JSON.parse(
-            JSON.stringify(this.subjectData)
-          );
-          this.completedLessonSectionData = copiedSubjectData.map(
-            (eachSubject) => {
-              let pendingLessonList = eachSubject.childList?.filter(
-                (eachLesson) => eachLesson.score <= 100
-              );
-              if (pendingLessonList && pendingLessonList?.length > 0) {
-                pendingLessonList.map((eachLesson) => {
-                  let pendingLessonSectionList = eachLesson.childList?.filter(
-                    (eachLessonSection) => eachLessonSection.score == 100
-                  );
-                  eachLesson.childList = pendingLessonSectionList;
-                });
-              }
-              eachSubject.childList = pendingLessonList;
-
-              return eachSubject;
-            }
-          );
-
-          copiedSubjectData = JSON.parse(JSON.stringify(this.subjectData));
-          this.pendingLessonSectionData = copiedSubjectData.map(
-            (eachSubject) => {
-              let pendingLessonList = eachSubject.childList?.filter(
-                (eachLesson) => eachLesson.score < 100
-              );
-              if (pendingLessonList && pendingLessonList?.length > 0) {
-                pendingLessonList.map((eachLesson) => {
-                  let pendingLessonSectionList = eachLesson.childList?.filter(
-                    (eachLessonSection) => eachLessonSection.score < 100
-                  );
-                  eachLesson.childList = pendingLessonSectionList;
-                });
-              }
-              eachSubject.childList = pendingLessonList;
-
-              return eachSubject;
-            }
-          );
-
-          copiedSubjectData = JSON.parse(
             JSON.stringify(this.pendingLessonSectionData)
           );
           this.nextLessonSectionData = copiedSubjectData.map((eachSubject) => {
@@ -223,6 +191,47 @@ export class StudentDashboardComponent {
         });
     });
 
+  }
+
+  private filterSubjectData(
+    subjectData: IChildNode[],
+    comparisonFn: (lessonSection: IChildNode) => boolean
+  ) {
+    let copiedSubjectData: IChildNode[] = JSON.parse(
+      JSON.stringify(subjectData)
+    );
+
+    let filteredSubjectData = copiedSubjectData
+      // First, filter to only include subjects with at least one lesson section that passes the comparison
+      .filter((subject) =>
+        subject.childList?.some((lesson) =>
+          lesson.childList?.some((lessonSection) => comparisonFn(lessonSection))
+        )
+      )
+      // Then map those subjects to include only the qualifying lessons and lesson sections
+      .map((subject) => {
+        // Create a new subject object with filtered lessons
+        return {
+          ...subject,
+          childList: subject.childList
+            ?.filter((lesson: IChildNode) =>
+              lesson.childList?.some((lessonSection: IChildNode) =>
+                comparisonFn(lessonSection)
+              )
+            )
+            // For each qualifying lesson, filter to only include sections that pass the comparison
+            .map((lesson: IChildNode) => {
+              return {
+                ...lesson,
+                childList: lesson.childList?.filter((lessonSection) =>
+                  comparisonFn(lessonSection)
+                ),
+              };
+            }),
+        };
+      });
+
+    return filteredSubjectData;
   }
 
   clickByLessonSection(event: {

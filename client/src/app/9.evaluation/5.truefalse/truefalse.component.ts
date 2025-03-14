@@ -30,7 +30,7 @@ export class TrueFalseComponent implements OnInit {
 
   // Load the questions
   private load() {
-    this.evaluationService.getTrueFalse(this.lessonId).subscribe((data) => {
+    this.evaluationService.getTrueFalse(this.lessonsectionId).subscribe((data) => {
       this.trueFalseQuestions = data.map((q) => ({
         ...q,
         selectedAnswer: null,

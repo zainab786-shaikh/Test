@@ -31,7 +31,7 @@ export class QuizComponent implements OnInit {
   constructor(private evalationService: EvaluationService) {}
 
   private load() {
-    this.evalationService.getQuizzes(this.lessonId).subscribe((data) => {
+    this.evalationService.getQuizzes(this.lessonsectionId).subscribe((data) => {
       this.quizzes = data.map((q) => ({
         ...q,
         selectedAnswer: null,

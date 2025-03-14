@@ -16,27 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `tenanta.standard`
+-- Table structure for table `tenanta.subject`
 --
 
-DROP TABLE IF EXISTS `tenanta.standard`;
+DROP TABLE IF EXISTS `tenanta.subject`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `tenanta.standard` (
+CREATE TABLE `tenanta.subject` (
   `Id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `standard` int NOT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `standard` (`standard`),
+  CONSTRAINT `tenanta.subject_ibfk_1` FOREIGN KEY (`standard`) REFERENCES `tenanta.standard` (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tenanta.standard`
+-- Dumping data for table `tenanta.subject`
 --
 
-LOCK TABLES `tenanta.standard` WRITE;
-/*!40000 ALTER TABLE `tenanta.standard` DISABLE KEYS */;
-INSERT INTO `tenanta.standard` VALUES (5,'5th Semester'),(6,'6th Semester');
-/*!40000 ALTER TABLE `tenanta.standard` ENABLE KEYS */;
+LOCK TABLES `tenanta.subject` WRITE;
+/*!40000 ALTER TABLE `tenanta.subject` DISABLE KEYS */;
+INSERT INTO `tenanta.subject` VALUES (12,'Environmental Studies',5),(13,'Operating Systems',5),(14,'Management',6),(15,'Programming with Python',6);
+/*!40000 ALTER TABLE `tenanta.subject` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -48,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-03-14 16:56:47
+-- Dump completed on 2025-03-14 14:47:31

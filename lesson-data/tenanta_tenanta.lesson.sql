@@ -16,27 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `tenanta.standard`
+-- Table structure for table `tenanta.lesson`
 --
 
-DROP TABLE IF EXISTS `tenanta.standard`;
+DROP TABLE IF EXISTS `tenanta.lesson`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `tenanta.standard` (
+CREATE TABLE `tenanta.lesson` (
   `Id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `subject` int NOT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `subject` (`subject`),
+  CONSTRAINT `tenanta.lesson_ibfk_1` FOREIGN KEY (`subject`) REFERENCES `tenanta.subject` (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tenanta.standard`
+-- Dumping data for table `tenanta.lesson`
 --
 
-LOCK TABLES `tenanta.standard` WRITE;
-/*!40000 ALTER TABLE `tenanta.standard` DISABLE KEYS */;
-INSERT INTO `tenanta.standard` VALUES (5,'5th Semester'),(6,'6th Semester');
-/*!40000 ALTER TABLE `tenanta.standard` ENABLE KEYS */;
+LOCK TABLES `tenanta.lesson` WRITE;
+/*!40000 ALTER TABLE `tenanta.lesson` DISABLE KEYS */;
+INSERT INTO `tenanta.lesson` VALUES (4,'1.Environment',12),(5,'2.Energy Resources',12),(6,'3.Ecosystem and Biodiversity',12),(9,'1.Overview of Operating Systems',13),(10,'2.Services and Components of Operating Systems',13),(11,'3.Process Management',13),(12,'1.Introduction to management concepts and managerial skills',14),(13,'2.Planning and organizing at supervisory level',14),(14,'3.Directing and Controlling at Supervisory level',14),(15,'1.Introduction and Syntax of Python Program',15),(16,'2.Python Operator and Control Flow Statement',15),(17,'3.DataStructures in Python',15);
+/*!40000 ALTER TABLE `tenanta.lesson` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -48,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-03-14 16:56:47
+-- Dump completed on 2025-03-14 14:47:40

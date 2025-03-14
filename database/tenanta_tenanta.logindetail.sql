@@ -29,7 +29,7 @@ CREATE TABLE `tenanta.logindetail` (
   `password` varchar(255) NOT NULL,
   `role` enum('admin','principal','teacher','student','parent') NOT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE `tenanta.logindetail` (
 
 LOCK TABLES `tenanta.logindetail` WRITE;
 /*!40000 ALTER TABLE `tenanta.logindetail` DISABLE KEYS */;
-INSERT INTO `tenanta.logindetail` VALUES (1,'admin','1111-1111-1111','admin','admin'),(2,'teacher','2222-2222-2222','teacher','teacher'),(3,'student','3333-3333-3333','student','student'),(4,'principal','4444-4444-4444','principal','principal'),(5,'parent','5555-5555-5555','principal','principal');
+INSERT INTO `tenanta.logindetail` VALUES (1,'admin','1111-1111-1111','admin','admin'),(2,'teacher','2222-2222-2222','teacher','teacher'),(3,'Yusuf Shaikh','2222-2222-2220','student','student'),(4,'principal','4444-4444-4444','principal','principal'),(6,'Affan Ansari','2222-2222-2221','student','student'),(7,'Zainab Shaikh','5555-5555-5550','student','student'),(8,'Mehndi Shaikh','5555-5555-5551','student','student');
 /*!40000 ALTER TABLE `tenanta.logindetail` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-03-10  0:21:33
+-- Dump completed on 2025-03-14 16:56:41

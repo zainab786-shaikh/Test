@@ -36,6 +36,9 @@ const TYPES = {
   ControllerLessonSection: Symbol("ControllerLessonSection"),
   ServiceLessonSection: Symbol("ServiceLessonSection"),
   RepoLessonSection: Symbol("RepoLessonSection"),
+
+  ControllerChat: Symbol("ControllerChat"),
+  ServiceChat: Symbol("ServiceChat"),
 };
 
 export default TYPES;
