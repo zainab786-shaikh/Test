@@ -1,50 +1,88 @@
 <mat-card class="explanation-container">
   <!-- Explanation Column -->
   <mat-card class="explanation-card">
-    <mat-card-title>Explanation</mat-card-title>
+    <mat-card-title>
+      <mat-icon>menu_book</mat-icon>
+      <span>Explanation</span>
+    </mat-card-title>
     <mat-card-content class="explanation-content">
       <mat-card class="sub-card">
-        <div class="scrollable-content" [innerHTML]="explanationText"></div>
+        <div *ngIf="loadingExplanation" class="loading-container">
+          <div class="spinner"></div>
+          <p>Loading explanation content...</p>
+        </div>
+        <div class="scrollable-content" [innerHTML]="explanationText" *ngIf="!loadingExplanation"></div>
       </mat-card>
     </mat-card-content>
   </mat-card>
 
   <!-- Chatbot Column -->
   <mat-card class="chatbot-card">
-    <mat-card-title>Study Assistant</mat-card-title>
+    <mat-card-title>
+      <mat-icon>smart_toy</mat-icon>
+      <span>Study Assistant</span>
+      <button mat-icon-button class="clear-chat-btn" matTooltip="Clear chat history" (click)="clearChat()" *ngIf="responseText">
+        <mat-icon>delete_sweep</mat-icon>
+      </button>
+    </mat-card-title>
     <mat-card-content class="chat-container">
       <div class="messages-container" #messagesContainer>
-        <markdown [data]="responseText"></markdown>
+        <div class="welcome-message" *ngIf="!responseText">
+          <div class="bot-avatar">
+            <mat-icon>psychology</mat-icon>
+          </div>
+          <div class="message-content">
+            Hello! I'm your study assistant. Ask me questions about the explanation and I'll help you understand.
+          </div>
+        </div>
+        <markdown [data]="responseText" class="bot-response" *ngIf="responseText"></markdown>
+        <div class="typing-indicator" *ngIf="isLoading">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="error-message" *ngIf="errorMessage">
+          <mat-icon>error_outline</mat-icon>
+          {{ errorMessage }}
+        </div>
       </div>
     </mat-card-content>
     <mat-card-actions>
       <div class="input-container">
-        <mat-form-field appearance="fill" class="input-question">
+        <mat-form-field appearance="outline" class="input-question">
+          <mat-label>Ask a question...</mat-label>
           <input
             matInput
             [(ngModel)]="prompt"
-            placeholder="Ask a question..."
+            placeholder="Type your question here..."
             (keyup.enter)="sendQuestion()"
             [disabled]="isLoading"
           />
+          <mat-icon matSuffix *ngIf="!isLoading && !prompt">help_outline</mat-icon>
+          <mat-icon matSuffix *ngIf="!isLoading && prompt" class="clear-icon" (click)="prompt = ''">clear</mat-icon>
+          <mat-hint *ngIf="isLoading">Please wait while I process your request...</mat-hint>
         </mat-form-field>
         <button
-          mat-raised-button
+          mat-fab
           color="primary"
           (click)="sendQuestion()"
-          [disabled]="!prompt"
+          [disabled]="!prompt || isLoading"
           class="input-send-button"
+          aria-label="Send message"
+          matTooltip="Send question"
         >
-          Send
+          <mat-icon>send</mat-icon>
         </button>
         <button
-          mat-raised-button
-          color="primary"
+          mat-fab
+          color="warn"
           (click)="stopResponse()"
-          [disabled]="!prompt"
-          class="input-send-button"
+          [disabled]="!isLoading"
+          class="input-stop-button"
+          aria-label="Stop response"
+          matTooltip="Stop generating response"
         >
-          Stop
+          <mat-icon>stop</mat-icon>
         </button>
       </div>
     </mat-card-actions>
