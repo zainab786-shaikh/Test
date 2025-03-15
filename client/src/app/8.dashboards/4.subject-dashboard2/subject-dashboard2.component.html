@@ -2381,9 +2381,10 @@
                         <div class="bg-gray-50 px-5 py-3">
                           <div class="text-sm">
                             <div class="flex justify-between items-center text-sm font-semibold text-gray-700">
-                              <div class="font-medium text-blue-700 hover:text-blue-900 cursor-pointer" (click)="toggleDashboard()">
-                                {{ showDashboard ? 'Hide Subject' : 'View Subject' }}
-                              </div>
+                              <div class="font-medium text-blue-700 hover:text-blue-900 cursor-pointer"
+     (click)="toggleDashboard(lesson.Id)">
+  {{ showDashboard && selectedLessonId === lesson.Id ? 'Hide Subject' : 'View Subject' }}
+</div>
                               <div>
                                 {{ lesson.score | number:'1.0-1' }}%
                               </div>
@@ -2404,115 +2405,202 @@
                   </div>
 
 
-                    <div class="dashboard-container" *ngIf="showDashboard">
-                      <!-- Next Lessons (Topics) Section -->
-                      <div class="grid grid-cols-1 gap-6 p-6 w-full">
-                        <!-- Next Lesson Topics -->
-                    <div class="bg-blue-50 shadow-lg rounded-lg p-4 border border-blue-200">
-                      <h3 class="text-lg font-semibold text-blue-700 mb-3">Next Lessons</h3>
-                      <ul class="space-y-2">
-                        <ng-container *ngFor="let subject of nextLessonSectionData">
-                          <ng-container *ngFor="let lesson of subject.childList">
-                            <li>
-                              <details class="bg-white p-3 rounded-md border border-gray-200 shadow-sm">
-                                <summary class="cursor-pointer font-medium text-gray-800 hover:text-blue-600 transition">
-                                  {{ lesson.name }}
-                                </summary>
-                                <ul class="pl-5 mt-2 space-y-1 text-gray-700">
-                                  <ng-container *ngFor="let section of lesson.childList">
-                                    <li
-                                      class="text-sm hover:text-blue-500 transition cursor-pointer"
-                                      (click)="clickByLessonSection({
-                                        parentId: subject.Id,
-                                        childId: lesson.Id,
-                                        grandChildId: section.Id
-                                      })">
-                                      {{ section.name }}
-                                    </li>
-                                  </ng-container>
-                                </ul>
-                              </details>
-                            </li>
+                  <div class="dashboard-container" *ngIf="showDashboard">
+                    <!-- Next Lessons (Topics) Section -->
+                    <div class="grid grid-cols-1 gap-6 p-6 w-full">
+                      <!-- Next Lesson Topics -->
+                      <div class="bg-blue-50 shadow-lg rounded-lg p-4 border border-blue-200">
+                        <h3 class="text-lg font-semibold text-blue-700 mb-3">Next Lessons</h3>
+                        <ul class="space-y-2">
+                          <ng-container *ngIf="selectedLessonSections.length">
+                            <ng-container *ngFor="let lesson of selectedLessonSections">
+                              <li>
+                                <details class="bg-white p-3 rounded-md border border-gray-200 shadow-sm">
+                                  <summary class="cursor-pointer font-medium text-gray-800 hover:text-blue-600 transition">
+                                    {{ lesson.name }}
+                                  </summary>
+                                  <ul class="pl-5 mt-2 space-y-1 text-gray-700">
+                                    <ng-container *ngFor="let section of lesson.childList ?? []">
+                                      <li
+                                        class="text-sm hover:text-blue-500 transition cursor-pointer"
+                                        (click)="clickByLessonSection({
+                                          parentId: selectedLessonId ?? 0,
+                                          childId: lesson.Id,
+                                          grandChildId: section.Id
+                                        })">
+                                        {{ section.name }}
+                                      </li>
+                                    </ng-container>
+                                  </ul>
+                                </details>
+                              </li>
+                            </ng-container>
                           </ng-container>
-                        </ng-container>
-                      </ul>
+                        </ul>
+                      </div>
+
+                      <!-- Completed Lesson Topics -->
+                      <div class="bg-green-50 shadow-lg rounded-lg p-4 border border-green-200">
+                        <h3 class="text-lg font-semibold text-green-700 mb-3">Completed Lessons</h3>
+                        <ul class="space-y-2">
+                          <ng-container *ngIf="filteredCompletedLessons.length">
+                            <ng-container *ngFor="let lesson of filteredCompletedLessons">
+                              <li>
+                                <details class="bg-white p-3 rounded-md border border-gray-200 shadow-sm">
+                                  <summary class="cursor-pointer font-medium text-gray-800 hover:text-green-600 transition">
+                                    {{ lesson.name }}
+                                  </summary>
+                                  <ul class="pl-5 mt-2 space-y-1 text-gray-700">
+                                    <ng-container *ngFor="let section of lesson.childList ?? []">
+                                      <li class="text-sm hover:text-green-500 transition">
+                                        {{ section.name }}
+                                      </li>
+                                    </ng-container>
+                                  </ul>
+                                </details>
+                              </li>
+                            </ng-container>
+                          </ng-container>
+                        </ul>
+                      </div>
+
+                      <!-- Pending Lesson Topics -->
+                      <div class="bg-yellow-50 shadow-lg rounded-lg p-4 border border-yellow-200">
+                        <h3 class="text-lg font-semibold text-yellow-700 mb-3">Pending Lesson Topics</h3>
+                        <ul class="space-y-2">
+                          <ng-container *ngIf="filteredPendingLessons.length">
+                            <ng-container *ngFor="let lesson of filteredPendingLessons">
+                              <li>
+                                <details class="bg-white p-3 rounded-md border border-gray-200 shadow-sm">
+                                  <summary class="cursor-pointer font-medium text-gray-800 hover:text-yellow-600 transition">
+                                    {{ lesson.name }}
+                                  </summary>
+                                  <ul class="pl-5 mt-2 space-y-1 text-gray-700">
+                                    <ng-container *ngFor="let section of lesson.childList ?? []">
+                                      <li class="text-sm hover:text-yellow-500 transition">
+                                        {{ section.name }}
+                                      </li>
+                                    </ng-container>
+                                  </ul>
+                                </details>
+                              </li>
+                            </ng-container>
+                          </ng-container>
+                        </ul>
+                      </div>
                     </div>
 
 
+                    <!-- Next Lessons (Topics) Section
+                    <div class="grid grid-cols-1 gap-6 p-6 w-full">
 
-                    <!-- Completed Lesson Topics -->
-                    <div class="bg-green-50 shadow-lg rounded-lg p-4 border border-green-200">
-                      <h3 class="text-lg font-semibold text-green-700 mb-3">Completed Lessons</h3>
-                      <ul class="space-y-2">
-                        <ng-container *ngFor="let subject of completedLessonSectionData">
-                          <ng-container *ngFor="let lesson of subject.childList">
-                            <li>
-                              <details class="bg-white p-3 rounded-md border border-gray-200 shadow-sm">
-                                <summary class="cursor-pointer font-medium text-gray-800 hover:text-green-600 transition">
-                                  {{ lesson.name }}
-                                </summary>
-                                <ul class="pl-5 mt-2 space-y-1 text-gray-700">
-                                  <ng-container *ngFor="let section of lesson.childList">
-                                    <li class="text-sm hover:text-green-500 transition">{{ section.name }}</li>
-                                  </ng-container>
-                                </ul>
-                              </details>
-                            </li>
+                      <div class="bg-blue-50 shadow-lg rounded-lg p-4 border border-blue-200">
+                        <h3 class="text-lg font-semibold text-blue-700 mb-3">Next Lessons</h3>
+                        <ul class="space-y-2">
+                          <ng-container *ngFor="let subject of nextLessonSectionData">
+                            <ng-container *ngFor="let lesson of subject.childList">
+                              <li>
+                                <details class="bg-white p-3 rounded-md border border-gray-200 shadow-sm">
+                                  <summary class="cursor-pointer font-medium text-gray-800 hover:text-blue-600 transition">
+                                    {{ lesson.name }}
+                                  </summary>
+                                  <ul class="pl-5 mt-2 space-y-1 text-gray-700">
+                                    <ng-container *ngFor="let section of lesson.childList">
+                                      <li
+                                        class="text-sm hover:text-blue-500 transition cursor-pointer"
+                                        (click)="clickByLessonSection({
+                                          parentId: subject.Id,
+                                          childId: lesson.Id,
+                                          grandChildId: section.Id
+                                        })">
+                                        {{ section.name }}
+                                      </li>
+                                    </ng-container>
+                                  </ul>
+                                </details>
+                              </li>
+                            </ng-container>
                           </ng-container>
-                        </ng-container>
-                      </ul>
-                    </div>
+                        </ul>
+                      </div>
 
-                    <!-- Pending Lesson Topics -->
-                    <div class="bg-yellow-50 shadow-lg rounded-lg p-4 border border-yellow-200">
-                      <h3 class="text-lg font-semibold text-yellow-700 mb-3">Pending Lesson Topics</h3>
-                      <ul class="space-y-2">
-                        <ng-container *ngFor="let subject of pendingLessonSectionData">
-                          <ng-container *ngFor="let lesson of subject.childList">
-                            <li>
-                              <details class="bg-white p-3 rounded-md border border-gray-200 shadow-sm">
-                                <summary class="cursor-pointer font-medium text-gray-800 hover:text-yellow-600 transition">
-                                  {{ lesson.name }}
-                                </summary>
-                                <ul class="pl-5 mt-2 space-y-1 text-gray-700">
-                                  <ng-container *ngFor="let section of lesson.childList">
-                                    <li class="text-sm hover:text-yellow-500 transition">{{ section.name }}</li>
-                                  </ng-container>
-                                </ul>
-                              </details>
-                            </li>
+
+
+
+                      <div class="bg-green-50 shadow-lg rounded-lg p-4 border border-green-200">
+                        <h3 class="text-lg font-semibold text-green-700 mb-3">Completed Lessons</h3>
+                        <ul class="space-y-2">
+                          <ng-container *ngFor="let subject of completedLessonSectionData">
+                            <ng-container *ngFor="let lesson of subject.childList">
+                              <li>
+                                <details class="bg-white p-3 rounded-md border border-gray-200 shadow-sm">
+                                  <summary class="cursor-pointer font-medium text-gray-800 hover:text-green-600 transition">
+                                    {{ lesson.name }}
+                                  </summary>
+                                  <ul class="pl-5 mt-2 space-y-1 text-gray-700">
+                                    <ng-container *ngFor="let section of lesson.childList">
+                                      <li class="text-sm hover:text-green-500 transition">{{ section.name }}</li>
+                                    </ng-container>
+                                  </ul>
+                                </details>
+                              </li>
+                            </ng-container>
                           </ng-container>
-                        </ng-container>
-                      </ul>
+                        </ul>
+                      </div>
+
+
+                      <div class="bg-yellow-50 shadow-lg rounded-lg p-4 border border-yellow-200">
+                        <h3 class="text-lg font-semibold text-yellow-700 mb-3">Pending Lesson Topics</h3>
+                        <ul class="space-y-2">
+                          <ng-container *ngFor="let subject of pendingLessonSectionData">
+                            <ng-container *ngFor="let lesson of subject.childList">
+                              <li>
+                                <details class="bg-white p-3 rounded-md border border-gray-200 shadow-sm">
+                                  <summary class="cursor-pointer font-medium text-gray-800 hover:text-yellow-600 transition">
+                                    {{ lesson.name }}
+                                  </summary>
+                                  <ul class="pl-5 mt-2 space-y-1 text-gray-700">
+                                    <ng-container *ngFor="let section of lesson.childList">
+                                      <li class="text-sm hover:text-yellow-500 transition">{{ section.name }}</li>
+                                    </ng-container>
+                                  </ul>
+                                </details>
+                              </li>
+                            </ng-container>
+                          </ng-container>
+                        </ul>
+                      </div>
                     </div>
-                  </div>
-                  </div>
-                    <!-- <mat-card class="dashboard-card">
-                      <h2>Next Lessons</h2>
-                      <app-progress-bar
-                        [parentList]="nextLessonSectionData"
-                        (onGrandChildClick)="clickByLessonSection($event)"
-                      ></app-progress-bar>
-                    </mat-card>
+                  </div>-->
+                  <!-- <mat-card class="dashboard-card">
+                    <h2>Next Lessons</h2>
+                    <app-progress-bar
+                      [parentList]="nextLessonSectionData"
+                      (onGrandChildClick)="clickByLessonSection($event)"
+                    ></app-progress-bar>
+                  </mat-card>
 
-                    <mat-card class="dashboard-card">
-                      <h2>Completed Lessons</h2>
-                      <app-progress-bar
-                        [parentList]="completedLessonSectionData"
-                      ></app-progress-bar>
-                    </mat-card>
+                  <mat-card class="dashboard-card">
+                    <h2>Completed Lessons</h2>
+                    <app-progress-bar
+                      [parentList]="completedLessonSectionData"
+                    ></app-progress-bar>
+                  </mat-card>
 
-                    <mat-card class="dashboard-card">
-                      <h2>Pending Lessons</h2>
-                      <app-progress-bar
-                        [parentList]="pendingLessonSectionData"
-                      ></app-progress-bar>
-                    </mat-card> -->
+                  <mat-card class="dashboard-card">
+                    <h2>Pending Lessons</h2>
+                    <app-progress-bar
+                      [parentList]="pendingLessonSectionData"
+                    ></app-progress-bar>
+                  </mat-card> -->
 
 
-                  </div>
+                </div>
 
             </div>
+          </div>
+      
 
 
 

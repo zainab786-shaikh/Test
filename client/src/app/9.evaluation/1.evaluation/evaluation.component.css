@@ -1,3 +1,4 @@
+/* Card styling */
 mat-card {
   margin: 20px auto;
   padding: 20px;
@@ -5,6 +6,11 @@ mat-card {
   border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #fff;
+  transition: box-shadow 0.3s ease;
+}
+
+mat-card:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 mat-card-title {
@@ -14,8 +20,150 @@ mat-card-title {
   font-size: 1.75rem;
   font-weight: bold;
   margin-bottom: 20px;
+  color: #333;
+  position: relative;
 }
 
+mat-card-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background-color: #1976d2;
+  border-radius: 3px;
+}
+
+mat-card-content {
+  padding: 10px 0;
+}
+
+/* Progress bar styling */
 mat-progress-bar {
-  margin-bottom: 16px;
+  margin-bottom: 24px;
+  height: 8px;
+  border-radius: 4px;
+}
+
+::ng-deep .mat-progress-bar-fill::after {
+  background-color: #1976d2;
+}
+
+::ng-deep .mat-progress-bar-buffer {
+  background-color: #e3f2fd;
+}
+
+/* Action container styling */
+.action-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 0;
+}
+
+/* Guidance message styling */
+.guidance-message {
+  display: flex;
+  align-items: center;
+  color: #555;
+  font-size: 0.95rem;
+  background-color: #e3f2fd;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border-left: 4px solid #1976d2;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  max-width: 70%;
+  animation: subtle-pulse 2s infinite;
+}
+
+.guidance-message mat-icon {
+  color: #1976d2;
+  margin-right: 10px;
+  font-size: 20px;
+  height: 20px;
+  width: 20px;
+  line-height: 20px;
+}
+
+@keyframes subtle-pulse {
+  0% {
+    background-color: #e3f2fd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  50% {
+    background-color: #bbdefb;
+    box-shadow: 0 2px 6px rgba(25, 118, 210, 0.12);
+  }
+  100% {
+    background-color: #e3f2fd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+}
+
+/* Button styling */
+button[mat-button] {
+  background-color: #1976d2;
+  color: white;
+  padding: 8px 24px;
+  border-radius: 20px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border: none;
+  height: auto;
+  min-width: 120px;
+}
+
+button[mat-button]:hover:not([disabled]) {
+  background-color: #1565c0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(25, 118, 210, 0.2);
+}
+
+button[mat-button]:active:not([disabled]) {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(25, 118, 210, 0.2);
+}
+
+button[mat-button][disabled] {
+  background-color: #b0bec5;
+  color: #e0e0e0;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Card actions area */
+mat-card-actions {
+  padding: 16px;
+  border-top: 1px solid #f0f0f0;
+  margin-top: 10px;
+}
+
+/* Container styling */
+.container {
+  padding: 10px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .action-container {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .guidance-message {
+    max-width: 100%;
+    margin-bottom: 10px;
+  }
+
+  button[mat-button] {
+    width: 100%;
+  }
 }

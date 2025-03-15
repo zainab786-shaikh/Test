@@ -202,9 +202,32 @@ export class SubjectDashboard2Component {
         });
     });
   }
-  toggleDashboard() {
-    this.showDashboard = !this.showDashboard; // Toggle visibility
-  }
+  selectedLessonId: number | null = null;
+
+get selectedLessonSections() {
+  return [
+    ...this.nextLessonSectionData ?? [],
+    ...this.completedLessonSectionData ?? [],
+    ...this.pendingLessonSectionData ?? []
+  ].find(l => l.Id === this.selectedLessonId)?.childList ?? [];
+}
+get filteredCompletedLessons() {
+  return this.completedLessonSectionData
+    ?.find(l => l.Id === this.selectedLessonId)?.childList ?? [];
+}
+
+get filteredPendingLessons() {
+  return this.pendingLessonSectionData
+    ?.find(l => l.Id === this.selectedLessonId)?.childList ?? [];
+}
+
+toggleDashboard(lessonId: number) {
+  this.selectedLessonId = this.selectedLessonId === lessonId ? null : lessonId;
+  this.showDashboard = this.selectedLessonId !== null;
+}
+
+
+
 
   clickByLessonSection(event: {
     parentId: number;
