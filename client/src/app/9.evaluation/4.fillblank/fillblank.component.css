@@ -52,75 +52,42 @@ mat-card-title {
   margin-bottom: 16px;
 }
 
-/* Enhanced dropdown styling for fill-in-blank */
 .blank-dropdown {
-  min-width: 180px;
+  width: 180px;
   min-height: 36px;
   background-color: #ffffff;
   border-radius: 8px;
   margin: 0 12px;
   font-size: 1rem;
+  padding: 8px 12px;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
   border: 2px solid #e0e0e0;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   display: inline-flex;
   align-items: center;
 }
 
-::ng-deep .mat-select-value {
-  padding: 0 8px;
-  color: #2c3e50;
-  font-weight: 500;
-}
-
-::ng-deep .mat-select-arrow {
-  color: #3f51b5;
-}
-
-::ng-deep .mat-select-trigger {
-  height: 40px;
-}
-
-/* Focus state for select dropdown */
-::ng-deep .mat-select:focus .mat-select-trigger {
+/* Style for the mat-select when focused */
+.blank-dropdown.mat-focused {
   border-color: #3f51b5;
+  box-shadow: 0 4px 10px rgba(63, 81, 181, 0.2);
 }
 
-/* Dropdown panel styling */
+/* Style for the dropdown panel (requires global styles) */
 ::ng-deep .mat-select-panel {
   border-radius: 8px !important;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15) !important;
-  margin-top: 8px !important;
 }
 
 ::ng-deep .mat-option {
   padding: 10px 16px !important;
   font-size: 1rem !important;
-  height: auto !important;
-  line-height: 1.4 !important;
 }
 
 ::ng-deep .mat-option:hover {
   background-color: rgba(63, 81, 181, 0.08) !important;
 }
 
-::ng-deep .mat-option.mat-selected:not(.mat-option-multiple) {
-  background-color: rgba(63, 81, 181, 0.12) !important;
-}
-
-::ng-deep .mat-option-text {
-  font-weight: 500;
-}
-
-/* Answer display styling */
-.sub-card p:nth-child(2) {
-  font-size: 0.95rem;
-  color: #455a64;
-  font-style: italic;
-  margin-top: 8px;
-}
-
-/* Success/error icons */
 .success-icon, .error-icon {
   position: absolute;
   right: 20px;
@@ -136,7 +103,6 @@ mat-card-title {
   color: #c62828;
 }
 
-/* Button container */
 .button-container {
   display: flex;
   justify-content: flex-end;
@@ -175,23 +141,6 @@ button.mat-raised-button:last-child:hover {
   background-color: #e0e0e0;
 }
 
-/* Enhanced placeholder styles when no option is selected */
-::ng-deep .mat-select-placeholder {
-  color: #9e9e9e;
-  font-style: italic;
-}
-
-/* Add a subtle animation for dropdown options */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-5px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-::ng-deep .mat-option {
-  animation: fadeIn 0.2s ease-out;
-}
-
-/* Responsive design */
 @media (max-width: 768px) {
   mat-card.quiz-container {
     padding: 20px;
@@ -204,8 +153,8 @@ button.mat-raised-button:last-child:hover {
   }
 
   .blank-dropdown {
-    width: 100px;
-    margin: 12px 0;
+    width: 140px;
+    margin: 8px 0;
   }
 
   .sub-card p {
@@ -218,6 +167,6 @@ button.mat-raised-button:last-child:hover {
   }
 
   button.mat-raised-button {
-    width: 100px;
+    width: 100%;
   }
 }

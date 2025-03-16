@@ -177,10 +177,10 @@ export class SubjectDashboard2Component {
                   let pendingLessonSectionList = eachLesson.childList?.filter(
                     (eachLessonSection) => eachLessonSection.score < 100
                   );
-                  eachLesson.childList = pendingLessonSectionList;
+                  eachLesson.childList = pendingLessonSectionList?.sort((a,b) => a.Id - b.Id);
                 });
               }
-              eachSubject.childList = pendingLessonList;
+              eachSubject.childList = pendingLessonList?.sort((a,b) => a.Id - b.Id);
 
               return eachSubject;
             }

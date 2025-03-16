@@ -2505,63 +2505,18 @@
                                         </svg></i>
                                 </div>
                                 <div class="flex-1 min-w-0">
-                                    <a href="subjects.html" class="focus:outline-none">
+                                  <a [routerLink]="[
+                                  '/subject-dashboard2/school', schoolId,
+                                  'standard', standardId,
+                                  'student', studentId
+                                ]"
+                                class="block hover:bg-gray-50">
                                         <span class="absolute inset-0" aria-hidden="true"></span>
                                         <p class="text-sm font-medium text-gray-900">
                                             Start a New Lesson
                                         </p>
                                         <p class="text-sm text-gray-500">
                                             Continue your learning journey
-                                        </p>
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div
-                                class="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
-                                <div class="flex-shrink-0">
-                                    <i class="text-2xl text-green-500" data-fa-i2svg=""><svg
-                                            class="svg-inline--fa fa-robot" aria-hidden="true" focusable="false"
-                                            data-prefix="fas" data-icon="robot" role="img"
-                                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" data-fa-i2svg="">
-                                            <path fill="currentColor"
-                                                d="M320 0c17.7 0 32 14.3 32 32V96H472c39.8 0 72 32.2 72 72V440c0 39.8-32.2 72-72 72H168c-39.8 0-72-32.2-72-72V168c0-39.8 32.2-72 72-72H288V32c0-17.7 14.3-32 32-32zM208 384c-8.8 0-16 7.2-16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16s-7.2-16-16-16H208zm96 0c-8.8 0-16 7.2-16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16s-7.2-16-16-16H304zm96 0c-8.8 0-16 7.2-16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16s-7.2-16-16-16H400zM264 256a40 40 0 1 0 -80 0 40 40 0 1 0 80 0zm152 40a40 40 0 1 0 0-80 40 40 0 1 0 0 80zM48 224H64V416H48c-26.5 0-48-21.5-48-48V272c0-26.5 21.5-48 48-48zm544 0c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48H576V224h16z">
-                                            </path>
-                                        </svg></i>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <a href="botInterface.html" class="focus:outline-none">
-                                        <span class="absolute inset-0" aria-hidden="true"></span>
-                                        <p class="text-sm font-medium text-gray-900">
-                                            Ask the Bot for Help
-                                        </p>
-                                        <p class="text-sm text-gray-500">
-                                            Get assistance on any topic
-                                        </p>
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div
-                                class="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
-                                <div class="flex-shrink-0">
-                                    <i class="text-2xl text-yellow-500" data-fa-i2svg=""><svg
-                                            class="svg-inline--fa fa-chart-bar" aria-hidden="true" focusable="false"
-                                            data-prefix="fas" data-icon="chart-bar" role="img"
-                                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
-                                            <path fill="currentColor"
-                                                d="M32 32c17.7 0 32 14.3 32 32V400c0 8.8 7.2 16 16 16H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H80c-44.2 0-80-35.8-80-80V64C0 46.3 14.3 32 32 32zm96 96c0-17.7 14.3-32 32-32l192 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-192 0c-17.7 0-32-14.3-32-32zm32 64H288c17.7 0 32 14.3 32 32s-14.3 32-32 32H160c-17.7 0-32-14.3-32-32s14.3-32 32-32zm0 96H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H160c-17.7 0-32-14.3-32-32s14.3-32 32-32z">
-                                            </path>
-                                        </svg></i>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <a href="progress.html" class="focus:outline-none">
-                                        <span class="absolute inset-0" aria-hidden="true"></span>
-                                        <p class="text-sm font-medium text-gray-900">
-                                            View Past Results
-                                        </p>
-                                        <p class="text-sm text-gray-500">
-                                            Check your performance
                                         </p>
                                     </a>
                                 </div>

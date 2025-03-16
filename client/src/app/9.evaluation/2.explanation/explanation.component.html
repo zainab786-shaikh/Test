@@ -21,13 +21,14 @@
     <mat-card-title>
       <mat-icon>smart_toy</mat-icon>
       <span>Study Assistant</span>
-      <button mat-icon-button class="clear-chat-btn" matTooltip="Clear chat history" (click)="clearChat()" *ngIf="responseText">
+      <button mat-icon-button class="clear-chat-btn" matTooltip="Clear chat history" (click)="clearChat()" *ngIf="chatHistory.length > 0">
         <mat-icon>delete_sweep</mat-icon>
       </button>
     </mat-card-title>
     <mat-card-content class="chat-container">
       <div class="messages-container" #messagesContainer>
-        <div class="welcome-message" *ngIf="!responseText">
+        <!-- Welcome message only shows when chat is empty -->
+        <div class="welcome-message" *ngIf="chatHistory.length === 0">
           <div class="bot-avatar">
             <mat-icon>psychology</mat-icon>
           </div>
@@ -35,12 +36,30 @@
             Hello! I'm your study assistant. Ask me questions about the explanation and I'll help you understand.
           </div>
         </div>
-        <markdown [data]="responseText" class="bot-response" *ngIf="responseText"></markdown>
+
+        <!-- Display chat history with user and assistant messages -->
+        <ng-container *ngFor="let message of chatHistory">
+          <!-- User message -->
+          <div class="user-chat-bubble" *ngIf="message.role === 'user'">
+            <div class="user-icon">👤</div>
+            <div class="user-message">{{ message.content }}</div>
+          </div>
+
+          <!-- Assistant message -->
+          <div class="bot-chat-bubble" *ngIf="message.role === 'assistant'">
+            <div class="bot-icon">🤖</div>
+            <markdown [data]="message.content" class="bot-response"></markdown>
+          </div>
+        </ng-container>
+
+        <!-- Show typing indicator when loading -->
         <div class="typing-indicator" *ngIf="isLoading">
           <span></span>
           <span></span>
           <span></span>
         </div>
+
+        <!-- Show error messages -->
         <div class="error-message" *ngIf="errorMessage">
           <mat-icon>error_outline</mat-icon>
           {{ errorMessage }}
