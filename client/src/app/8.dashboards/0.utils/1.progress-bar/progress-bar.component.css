@@ -140,7 +140,7 @@ mat-progress-bar {
   padding: 0 !important;
 }
 
-::ng-deep .mat-expansion-panel:not([class*=mat-elevation-z]) {
+::ng-deep .mat-expansion-panel:not([class*="mat-elevation-z"]) {
   box-shadow: none !important;
 }
 
@@ -165,9 +165,6 @@ mat-progress-bar {
   background-color: #f0f0f0 !important;
 }
 
-
-
-
 /* mat-progress-bar {
   width: 100%;
 }
@@ -182,14 +179,13 @@ mat-progress-bar-button {
 }
 
 .progress-bar-child {
-  padding-left: 30px; /* Indent child level */
+  padding-left: 30px; 
 }
 
 .progress-bar-grandchild {
-  padding-left: 60px; /* Further indent grandchild level */
+  padding-left: 60px; 
 }
 
-/* Ensures button content is aligned properly */
 .progress-bar-child button,
 .progress-bar-grandchild button {
   display: flex;
@@ -225,4 +221,5 @@ mat-progress-bar-button {
 .progress-bar-grandchild {
   display: flex;
   justify-content: flex-end;
-} */
+} 
+*/

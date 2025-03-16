@@ -44,16 +44,33 @@ export class EvaluationService {
     );
   }
 
-  private shuffleOptions(quiz: IQuiz): IQuiz {
-    const options = [...quiz.options];
-    const correctAnswer = options[quiz.answer];
+  private shuffleQZFBArray(
+    quizArray: (IQuiz | IFillInTheBlank | ITrueFalse)[]
+  ): (IQuiz | IFillInTheBlank | ITrueFalse)[] {
+    const shuffledArray = [...quizArray];
+
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[j]] = [
+        shuffledArray[j],
+        shuffledArray[i],
+      ];
+    }
+    return shuffledArray;
+  }
+
+  private shuffleOptions(
+    qzfb: IQuiz | IFillInTheBlank
+  ): IQuiz | IFillInTheBlank {
+    const options = [...qzfb.options];
+    const correctAnswer = options[qzfb.answer];
 
     for (let i = options.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [options[i], options[j]] = [options[j], options[i]];
     }
 
-    return { ...quiz, options, answer: options.indexOf(correctAnswer) };
+    return { ...qzfb, options, answer: options.indexOf(correctAnswer) };
   }
 
   getQuizzes(lessonSectionId: number): Observable<IQuiz[]> {
@@ -64,7 +81,8 @@ export class EvaluationService {
       .pipe(
         map((response) => {
           const quizzes: IQuiz[] = JSON.parse(response);
-          return quizzes
+          const shuffledQuizzes = this.shuffleQZFBArray(quizzes) as IQuiz[];
+          return shuffledQuizzes
             .map((quiz) => this.shuffleOptions(quiz))
             .slice(0, this.NUMBER_OF_QUESTIONS); // Return only the first 3 quizzes
         })
@@ -79,7 +97,12 @@ export class EvaluationService {
       .pipe(
         map((response) => {
           const fillBlanks: IFillInTheBlank[] = JSON.parse(response);
-          return fillBlanks.slice(0, this.NUMBER_OF_QUESTIONS); // Return only the first 3 fill-in-the-blanks
+          const shuffledFillBlanks = this.shuffleQZFBArray(
+            fillBlanks
+          ) as IFillInTheBlank[];
+          return shuffledFillBlanks
+            .map((fillblank) => this.shuffleOptions(fillblank))
+            .slice(0, this.NUMBER_OF_QUESTIONS); // Return only the first 3 fill-in-the-blanks
         })
       );
   }
@@ -91,8 +114,11 @@ export class EvaluationService {
       })
       .pipe(
         map((response) => {
-          const trueFalseQuestions: ITrueFalse[] = JSON.parse(response);
-          return trueFalseQuestions.slice(0, this.NUMBER_OF_QUESTIONS); // Return only the first 3 true/false questions
+          const truefalse: ITrueFalse[] = JSON.parse(response);
+          const shuffledTrueFalse = this.shuffleQZFBArray(
+            truefalse
+          ) as ITrueFalse[];
+          return shuffledTrueFalse.slice(0, this.NUMBER_OF_QUESTIONS); // Return only the first 3 true/false questions
         })
       );
   }
