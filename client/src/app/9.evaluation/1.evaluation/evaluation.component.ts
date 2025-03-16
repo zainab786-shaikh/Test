@@ -84,7 +84,7 @@ export class EvaluationComponent {
       });
   }
   nextStep() {
-    } else if (this.currentStep === 0) {
+    if (this.currentStep === 0) {
       this.currentStep++;
       this.updateProgress();
     } else if (this.currentStep === 1 && this.quizScore >= 90) {
