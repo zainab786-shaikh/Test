@@ -84,18 +84,6 @@ export class EvaluationComponent {
       });
   }
   nextStep() {
-    if (this.progress == 100) {
-      this.doneStep();
-
-      this.router.navigate([
-        'student-dashboard',
-        'school',
-        this.schoolId,
-        'standard',
-        this.standardId,
-        'student',
-        this.studentId,
-      ]);
     } else if (this.currentStep === 0) {
       this.currentStep++;
       this.updateProgress();
@@ -111,10 +99,24 @@ export class EvaluationComponent {
     } else {
       //do nothing
     }
+
+    if (this.progress == 100) {
+      this.doneStep();
+
+      this.router.navigate([
+        'student-dashboard',
+        'school',
+        this.schoolId,
+        'standard',
+        this.standardId,
+        'student',
+        this.studentId,
+      ]);
+    }
   }
 
   updateProgress() {
-    this.progress = ((this.currentStep + 1) / this.steps.length) * 100;
+    this.progress = (this.currentStep / this.steps.length) * 100;
   }
 
   updateScore(component: string, score: number) {
