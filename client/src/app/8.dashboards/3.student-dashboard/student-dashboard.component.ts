@@ -36,7 +36,7 @@ enum tagChildList {
     MatExpansionModule,
     MatProgressBarModule,
     MatTooltipModule,
-    UtilProgressBarComponent,
+    //UtilProgressBarComponent,
     RouterModule,
   ],
   templateUrl: './student-dashboard.component.html',
