@@ -113,6 +113,8 @@ mat-card-title .mat-icon {
 
 /* Chatbot column */
 .chatbot-card {
+  flex-grow: 1;
+  padding: 12px;
   display: flex;
   flex-direction: column;
   width: 30%;
@@ -153,13 +155,18 @@ mat-card-title .mat-icon {
 
 /* Make sure the messages container scrolls properly */
 .messages-container {
-  height: 55vh;
+  height: 100%;
+  max-height: calc(55vh - 120px); /* Adjusted to prevent overflow */
   overflow-y: auto !important;
   padding: 16px;
   background-color: white;
   border-radius: 12px;
   box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.03);
   position: relative;
+  scroll-behavior: smooth;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 /* Custom scrollbar for chat */
@@ -182,6 +189,20 @@ mat-card-title .mat-icon {
 }
 
 /* Bot response styling */
+.bot-icon {
+  min-width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #2196f3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  font-size: 14px;
+  color: white;
+  box-shadow: 0 2px 4px rgba(33, 150, 243, 0.3);
+}
+
 .bot-response {
   display: block;
   font-size: 1rem;
@@ -189,11 +210,13 @@ mat-card-title .mat-icon {
   padding: 14px 18px;
   background-color: #edf7ff;
   border-radius: 18px 18px 18px 4px;
-  margin-bottom: 16px;
+  max-width: 75%;
+  min-width: 50px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
   position: relative;
-  max-width: 90%;
-  animation: fadeIn 0.4s ease-out;
+  word-break: break-word;
+  hyphens: auto;
+  color: #333;
 }
 
 .bot-response::before {
@@ -214,10 +237,11 @@ mat-card-title .mat-icon {
   align-items: flex-start;
   margin-bottom: 16px;
   animation: fadeIn 0.5s ease-out;
+  width: 100%;
 }
 
 .bot-avatar {
-  width: 40px;
+  min-width: 40px;
   height: 40px;
   border-radius: 50%;
   background-color: #2196f3;
@@ -226,6 +250,7 @@ mat-card-title .mat-icon {
   justify-content: center;
   margin-right: 12px;
   box-shadow: 0 3px 6px rgba(33, 150, 243, 0.3);
+  flex-shrink: 0;
 }
 
 .bot-avatar .mat-icon {
@@ -239,10 +264,12 @@ mat-card-title .mat-icon {
   background-color: #edf7ff;
   padding: 14px 18px;
   border-radius: 0 18px 18px 18px;
-  max-width: calc(100% - 60px);
+  max-width: 75%;
+  min-width: 50px;
   font-size: 1rem;
   line-height: 1.6;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  word-break: break-word;
 }
 
 /* Typing indicator */
@@ -286,7 +313,37 @@ mat-card-title .mat-icon {
     transform: translateY(-6px);
   }
 }
+/* Better Chat Bubble Styling */
+.user-chat-bubble {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 4px;
+  justify-content: flex-end;
+  width: 100%;
+  animation: fadeInRight 0.4s ease-out;
+}
 
+.bot-chat-bubble {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 4px;
+  width: 100%;
+  animation: fadeIn 0.4s ease-out;
+}
+/* User bubble styles */
+.user-icon {
+  min-width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #e3f2fd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 12px;
+  font-size: 14px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  order: 2;
+}
 /* Error message */
 .error-message {
   color: #f44336;
@@ -304,13 +361,18 @@ mat-card-title .mat-icon {
   flex-direction: row;
   align-items: center;
   gap: 10px;
-  padding: 10px 0 0;
+  padding: 16px 0 0;
   width: 100%;
+  margin-top: auto;
+  position: relative;
+  z-index: 10;
+  background-color: #f8fdff;
 }
 
 .input-question {
   width: 100%;
-  margin-bottom: -1.25em; /* Adjust for mat-form-field bottom padding */
+  margin-bottom: -1.25em;
+  min-height: 56px;
 }
 
 .input-question .mat-form-field-wrapper {
@@ -365,7 +427,7 @@ mat-card-title .mat-icon {
     margin-bottom: 24px;
     height: auto;
   }
-  
+
   .sub-card, .messages-container {
     height: 40vh;
   }
@@ -375,11 +437,11 @@ mat-card-title .mat-icon {
   .input-container {
     flex-wrap: wrap;
   }
-  
+
   .input-question {
     width: 100%;
   }
-  
+
   .input-send-button, .input-stop-button {
     margin-top: 10px;
   }
@@ -390,34 +452,42 @@ mat-card-title .mat-icon {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
 @keyframes pulse {
   0% { transform: scale(1); }
   50% { transform: scale(1.05); }
   100% { transform: scale(1); }
 }
 
+/* Improved markdown styling */
 markdown {
   display: block;
+  width: 100%;
 }
 
 markdown code {
-  background-color: #f5f5f5;
-  padding: 2px 5px;
+  background-color: #f8f8f8;
+  padding: 2px 4px;
   border-radius: 4px;
   font-family: monospace;
-  font-size: 0.95em;
+  font-size: 0.9em;
+  color: #e91e63;
+  white-space: pre-wrap;
+  word-break: break-all;
 }
 
 markdown pre {
   background-color: #f8f8f8;
-  padding: 12px 16px;
+  padding: 12px;
   border-radius: 8px;
   overflow-x: auto;
-  margin: 12px 0;
+  margin: 8px 0;
   border: 1px solid #e0e0e0;
+  max-width: 100%;
 }
-
 markdown h1, markdown h2, markdown h3, markdown h4 {
   margin-top: 16px;
   margin-bottom: 8px;
@@ -643,12 +713,17 @@ markdown tr:nth-child(even) {
   background-color: #e3f2fd;
   padding: 14px 18px;
   border-radius: 18px 18px 4px 18px;
-  margin: 16px 0 16px auto;
-  max-width: 90%;
-  text-align: right;
+  max-width: 75%;
+  min-width: 50px;
+  font-size: 1rem;
+  line-height: 1.6;
+  text-align: left;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
   position: relative;
-  animation: fadeInRight 0.4s ease-out;
+  word-break: break-word;
+  hyphens: auto;
+  order: 1;
+  color: #333;
 }
 
 @keyframes fadeInRight {
@@ -703,11 +778,11 @@ markdown tr:nth-child(even) {
     display: block;
     height: auto;
   }
-  
+
   .chatbot-card {
     page-break-before: always;
   }
-  
+
   .input-container {
     display: none;
   }
