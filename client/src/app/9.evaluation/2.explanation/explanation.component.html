@@ -48,7 +48,17 @@
           <!-- Assistant message -->
           <div class="bot-chat-bubble" *ngIf="message.role === 'assistant'">
             <div class="bot-icon">🤖</div>
-            <markdown [data]="message.content" class="bot-response"></markdown>
+            <div class="bot-message-container">
+              <markdown [data]="message.content" class="bot-response"></markdown>
+              <button
+                mat-icon-button
+                class="speak-button"
+                [class.speaking]="isSpeaking"
+                (click)="isSpeaking ? stopSpeaking() : speak(message.content)"
+                matTooltip="{{isSpeaking ? 'Stop speaking' : 'Listen to response'}}">
+                <mat-icon>{{isSpeaking ? 'volume_up' : 'volume_down'}}</mat-icon>
+              </button>
+            </div>
           </div>
         </ng-container>
 
@@ -67,6 +77,17 @@
       </div>
     </mat-card-content>
     <mat-card-actions>
+      <!-- Speech Recognition Status (Shows when recording) -->
+      <div class="speech-status" *ngIf="isRecording">
+        <span>Listening...</span>
+        <div class="wave-animation">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+
       <div class="input-container">
         <mat-form-field appearance="outline" class="input-question">
           <mat-label>Ask a question...</mat-label>
@@ -81,6 +102,21 @@
           <mat-icon matSuffix *ngIf="!isLoading && prompt" class="clear-icon" (click)="prompt = ''">clear</mat-icon>
           <mat-hint *ngIf="isLoading">Please wait while I process your request...</mat-hint>
         </mat-form-field>
+
+        <!-- Speech Recognition Button -->
+        <button
+          mat-fab
+          color="accent"
+          (click)="toggleSpeechRecognition()"
+          [disabled]="isLoading || !isSpeechRecognitionSupported"
+          class="input-speech-button"
+          aria-label="Use voice input"
+          matTooltip="Click to speak your question"
+          [class.recording]="isRecording"
+        >
+          <mat-icon>mic</mat-icon>
+        </button>
+
         <button
           mat-fab
           color="primary"
