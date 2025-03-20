@@ -186,3 +186,23 @@ button.mat-raised-button:last-child:hover {
     width: 100%;
   }
 }
+
+.feedback-message {
+  margin-top: 16px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.correct-feedback {
+  background-color: rgba(46, 125, 50, 0.1);
+  color: #2e7d32;
+  border-left: 4px solid #2e7d32;
+}
+
+.wrong-feedback {
+  background-color: rgba(198, 40, 40, 0.1);
+  color: #c62828;
+  border-left: 4px solid #c62828;
+}

@@ -35,6 +35,17 @@
           {{ eachFillBlank.selectedAnswer === eachFillBlank.answer ?
           "check_circle" : "cancel" }}
         </mat-icon>
+        <div
+          *ngIf="eachFillBlank.answered && eachFillBlank.feedback"
+          class="feedback-message"
+          [ngClass]="{
+            'correct-feedback': eachFillBlank.selectedAnswer === eachFillBlank.answer,
+            'wrong-feedback': eachFillBlank.selectedAnswer !== eachFillBlank.answer
+          }"
+        >
+          {{ eachFillBlank.feedback }}
+        </div>
+        
       </mat-card>
     </div>
     <div class="button-container">
