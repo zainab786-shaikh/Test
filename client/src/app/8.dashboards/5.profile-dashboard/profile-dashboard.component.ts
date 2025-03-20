@@ -100,7 +100,7 @@ export class ProfileDashboardComponent implements OnInit {
         viewBox: '0 0 448 512',
       },
       {
-        path: ['/login'],
+        path: ['/'],
         label: 'Logout',
         icon: 'fa-right-from-bracket',
         svgPath:
@@ -110,4 +110,12 @@ export class ProfileDashboardComponent implements OnInit {
     ];
     this.cdr.detectChanges();
   }
+  logout() {
+    // Perform logout logic (e.g., clear session/token)
+    localStorage.removeItem('authToken'); // Example: Clear authentication token
+
+    // Navigate to the login page
+    this.router.navigate(['/']);
+  }
+
 }

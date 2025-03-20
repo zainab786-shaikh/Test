@@ -19,7 +19,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IProgress } from '../../4.progress/progress.model';
 import { RouterModule } from '@angular/router'; // Add this import
 import { ViewEncapsulation } from '@angular/core';
-
+import { StandardService } from '../../5.standard/standard.service';
+import { StudentService } from '../../3.student/student.service';
 PlotlyModule.plotlyjs = PlotlyJS;
 
 enum tagChildList {
@@ -62,16 +63,29 @@ export class SubjectDashboard2Component {
   menuItems: any[] = []; // Initialize as an empty array
   showDashboard: boolean = false; // Initially hidden
 
+  studentName = 'John Doe';
+  adhaarNumber = '2222-2222-2222';
+  standardName = '3rd';
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private progressService: ProgressService,
-    private serviceHelper: DashboardServiceHelper
+    private serviceHelper: DashboardServiceHelper,
+    private standardService: StandardService,
+    private studentService: StudentService
   ) {
     this.route.params.subscribe((params) => {
       this.schoolId = +params['schoolId'];
       this.standardId = +params['standardId'];
       this.studentId = +params['studentId'];
+      this.studentService.get(this.studentId).subscribe((data) => {
+        this.studentName = data.name;
+        this.adhaarNumber = data.adhaar;
+      });
+      this.standardService.get(this.standardId).subscribe((data) => {
+        this.standardName = data.name;
+      });
     });
   }
 
@@ -100,7 +114,7 @@ export class SubjectDashboard2Component {
           viewBox: '0 0 448 512'
         },
         {
-          path: ['/login'],
+          path: ['/'],
           label: 'Logout',
           icon: 'fa-right-from-bracket',
           svgPath: 'M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z',
@@ -108,41 +122,42 @@ export class SubjectDashboard2Component {
         }
       ];
 
-    this.serviceHelper.initializeDashboardData(this.schoolId).subscribe(() => {
-      this.progressService
-        .getAllStudent(this.schoolId, this.standardId, this.studentId)
-        .subscribe((data) => {
-          this.perfOverall = this.serviceHelper.getOverallPerformance(data);
-          this.perfOverallPlotter = new BarPlotter(
-            [this.perfOverall],
-            [0],
-            'Overall Performance'
-          );
-
-          this.perfPerSubject = this.serviceHelper.getPerfPerSubject(data);
-          this.subjectData = this.perfPerSubject.map((eachSubject) => {
-            let lessonDataProgressList = data.filter(
-              (eachProgress) => eachProgress.subject == eachSubject.Id
+      this.serviceHelper.initializeDashboardData(this.schoolId).subscribe(() => {
+        this.progressService
+          .getAllStudent(this.schoolId, this.standardId, this.studentId)
+          .subscribe((data) => {
+            this.perfOverall = this.serviceHelper.getOverallPerformance(data);
+            this.perfOverallPlotter = new BarPlotter(
+              [this.perfOverall],
+              [0],
+              'Overall Performance'
             );
 
-            eachSubject.childList = this.serviceHelper.getPerfPerLesson(
-              lessonDataProgressList
-            );
-
-            eachSubject.childList?.map((eachLesson) => {
-              let lessonSectionDataProgressList = data.filter(
-                (eachProgress) =>
-                  eachProgress.subject == eachSubject.Id &&
-                  eachProgress.lesson == eachLesson.Id
+            this.perfPerSubject = this.serviceHelper.getPerfPerSubject(data);
+            this.subjectData = this.perfPerSubject.map((eachSubject) => {
+              let lessonDataProgressList = data.filter(
+                (eachProgress) => eachProgress.subject == eachSubject.Id
               );
 
-              eachLesson.childList = this.serviceHelper.getPerfPerLessonSection(
-                lessonSectionDataProgressList
+              eachSubject.childList = this.serviceHelper.getPerfPerLesson(
+                lessonDataProgressList
               );
+
+              eachSubject.childList?.map((eachLesson) => {
+                let lessonSectionDataProgressList = data.filter(
+                  (eachProgress) =>
+                    eachProgress.subject == eachSubject.Id &&
+                    eachProgress.lesson == eachLesson.Id
+                );
+
+                eachLesson.childList = this.serviceHelper.getPerfPerLessonSection(
+                  lessonSectionDataProgressList
+                );
+              });
+
+              return eachSubject;
             });
 
-            return eachSubject;
-          });
 
           let copiedSubjectData: IChildNode[] = JSON.parse(
             JSON.stringify(this.subjectData)
@@ -204,30 +219,28 @@ export class SubjectDashboard2Component {
   }
   selectedLessonId: number | null = null;
 
-get selectedLessonSections() {
-  return [
-    ...this.nextLessonSectionData ?? [],
-    ...this.completedLessonSectionData ?? [],
-    ...this.pendingLessonSectionData ?? []
-  ].find(l => l.Id === this.selectedLessonId)?.childList ?? [];
-}
-get filteredCompletedLessons() {
-  return this.completedLessonSectionData
-    ?.find(l => l.Id === this.selectedLessonId)?.childList ?? [];
-}
+  get selectedLessonSections() {
+    return [
+      ...this.nextLessonSectionData ?? [],
+      ...this.completedLessonSectionData ?? [],
+      ...this.pendingLessonSectionData ?? []
+    ].find(l => l.Id === this.selectedLessonId)?.childList ?? [];
+  }
 
-get filteredPendingLessons() {
-  return this.pendingLessonSectionData
-    ?.find(l => l.Id === this.selectedLessonId)?.childList ?? [];
-}
+  get filteredCompletedLessons() {
+    return this.completedLessonSectionData
+      ?.find(l => l.Id === this.selectedLessonId)?.childList ?? [];
+  }
 
-toggleDashboard(lessonId: number) {
-  this.selectedLessonId = this.selectedLessonId === lessonId ? null : lessonId;
-  this.showDashboard = this.selectedLessonId !== null;
-}
+  get filteredPendingLessons() {
+    return this.pendingLessonSectionData
+      ?.find(l => l.Id === this.selectedLessonId)?.childList ?? [];
+  }
 
-
-
+  toggleDashboard(lessonId: number) {
+    this.selectedLessonId = this.selectedLessonId === lessonId ? null : lessonId;
+    this.showDashboard = this.selectedLessonId !== null;
+  }
 
   clickByLessonSection(event: {
     parentId: number;
