@@ -100,7 +100,7 @@ export class ProfileDashboardComponent implements OnInit {
         viewBox: '0 0 448 512',
       },
       {
-        path: ['/'],
+        path: ['/login'],
         label: 'Logout',
         icon: 'fa-right-from-bracket',
         svgPath:
@@ -115,7 +115,7 @@ export class ProfileDashboardComponent implements OnInit {
     localStorage.removeItem('authToken'); // Example: Clear authentication token
 
     // Navigate to the login page
-    this.router.navigate(['/']);
+    this.router.navigate(['/login']);
   }
 
 }

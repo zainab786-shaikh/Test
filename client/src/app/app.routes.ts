@@ -20,8 +20,10 @@ import { LessonSectionComponent } from './7.lessonsection/lessonsection.componen
 import { SubjectDashboard2Component } from './8.dashboards/4.subject-dashboard2/subject-dashboard2.component';
 import { ProfileDashboardComponent } from './8.dashboards/5.profile-dashboard/profile-dashboard.component';
 
+import { LandingPageComponent } from './landingPage/landing-page/landing-page.component'; // Import Landing Page
 export const routes: Routes = [
-  { path: '', component: LoginComponent },
+  { path: '', component: LandingPageComponent }, // ✅ Landing Page as Default Route
+  { path: 'login', component: LoginComponent }, // ✅ Add Login Page route
   { path: 'login-details', component: LoginDetailComponent },
 
   //====================================| Principal/Teachers routes

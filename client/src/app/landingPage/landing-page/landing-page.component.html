@@ -1,0 +1,283 @@
+<div class="app-container">
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <div class="navbar-brand">
+        <img src="images/logo.png" alt="Learnzy Logo" class="logo">
+        <a class="navbar-title">LearnZy</a>
+      </div>
+
+      <div class="navbar-menu">
+        <ul class="navbar-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a [routerLink]="'/login'" class="login-button">Login</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
+      <div class="hero-container section-container">
+        <div class="hero-content">
+          <div class="typewriter-container">
+            <div class="typewriter-pill">
+              <img src="images/logo.png" alt="LearnZY Logo" class="typewriter-logo">
+              <span class="typewriter-text">{{ currentText }}</span>
+            </div>
+          </div>
+
+          <h1 class="hero-title">AI-Powered Tutoring <span class="highlight">for Every Student</span></h1>
+          <p class="hero-subtitle">Personalized learning paths that adapt to your unique needs, helping you master any subject at your own pace.</p>
+
+          <div class="cta-container">
+            <a [routerLink]="'/login'" class="cta-button">Login to Get Started</a>
+            <a [routerLink]="'/demo'" class="cta-button-secondary">Watch Demo</a>
+          </div>
+        </div>
+        <div class="hero-image animated">
+          <img [src]="'images/hero-img' + imgNum + '.jpg'" alt="LearnZy Hero" class="hero-img">
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+      <div class="section-container">
+        <div class="section-header">
+          <h2 class="section-title">Why Choose <span class="text-primary">LearnZy</span>?</h2>
+          <p class="section-subtitle">Our AI-powered platform adapts to your learning style, providing a personalized educational experience that helps you achieve your academic goals faster.</p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="icon-personalized"></i>
+            </div>
+            <h3 class="feature-title">Personalized Learning</h3>
+            <p class="feature-description">Adaptive lesson plans tailored to your unique learning style and pace, focusing on areas where you need the most help.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="icon-progress"></i>
+            </div>
+            <h3 class="feature-title">Progress Tracking</h3>
+            <p class="feature-description">Track your learning journey with detailed weekly reports and insights to stay on top of your goals.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="icon-affordable"></i>
+            </div>
+            <h3 class="feature-title">Affordable Education</h3>
+            <p class="feature-description">High-quality tutoring at a fraction of the cost of traditional methods, making quality education accessible to everyone.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works-section">
+      <div class="section-container">
+        <div class="section-header">
+          <h2 class="section-title">How LearnZy <span class="text-primary">Works</span></h2>
+          <p class="section-subtitle">Our simple three-step process gets you started on your learning journey in minutes</p>
+        </div>
+        <div class="steps-container">
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <h3 class="step-title">Admin Adds Users</h3>
+            <p class="step-description">The admin adds students and teachers to the platform, ensuring a secure and controlled environment.</p>
+          </div>
+          <div class="step-connector"></div>
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <h3 class="step-title">Get a Personalized Plan</h3>
+            <p class="step-description">Our AI analyzes your needs and creates a customized learning plan tailored to your goals.</p>
+          </div>
+          <div class="step-connector"></div>
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <h3 class="step-title">Start Learning</h3>
+            <p class="step-description">Access interactive lessons, track your progress, and achieve your academic goals at your own pace.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+      <div class="section-container about-container">
+        <div class="about-content">
+          <h2 class="section-title">About <span class="text-primary">LearnZy</span></h2>
+          <p class="about-text">
+            Founded with a mission to revolutionize education through AI technology, LearnZy is dedicated to providing personalized and effective tutoring to students worldwide. We believe that every student deserves access to high-quality education that adapts to their individual needs.
+          </p>
+          <p class="about-text">
+            Our team of educators and AI specialists work together to create learning experiences that are engaging, effective, and tailored to each student's unique learning journey.
+          </p>
+          <div class="about-badges">
+            <div class="badge">
+              <span class="badge-icon">🏆</span>
+              <span class="badge-text">Trusted by 10,000+ Students</span>
+            </div>
+            <div class="badge">
+              <span class="badge-icon">⭐</span>
+              <span class="badge-text">AI-Powered Learning</span>
+            </div>
+          </div>
+        </div>
+        <div class="about-image">
+          <img src="images/about-img1.jpg" alt="About LearnZy" class="about-img">
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+      <div class="section-container">
+        <h2 class="section-title text-center">What Our Students <span class="text-primary">Say</span></h2>
+
+        <div class="testimonials-grid">
+          <div class="testimonial-card">
+            <div class="testimonial-rating">
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+            </div>
+            <div class="testimonial-text">
+              "LearnZy has helped me stay organized with personalized learning plans. The progress tracking feature keeps me motivated and on track."
+            </div>
+            <div class="testimonial-author">
+              <div class="author-avatar">
+                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg" alt="John Doe">
+              </div>
+              <div class="author-info">
+                <div class="author-name">John Doe</div>
+                <div class="author-title">Student</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="testimonial-rating">
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+            </div>
+            <div class="testimonial-text">
+              "As a teacher, I love how LearnZy simplifies lesson planning and helps me focus on what matters most—teaching."
+            </div>
+            <div class="testimonial-author">
+              <div class="author-avatar">
+                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-8.jpg" alt="Jane Smith">
+              </div>
+              <div class="author-info">
+                <div class="author-name">Jane Smith</div>
+                <div class="author-title">Teacher</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="testimonial-rating">
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+            </div>
+            <div class="testimonial-text">
+              "LearnZy provides affordable education without compromising on quality. It's a game-changer for students who need additional support."
+            </div>
+            <div class="testimonial-author">
+              <div class="author-avatar">
+                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-6.jpg" alt="Evelyn Ramirez">
+              </div>
+              <div class="author-info">
+                <div class="author-name">Evelyn Ramirez</div>
+                <div class="author-title">Educator</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div class="section-container">
+        <div class="cta-content">
+          <h2 class="cta-title">Ready to Transform Your Learning Experience?</h2>
+          <p class="cta-subtitle">Join thousands of students and teachers who are already benefiting from personalized AI tutoring.</p>
+          <div class="cta-buttons">
+            <a [routerLink]="'/login'" class="cta-button">Login to Get Started</a>
+            <a [routerLink]="'/contact'" class="cta-button-secondary">Contact Us</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" id="contact">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-column">
+          <h4 class="footer-title">About LearnZy</h4>
+          <p class="footer-text">LearnZy is an AI-powered platform providing personalized learning experiences to help students excel in their academic journey.</p>
+          <div class="footer-socials">
+            <a href="#" class="social-link"><i class="icon-facebook"></i></a>
+            <a href="#" class="social-link"><i class="icon-twitter"></i></a>
+            <a href="#" class="social-link"><i class="icon-linkedin"></i></a>
+            <a href="#" class="social-link"><i class="icon-instagram"></i></a>
+          </div>
+        </div>
+        <div class="footer-column">
+          <h4 class="footer-title">Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a [routerLink]="'/blog'">Blog</a></li>
+            <li><a [routerLink]="'/help'">Help Center</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4 class="footer-title">Contact Us</h4>
+          <ul class="footer-contact">
+            <li><i class="icon-mail"></i> hellolearnzy.com</li>
+            <li><i class="icon-phone"></i> +1 (555) 123-4567</li>
+            <li><i class="icon-location"></i> 123 Education Ave, Learning City</li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4 class="footer-title">Newsletter</h4>
+          <p class="footer-text">Subscribe to get the latest updates and news.</p>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Your email address" class="newsletter-input">
+            <button type="submit" class="newsletter-button">Subscribe</button>
+          </form>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 LearnZy. All rights reserved.</p>
+        <div class="footer-legal">
+          <a href="#">Terms of Service</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
