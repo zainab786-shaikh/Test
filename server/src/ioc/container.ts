@@ -60,6 +60,9 @@ import { IServiceLessonSection } from "../7.lessonsection/3.service.model";
 import { ServiceLessonSectionImpl } from "../7.lessonsection/4.service";
 import { RepoLessonSectionImpl } from "../7.lessonsection/6.repo";
 import { IRepoLessonSection } from "../7.lessonsection/5.repo.model";
+import { ControllerChat } from "../8.chat/2.controller";
+import { IServiceChat } from "../8.chat/3.service.model";
+import { ServiceChatImpl } from "../8.chat/4.service";
 
 const container = new Container();
 container.bind<ILogger>(TYPES.LoggerService).to(LoggerService);
@@ -127,5 +130,8 @@ container
 container
   .bind<IRepoLessonSection>(TYPES.RepoLessonSection)
   .to(RepoLessonSectionImpl);
+
+container.bind<ControllerChat>(TYPES.ControllerChat).to(ControllerChat);
+container.bind<IServiceChat>(TYPES.ServiceChat).to(ServiceChatImpl);
 
 export { container };

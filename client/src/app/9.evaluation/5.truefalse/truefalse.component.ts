@@ -30,7 +30,7 @@ export class TrueFalseComponent implements OnInit {
 
   // Load the questions
   private load() {
-    this.evaluationService.getTrueFalse(this.lessonId).subscribe((data) => {
+    this.evaluationService.getTrueFalse(this.lessonsectionId).subscribe((data) => {
       this.trueFalseQuestions = data.map((q) => ({
         ...q,
         selectedAnswer: null,
@@ -43,17 +43,17 @@ export class TrueFalseComponent implements OnInit {
     this.load();
   }
 
-  // Handle Submit
-  submitAnswers() {
-    let calculatedScore = 0;
-    this.trueFalseQuestions.forEach((eachTrueFalse) => {
-      calculatedScore += +(
-        eachTrueFalse.answer == eachTrueFalse.selectedAnswer
-      );
-      eachTrueFalse.answered = true;
-    });
-    this.score.emit((calculatedScore / this.trueFalseQuestions.length) * 100);
-  }
+  // // Handle Submit
+  // submitAnswers() {
+  //   let calculatedScore = 0;
+  //   this.trueFalseQuestions.forEach((eachTrueFalse) => {
+  //     calculatedScore += +(
+  //       eachTrueFalse.answer == eachTrueFalse.selectedAnswer
+  //     );
+  //     eachTrueFalse.answered = true;
+  //   });
+  //   this.score.emit((calculatedScore / this.trueFalseQuestions.length) * 100);
+  // }
 
   // Reset the questions
   resetTrueFalse() {
@@ -65,5 +65,21 @@ export class TrueFalseComponent implements OnInit {
     return this.trueFalseQuestions.some(
       (question) => question.selectedAnswer !== null
     );
+  }
+  submitAnswers() {
+    let calculatedScore = 0;
+    this.trueFalseQuestions.forEach((eachTrueFalse) => {
+      const isCorrect = eachTrueFalse.answer === eachTrueFalse.selectedAnswer;
+      calculatedScore += +isCorrect; // Increment score if correct
+      eachTrueFalse.answered = true;
+
+      // Add feedback based on correctness
+      eachTrueFalse.feedback = isCorrect
+        ? "Great job! That's the correct answer."
+        : `The correct answer was "${eachTrueFalse.answer ? 'True' : 'False'}". Keep practicing!`;
+    });
+
+    // Emit the calculated score
+    this.score.emit((calculatedScore / this.trueFalseQuestions.length) * 100);
   }
 }

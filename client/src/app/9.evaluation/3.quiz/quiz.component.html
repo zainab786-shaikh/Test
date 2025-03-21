@@ -34,6 +34,9 @@
             </span>
           </mat-radio-button>
         </mat-radio-group>
+        <div *ngIf="eachQuiz.answered && eachQuiz.feedback" class="feedback-message" [ngClass]="{'correct-feedback': eachQuiz.selectedAnswer === eachQuiz.answer, 'wrong-feedback': eachQuiz.selectedAnswer !== eachQuiz.answer}">
+          {{ eachQuiz.feedback }}
+        </div>
       </mat-card>
     </div>
     <div class="button-container">

@@ -2,11 +2,15 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { IProgress } from './progress.model';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProgressService {
+  updateLessonSectionProgress(schoolId: number, standardId: number, studentId: number, parentId: number, childId: number, grandChildId: number, arg6: number) {
+    throw new Error('Method not implemented.');
+  }
   private apiUrl = 'http://localhost:3000/v1';
   schoolId: number = 0;
   standardId: number = 0;
@@ -56,13 +60,20 @@ export class ProgressService {
     this.schoolId = inSchoolId;
     this.standardId = inStandardId;
     this.studentId = inStudentId;
+
     return this.http.get<IProgress[]>(
       `${this.apiUrl}/progress/school/${inSchoolId}/standard/${inStandardId}/student/${inStudentId}`,
-      {
-        headers: this.headers,
-      }
+      { headers: this.headers }
+    ).pipe(
+      map((data: IProgress[]) => {
+        return data.map(progress => ({
+          ...progress,
+          score: (progress.quiz + progress.fillblanks + progress.truefalse) / 3 // Example score calculation
+        }));
+      })
     );
   }
+
 
   get(inProgressId: number): Observable<IProgress> {
     return this.http.get<IProgress>(`${this.apiUrl}/progress/${inProgressId}`, {

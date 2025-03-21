@@ -25,6 +25,16 @@
               : "cancel"
           }}
         </mat-icon>
+        <div
+          *ngIf="eachTrueFalse.answered && eachTrueFalse.feedback"
+          class="feedback-message"
+          [ngClass]="{
+            'correct-feedback': eachTrueFalse.selectedAnswer === eachTrueFalse.answer,
+            'wrong-feedback': eachTrueFalse.selectedAnswer !== eachTrueFalse.answer
+          }"
+        >
+          {{ eachTrueFalse.feedback }}
+        </div>
       </mat-card>
     </div>
     <div class="button-container">

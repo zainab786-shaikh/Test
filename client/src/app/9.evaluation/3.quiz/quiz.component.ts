@@ -31,7 +31,7 @@ export class QuizComponent implements OnInit {
   constructor(private evalationService: EvaluationService) {}
 
   private load() {
-    this.evalationService.getQuizzes(this.lessonId).subscribe((data) => {
+    this.evalationService.getQuizzes(this.lessonsectionId).subscribe((data) => {
       this.quizzes = data.map((q) => ({
         ...q,
         selectedAnswer: null,
@@ -51,8 +51,12 @@ export class QuizComponent implements OnInit {
   submitAnswers() {
     let calculatedScore = 0;
     this.quizzes.forEach((eachQuiz) => {
-      calculatedScore += +(eachQuiz.answer == eachQuiz.selectedAnswer);
+      const isCorrect = eachQuiz.answer == eachQuiz.selectedAnswer;
+      calculatedScore += +isCorrect;
       eachQuiz.answered = true;
+      eachQuiz.feedback = isCorrect
+        ? "Great job! That's the correct answer."
+        : `The correct answer was "${eachQuiz.options[eachQuiz.answer]}". Keep practicing!`;
     });
     this.score.emit((calculatedScore / this.quizzes.length) * 100);
   }

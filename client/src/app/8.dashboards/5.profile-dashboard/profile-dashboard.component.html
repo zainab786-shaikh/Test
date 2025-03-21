@@ -1,0 +1,414 @@
+<!-- saved from url=(0012)about:srcdoc -->
+<html class="fontawesome-i2svg-active fontawesome-i2svg-complete">
+  <body class="h-full bg-base-50 text-base-content">
+    <div class="flex min-h-screen bg-gray-100">
+      <aside id="sidebar" class="w-64 bg-white shadow-md">
+        <div class="p-4">
+          <h2 class="text-2xl font-bold text-blue-600">LearnZy</h2>
+        </div>
+        <!-- Navigation menu for student dashboard -->
+        <nav class="mt-6">
+          <ng-container *ngFor="let item of menuItems">
+            <a
+              [routerLink]="item.path"
+              routerLinkActive="bg-blue-100 text-blue-600"
+              [routerLinkActiveOptions]="{ exact: false }"
+              class="block py-2 px-4 text-gray-700 hover:bg-blue-100 hover:text-blue-600"
+            >
+              <i class="mr-2">
+                <svg
+                  class="svg-inline--fa {{ item.icon }}"
+                  aria-hidden="true"
+                  focusable="false"
+                  data-prefix="fas"
+                  [attr.data-icon]="item.icon.substring(3)"
+                  role="img"
+                  xmlns="http://www.w3.org/2000/svg"
+                  [attr.viewBox]="item.viewBox"
+                  width="20"
+                  height="20"
+                >
+                  <path fill="currentColor" [attr.d]="item.svgPath"></path>
+                </svg>
+              </i>
+              {{ item.label }}
+            </a>
+          </ng-container>
+        </nav>
+      </aside>
+
+      <main class="flex-1">
+        <header id="header" class="bg-white shadow-sm">
+          <div
+            class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center"
+          >
+            <h1 class="text-2xl font-semibold text-gray-900">Your Profile</h1>
+
+          </div>
+        </header>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div id="profileOverview" class="bg-white shadow rounded-lg p-6 mb-8">
+            <div class="flex items-center mb-6">
+              <img
+                src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg"
+                alt="Profile Picture"
+                class="h-24 w-24 rounded-full mr-6"
+              />
+              <div>
+                <h2 class="text-2xl font-bold text-gray-900">
+                  {{ studentName }}
+                </h2>
+                <p class="text-gray-600">Adhaar Number: {{ adhaarNumber }}</p>
+                <p class="text-gray-600">Email id:
+                  {{
+                    studentName.replace(" ", ".")
+                  }}&#64;saboosiddikpolytechnic.com
+                </p>
+                <p class="text-gray-600">Sem : {{ standardName }}</p>
+              </div>
+
+            </div>
+
+          </div>
+          <!-- Modal dialog box for editing profile information
+          <div
+            id="editProfileModal"
+            class="hidden fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50"
+          >
+            <div class="bg-white rounded-lg shadow-md p-6 w-1/2">
+              <h2 class="text-2xl font-bold text-gray-900 mb-4">
+                Edit Profile
+              </h2>
+              <form id="editProfileForm">
+                <div class="mb-4">
+                  <label
+                    for="name"
+                    class="block text-gray-700 text-sm font-bold mb-2"
+                    >Name:</label
+                  >
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  />
+                </div>
+                <div class="mb-4">
+                  <label
+                    for="email"
+                    class="block text-gray-700 text-sm font-bold mb-2"
+                    >Email:</label
+                  >
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  />
+                </div>
+                <div class="mb-4">
+                  <label
+                    for="password"
+                    class="block text-gray-700 text-sm font-bold mb-2"
+                    >Password:</label
+                  >
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  />
+                </div>
+                <div class="mb-4">
+                  <label
+                    for="grade"
+                    class="block text-gray-700 text-sm font-bold mb-2"
+                    >Grade:</label
+                  >
+                  <input
+                    type="text"
+                    id="grade"
+                    name="grade"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  />
+                </div>
+                <div class="mb-4">
+                  <label
+                    for="previousPercentage"
+                    class="block text-gray-700 text-sm font-bold mb-2"
+                    >Previous Percentage:</label
+                  >
+                  <input
+                    type="text"
+                    id="previousPercentage"
+                    name="previousPercentage"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                >
+                  Save Changes
+                </button>
+              </form>
+            </div>
+          </div> -->
+
+          <!-- <div
+            id="learningProgress"
+            class="bg-white shadow rounded-lg p-6 mb-8"
+          >
+            <h3 class="text-xl font-semibold mb-4">Learning Progress</h3>
+            <div class="flex items-center justify-between mb-6">
+              <div class="relative w-32 h-32">
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <span class="text-3xl font-bold text-blue-500">65%</span>
+                </div>
+                <svg class="w-full h-full" viewBox="0 0 36 36">
+                  <path
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                    fill="none"
+                    stroke="#E5E7EB"
+                    stroke-width="3"
+                  ></path>
+                  <path
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                    fill="none"
+                    stroke="#3B82F6"
+                    stroke-width="3"
+                    stroke-dasharray="65, 100"
+                  ></path>
+                </svg>
+              </div>
+              <div class="flex-1 ml-8">
+                <div class="mb-4">
+                  <div class="flex justify-between mb-1">
+                    <span class="text-sm font-medium text-gray-700"
+                      >Mathematics</span
+                    >
+                    <span class="text-sm font-medium text-gray-700">70%</span>
+                  </div>
+                  <div class="w-full bg-gray-200 rounded-full h-2.5">
+                    <div
+                      class="bg-blue-500 h-2.5 rounded-full"
+                      style="width: 70%"
+                    ></div>
+                  </div>
+                </div>
+                <div class="mb-4">
+                  <div class="flex justify-between mb-1">
+                    <span class="text-sm font-medium text-gray-700"
+                      >Science</span
+                    >
+                    <span class="text-sm font-medium text-gray-700">50%</span>
+                  </div>
+                  <div class="w-full bg-gray-200 rounded-full h-2.5">
+                    <div
+                      class="bg-green-500 h-2.5 rounded-full"
+                      style="width: 50%"
+                    ></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between mb-1">
+                    <span class="text-sm font-medium text-gray-700"
+                      >English</span
+                    >
+                    <span class="text-sm font-medium text-gray-700">80%</span>
+                  </div>
+                  <div class="w-full bg-gray-200 rounded-full h-2.5">
+                    <div
+                      class="bg-yellow-500 h-2.5 rounded-full"
+                      style="width: 80%"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> -->
+
+          <!-- <div id="settings" class="bg-white shadow rounded-lg p-6 mb-8">
+            <h3 class="text-xl font-semibold mb-4">Settings</h3>
+            <div class="space-y-4">
+              <div>
+                <span class="text-blue-500 hover:underline cursor-pointer"
+                  >Change Password</span
+                >
+              </div>
+              <div>
+                <span class="text-blue-500 hover:underline cursor-pointer"
+                  >Privacy Settings</span
+                >
+              </div>
+            </div>
+          </div> -->
+
+          <!-- <div id="recentActivity" class="bg-white shadow rounded-lg p-6 mb-8">
+            <h3 class="text-xl font-semibold mb-4">Recent Activity</h3>
+            <ul class="space-y-4">
+              <li class="flex items-center">
+                <i class="text-green-500 mr-3" data-fa-i2svg=""
+                  ><svg
+                    class="svg-inline--fa fa-circle-check"
+                    aria-hidden="true"
+                    focusable="false"
+                    data-prefix="fas"
+                    data-icon="circle-check"
+                    role="img"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512"
+                    data-fa-i2svg=""
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"
+                    ></path></svg
+                ></i>
+                <div>
+                  <p class="text-gray-700">
+                    Completed Lesson: Introduction to Trigonometry
+                  </p>
+                  <p class="text-sm text-gray-500">2 hours ago</p>
+                </div>
+              </li>
+              <li class="flex items-center">
+                <i class="text-blue-500 mr-3" data-fa-i2svg=""
+                  ><svg
+                    class="svg-inline--fa fa-robot"
+                    aria-hidden="true"
+                    focusable="false"
+                    data-prefix="fas"
+                    data-icon="robot"
+                    role="img"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 640 512"
+                    data-fa-i2svg=""
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M320 0c17.7 0 32 14.3 32 32V96H472c39.8 0 72 32.2 72 72V440c0 39.8-32.2 72-72 72H168c-39.8 0-72-32.2-72-72V168c0-39.8 32.2-72 72-72H288V32c0-17.7 14.3-32 32-32zM208 384c-8.8 0-16 7.2-16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16s-7.2-16-16-16H208zm96 0c-8.8 0-16 7.2-16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16s-7.2-16-16-16H304zm96 0c-8.8 0-16 7.2-16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16s-7.2-16-16-16H400zM264 256a40 40 0 1 0 -80 0 40 40 0 1 0 80 0zm152 40a40 40 0 1 0 0-80 40 40 0 1 0 0 80zM48 224H64V416H48c-26.5 0-48-21.5-48-48V272c0-26.5 21.5-48 48-48zm544 0c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48H576V224h16z"
+                    ></path></svg
+                ></i>
+                <div>
+                  <p class="text-gray-700">
+                    Chatbot Interaction: Asked about Photosynthesis
+                  </p>
+                  <p class="text-sm text-gray-500">Yesterday</p>
+                </div>
+              </li>
+              <li class="flex items-center">
+                <i class="text-yellow-500 mr-3" data-fa-i2svg=""
+                  ><svg
+                    class="svg-inline--fa fa-pencil"
+                    aria-hidden="true"
+                    focusable="false"
+                    data-prefix="fas"
+                    data-icon="pencil"
+                    role="img"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512"
+                    data-fa-i2svg=""
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"
+                    ></path></svg
+                ></i>
+                <div>
+                  <p class="text-gray-700">
+                    Took Quiz: World History - Ancient Civilizations
+                  </p>
+                  <p class="text-sm text-gray-500">3 days ago</p>
+                </div>
+              </li>
+            </ul>
+          </div> -->
+
+          <div id="support" class="bg-white shadow rounded-lg p-6 mb-8">
+            <h3 class="text-xl font-semibold mb-4">Support</h3>
+            <div class="space-y-4">
+              <a
+                href="https://uxpilot.ai/a/ui-design#"
+                class="block text-blue-500 hover:underline"
+              >
+                <i class="mr-2" data-fa-i2svg=""
+                  ><svg
+                    class="svg-inline--fa fa-circle-question"
+                    aria-hidden="true"
+                    focusable="false"
+                    data-prefix="fas"
+                    data-icon="circle-question"
+                    role="img"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512"
+                    data-fa-i2svg=""
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM169.8 165.3c7.9-22.3 29.1-37.3 52.8-37.3h58.3c34.9 0 63.1 28.3 63.1 63.1c0 22.6-12.1 43.5-31.7 54.8L280 264.4c-.2 13-10.9 23.6-24 23.6c-13.3 0-24-10.7-24-24V250.5c0-8.6 4.6-16.5 12.1-20.8l44.3-25.4c4.7-2.7 7.6-7.7 7.6-13.1c0-8.4-6.8-15.1-15.1-15.1H222.6c-3.4 0-6.4 2.1-7.5 5.3l-.4 1.2c-4.4 12.5-18.2 19-30.6 14.6s-19-18.2-14.6-30.6l.4-1.2zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"
+                    ></path></svg></i
+                >FAQs
+              </a>
+              <a
+                href="https://uxpilot.ai/a/ui-design#"
+                class="block text-blue-500 hover:underline"
+              >
+                <i class="mr-2" data-fa-i2svg=""
+                  ><svg
+                    class="svg-inline--fa fa-comments"
+                    aria-hidden="true"
+                    focusable="false"
+                    data-prefix="fas"
+                    data-icon="comments"
+                    role="img"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 640 512"
+                    data-fa-i2svg=""
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M208 352c114.9 0 208-78.8 208-176S322.9 0 208 0S0 78.8 0 176c0 38.6 14.7 74.3 39.6 103.4c-3.5 9.4-8.7 17.7-14.2 24.7c-4.8 6.2-9.7 11-13.3 14.3c-1.8 1.6-3.3 2.9-4.3 3.7c-.5 .4-.9 .7-1.1 .8l-.2 .2 0 0 0 0C1 327.2-1.4 334.4 .8 340.9S9.1 352 16 352c21.8 0 43.8-5.6 62.1-12.5c9.2-3.5 17.8-7.4 25.3-11.4C134.1 343.3 169.8 352 208 352zM448 176c0 112.3-99.1 196.9-216.5 207C255.8 457.4 336.4 512 432 512c38.2 0 73.9-8.7 104.7-23.9c7.5 4 16 7.9 25.2 11.4c18.3 6.9 40.3 12.5 62.1 12.5c6.9 0 13.1-4.5 15.2-11.1c2.1-6.6-.2-13.8-5.8-17.9l0 0 0 0-.2-.2c-.2-.2-.6-.4-1.1-.8c-1-.8-2.5-2-4.3-3.7c-3.6-3.3-8.5-8.1-13.3-14.3c-5.5-7-10.7-15.4-14.2-24.7c24.9-29 39.6-64.7 39.6-103.4c0-92.8-84.9-168.9-192.6-175.5c.4 5.1 .6 10.3 .6 15.5z"
+                    ></path></svg></i
+                >Chat Support
+              </a>
+              <a
+                href="https://uxpilot.ai/a/ui-design#"
+                class="block text-blue-500 hover:underline"
+              >
+                <i class="mr-2" data-fa-i2svg=""
+                  ><svg
+                    class="svg-inline--fa fa-envelope"
+                    aria-hidden="true"
+                    focusable="false"
+                    data-prefix="fas"
+                    data-icon="envelope"
+                    role="img"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512"
+                    data-fa-i2svg=""
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"
+                    ></path></svg></i
+                >Email Support
+              </a>
+            </div>
+          </div>
+
+          <div id="logout" class="text-center">
+            <button
+              class="bg-red-500 text-white px-6 py-2 rounded-full hover:bg-red-600"
+              (click)="logout()"
+            >
+              Logout
+            </button>
+          </div>
+        </div>
+      </main>
+    </div>
+
+  </body>
+</html>

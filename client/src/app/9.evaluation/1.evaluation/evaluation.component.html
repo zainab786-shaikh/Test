@@ -2,53 +2,35 @@
   <mat-card>
     <mat-card-title>Evaluation</mat-card-title>
     <mat-card-content>
-      <mat-progress-bar
-        mode="determinate"
-        [value]="progress"
-      ></mat-progress-bar>
+      <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
 
       <ng-container *ngIf="currentStep === 0">
-        <app-explanation [lessonId]="lessonId"></app-explanation>
+        <app-explanation [lessonId]="lessonId" [lessonsectionId]="lessonsectionId"></app-explanation>
       </ng-container>
 
       <ng-container *ngIf="currentStep === 1">
-        <app-quiz
-          [lessonId]="lessonId"
-          [lessonsectionId]="lessonsectionId"
-          (score)="updateScore('Quiz', $event)"
-        ></app-quiz>
+        <app-quiz [lessonId]="lessonId" [lessonsectionId]="lessonsectionId" (score)="updateScore('Quiz', $event)"></app-quiz>
       </ng-container>
 
       <ng-container *ngIf="currentStep === 2">
-        <app-truefalse
-          [lessonId]="lessonId"
-          [lessonsectionId]="lessonsectionId"
-          (score)="updateScore('TrueFalse', $event)"
-        ></app-truefalse>
+        <app-truefalse [lessonId]="lessonId" [lessonsectionId]="lessonsectionId" (score)="updateScore('TrueFalse', $event)"></app-truefalse>
       </ng-container>
 
       <ng-container *ngIf="currentStep === 3">
-        <app-fillblank
-          [lessonId]="lessonId"
-          [lessonsectionId]="lessonsectionId"
-          (score)="updateScore('FillBlank', $event)"
-        ></app-fillblank>
+        <app-fillblank [lessonId]="lessonId" [lessonsectionId]="lessonsectionId" (score)="updateScore('FillBlank', $event)"></app-fillblank>
       </ng-container>
     </mat-card-content>
 
     <mat-card-actions>
-      <button
-        mat-button
-        color="primary"
-        (click)="nextStep()"
-        [disabled]="
-          (currentStep === 1 && quizScore < 90) ||
-          (currentStep === 2 && trueFalseScore < 90) ||
-          (currentStep === 3 && fillBlankScore < 90)
-        "
-      >
-        {{ progress == 100 ? "Submit" : "Next" }}
-      </button>
+      <div class="action-container">
+        <div class="guidance-message" *ngIf="currentStep === 0">
+          <mat-icon>info</mat-icon>
+          <span>If you've understood the explanation, click Next to continue</span>
+        </div>
+        <button mat-button color="primary" (click)="nextStep()" [disabled]="(currentStep === 1 && quizScore < 90) || (currentStep === 2 && trueFalseScore < 90) || (currentStep === 3 && fillBlankScore < 90)">
+          {{ progress == 100 ? "Submit" : "Next" }}
+        </button>
+      </div>
     </mat-card-actions>
   </mat-card>
 </div>

@@ -29,7 +29,7 @@ CREATE TABLE `tenanta.lesson` (
   PRIMARY KEY (`Id`),
   KEY `subject` (`subject`),
   CONSTRAINT `tenanta.lesson_ibfk_1` FOREIGN KEY (`subject`) REFERENCES `tenanta.subject` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE `tenanta.lesson` (
 
 LOCK TABLES `tenanta.lesson` WRITE;
 /*!40000 ALTER TABLE `tenanta.lesson` DISABLE KEYS */;
-INSERT INTO `tenanta.lesson` VALUES (2,'Introduction to management concepts and managerial skills',10);
+INSERT INTO `tenanta.lesson` VALUES (4,'1.Environment',12),(5,'2.Energy Resources',12),(6,'3.Ecosystem and Biodiversity',12),(9,'1.Overview of Operating Systems',13),(10,'2.Services and Components of Operating Systems',13),(11,'3.Process Management',13),(12,'1.Introduction to management concepts and managerial skills',14),(13,'2.Planning and organizing at supervisory level',14),(14,'3.Directing and Controlling at Supervisory level',14),(15,'1.Introduction and Syntax of Python Program',15),(16,'2.Python Operator and Control Flow Statement',15),(17,'3.DataStructures in Python',15);
 /*!40000 ALTER TABLE `tenanta.lesson` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-03-10  0:21:31
+-- Dump completed on 2025-03-14 16:56:43

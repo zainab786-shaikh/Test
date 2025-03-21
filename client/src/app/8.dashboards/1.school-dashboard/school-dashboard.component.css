@@ -1,48 +1,141 @@
+/* Main dashboard container */
 .dashboard-container {
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
-  gap: 20px;
-  padding: 20px;
+  gap: 24px;
+  padding: 24px;
+  background-color: #f5f7fa;
+  min-height: 100vh;
 }
+
+/* Dashboard header */
+.dashboard-header {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.dashboard-header h1 {
+  color: #1a3a5f;
+  font-size: 28px;
+  font-weight: 500;
+  margin: 0;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #4a8cff;
+}
+
+/* Overall performance section */
 .overall-performance {
   display: flex;
   width: 100%;
+  margin-bottom: 8px;
 }
+
 .overall-performance-card {
-  width: 70%;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-top: 4px solid #4a8cff;
+  background-color: white;
 }
-.subject-performance-card {
-  width: 30%;
-}
-.overall-subject {
+
+/* Progress cards container */
+.progress-cards {
   display: flex;
+  gap: 24px;
   width: 100%;
 }
 
+/* Dashboard cards */
 .dashboard-card {
-  flex: 1 1 calc(20.333% - 20px); /* Example of a 3-column layout for other cards */
-  padding: 20px;
-  border-radius: 8px;
+  flex: 1;
+  padding: 0;
+  border-radius: 12px;
   background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.dashboard-card:first-child {
+  border-top: 4px solid #33cc99; /* Green for semester */
+}
+
+.dashboard-card:last-child {
+  border-top: 4px solid #ff9944; /* Orange for subject */
+}
+
+.dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Card header styles */
+mat-card-header {
+  padding: 16px 20px 0;
+}
+
+mat-card-title {
+  color: #1a3a5f;
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+/* Card content styles */
+mat-card-content {
+  padding: 16px 20px 20px;
+}
+
+/* Progress bar component overrides */
+::ng-deep app-progress-bar .mat-progress-bar {
+  height: 12px;
+  border-radius: 6px;
+}
+
+::ng-deep app-progress-bar .mat-progress-bar-buffer {
+  background-color: #e0e9f5;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .progress-cards {
+    flex-direction: column;
+  }
+
+  .dashboard-card {
+    width: 100%;
+  }
+}
+
+/* Utility classes */
 table {
   width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
 .mat-elevation-z8 {
-  border-radius: 8px;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 ul {
   list-style-type: none;
   padding: 0;
+  margin: 0;
 }
 
 ul li {
-  background: #f4f4f4;
-  margin: 5px 0;
-  padding: 10px;
-  border-radius: 5px;
+  background: #f8fafd;
+  margin: 8px 0;
+  padding: 14px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  border-left: 4px solid #4a8cff;
+}
+
+ul li:hover {
+  background-color: #edf2f9;
 }

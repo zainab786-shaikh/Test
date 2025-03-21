@@ -29,7 +29,7 @@ export class FillBlankComponent implements OnInit {
   constructor(private evaluationService: EvaluationService) {}
 
   private load() {
-    this.evaluationService.getFillBlanks(this.lessonId).subscribe((data) => {
+    this.evaluationService.getFillBlanks(this.lessonsectionId).subscribe((data) => {
       this.fillBlanks = data.map((q) => ({
         ...q,
         selectedAnswer: null,
@@ -49,11 +49,17 @@ export class FillBlankComponent implements OnInit {
   submitAnswers() {
     let calculatedScore = 0;
     this.fillBlanks.forEach((eachFillBlanks) => {
-      calculatedScore += +(
-        eachFillBlanks.answer == eachFillBlanks.selectedAnswer
-      );
+      const isCorrect = eachFillBlanks.answer === eachFillBlanks.selectedAnswer;
+      calculatedScore += +isCorrect; // Increment score if correct
       eachFillBlanks.answered = true;
+
+      // Add feedback based on correctness
+      eachFillBlanks.feedback = isCorrect
+        ? "Great job! That's the correct answer."
+        : `The correct answer was "${eachFillBlanks.options[eachFillBlanks.answer]}". Keep practicing!`;
     });
+
+    // Emit the calculated score
     this.score.emit((calculatedScore / this.fillBlanks.length) * 100);
   }
 
