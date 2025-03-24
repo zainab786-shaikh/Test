@@ -5,4 +5,5 @@ export interface IFillBlankComponent {
   answer: number;
   selectedAnswer: number | null;
   answered: boolean;
+  feedback?: string; // Add feedback property
 }

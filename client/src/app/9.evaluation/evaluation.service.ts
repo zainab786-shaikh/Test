@@ -4,7 +4,7 @@ import {
   HttpHeaders,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EMPTY, from, Observable, of, throwError } from 'rxjs';
+import { EMPTY, from, Observable, of, throwError, BehaviorSubject } from 'rxjs';
 import {
   catchError,
   concatMap,
@@ -22,6 +22,13 @@ export class EvaluationService {
   private apiUrl = 'http://localhost:3000/v1/lessonsection';
   private baseUrl = `http://localhost:11434/api/generate`;
   private abortController: AbortController | null = null;
+  private chatContextSource = new BehaviorSubject<string>('');
+  chatContext$ = this.chatContextSource.asObservable();
+
+  triggerChatbotWithContext(context: string) {
+    this.chatContextSource.next(context);
+  }
+
 
   NUMBER_OF_QUESTIONS = 3;
 

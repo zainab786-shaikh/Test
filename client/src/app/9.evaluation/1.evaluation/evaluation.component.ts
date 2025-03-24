@@ -25,7 +25,7 @@ import { ProgressService } from '../../4.progress/progress.service';
     TrueFalseComponent,
   ],
   templateUrl: './evaluation.component.html',
-  styleUrls: ['./evaluation.component.scss'],
+  styleUrls: ['./evaluation.component.css'],
 })
 export class EvaluationComponent {
   schoolId = 1;

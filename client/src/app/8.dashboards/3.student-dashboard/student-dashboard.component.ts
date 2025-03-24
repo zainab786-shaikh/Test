@@ -18,7 +18,8 @@ import { ProgressService } from '../../4.progress/progress.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IProgress } from '../../4.progress/progress.model';
 import { RouterModule } from '@angular/router'; // Add this import
-
+import { StandardService } from '../../5.standard/standard.service';
+import { StudentService } from '../../3.student/student.service';
 PlotlyModule.plotlyjs = PlotlyJS;
 
 enum tagChildList {
@@ -64,17 +65,28 @@ export class StudentDashboardComponent {
   totalSubjects: number = 0;
   coveredSubjects: number = 0;
   overallProgress: number = 0;
-
+  studentName = 'John Doe';
+  adhaarNumber = '2222-2222-2222';
+  standardName = '3rd';
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private progressService: ProgressService,
-    private serviceHelper: DashboardServiceHelper
+    private serviceHelper: DashboardServiceHelper,
+    private standardService: StandardService,
+    private studentService: StudentService
   ) {
     this.route.params.subscribe((params) => {
       this.schoolId = +params['schoolId'];
       this.standardId = +params['standardId'];
       this.studentId = +params['studentId'];
+      this.studentService.get(this.studentId).subscribe((data) => {
+        this.studentName = data.name;
+        this.adhaarNumber = data.adhaar;
+      });
+      this.standardService.get(this.standardId).subscribe((data) => {
+        this.standardName = data.name;
+      });
     });
   }
 

@@ -25,6 +25,24 @@
               : "cancel"
           }}
         </mat-icon>
+        <div
+          *ngIf="eachTrueFalse.answered && eachTrueFalse.feedback"
+          class="feedback-message"
+          [ngClass]="{
+            'correct-feedback': eachTrueFalse.selectedAnswer === eachTrueFalse.answer,
+            'wrong-feedback': eachTrueFalse.selectedAnswer !== eachTrueFalse.answer
+          }"
+        >
+          {{ eachTrueFalse.feedback }}
+        </div>
+
+        <!-- Ask Bot Button -->
+        <div class="ask-bot-container">
+          <button mat-raised-button color="accent" class="ask-bot-button" (click)="askBot(eachTrueFalse.question)">
+            <mat-icon class="bot-icon">smart_toy</mat-icon>
+            Ask Bot
+          </button>
+        </div>
       </mat-card>
     </div>
     <div class="button-container">
@@ -42,3 +60,33 @@
     </div>
   </mat-card-content>
 </mat-card>
+
+<!-- Chatbot UI -->
+<div *ngIf="showBot" class="bot-container">
+  <mat-card class="bot-card">
+    <mat-card-title>
+      <mat-icon>smart_toy</mat-icon>
+      <span>Quiz Assistant</span>
+      <button mat-icon-button class="exit-button" (click)="closeBot()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-card-title>
+
+    <!-- Scrollable Messages -->
+    <div class="chat-messages">
+      <div *ngIf="botQuestion" class="bot-message"><strong>Q:</strong> {{ botQuestion }}</div>
+      <div *ngIf="botResponse" class="bot-message">{{ botResponse }}</div>
+    </div>
+
+    <!-- Chat Input -->
+    <div class="bot-input-container">
+      <input
+        class="bot-input"
+        [(ngModel)]="userQuery"
+        placeholder="Ask a follow-up question..."
+        (keyup.enter)="sendBotQuery()"
+      />
+      <button class="send-button" (click)="sendBotQuery()">Send</button>
+    </div>
+  </mat-card>
+</div>
