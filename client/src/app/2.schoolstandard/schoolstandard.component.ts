@@ -21,6 +21,7 @@ import { SchoolStandardService } from './schoolstandard.service';
 import { StandardService } from '../5.standard/standard.service';
 import { IStandard } from '../5.standard/standard.model';
 import { MatSelectModule } from '@angular/material/select';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-schoolstandard',
@@ -55,8 +56,13 @@ export class SchoolStandardComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private schoolstandardService: SchoolStandardService,
-    private standardService: StandardService
+    private standardService: StandardService,
+    private location: Location
   ) {}
+
+  goBack(): void {
+    this.location.back();
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {

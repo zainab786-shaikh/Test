@@ -15,7 +15,8 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { IStudent } from './student.model';
 import { StudentService } from './student.service';
-  import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-student',
@@ -27,7 +28,7 @@ import { StudentService } from './student.service';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-      MatTooltipModule,
+    MatTooltipModule,
   ],
   templateUrl: './student.component.html',
   styleUrls: ['./student.component.css'],
@@ -47,8 +48,13 @@ export class StudentComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private studentService: StudentService
+    private studentService: StudentService,
+    private location: Location
   ) {}
+
+  goBack(): void {
+    this.location.back();
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
