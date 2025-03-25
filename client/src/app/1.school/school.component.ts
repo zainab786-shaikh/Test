@@ -16,6 +16,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ISchool } from './school.model';
 import { SchoolService } from './school.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-school',
@@ -44,8 +45,13 @@ export class SchoolComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private schoolService: SchoolService
+    private schoolService: SchoolService,
+    private location: Location
   ) {}
+
+  logout(): void {
+    this.location.back();
+  }
 
   ngOnInit(): void {
     this.loadSchools();

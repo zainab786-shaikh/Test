@@ -1,48 +1,156 @@
+/* Main dashboard container */
 .dashboard-container {
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
-  gap: 20px;
-  padding: 20px;
+  gap: 24px;
+  padding: 24px;
+  background-color: #f5f7fa;
+  min-height: 100vh;
 }
+
+/* Back button styling */
+.back-button {
+  display: flex;
+  width: 7em;
+  align-items: center;
+  padding: 10px 18px;
+  background-color: white;
+  color: #1a3a5f;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid #4a8cff;
+  margin-bottom: 8px;
+}
+
+.back-button:hover {
+  background-color: #edf2f9;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+.back-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.back-icon {
+  margin-right: 8px;
+  font-size: 18px;
+  color: #4a8cff;
+}
+
+/* Overall performance section */
 .overall-performance {
   display: flex;
   width: 100%;
+  margin-bottom: 8px;
 }
+
 .overall-performance-card {
-  width: 70%;
-}
-.subject-performance-card {
-  width: 30%;
-}
-.overall-subject {
-  display: flex;
   width: 100%;
-}
-
-.dashboard-card {
-  flex: 1 1 calc(20.333% - 20px); /* Example of a 3-column layout for other cards */
-  padding: 20px;
-  border-radius: 8px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-top: 4px solid #4a8cff;
   background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 16px 20px;
 }
 
+.overall-performance-card h2 {
+  color: #1a3a5f;
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #4a8cff;
+}
+
+/* Dashboard cards */
+.dashboard-card {
+  flex: 1;
+  padding: 16px 20px;
+  border-radius: 12px;
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dashboard-card:first-child {
+  border-top: 4px solid #33cc99; /* Green for semester */
+}
+
+.dashboard-card:last-child {
+  border-top: 4px solid #ff9944; /* Orange for subject */
+}
+
+.dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+.dashboard-card h2 {
+  color: #1a3a5f;
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid rgba(74, 140, 255, 0.2);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .dashboard-card {
+    width: 100%;
+  }
+
+  .logout-button {
+    position: fixed; /* Keeps it fixed on small screens */
+    top: 10px;
+    right: 10px;
+    padding: 8px 14px;
+    font-size: 14px;
+  }
+}
+
+/* Utility classes */
 table {
   width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
 .mat-elevation-z8 {
-  border-radius: 8px;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 ul {
   list-style-type: none;
   padding: 0;
+  margin: 0;
 }
 
 ul li {
-  background: #f4f4f4;
-  margin: 5px 0;
-  padding: 10px;
-  border-radius: 5px;
+  background: #f8fafd;
+  margin: 8px 0;
+  padding: 14px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  border-left: 4px solid #4a8cff;
+}
+
+ul li:hover {
+  background-color: #edf2f9;
 }
