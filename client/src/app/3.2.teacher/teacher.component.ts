@@ -15,7 +15,8 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { ITeacher } from './teacher.model';
 import { TeacherService } from './teacher.service';
-  import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-teacher',
@@ -47,8 +48,13 @@ export class TeacherComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private teacherService: TeacherService
+    private teacherService: TeacherService,
+    private location: Location
   ) {}
+
+  goBack(): void {
+    this.location.back();
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {

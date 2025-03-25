@@ -40,7 +40,7 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   margin-bottom: 12px;
 }
-
+input[mat-card-input]
 .logo-icon {
   font-size: 36px;
   height: 36px;
@@ -92,7 +92,10 @@
   width: 100%;
   margin-bottom: 20px;
 }
-
+.input-field input{
+  padding-left:10px;
+  font-size: 18px;
+}
 .field-icon {
   color: #3a1c71;
 }
