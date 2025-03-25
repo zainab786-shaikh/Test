@@ -121,6 +121,15 @@ export class SchoolStandardComponent implements OnInit {
     ]);
   }
 
+  onTeachers(schoolstandardId: number, standardId: number) {
+    this.router.navigate([
+      'teacher/school',
+      this.schoolId,
+      'standard',
+      standardId,
+    ]);
+  }
+
   onSubmit(): void {
     if (this.schoolstandardForm.valid) {
       const schoolstandard = {

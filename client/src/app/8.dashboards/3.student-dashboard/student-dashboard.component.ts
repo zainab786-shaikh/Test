@@ -19,7 +19,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IProgress } from '../../4.progress/progress.model';
 import { RouterModule } from '@angular/router'; // Add this import
 import { StandardService } from '../../5.standard/standard.service';
-import { StudentService } from '../../3.student/student.service';
+import { StudentService } from '../../3.1.student/student.service';
 PlotlyModule.plotlyjs = PlotlyJS;
 
 enum tagChildList {

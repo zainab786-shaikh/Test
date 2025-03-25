@@ -17,6 +17,10 @@ const TYPES = {
   ServiceStudent: Symbol("ServiceStudent"),
   RepoStudent: Symbol("RepoStudent"),
 
+  ControllerTeacher: Symbol("ControllerTeacher"),
+  ServiceTeacher: Symbol("ServiceTeacher"),
+  RepoTeacher: Symbol("RepoTeacher"),
+
   ControllerProgress: Symbol("ControllerProgress"),
   ServiceProgress: Symbol("ServiceProgress"),
   RepoProgress: Symbol("RepoProgress"),

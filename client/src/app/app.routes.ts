@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { LoginDetailComponent } from './0.logindetail/logindetail.component';
 import { SchoolComponent } from './1.school/school.component';
 import { SchoolStandardComponent } from './2.schoolstandard/schoolstandard.component';
-import { StudentComponent } from './3.student/student.component';
+import { StudentComponent } from './3.1.student/student.component';
 import { ProgressComponent } from './4.progress/progress.component';
 import { StandardComponent } from './5.standard/standard.component';
 import { SubjectComponent } from './6.subject/subject.component';
@@ -21,6 +21,7 @@ import { SubjectDashboard2Component } from './8.dashboards/4.subject-dashboard2/
 import { ProfileDashboardComponent } from './8.dashboards/5.profile-dashboard/profile-dashboard.component';
 
 import { LandingPageComponent } from './landingPage/landing-page/landing-page.component'; // Import Landing Page
+import { TeacherComponent } from './3.2.teacher/teacher.component';
 export const routes: Routes = [
   { path: '', component: LandingPageComponent }, // ✅ Landing Page as Default Route
   { path: 'login', component: LoginComponent }, // ✅ Add Login Page route
@@ -30,7 +31,7 @@ export const routes: Routes = [
   { path: 'principal', redirectTo: 'school-dashboard', pathMatch: 'full' },
   { path: 'teacher', redirectTo: 'school-dashboard', pathMatch: 'full' },
 
-  { path: 'school-dashboard', component: SchoolDashboardComponent },
+  { path: 'school-dashboard/school/:schoolId', component: SchoolDashboardComponent },
   {
     path: 'standard-dashboard/school/:schoolId/standard/:standardId',
     component: StandardDashboardComponent,
@@ -47,6 +48,10 @@ export const routes: Routes = [
   {
     path: 'student/school/:schoolId/standard/:standardId',
     component: StudentComponent,
+  },
+  {
+    path: 'teacher/school/:schoolId/standard/:standardId',
+    component: TeacherComponent,
   },
   { path: 'standard', component: StandardComponent },
   { path: 'subject/standard/:standardId', component: SubjectComponent },

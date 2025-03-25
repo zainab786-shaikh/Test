@@ -50,6 +50,9 @@ export class SchoolDashboardComponent {
     private serviceHelper: DashboardServiceHelper
   ) {
     this.schoolId = 1;
+    this.route.params.subscribe((params) => {
+      this.schoolId = +params['schoolId'];
+    });
   }
 
   ngOnInit(): void {

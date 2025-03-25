@@ -69,7 +69,7 @@ export class LoginComponent {
   }
 
   async onSubmit() {
-    if (this.loginForm.invalid) { 
+    if (this.loginForm.invalid) {
       return;
     }
 
@@ -82,11 +82,18 @@ export class LoginComponent {
         if (userInfo) {
           if (userInfo?.role == 'admin') {
             this.router.navigate(['admin']);
-          } else if (
-            userInfo?.role == 'teacher' ||
-            userInfo?.role == 'principal'
-          ) {
+          } else if (userInfo?.role == 'principal') {
             this.router.navigate(['school-dashboard']);
+          } else if (userInfo?.role == 'teacher') {
+            this.loginService
+              .getTeacherAdhaar(userInfo.adhaar)
+              .subscribe((teacher) => {
+                this.router.navigate([
+                  'school-dashboard',
+                  'school',
+                  teacher.school
+                ]);
+              });
           } else if (userInfo?.role == 'student') {
             this.loginService
               .getByAdhaar(userInfo.adhaar)
@@ -102,11 +109,12 @@ export class LoginComponent {
                 ]);
               });
           }
-        } else {
-          this.errorMessage = 'Invalid username or password';
         }
-        this.isLoading = false;
-      },
+        else {
+            this.errorMessage = 'Invalid username or password';
+          }
+          this.isLoading = false;
+        },
       error: (error) => {
         this.errorMessage = 'Login failed. Please try again.';
         this.isLoading = false;

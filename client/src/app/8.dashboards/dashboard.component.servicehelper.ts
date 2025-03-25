@@ -12,7 +12,7 @@ import {
 } from 'rxjs';
 import { ISchool } from '../1.school/school.model';
 import { ISchoolStandard } from '../2.schoolstandard/schoolstandard.model';
-import { IStudent } from '../3.student/student.model';
+import { IStudent } from '../3.1.student/student.model';
 import { IProgress } from '../4.progress/progress.model';
 import { IStandard } from '../5.standard/standard.model';
 import { ISubject } from '../6.subject/subject.model';
@@ -21,7 +21,7 @@ import { SchoolService } from '../1.school/school.service';
 import { SchoolStandardService } from '../2.schoolstandard/schoolstandard.service';
 import { SubjectService } from '../6.subject/subject.service';
 import { LessonService } from '../7.lesson/lesson.service';
-import { StudentService } from '../3.student/student.service';
+import { StudentService } from '../3.1.student/student.service';
 import { StandardService } from '../5.standard/standard.service';
 import { LessonSectionService } from '../7.lessonsection/lessonsection.service';
 import { ILessonSection } from '../7.lessonsection/lessonsection.model';

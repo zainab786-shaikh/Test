@@ -6,6 +6,7 @@ export interface IProgress {
   school?: number;
   standard?: number;
   student?: number;
+  teacher?: number;
   subject?: number;
   lesson?: number;
   lessonsection?: number;

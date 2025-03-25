@@ -6,7 +6,7 @@ import { LoginDetailService } from '../../0.logindetail/logindetail.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ChangeDetectorRef } from '@angular/core';
 import { StandardService } from '../../5.standard/standard.service';
-import { StudentService } from '../../3.student/student.service';
+import { StudentService } from '../../3.1.student/student.service';
 
 @Component({
   selector: 'app-profile-dashboard',

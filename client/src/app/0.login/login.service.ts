@@ -4,8 +4,11 @@ import { LoginDetailService } from '../0.logindetail/logindetail.service';
 import { ILoginDetail } from '../0.logindetail/logindetail.model';
 import { lastValueFrom, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { StudentService } from '../3.student/student.service';
-import { IStudent } from '../3.student/student.model';
+import { StudentService } from '../3.1.student/student.service';
+import { IStudent } from '../3.1.student/student.model';
+import { TeacherComponent } from '../3.2.teacher/teacher.component';
+import { ITeacher } from '../3.2.teacher/teacher.model';
+import { TeacherService } from '../3.2.teacher/teacher.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +18,7 @@ export class LoginService {
   userInfo: ILoginDetail | null = null;
   constructor(
     private http: HttpClient,
+    private teacherService: TeacherService,
     private studentService: StudentService
   ) {}
 
@@ -41,5 +45,9 @@ export class LoginService {
 
   getByAdhaar(adhaar: string): Observable<IStudent> {
     return this.studentService.getByAdhaar(adhaar);
+  }
+
+  getTeacherAdhaar(adhaar: string): Observable<ITeacher> {
+    return this.teacherService.getByAdhaar(adhaar);
   }
 }

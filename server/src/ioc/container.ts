@@ -26,11 +26,17 @@ import { ServiceSchoolStandardImpl } from "../2.schoolstandard/4.service";
 import { IRepoSchoolStandard } from "../2.schoolstandard/5.repo.model";
 import { RepoSchoolStandardImpl } from "../2.schoolstandard/6.repo";
 
-import { ControllerStudent } from "../3.student/2.controller";
-import { IServiceStudent } from "../3.student/3.service.model";
-import { ServiceStudentImpl } from "../3.student/4.service";
-import { IRepoStudent } from "../3.student/5.repo.model";
-import { RepoStudentImpl } from "../3.student/6.repo";
+import { ControllerStudent } from "../3.1.student/2.controller";
+import { IServiceStudent } from "../3.1.student/3.service.model";
+import { ServiceStudentImpl } from "../3.1.student/4.service";
+import { IRepoStudent } from "../3.1.student/5.repo.model";
+import { RepoStudentImpl } from "../3.1.student/6.repo";
+
+import { ControllerTeacher } from "../3.2.teacher/2.controller";
+import { IServiceTeacher } from "../3.2.teacher/3.service.model";
+import { ServiceTeacherImpl } from "../3.2.teacher/4.service";
+import { IRepoTeacher } from "../3.2.teacher/5.repo.model";
+import { RepoTeacherImpl } from "../3.2.teacher/6.repo";
 
 import { ControllerProgress } from "../4.progress/2.controller";
 import { IServiceProgress } from "../4.progress/3.service.model";
@@ -98,6 +104,12 @@ container
   .to(ControllerStudent);
 container.bind<IServiceStudent>(TYPES.ServiceStudent).to(ServiceStudentImpl);
 container.bind<IRepoStudent>(TYPES.RepoStudent).to(RepoStudentImpl);
+
+container
+  .bind<ControllerTeacher>(TYPES.ControllerTeacher)
+  .to(ControllerTeacher);
+container.bind<IServiceTeacher>(TYPES.ServiceTeacher).to(ServiceTeacherImpl);
+container.bind<IRepoTeacher>(TYPES.RepoTeacher).to(RepoTeacherImpl);
 
 container
   .bind<ControllerProgress>(TYPES.ControllerProgress)
