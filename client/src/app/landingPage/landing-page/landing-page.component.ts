@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';  // ✅ Import CommonModule
 import { RouterModule } from '@angular/router';
+
 
 @Component({
   selector: 'app-landing-page',
@@ -54,4 +55,27 @@ export class LandingPageComponent implements OnInit {
       this.imgNum = this.imgNum === 5 ? 1 : this.imgNum + 1;
     }, 4300);
   }
+  @HostListener('window:scroll', [])
+  handleScrollReveal(): void {
+    const reveals = document.querySelectorAll('.reveal');
+    reveals.forEach((element: any) => {
+      const windowHeight = window.innerHeight;
+      const elementTop = element.getBoundingClientRect().top;
+      const revealPoint = 150;
+
+      if (elementTop < windowHeight - revealPoint) {
+        element.classList.add('revealed');
+      }
+    });
+  }
+
+  scrollToSection(sectionId: string) {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
 }
+
+
