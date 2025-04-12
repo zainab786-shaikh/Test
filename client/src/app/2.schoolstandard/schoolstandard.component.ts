@@ -22,6 +22,8 @@ import { StandardService } from '../5.standard/standard.service';
 import { IStandard } from '../5.standard/standard.model';
 import { MatSelectModule } from '@angular/material/select';
 import { Location } from '@angular/common';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 
 @Component({
   selector: 'app-schoolstandard',
@@ -35,6 +37,7 @@ import { Location } from '@angular/common';
     MatInputModule,
     MatOptionModule,
     MatSelectModule,
+    MatTooltipModule,
   ],
   templateUrl: './schoolstandard.component.html',
   styleUrls: ['./schoolstandard.component.css'],

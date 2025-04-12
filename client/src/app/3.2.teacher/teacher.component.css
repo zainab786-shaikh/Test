@@ -1,18 +1,32 @@
-/* Global Card Styling */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 24px;
+  padding: 24px;
+  background-color: #f5f7fa;
+  min-height: 100vh;
+}
+
+/* Card styles */
 mat-card {
   margin: 20px auto;
-  padding: 20px;
+  padding: 5px;
   max-width: 1500px;
-  border-radius: 20px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-  background-color: #ffffff;
-  transition: all 0.3s ease;
-  animation: fadeIn 0.5s ease;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background-color: white;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-top: 4px solid #4aabff;
+  position: relative;
+}
+.mat-icon{
+  text-align: center;
 }
 
 mat-card:hover {
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  transform: translateY(-5px);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
 }
 
 /* Card Title Styles */
@@ -24,28 +38,24 @@ mat-card-title {
   font-weight: 700;
   color: #1a3a5f;
   margin-bottom: 25px;
+  margin-top: 20px;
   position: relative;
   letter-spacing: -0.5px;
 }
 
-mat-card-title .add-btn {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: #e3f2fd;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.25s ease;
+/* Dashboard header styles */
+.dashboard-header {
+  flex: 1;
+  text-align: center;
 }
 
-mat-card-title .add-btn:hover {
-  transform: scale(1.1) rotate(90deg);
-  background-color: #bbdefb;
+.dashboard-header h1 {
+  color: #1a3a5f;
+  font-size: 30px;
+  font-weight: 1000;
+  margin: 0;
+  padding-bottom: 0;
+
 }
 
 /* Back/Logout Button Styles */

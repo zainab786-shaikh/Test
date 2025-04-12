@@ -1,9 +1,11 @@
 <mat-card>
-  <button (click)="logout()" class="logout-button">
-    <span class="logout-icon">←</span> Logout
-  </button>
   <mat-card-title>
-    <span>College Details</span>
+    <button (click)="logout()" class="logout-button">
+      <span class="logout-icon">←</span> Logout
+    </button>
+    <div class="dashboard-header">
+      <h1>College Details</h1>
+    </div>
     <button
       mat-icon-button
       color="primary"
@@ -37,7 +39,7 @@
           >
             <mat-icon>edit</mat-icon>
           </button>
-          
+
           <button
             mat-icon-button
             color="warn"
