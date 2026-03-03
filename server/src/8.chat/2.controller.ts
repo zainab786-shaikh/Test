@@ -31,7 +31,7 @@ export class ControllerChat extends BaseController {
   constructor() {
     super();
     this.logger = container.get(TYPES.LoggerService);
-    this.serviceChat = container.get(TYPES.ServiceSubject);
+    this.serviceChat = container.get(TYPES.ServiceChat);  // Fixed: was ServiceSubject
   }
 
   private setCommonHeaders(res: Response) {

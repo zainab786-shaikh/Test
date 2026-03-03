@@ -13,4 +13,5 @@ export interface ILoginDetail {
   adhaar: string;
   password: string;
   role: RoleType;
+  referenceId?: number;  // Reference to school/student/teacher ID based on role
 }

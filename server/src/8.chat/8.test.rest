@@ -1,52 +1,54 @@
+### Test Chat API with AI Assistant
 
-  @baseUrl = http://localhost:3000
-
-  ####
-GET {{baseUrl}}/v1/subject
+# Test with context (simulating a lesson explanation)
+POST http://localhost:3000/chat
 Content-Type: application/json
-tenantid: tenanta
-traceparent: 12345
-Authorization: bearer Token
-
- ####
-  # @name CreateSubject
-
-POST {{baseUrl}}/v1/subject
-Content-Type: application/json
-tenantid: tenanta
-traceparent: 12345
-Authorization: bearer Token
 
 {
-  "name": "English",
-  "standard": 0
+  "explanation": "The greenhouse effect is a natural process that keeps our planet warm. Certain gases in the Earth's atmosphere, called greenhouse gases, trap heat from the sun.",
+  "messages": [
+    {
+      "content": "Can you explain the greenhouse effect in simpler terms?",
+      "isUser": true
+    }
+  ]
 }
 
-### Capture Id from Response
-@studentId = {{CreateSubject.response.body.Id}}
+###
 
-####
-GET {{baseUrl}}/v1/subject/{{studentId}}
+# Test without context (general question)
+POST http://localhost:3000/chat
 Content-Type: application/json
-tenantid: tenanta
-traceparent: 12345
-Authorization: bearer Token
-
-####
-PUT {{baseUrl}}/v1/subject/{{studentId}}
-Content-Type: application/json
-tenantid: tenanta
-traceparent: 12345
-Authorization: bearer Token
 
 {
-  "name": "English",
-  "standard": 0
+  "messages": [
+    {
+      "content": "What is photosynthesis?",
+      "isUser": true
+    }
+  ]
 }
 
-####
-DELETE {{baseUrl}}/v1/subject/{{studentId}}
+###
+
+# Test with conversation history
+POST http://localhost:3000/chat
 Content-Type: application/json
-tenantid: tenanta
-traceparent: 12345
-Authorization: bearer Token
+
+{
+  "explanation": "Environmental Studies is the branch of science that deals with the study of the environment, the problems it faces, and solutions to those problems.",
+  "messages": [
+    {
+      "content": "What is Environmental Studies?",
+      "isUser": true
+    },
+    {
+      "content": "Environmental Studies is the branch of science that deals with the study of the environment...",
+      "isUser": false
+    },
+    {
+      "content": "Can you give me an example of an environmental problem?",
+      "isUser": true
+    }
+  ]
+}

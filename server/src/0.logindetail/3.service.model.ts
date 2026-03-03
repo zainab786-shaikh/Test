@@ -11,4 +11,6 @@ export interface IServiceLoginDetail {
     inLoginDetailInfo: ILoginDetail
   ): Promise<number>;
   delete(inLoginDetailId: number): Promise<number>;
+  generateToken(user: ILoginDetail): string;  // JWT token generation
+  verifyToken(token: string): any;  // JWT token verification
 }

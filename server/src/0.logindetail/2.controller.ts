@@ -108,10 +108,32 @@ export class ControllerLoginDetail extends BaseController {
     try {
       const username = req.body.name;
       const password = req.body.password;
-      const status = await this.serviceLoginDetail.validate(username, password);
-      this.logger.info("Retrieved logindetail:" + status);
+      const user = await this.serviceLoginDetail.validate(username, password);
+
       this.setCommonHeaders(res);
-      res.status(HttpStatusCode.OK).json(status);
+
+      if (!user) {
+        return res
+          .status(HttpStatusCode.UNAUTHORIZED)
+          .json({ message: "Invalid credentials" });
+      }
+
+      // Generate JWT token
+      const token = this.serviceLoginDetail.generateToken(user);
+
+      // Return user data with token
+      const response = {
+        token,
+        user: {
+          id: user.Id,
+          name: user.name,
+          role: user.role,
+          referenceId: user.referenceId,
+        },
+      };
+
+      this.logger.info(`User authenticated: ${username}`);
+      res.status(HttpStatusCode.OK).json(response);
     } catch (error: any) {
       this.logger.error(error);
       return this.handleError(error, res);
