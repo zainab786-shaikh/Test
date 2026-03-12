@@ -21,6 +21,11 @@ export class ProfileDashboardComponent implements OnInit {
   standardId!: number;
   studentId!: number;
   menuItems: any[] = [];
+  isSidebarOpen: boolean = false;
+
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
 
   studentName = 'John Doe';
   adhaarNumber = '2222-2222-2222';
