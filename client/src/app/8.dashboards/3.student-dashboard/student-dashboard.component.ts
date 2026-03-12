@@ -59,6 +59,9 @@ export class StudentDashboardComponent {
   pendingLessonSectionData!: IChildNode[] | [];
   menuItems: any[] = []; // Initialize as an empty array
 
+  // Mobile sidebar state
+  isSidebarOpen: boolean = false;
+
   // Add these properties below
   totalLessons: number = 0;
   completedLessons: number = 0;
@@ -88,6 +91,10 @@ export class StudentDashboardComponent {
         this.standardName = data.name;
       });
     });
+  }
+
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
   }
 
   ngOnInit(): void {

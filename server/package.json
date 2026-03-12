@@ -45,6 +45,8 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
-    "mysql2": "^3.12.0"
+    "copyfiles": "^2.4.1",
+    "mysql2": "^3.12.0",
+    "typescript": "^5.9.3"
   }
 }

@@ -53,7 +53,7 @@ export class LoginComponent {
   fillDemoCredentials(role: string): void {
     this.errorMessage = ''; // Clear any previous error
 
-    switch(role) {
+    switch (role) {
       case 'admin':
         this.loginForm.setValue({ username: 'admin', password: 'admin' });
         break;
@@ -78,7 +78,8 @@ export class LoginComponent {
 
     const { username, password } = this.loginForm.value;
     this.loginService.validate(username, password).subscribe({
-      next: (userInfo) => {
+      next: (apiResponse: any) => {
+        const userInfo = apiResponse?.user || apiResponse;
         if (userInfo) {
           if (userInfo?.role == 'admin') {
             this.router.navigate(['admin']);
@@ -108,13 +109,15 @@ export class LoginComponent {
                   student.Id,
                 ]);
               });
+          } else {
+            this.errorMessage = 'Invalid role or unexpected response';
           }
         }
         else {
-            this.errorMessage = 'Invalid username or password';
-          }
-          this.isLoading = false;
-        },
+          this.errorMessage = 'Invalid username or password';
+        }
+        this.isLoading = false;
+      },
       error: (error) => {
         this.errorMessage = 'Login failed. Please try again.';
         this.isLoading = false;

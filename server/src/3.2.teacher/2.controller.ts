@@ -22,16 +22,20 @@ import { validateId } from "../common/validator-id";
 import { ITeacher } from "./0.model";
 import { validateAdhaar, validateTeacher } from "./1.validator";
 import { IServiceTeacher } from "./3.service.model";
+import { IServiceLoginDetail } from "../0.logindetail/3.service.model";
+import { ILoginDetail } from "../0.logindetail/0.model";
 
 @controller("/teacher")
 export class ControllerTeacher extends BaseController {
   private logger: ILogger;
   private serviceTeacher: IServiceTeacher;
+  private serviceLoginDetail: IServiceLoginDetail;
 
   constructor() {
     super();
     this.logger = container.get(TYPES.LoggerService);
     this.serviceTeacher = container.get(TYPES.ServiceTeacher);
+    this.serviceLoginDetail = container.get(TYPES.ServiceLoginDetail);
   }
 
   private setCommonHeaders(res: Response) {
@@ -113,6 +117,18 @@ export class ControllerTeacher extends BaseController {
     try {
       const teacher = req.body as ITeacher;
       const teacherObj = await this.serviceTeacher.create(teacher);
+
+      if (teacherObj) {
+        // Create corresponding logindetail
+        const loginDetail = {
+          name: teacherObj.name,
+          adhaar: teacherObj.adhaar,
+          password: "teacher",
+          role: "teacher"
+        } as ILoginDetail;
+        await this.serviceLoginDetail.create(loginDetail);
+      }
+
       this.setCommonHeaders(res);
       res.status(HttpStatusCode.OK).json(teacherObj);
     } catch (error: any) {

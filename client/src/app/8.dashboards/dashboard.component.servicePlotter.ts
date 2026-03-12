@@ -6,27 +6,52 @@ export class BarPlotter {
     this.barData = [
       {
         type: 'bar',
-        x: inXPerfValue, // X-axis represents the value (horizontal bar)
+        x: inXPerfValue,
         y: inYPerfValue,
-        orientation: 'h', // Ensures it's a horizontal bar chart
+        orientation: 'h',
+        width: 0.4,
         marker: {
           color:
             inXPerfValue[0] >= 75
-              ? 'green'
+              ? 'rgba(52, 211, 153, 0.7)' // emerald
               : inXPerfValue[0] >= 50
-              ? 'yellow'
-              : 'red',
+              ? 'rgba(251, 191, 36, 0.7)' // amber
+              : 'rgba(251, 113, 133, 0.7)', // rose
+          line: {
+            color:
+              inXPerfValue[0] >= 75
+                ? 'rgba(52, 211, 153, 1)'
+                : inXPerfValue[0] >= 50
+                ? 'rgba(251, 191, 36, 1)'
+                : 'rgba(251, 113, 133, 1)',
+            width: 2,
+          }
         },
       },
     ];
 
     this.barLayout = {
-      title: title,
-      xaxis: { range: [0, 100], title: 'Percentage' },
-      yaxis: { range: [0, 1] },
+      title: title ? { text: title, font: { size: 15, color: '#475569' } } : undefined,
+      xaxis: { 
+        range: [0, 100], 
+        title: { text: 'Percentage (%)', font: { size: 12 } },
+        color: '#64748b',
+        showgrid: true,
+        gridcolor: 'rgba(0,0,0,0.05)',
+        zeroline: false
+      },
+      yaxis: { 
+        range: [-0.5, 0.5], 
+        showticklabels: false,
+        showgrid: false,
+        zeroline: false
+      },
       showlegend: false,
-      height: 130,
-      margin: { l: 30, r: 30, t: 30, b: 30 },
+      height: 140, // compact height
+      margin: title ? { l: 20, r: 20, t: 40, b: 40 } : { l: 20, r: 20, t: 10, b: 40 },
+      paper_bgcolor: 'transparent',
+      plot_bgcolor: 'transparent',
+      font: { family: '"Plus Jakarta Sans", "Inter", sans-serif', color: '#475569' }
     };
   }
 }
@@ -49,6 +74,9 @@ export class PiePlotter {
       title: title,
       height: 130,
       margin: { l: 30, r: 30, t: 30, b: 30 },
+      paper_bgcolor: 'transparent',
+      plot_bgcolor: 'transparent',
+      font: { family: '"Plus Jakarta Sans", "Inter", sans-serif' }
     };
   }
 }

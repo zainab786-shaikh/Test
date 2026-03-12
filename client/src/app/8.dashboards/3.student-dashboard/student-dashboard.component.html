@@ -1,242 +1,121 @@
-<!-- saved from url=(0012)about:srcdoc -->
-<html class="fontawesome-i2svg-active fontawesome-i2svg-complete">
+<!-- Overlay for mobile sidebar -->
+<div class="sidebar-overlay" [class.open]="isSidebarOpen" (click)="toggleSidebar()"></div>
 
-<body class="h-full bg-base-50 text-base-content">
-    <div class="flex h-full bg-gray-100">
-        <aside id="sidebar" class="w-64 bg-white shadow-md">
-            <div class="p-4">
-                <h2 class="text-2xl font-bold text-blue-600">LearnZy</h2>
-            </div>
-            <!-- Navigation menu for student dashboard -->
-            <nav class="mt-6">
-            <a *ngFor="let item of menuItems"
-                [routerLink]="item.path"
-                routerLinkActive="bg-blue-100 text-blue-600"
-                [routerLinkActiveOptions]="{exact: false}"
-                class="block py-2 px-4 text-gray-700 hover:bg-blue-100 hover:text-blue-600">
-              <i class="mr-2">
-                <svg class="svg-inline--fa {{item.icon}}" aria-hidden="true" focusable="false"
-                      data-prefix="fas" [attr.data-icon]="item.icon.substring(3)" role="img"
-                      xmlns="http://www.w3.org/2000/svg" [attr.viewBox]="item.viewBox" width="20" height="20">
-                  <path fill="currentColor" [attr.d]="item.svgPath"></path>
-                </svg>
-              </i>
-              {{item.label}}
-            </a>
-            </nav>
-        </aside>
+<div class="dashboard-wrapper">
+  <!-- Sidebar -->
+  <aside class="sd-sidebar" [class.open]="isSidebarOpen">
+    <div class="sd-logo">📚 Learnzy</div>
+    <nav class="sd-nav">
+      <a *ngFor="let item of menuItems"
+         [routerLink]="item.path"
+         routerLinkActive="active"
+         [routerLinkActiveOptions]="{exact: false}"
+         class="sd-nav-item">
+        <svg class="sd-nav-icon" [attr.viewBox]="item.viewBox" xmlns="http://www.w3.org/2000/svg">
+           <path fill="currentColor" [attr.d]="item.svgPath"></path>
+        </svg>
+        <span>{{item.label}}</span>
+      </a>
+      <!-- Add a close button for mobile inside the sidebar -->
+      <a class="sd-nav-item mobile-close-btn" (click)="toggleSidebar()">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+        <span>Close</span>
+      </a>
+    </nav>
+  </aside>
 
-        <main class="flex-1 overflow-y-auto">
-            <header id="header" class="bg-white shadow-sm">
-                <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-                    <h1 class="text-2xl font-semibold text-gray-900">Dashboard</h1>
+  <!-- Main Content -->
+  <main class="sd-main">
+    <header class="sd-header">
+      <div class="header-left">
+        <button class="mobile-menu-btn" (click)="toggleSidebar()">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+            <path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="sd-welcome">Welcome back, <span class="highlight">{{studentName}}</span> 🚀</div>
+      </div>
+    </header>
+
+    <div class="sd-content">
+      <!-- Top Stats Card Row -->
+      <div class="sd-cards-row">
+        <div class="sd-stat-card border-card cursor-hover">
+          <span>{{completedLessons}} / {{totalLessons}}</span>
+          Topics Done
+        </div>
+        <div class="sd-stat-card highlight-card cursor-hover">
+          <span>{{overallProgress}}%</span>
+          Overall Progress
+        </div>
+        <div class="sd-stat-card border-card cursor-hover">
+          <span>{{coveredSubjects}} / {{totalSubjects}}</span>
+          Subjects Covered
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <!-- Subjects Overview Column -->
+        <div class="grid-col">
+          <h3 class="sd-section-title">Subjects Overview</h3>
+          <div class="sd-subject-cards">
+            <!-- Iterate over subjectData -->
+            <div class="sd-subj" *ngFor="let s of subjectData">
+              <div class="sd-subj-icon">📘</div>
+              <div class="sd-subj-info">
+                <div class="sd-subj-name">{{ s.name }}</div>
+                <div class="sd-subj-bar">
+                  <div [style.width]="s.score + '%'"></div>
                 </div>
-            </header>
-
-            <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-                <div class="px-4 py-6 sm:px-0">
-                    <h2 class="text-2xl font-semibold text-gray-900 mb-6">Welcome, <span id="studentName">{{studentName}}</span>!</h2>
-
-                    <div id="subjects-overview" class="mb-8">
-                        <h3 class="text-lg font-medium text-gray-900 mb-4">Subjects Overview</h3>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                            <div class="bg-white overflow-hidden shadow rounded-lg">
-                              <div class="px-4 py-5 sm:p-6">
-                                <h4 class="text-lg font-medium text-gray-900">{{ subjectData[0].name }}</h4>
-                                <div class="mt-4">
-                                  <div class="relative pt-1">
-                                    <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200">
-                                      <div [style.width.%]="subjectData[0].score"
-                                        class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500">
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <p class="text-sm font-medium text-gray-500">{{ subjectData[0].score  | number:'1.0-1' }}% Complete</p>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="bg-white overflow-hidden shadow rounded-lg">
-                              <div class="px-4 py-5 sm:p-6">
-                                <h4 class="text-lg font-medium text-gray-900">{{ subjectData[1].name }}</h4>
-                                <div class="mt-4">
-                                  <div class="relative pt-1">
-                                    <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-green-200">
-                                      <div [style.width.%]="subjectData[1].score"
-                                        class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-green-500">
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <p class="text-sm font-medium text-gray-500">{{ subjectData[1].score  | number:'1.0-1' }}% Complete</p>
-                                </div>
-                              </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="dashboard-container">
-                      <div class="overall-performance">
-                        <mat-card class="overall-performance-card">
-                          <h2>Overall Performance</h2>
-                          <plotly-plot
-                            *ngIf="perfOverallPlotter"
-                            [data]="perfOverallPlotter.barData"
-                            [layout]="perfOverallPlotter.barLayout"
-                          ></plotly-plot>
-                        </mat-card>
-                      </div>
-
-                      <!-- <mat-card class="dashboard-card">
-                        <h2>Next Lessons</h2>
-                        <app-progress-bar
-                          [parentList]="nextLessonSectionData"
-                          (onGrandChildClick)="clickByLessonSection($event)"
-                        ></app-progress-bar>
-                      </mat-card>
-
-                      <mat-card class="dashboard-card">
-                        <h2>Completed Lessons</h2>
-                        <app-progress-bar
-                          [parentList]="completedLessonSectionData"
-                        ></app-progress-bar>
-                      </mat-card>
-
-                      <mat-card class="dashboard-card">
-                        <h2>Pending Lessons</h2>
-                        <app-progress-bar
-                          [parentList]="pendingLessonSectionData"
-                        ></app-progress-bar>
-                      </mat-card> -->
-
-                      <!--
-                      <mat-card class="dashboard-card">
-                        <h2>Goals</h2>
-                        <ul>
-                          <li *ngFor="let goal of goals">{{ goal }}</li>
-                        </ul>
-                      </mat-card>
-
-                      <mat-card class="dashboard-card">
-                        <h2>Recent Activity</h2>
-                        <ul>
-                          <li *ngFor="let activity of activityFeed">{{ activity }}</li>
-                        </ul>
-                      </mat-card>
-                      -->
-                    </div>
-                    <div id="lessons-overview" class="mb-8">
-                      <h3 class="text-lg font-medium text-gray-900 mb-4">Upcoming Lessons</h3>
-                      <div class="bg-white shadow overflow-hidden sm:rounded-md">
-                        <ul class="divide-y divide-gray-200">
-                          <ng-container *ngFor="let subject of nextLessonSectionData">
-                            <ng-container *ngFor="let lesson of subject.childList">
-                              <li>
-                                <a [routerLink]="[
-                                  '/subject-dashboard2/school', schoolId,
-                                  'standard', standardId,
-                                  'student', studentId
-                                ]"
-                                class="block hover:bg-gray-50">
-                                <div class="px-4 py-4 sm:px-6">
-                                  <div class="flex items-center justify-between">
-                                    <!-- Display Lesson Name -->
-                                    <p class="text-sm font-medium text-blue-600 truncate">
-                                      {{ lesson.name }}
-                                    </p>
-                                    <!-- Display Subject Name -->
-                                    <div class="ml-2 flex-shrink-0 flex">
-                                      <p
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                        {{ subject.name }}
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-                              </a>
-
-                              </li>
-                            </ng-container>
-                          </ng-container>
-                        </ul>
-                      </div>
-                    </div>
-
-
-                    <div id="learning-progress" class="mb-8">
-                      <h3 class="text-lg font-medium text-gray-900 mb-4">Learning Progress</h3>
-                      <div class="bg-white overflow-hidden shadow rounded-lg">
-                          <div class="p-5">
-                              <div class="flex items-center">
-                                  <div class="flex-shrink-0">
-                                      <div class="relative">
-                                          <div class="w-24 h-24 rounded-full bg-blue-100 flex items-center justify-center">
-                                              <span class="text-2xl font-bold text-blue-600">{{ overallProgress }}%</span>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="ml-5">
-                                      <h4 class="text-lg font-medium text-gray-900">Overall Progress</h4>
-                                      <p class="text-sm text-gray-500">You've completed {{ completedLessons }} out of {{ totalLessons }} lesson topics</p>
-                                      <p class="text-sm text-gray-500">{{ coveredSubjects }} out of {{ totalSubjects }} subjects covered</p>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-
-
-                    <div id="quick-actions">
-                        <h3 class="text-lg font-medium text-gray-900 mb-4">Quick Actions</h3>
-                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                            <div
-                                class="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
-                                <div class="flex-shrink-0">
-                                    <i class="text-2xl text-blue-500" data-fa-i2svg=""><svg
-                                            class="svg-inline--fa fa-play" aria-hidden="true" focusable="false"
-                                            data-prefix="fas" data-icon="play" role="img"
-                                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg="">
-                                            <path fill="currentColor"
-                                                d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z">
-                                            </path>
-                                        </svg></i>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                  <a [routerLink]="[
-                                  '/subject-dashboard2/school', schoolId,
-                                  'standard', standardId,
-                                  'student', studentId
-                                ]"
-                                class="block hover:bg-gray-50">
-                                        <span class="absolute inset-0" aria-hidden="true"></span>
-                                        <p class="text-sm font-medium text-gray-900">
-                                            Start a New Lesson
-                                        </p>
-                                        <p class="text-sm text-gray-500">
-                                            Continue your learning journey
-                                        </p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+              </div>
+              <span class="sd-subj-pct">{{ s.score | number:'1.0-1' }}%</span>
             </div>
-        </main>
+            <div *ngIf="!subjectData || subjectData.length === 0" class="empty-state">No subjects found.</div>
+          </div>
+        </div>
+
+        <!-- Right Column / Upcoming lessons -->
+        <div class="grid-col">
+          <h3 class="sd-section-title">Upcoming Lessons</h3>
+          <div class="sd-lessons-list">
+            <ng-container *ngFor="let subject of nextLessonSectionData">
+              <div class="sd-lesson-card" *ngFor="let lesson of subject.childList">
+                <div class="sd-lesson-info">
+                  <div class="sd-lesson-title">{{ lesson.name }}</div>
+                  <div class="sd-lesson-subj">{{ subject.name }}</div>
+                </div>
+                <a [routerLink]="[
+                        '/subject-dashboard2/school', schoolId,
+                        'standard', standardId,
+                        'student', studentId
+                      ]" class="sd-btn-play">
+                  <svg viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg" width="12" height="12">
+                      <path fill="currentColor" d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"></path>
+                  </svg>
+                  <span>Start</span>
+                </a>
+              </div>
+            </ng-container>
+            <div *ngIf="!nextLessonSectionData || nextLessonSectionData.length === 0" class="empty-state">No upcoming lessons.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Full-width Overall Performance -->
+      <div class="full-width-section mt-8">
+        <h3 class="sd-section-title">Overall Performance</h3>
+        <div class="sd-chart-box">
+           <plotly-plot
+             *ngIf="perfOverallPlotter"
+             [data]="perfOverallPlotter.barData"
+             [layout]="perfOverallPlotter.barLayout"
+             [config]="{displayModeBar: false, responsive: true}"
+           ></plotly-plot>
+        </div>
+      </div>
+
     </div>
-    <script>
-        // Fetch the student's name from the server
-        fetch('/getStudentName')
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('studentName').textContent = data.name;
-            })
-            .catch(error => {
-                console.error('Error fetching student name:', error);
-                document.getElementById('studentName').textContent = 'Student';
-            });
-    </script>
-
-
-</body>
-
-</html>
+  </main>
+</div>

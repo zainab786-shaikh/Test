@@ -23,18 +23,22 @@ import { IStudent } from "./0.model";
 import { validateAdhaar, validateStudent } from "./1.validator";
 import { IServiceStudent } from "./3.service.model";
 import { ServiceStudentProgressImpl } from "./3.service.student.progress";
+import { IServiceLoginDetail } from "../0.logindetail/3.service.model";
+import { ILoginDetail } from "../0.logindetail/0.model";
 
 @controller("/student")
 export class ControllerStudent extends BaseController {
   private logger: ILogger;
   private serviceStudent: IServiceStudent;
   private serviceStudentProgressImpl: ServiceStudentProgressImpl;
+  private serviceLoginDetail: IServiceLoginDetail;
 
   constructor() {
     super();
     this.logger = container.get(TYPES.LoggerService);
     this.serviceStudent = container.get(TYPES.ServiceStudent);
     this.serviceStudentProgressImpl = new ServiceStudentProgressImpl();
+    this.serviceLoginDetail = container.get(TYPES.ServiceLoginDetail);
   }
 
   private setCommonHeaders(res: Response) {
@@ -118,6 +122,15 @@ export class ControllerStudent extends BaseController {
       const studentObj = await this.serviceStudent.create(student);
       if (studentObj) {
         await this.serviceStudentProgressImpl.create(studentObj);
+
+        // Create corresponding logindetail
+        const loginDetail = {
+          name: studentObj.name,
+          adhaar: studentObj.adhaar,
+          password: "student",
+          role: "student"
+        } as ILoginDetail;
+        await this.serviceLoginDetail.create(loginDetail);
       }
       this.setCommonHeaders(res);
       res.status(HttpStatusCode.OK).json(studentObj);

@@ -122,18 +122,19 @@ export class ControllerLoginDetail extends BaseController {
       const token = this.serviceLoginDetail.generateToken(user);
 
       // Return user data with token
-      const response = {
+      const loginResponse = {
         token,
         user: {
           id: user.Id,
           name: user.name,
+          adhaar: user.adhaar,
           role: user.role,
           referenceId: user.referenceId,
         },
       };
 
       this.logger.info(`User authenticated: ${username}`);
-      res.status(HttpStatusCode.OK).json(response);
+      res.status(HttpStatusCode.OK).json(loginResponse);
     } catch (error: any) {
       this.logger.error(error);
       return this.handleError(error, res);
