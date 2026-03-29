@@ -38,11 +38,11 @@ export interface IShortQuestion {
 export interface ILessonSection {
   Id?: number;
   name: string;
-  lessoninfo: ILessonInfo;
-  quiz: IQuiz[];
-  fillblanks: IFillInTheBlank[];
-  truefalse: ITrueFalse[];
-  shortquestion: IShortQuestion[];
+  lessoninfo: ILessonInfo|undefined;
+  quiz: IQuiz[] |undefined;
+  fillblanks: IFillInTheBlank[]|undefined;
+  truefalse: ITrueFalse[]|undefined;
+  shortquestion: IShortQuestion[]|undefined;
   subject?: number;
   lesson?: number;
 }

@@ -9,6 +9,13 @@ import { initDTOSubjectModel } from "../6.subject/7.dto.model";
 import { initDTOLessonModel } from "../7.lesson/7.dto.model";
 import { initDTOLessonSectionModel } from "../7.lessonsection/7.dto.model";
 
+export const ensureSchema = async (
+  sequelize: Sequelize,
+  schemaName: string
+) => {
+  await sequelize.createSchema(schemaName, { logging: false }).catch(() => {});
+};
+
 export async function initModels(schemaName: string, sequelize: Sequelize) {
   initDTOLoginDetailModel(schemaName, sequelize);
   initDTOSchoolModel(schemaName, sequelize);
@@ -20,7 +27,9 @@ export async function initModels(schemaName: string, sequelize: Sequelize) {
   initDTOSubjectModel(schemaName, sequelize);
   initDTOLessonModel(schemaName, sequelize);
   initDTOLessonSectionModel(schemaName, sequelize);
+  
 
   console.log(`Models initialized for tenant: ${schemaName}`);
-  sequelize.sync({ force: true });
+  await ensureSchema(sequelize, "tenanta");
+  await sequelize.sync();
 }
