@@ -13,7 +13,7 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
-import { IFillInTheBlank, IQuiz, ITrueFalse } from './evaluation.service.model';
+import { IFillInTheBlank, IQuiz, ITrueFalse, IShortQuestion } from './evaluation.service.model';
 
 @Injectable({
   providedIn: 'root',
@@ -33,7 +33,7 @@ export class EvaluationService {
     Authorization: 'Bearer Token', // Replace "Token" with your actual token
   });
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getLessonExplanation(lessonSectionId: number): Observable<string> {
     return this.http.get<string>(
@@ -44,82 +44,60 @@ export class EvaluationService {
     );
   }
 
-    private shuffleQZFBArray(
-      quizArray: (IQuiz | IFillInTheBlank | ITrueFalse)[]
-    ): (IQuiz | IFillInTheBlank | ITrueFalse)[] {
-      const shuffledArray = [...quizArray];
-  
-      for (let i = shuffledArray.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffledArray[i], shuffledArray[j]] = [
-          shuffledArray[j],
-          shuffledArray[i],
-        ];
-      }
-      return shuffledArray;
+  private shuffleQZFBArray(
+    quizArray: (IQuiz | IFillInTheBlank | ITrueFalse)[]
+  ): (IQuiz | IFillInTheBlank | ITrueFalse)[] {
+    const shuffledArray = [...quizArray];
+
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[j]] = [
+        shuffledArray[j],
+        shuffledArray[i],
+      ];
     }
-    private shuffleOptions(
-      qzfb: IQuiz | IFillInTheBlank
-    ): IQuiz | IFillInTheBlank {
-      const options = [...qzfb.options];
-      const correctAnswer = options[qzfb.answer];
-  
-      for (let i = options.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [options[i], options[j]] = [options[j], options[i]];
-      }
-  
-      return { ...qzfb, options, answer: options.indexOf(correctAnswer) };
+    return shuffledArray;
+  }
+  private shuffleOptions(
+    qzfb: IQuiz | IFillInTheBlank
+  ): IQuiz | IFillInTheBlank {
+    const options = [...qzfb.options];
+    const correctAnswer = options[qzfb.answer];
+
+    for (let i = options.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [options[i], options[j]] = [options[j], options[i]];
     }
 
+    return { ...qzfb, options, answer: options.indexOf(correctAnswer) };
+  }
+
   getQuizzes(lessonSectionId: number): Observable<IQuiz[]> {
-    return this.http
-      .get<string>(`${this.apiUrl}/${lessonSectionId}/quiz`, {
-        headers: this.headers,
-      })
-      .pipe(
-        map((response) => {
-          const quizzes: IQuiz[] = JSON.parse(response);
-            const shuffledQuizzes = this.shuffleQZFBArray(quizzes) as IQuiz[];
-            return shuffledQuizzes
-            .map((quiz) => this.shuffleOptions(quiz))
-            .slice(0, this.NUMBER_OF_QUESTIONS); // Return only the first 3 quizzes
-        })
-      );
+    return this.http.get<IQuiz[]>(
+      `${this.apiUrl}/${lessonSectionId}/quiz`,
+      { headers: this.headers }
+    );
   }
 
   getFillBlanks(lessonSectionId: number): Observable<IFillInTheBlank[]> {
-    return this.http
-      .get<string>(`${this.apiUrl}/${lessonSectionId}/fillblank`, {
-        headers: this.headers,
-      })
-      .pipe(
-        map((response) => {
-          const fillBlanks: IFillInTheBlank[] = JSON.parse(response);
-            const shuffledFillBlanks = this.shuffleQZFBArray(
-              fillBlanks
-            ) as IFillInTheBlank[];
-            return shuffledFillBlanks
-              .map((fillblank) => this.shuffleOptions(fillblank))
-              .slice(0, this.NUMBER_OF_QUESTIONS); // Return only the first 3 fill-in-the-blanks
-        })
-      );
+    return this.http.get<IFillInTheBlank[]>(
+      `${this.apiUrl}/${lessonSectionId}/fillblank`,
+      { headers: this.headers }
+    );
   }
 
   getTrueFalse(lessonSectionId: number): Observable<ITrueFalse[]> {
-    return this.http
-      .get<string>(`${this.apiUrl}/${lessonSectionId}/truefalse`, {
-        headers: this.headers,
-      })
-      .pipe(
-        map((response) => {
-            const truefalse: ITrueFalse[] = JSON.parse(response);
-            const shuffledTrueFalse = this.shuffleQZFBArray(
-              truefalse
-            ) as ITrueFalse[];
-            return shuffledTrueFalse.slice(0, this.NUMBER_OF_QUESTIONS); // Return only the first 3 true/false questions
-        })
-      );
+    return this.http.get<ITrueFalse[]>(
+      `${this.apiUrl}/${lessonSectionId}/truefalse`,
+      { headers: this.headers }
+    );
+  }
+
+  getShortQuestions(lessonSectionId: number): Observable<IShortQuestion[]> {
+    return this.http.get<IShortQuestion[]>(
+      `${this.apiUrl}/${lessonSectionId}/shortquestion`,
+      { headers: this.headers }
+    );
   }
 
   private handleError(error: HttpErrorResponse) {

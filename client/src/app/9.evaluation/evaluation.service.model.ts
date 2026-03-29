@@ -3,11 +3,13 @@ export interface IFillInTheBlank {
   question: string;
   options: string[];
   answer: number;
+  answer_embedding?: number[];
 }
 export interface ITrueFalse {
   id: number;
   question: string;
   answer: boolean;
+  answer_embedding?: number[];
 }
 
 export interface IQuiz {
@@ -15,6 +17,14 @@ export interface IQuiz {
   question: string;
   options: string[];
   answer: number;
+  answer_embedding?: number[];
+}
+
+export interface IShortQuestion {
+  id: number;
+  question: string;
+  answer: string;
+  answer_embedding?: number[];
 }
 
 

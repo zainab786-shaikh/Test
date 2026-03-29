@@ -2,7 +2,7 @@ import { ITenant } from "../service/tenant.service";
 import { getEnvVariable, validateEnvVariables } from "../utility/env-utils";
 
 const DEFAULT_OPTIONS = {
-  dialect: "mysql", // Change dialect to sqlite
+  dialect: "postgres", // Change dialect to sqlite
   storage: ":memory:", // Use in-memory storage
   pool: {
     max: 10,

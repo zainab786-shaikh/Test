@@ -11,8 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { Router } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ILessonSection } from './lessonsection.model';
 import { LessonSectionService } from './lessonsection.service';
 import { Observable } from 'rxjs';
@@ -41,8 +40,10 @@ export class LessonSectionComponent implements OnInit {
     'Quiz',
     'FillBlanks',
     'TrueFalse',
+    'ShortQuestion',
     'actions',
   ];
+
   dataSource: ILessonSection[] = [];
   isFormVisible = false;
   isEditMode = false;
@@ -72,53 +73,30 @@ export class LessonSectionComponent implements OnInit {
         this.dataSource = data;
       });
   }
-  loadSingleLessonSection(lessonSectionId: number): Observable<ILessonSection> {
+
+  loadSingleLessonSection(
+    lessonSectionId: number
+  ): Observable<ILessonSection> {
     return this.lessonSectionService.get(lessonSectionId);
   }
 
   initForm(): void {
     this.lessonSectionForm = this.fb.group({
-      Id: [null, []],
-      name: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(2048),
-        ],
-      ],
-      explanation: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(102400),
-        ],
-      ],
-      quiz: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(102400),
-        ],
-      ],
-      fillblanks: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(102400),
-        ],
-      ],
-      truefalse: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(102400),
-        ],
-      ],
+      Id: [null],
+
+      name: ['', [Validators.required, Validators.minLength(3)]],
+
+      lessoninfo: this.fb.group({
+        id: [0],
+        explanation: ['', [Validators.required]],
+        summary: ['', [Validators.required]],
+        examples: ['', [Validators.required]],
+      }),
+
+      quiz: ['', [Validators.required]],
+      fillblanks: ['', [Validators.required]],
+      truefalse: ['', [Validators.required]],
+      shortquestion: ['', [Validators.required]],
     });
   }
 
@@ -132,10 +110,30 @@ export class LessonSectionComponent implements OnInit {
     this.isFormVisible = true;
     this.isEditMode = true;
     this.currentLessonSectionId = lesson.Id ?? null;
+
     if (this.currentLessonSectionId) {
       this.loadSingleLessonSection(this.currentLessonSectionId).subscribe(
         (lessonSectionData) => {
-          this.lessonSectionForm.patchValue(lessonSectionData);
+          this.lessonSectionForm.patchValue({
+            ...lessonSectionData,
+            lessoninfo: lessonSectionData.lessoninfo,
+            quiz: JSON.stringify(lessonSectionData.quiz, null, 2),
+            fillblanks: JSON.stringify(
+              lessonSectionData.fillblanks,
+              null,
+              2
+            ),
+            truefalse: JSON.stringify(
+              lessonSectionData.truefalse,
+              null,
+              2
+            ),
+            shortquestion: JSON.stringify(
+              lessonSectionData.shortquestion,
+              null,
+              2
+            ),
+          });
         }
       );
     }
@@ -149,8 +147,14 @@ export class LessonSectionComponent implements OnInit {
 
   onSubmit(): void {
     if (this.lessonSectionForm.valid) {
+      const formValue = this.lessonSectionForm.value;
+
       const lesson = {
-        ...this.lessonSectionForm.value,
+        ...formValue,
+        quiz: JSON.parse(formValue.quiz),
+        fillblanks: JSON.parse(formValue.fillblanks),
+        truefalse: JSON.parse(formValue.truefalse),
+        shortquestion: JSON.parse(formValue.shortquestion),
         subject: this.subjectId,
         lesson: this.lessonId,
       };
@@ -176,7 +180,6 @@ export class LessonSectionComponent implements OnInit {
         required: 'This field is required.',
         minlength: 'Too short.',
         maxlength: 'Too long.',
-        pattern: 'Invalid format.',
       };
       return Object.keys(control.errors || {}).map((key) => errors[key]);
     }

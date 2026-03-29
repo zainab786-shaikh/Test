@@ -102,10 +102,11 @@ export class RepoLessonSectionImpl implements IRepoLessonSection {
     return {
       Id: srcObject.Id,
       name: srcObject.name,
-      explanation: srcObject.explanation,
+      lessoninfo: srcObject.lessoninfo,
       quiz: srcObject.quiz,
       fillblanks: srcObject.fillblanks,
       truefalse: srcObject.truefalse,
+      shortquestion: srcObject.shortquestion,
       subject: srcObject.subject,
       lesson: srcObject.lesson,
     };
@@ -115,10 +116,11 @@ export class RepoLessonSectionImpl implements IRepoLessonSection {
     return {
       Id: srcObject.Id,
       name: srcObject.name,
-      explanation: srcObject.explanation?.slice(0, 1000),
+      lessoninfo: srcObject.lessoninfo,
       quiz: srcObject.quiz?.slice(0, 1000),
       fillblanks: srcObject.fillblanks?.slice(0, 1000),
       truefalse: srcObject.truefalse?.slice(0, 1000),
+      shortquestion: srcObject.shortquestion?.slice(0, 1000),
       subject: srcObject.subject,
     };
   }

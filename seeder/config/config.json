@@ -1,23 +1,23 @@
 {
   "development": {
     "username": "root",
-    "password": "test",
+    "password": "Allahu",
     "database": "tenanta",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "postgres"
   },
   "test": {
     "username": "root",
     "password": "test",
     "database": "tenanta",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "postgres"
   },
   "production": {
     "username": "root",
     "password": "test",
     "database": "tenanta",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "postgres"
   }
 }

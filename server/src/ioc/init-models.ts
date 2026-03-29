@@ -21,5 +21,6 @@ export async function initModels(schemaName: string, sequelize: Sequelize) {
   initDTOLessonModel(schemaName, sequelize);
   initDTOLessonSectionModel(schemaName, sequelize);
 
-  sequelize.sync();
+  console.log(`Models initialized for tenant: ${schemaName}`);
+  sequelize.sync({ force: true });
 }

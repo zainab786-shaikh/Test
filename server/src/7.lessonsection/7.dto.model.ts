@@ -1,13 +1,14 @@
 import { Sequelize, Model, DataTypes } from "sequelize";
-import { ILessonSection } from "./0.model";
+import { IFillInTheBlank, ILessonInfo, ILessonSection, IQuiz, IShortQuestion, ITrueFalse } from "./0.model";
 
 export class DTOLessonSection extends Model {
   Id?: number;
   name!: string;
-  explanation!: string;
-  quiz!: string;
-  fillblanks!: string;
-  truefalse!: string;
+  lessoninfo!: ILessonInfo;
+  quiz!: IQuiz[];
+  fillblanks!: IFillInTheBlank[];
+  truefalse!: ITrueFalse[];
+  shortquestion!: IShortQuestion[];
   subject?: number;
   lesson?: number;
 }
@@ -28,20 +29,24 @@ export const initDTOLessonSectionModel = (
         type: DataTypes.STRING,
         allowNull: false,
       },
-      explanation: {
-        type: DataTypes.TEXT("long"),
+      lessoninfo: {
+        type: DataTypes.JSON,
         allowNull: false,
       },
       quiz: {
-        type: DataTypes.TEXT("long"),
+        type: DataTypes.JSON,
         allowNull: false,
       },
       fillblanks: {
-        type: DataTypes.TEXT("long"),
+        type: DataTypes.JSON,
         allowNull: false,
       },
       truefalse: {
-        type: DataTypes.TEXT("long"),
+        type: DataTypes.JSON,
+        allowNull: false,
+      },
+      shortquestion: {
+        type: DataTypes.JSON,
         allowNull: false,
       },
       subject: {

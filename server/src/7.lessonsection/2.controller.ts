@@ -41,23 +41,52 @@ export class ControllerLessonSection extends BaseController {
     );
   }
 
-  @httpGet("/:Id/explanation")
-  async getExplanation(@request() req: Request, @response() res: Response) {
+  private NUMBER_OF_QUESTIONS = 3;
+
+  private shuffleArray<T>(array: T[]): T[] {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  }
+
+  private shuffleOptions(item: any) {
+    if (!item.options) return item;
+
+    const options = [...item.options];
+    const correct = options[item.answer];
+
+    for (let i = options.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [options[i], options[j]] = [options[j], options[i]];
+    }
+
+    return {
+      ...item,
+      options,
+      answer: options.indexOf(correct),
+    };
+  }
+
+  @httpGet("/:Id/lessoninfo")
+  async getLessonInfo(@request() req: Request, @response() res: Response) {
     try {
       const lessonSectionId = +req.params.Id;
       const lessonSection = await this.serviceLessonSection.get(
         lessonSectionId
       );
-      this.logger.info("Retrieved Explanation:" + lessonSection?.explanation);
+      this.logger.info("Retrieved Lesson Info:" + lessonSection?.lessoninfo);
 
       this.setCommonHeaders(res);
-      if (!lessonSection?.explanation) {
+      if (!lessonSection?.lessoninfo) {
         return res
           .status(HttpStatusCode.NOT_FOUND)
           .json({ message: "lessonList not found" });
       }
 
-      res.status(HttpStatusCode.OK).json(lessonSection?.explanation);
+      res.status(HttpStatusCode.OK).json(lessonSection?.lessoninfo);
     } catch (error: any) {
       this.logger.error(error);
       return this.handleError(error, res);
@@ -80,7 +109,12 @@ export class ControllerLessonSection extends BaseController {
           .json({ message: "lessonList not found" });
       }
 
-      res.status(HttpStatusCode.OK).json(lessonSection?.quiz);
+      const quizzes = lessonSection.quiz as any[];
+      const result = this.shuffleArray(quizzes)
+        .map((q) => this.shuffleOptions(q))
+        .slice(0, this.NUMBER_OF_QUESTIONS);
+
+      res.status(HttpStatusCode.OK).json(result);
     } catch (error: any) {
       this.logger.error(error);
       return this.handleError(error, res);
@@ -103,7 +137,11 @@ export class ControllerLessonSection extends BaseController {
           .json({ message: "lessonList not found" });
       }
 
-      res.status(HttpStatusCode.OK).json(lessonSection?.fillblanks);
+      const result = this.shuffleArray(lessonSection.fillblanks)
+        .map((q) => this.shuffleOptions(q))
+        .slice(0, this.NUMBER_OF_QUESTIONS);
+
+      res.status(HttpStatusCode.OK).json(result);
     } catch (error: any) {
       this.logger.error(error);
       return this.handleError(error, res);
@@ -126,7 +164,39 @@ export class ControllerLessonSection extends BaseController {
           .json({ message: "lessonList not found" });
       }
 
-      res.status(HttpStatusCode.OK).json(lessonSection?.truefalse);
+      const tf = lessonSection.truefalse as any[];
+      const result = this.shuffleArray(tf)
+        .slice(0, this.NUMBER_OF_QUESTIONS);
+
+      res.status(HttpStatusCode.OK).json(result);
+    } catch (error: any) {
+      this.logger.error(error);
+      return this.handleError(error, res);
+    }
+  }
+
+  @httpGet("/:Id/shortquestion")
+  async getShortQuestion(@request() req: Request, @response() res: Response) {
+    try {
+      const lessonSectionId = +req.params.Id;
+      const lessonSection = await this.serviceLessonSection.get(
+        lessonSectionId
+      );
+      this.logger.info("Retrieved Explanation:" + lessonSection?.shortquestion);
+
+      this.setCommonHeaders(res);
+      if (!lessonSection?.shortquestion) {
+        return res
+          .status(HttpStatusCode.NOT_FOUND)
+          .json({ message: "lessonList not found" });
+      }
+
+      const sq = lessonSection.shortquestion as any[];
+      const result = this.shuffleArray(sq)
+        .slice(0, this.NUMBER_OF_QUESTIONS);
+
+
+      res.status(HttpStatusCode.OK).json(result);
     } catch (error: any) {
       this.logger.error(error);
       return this.handleError(error, res);
