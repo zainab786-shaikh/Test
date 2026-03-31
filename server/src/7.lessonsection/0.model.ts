@@ -1,5 +1,6 @@
 export interface ILessonInfo {
   id: number; 
+  paragraph: string;
   explanation: string; 
   summary: string; 
   examples: string;
@@ -37,6 +38,7 @@ export interface IShortQuestion {
 
 export interface ILessonSection {
   Id?: number;
+  path?: string;
   name: string;
   lessoninfo: ILessonInfo|undefined;
   quiz: IQuiz[] |undefined;

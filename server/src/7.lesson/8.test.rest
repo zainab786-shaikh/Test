@@ -1,15 +1,15 @@
 
-  @baseUrl = http://localhost:3000
+@baseUrl = http://localhost:3000
 
-  ####
-GET {{baseUrl}}/v1/lesson
+####
+GET {{baseUrl}}/v1/lesson/subject/1
 Content-Type: application/json
 tenantid: tenanta
 traceparent: 12345
 Authorization: bearer Token
 
- ####
-  # @name CreateLesson
+####
+# @name CreateLesson
 
 POST {{baseUrl}}/v1/lesson
 Content-Type: application/json
@@ -18,8 +18,8 @@ traceparent: 12345
 Authorization: bearer Token
 
 {
-  "name": "",
-  "subject": 0
+"name": "",
+"subject": 0
 }
 
 ### Capture Id from Response
@@ -40,8 +40,8 @@ traceparent: 12345
 Authorization: bearer Token
 
 {
-  "name": "",
-  "subject": 0
+"name": "",
+"subject": 0
 }
 
 ####

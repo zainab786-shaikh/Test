@@ -13,13 +13,18 @@ export class ServiceSubjectImpl implements IServiceSubject {
     this.repoService = container.get(TYPE.RepoSubject);
   }
 
-  async getAll(inStandardId: number): Promise<ISubject[] | null> {
-    const retObject = await this.repoService.getAll(inStandardId);
+  async getAll(): Promise<ISubject[] | null> {
+    const retObject = await this.repoService.getAll();
     return retObject;
   }
 
   async get(inSubjectId: number): Promise<ISubject | null> {
     const retObject = await this.repoService.getById(inSubjectId);
+    return retObject;
+  }
+
+  async getByPath(inSubjectPath: string): Promise<ISubject | null> {
+    const retObject = await this.repoService.getByPath(inSubjectPath);
     return retObject;
   }
 

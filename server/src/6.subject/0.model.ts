@@ -1,5 +1,5 @@
 export interface ISubject {
   Id?: number;
+  path?: string;
   name: string;
-  standard?: number;
 }

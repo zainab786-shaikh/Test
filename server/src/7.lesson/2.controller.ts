@@ -83,10 +83,45 @@ export class ControllerLesson extends BaseController {
     }
   }
 
+  @httpGet("/path/:path", validateId)
+  async getByPath(@request() req: Request, @response() res: Response) {
+    try {
+      const path = req.params.path;
+      const lesson = await this.serviceLesson.getByPath(path);
+      this.logger.info("Retrieved lesson:" + lesson);
+
+      this.setCommonHeaders(res);
+      if (!lesson) {
+        return res
+          .status(HttpStatusCode.NOT_FOUND)
+          .json({ message: "Lesson not found" });
+      }
+
+      res.status(HttpStatusCode.OK).json(lesson);
+    } catch (error: any) {
+      this.logger.error(error);
+      return this.handleError(error, res);
+    }
+  }
+
   @httpPost("/", validateLesson)
   async create(@request() req: Request, @response() res: Response) {
     try {
-      const status = await this.serviceLesson.create(req.body);
+      const { subjectId, ...lessonData } = req.body;
+
+      if (!subjectId) {
+        return res
+          .status(HttpStatusCode.BAD_REQUEST)
+          .json({ message: "subjectId is required" });
+      }
+
+      const payload: Partial<ILesson> = {
+        ...lessonData,
+        subject: subjectId,
+      };
+
+      const status = await this.serviceLesson.create(payload);
+
       this.setCommonHeaders(res);
       res.status(HttpStatusCode.OK).json(status);
     } catch (error: any) {
@@ -108,11 +143,37 @@ export class ControllerLesson extends BaseController {
     }
   }
 
+  @httpPut("/path/:path", validateId, validateLesson)
+  async updateByPath(@request() req: Request, @response() res: Response) {
+    try {
+      const path = req.params.path;
+      const status = await this.serviceLesson.updateByPath(path, req.body);
+      this.setCommonHeaders(res);
+      res.status(HttpStatusCode.OK).json(status);
+    } catch (error: any) {
+      this.logger.error(error);
+      return this.handleError(error, res);
+    }
+  }
+
   @httpDelete("/:id", validateId)
   async delete(@request() req: Request, @response() res: Response) {
     try {
       const id = +req.params.id;
       const status = await this.serviceLesson.delete(id);
+      this.setCommonHeaders(res);
+      res.status(HttpStatusCode.OK).json(status);
+    } catch (error: any) {
+      this.logger.error(error);
+      return this.handleError(error, res);
+    }
+  }
+
+  @httpDelete("/path/:path", validateId)
+  async deleteByPath(@request() req: Request, @response() res: Response) {
+    try {
+      const path = req.params.path;
+      const status = await this.serviceLesson.deleteByPath(path);
       this.setCommonHeaders(res);
       res.status(HttpStatusCode.OK).json(status);
     } catch (error: any) {

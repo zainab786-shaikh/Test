@@ -25,9 +25,13 @@ export class ServiceLessonSectionImpl implements IServiceLessonSection {
     const retObject = await this.repoService.getById(inLessonSectionId);
     return retObject;
   }
+  async getByPath(inLessonSectionPath: string): Promise<ILessonSection | null> {
+    const retObject = await this.repoService.getByPath(inLessonSectionPath);
+    return retObject;
+  }
 
   async create(
-    inLessonSection: ILessonSection
+    inLessonSection: Partial<ILessonSection>
   ): Promise<ILessonSection | null> {
     const retObject = await this.repoService.create(inLessonSection);
     return retObject;
@@ -44,8 +48,24 @@ export class ServiceLessonSectionImpl implements IServiceLessonSection {
     return retObject;
   }
 
+  async updateByPath(
+    inLessonSectionPath: string,
+    inLessonSectionInfo: ILessonSection
+  ): Promise<number> {
+    const retObject = await this.repoService.updateByPath(
+      inLessonSectionPath,
+      inLessonSectionInfo
+    );
+    return retObject;
+  }
+
   async delete(inLessonSectionId: number): Promise<number> {
     const retObject = await this.repoService.delete(inLessonSectionId);
+    return retObject;
+  }
+
+  async deleteByPath(inLessonSectionPath: string): Promise<number> {
+    const retObject = await this.repoService.deleteByPath(inLessonSectionPath);
     return retObject;
   }
 }

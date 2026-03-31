@@ -93,12 +93,63 @@ export class ControllerLessonSection extends BaseController {
     }
   }
 
+  @httpGet("/path/:path/lessoninfo")
+  async getLessonInfoByPath(@request() req: Request, @response() res: Response) {
+    try {
+      const lessonSectionPath = req.params.path;
+      const lessonSection = await this.serviceLessonSection.getByPath(
+        lessonSectionPath
+      );
+      this.logger.info("Retrieved Lesson Info:" + lessonSection?.lessoninfo);
+
+      this.setCommonHeaders(res);
+      if (!lessonSection?.lessoninfo) {
+        return res
+          .status(HttpStatusCode.NOT_FOUND)
+          .json({ message: "lessonList not found" });
+      }
+
+      res.status(HttpStatusCode.OK).json(lessonSection?.lessoninfo);
+    } catch (error: any) {
+      this.logger.error(error);
+      return this.handleError(error, res);
+    }
+  }
+
   @httpGet("/:Id/quiz")
   async getQuiz(@request() req: Request, @response() res: Response) {
     try {
       const lessonSectionId = +req.params.Id;
       const lessonSection = await this.serviceLessonSection.get(
         lessonSectionId
+      );
+      this.logger.info("Retrieved Explanation:" + lessonSection?.quiz);
+
+      this.setCommonHeaders(res);
+      if (!lessonSection?.quiz) {
+        return res
+          .status(HttpStatusCode.NOT_FOUND)
+          .json({ message: "lessonList not found" });
+      }
+
+      const quizzes = lessonSection.quiz as any[];
+      const result = this.shuffleArray(quizzes)
+        .map((q) => this.shuffleOptions(q))
+        .slice(0, this.NUMBER_OF_QUESTIONS);
+
+      res.status(HttpStatusCode.OK).json(result);
+    } catch (error: any) {
+      this.logger.error(error);
+      return this.handleError(error, res);
+    }
+  }
+
+  @httpGet("/path/:path/quiz")
+  async getQuizByPath(@request() req: Request, @response() res: Response) {
+    try {
+      const lessonSectionPath = req.params.path;
+      const lessonSection = await this.serviceLessonSection.getByPath(
+        lessonSectionPath
       );
       this.logger.info("Retrieved Explanation:" + lessonSection?.quiz);
 
@@ -148,6 +199,33 @@ export class ControllerLessonSection extends BaseController {
     }
   }
 
+  @httpGet("/path/:path/fillblank")
+  async getFillBlankByPath(@request() req: Request, @response() res: Response) {
+    try {
+      const lessonSectionPath = req.params.path;
+      const lessonSection = await this.serviceLessonSection.getByPath(
+        lessonSectionPath
+      );
+      this.logger.info("Retrieved Explanation:" + lessonSection?.fillblanks);
+
+      this.setCommonHeaders(res);
+      if (!lessonSection?.fillblanks) {
+        return res
+          .status(HttpStatusCode.NOT_FOUND)
+          .json({ message: "lessonList not found" });
+      }
+
+      const result = this.shuffleArray(lessonSection.fillblanks)
+        .map((q) => this.shuffleOptions(q))
+        .slice(0, this.NUMBER_OF_QUESTIONS);
+
+      res.status(HttpStatusCode.OK).json(result);
+    } catch (error: any) {
+      this.logger.error(error);
+      return this.handleError(error, res);
+    }
+  }
+
   @httpGet("/:Id/truefalse")
   async getTrueFalse(@request() req: Request, @response() res: Response) {
     try {
@@ -175,12 +253,67 @@ export class ControllerLessonSection extends BaseController {
     }
   }
 
+  @httpGet("/path/:path/truefalse")
+  async getTrueFalseByPath(@request() req: Request, @response() res: Response) {
+    try {
+      const lessonSectionPath = req.params.path;
+      const lessonSection = await this.serviceLessonSection.getByPath(
+        lessonSectionPath
+      );
+      this.logger.info("Retrieved Explanation:" + lessonSection?.truefalse);
+
+      this.setCommonHeaders(res);
+      if (!lessonSection?.truefalse) {
+        return res
+          .status(HttpStatusCode.NOT_FOUND)
+          .json({ message: "lessonList not found" });
+      }
+
+      const tf = lessonSection.truefalse as any[];
+      const result = this.shuffleArray(tf)
+        .slice(0, this.NUMBER_OF_QUESTIONS);
+
+      res.status(HttpStatusCode.OK).json(result);
+    } catch (error: any) {
+      this.logger.error(error);
+      return this.handleError(error, res);
+    }
+  }
+
   @httpGet("/:Id/shortquestion")
   async getShortQuestion(@request() req: Request, @response() res: Response) {
     try {
       const lessonSectionId = +req.params.Id;
       const lessonSection = await this.serviceLessonSection.get(
         lessonSectionId
+      );
+      this.logger.info("Retrieved Explanation:" + lessonSection?.shortquestion);
+
+      this.setCommonHeaders(res);
+      if (!lessonSection?.shortquestion) {
+        return res
+          .status(HttpStatusCode.NOT_FOUND)
+          .json({ message: "lessonList not found" });
+      }
+
+      const sq = lessonSection.shortquestion as any[];
+      const result = this.shuffleArray(sq)
+        .slice(0, this.NUMBER_OF_QUESTIONS);
+
+
+      res.status(HttpStatusCode.OK).json(result);
+    } catch (error: any) {
+      this.logger.error(error);
+      return this.handleError(error, res);
+    }
+  }
+
+  @httpGet("/path/:path/shortquestion")
+  async getShortQuestionByPath(@request() req: Request, @response() res: Response) {
+    try {
+      const lessonSectionPath = req.params.path;
+      const lessonSection = await this.serviceLessonSection.getByPath(
+        lessonSectionPath
       );
       this.logger.info("Retrieved Explanation:" + lessonSection?.shortquestion);
 
@@ -252,7 +385,22 @@ export class ControllerLessonSection extends BaseController {
   @httpPost("/", validateLessonSection)
   async create(@request() req: Request, @response() res: Response) {
     try {
-      const status = await this.serviceLessonSection.create(req.body);
+      const { subjectId, lessonId, ...sectionData } = req.body;
+
+      if (!subjectId || !lessonId) {
+        return res.status(HttpStatusCode.BAD_REQUEST).json({
+          message: "subjectId and lessonId are required",
+        });
+      }
+
+      const payload: Partial<ILessonSection> = {
+        ...sectionData,
+        subject: subjectId,
+        lesson: lessonId,
+      };
+
+      const status = await this.serviceLessonSection.create(payload);
+
       this.setCommonHeaders(res);
       res.status(HttpStatusCode.OK).json(status);
     } catch (error: any) {

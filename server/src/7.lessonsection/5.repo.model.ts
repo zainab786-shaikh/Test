@@ -10,9 +10,10 @@ export interface IRepoLessonSection {
   ): Promise<ILessonSection[] | null>;
 
   getById(inLessonSectionId: number): Promise<ILessonSection | null>;
+  getByPath(inLessonSectionPath: string): Promise<ILessonSection | null>;
 
   create(
-    inLessonSection: ILessonSection,
+    inLessonSection: Partial<ILessonSection>,
     transaction?: Transaction
   ): Promise<ILessonSection | null>;
 
@@ -21,9 +22,19 @@ export interface IRepoLessonSection {
     inLessonSection: ILessonSection,
     transaction?: Transaction
   ): Promise<number>;
+   updateByPath(
+    lessonSectionPath: string,
+    inLessonSection: ILessonSection,
+    transaction?: Transaction
+  ): Promise<number>;
 
   delete(
     inLessonSectionId: number,
+    transaction?: Transaction
+  ): Promise<number>;
+
+  deleteByPath(
+    inLessonSectionPath: string,
     transaction?: Transaction
   ): Promise<number>;
 }

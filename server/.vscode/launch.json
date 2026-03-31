@@ -12,6 +12,8 @@
             ],
             "type": "node",
             "program": "${workspaceFolder}/dist/index.js",
+            "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+            "sourceMaps": true
         }
     ]
 }

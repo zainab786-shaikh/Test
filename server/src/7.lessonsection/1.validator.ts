@@ -4,6 +4,7 @@ import { handleValidationError } from "../common/validation-error";
 
 const lessonInfoSchema = z.object({
   id: z.number().optional(),
+  paragraph: z.string().min(3),
   explanation: z.string().min(3),
   summary: z.string().min(3),
   examples: z.string().min(3),
@@ -41,6 +42,7 @@ const shortQuestionSchema = z.object({
 
 const lessonsectionSchema = z.object({
   Id: z.number().optional(),
+  path: z.string().min(3),
   name: z.string().min(3),
   lessoninfo: lessonInfoSchema,
   quiz: z.array(quizSchema),

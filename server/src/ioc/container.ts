@@ -63,6 +63,11 @@ import { IRepoLessonSection } from "../7.lessonsection/5.repo.model";
 import { ControllerChat } from "../8.chat/2.controller";
 import { IServiceChat } from "../8.chat/3.service.model";
 import { ServiceChatImpl } from "../8.chat/4.service";
+import { ControllerStandardSubject } from "../6.standardsubject/2.controller";
+import { IServiceStandardSubject } from "../6.standardsubject/3.service.model";
+import { ServiceStandardSubjectImpl } from "../6.standardsubject/4.service";
+import { IRepoStandardSubject } from "../6.standardsubject/5.repo.model";
+import { RepoStandardSubjectImpl } from "../6.standardsubject/6.repo";
 
 const container = new Container();
 container.bind<ILogger>(TYPES.LoggerService).to(LoggerService);
@@ -110,6 +115,12 @@ container
   .to(ControllerStandard);
 container.bind<IServiceStandard>(TYPES.ServiceStandard).to(ServiceStandardImpl);
 container.bind<IRepoStandard>(TYPES.RepoStandard).to(RepoStandardImpl);
+
+container
+  .bind<ControllerStandardSubject>(TYPES.ControllerStandardSubject)
+  .to(ControllerStandardSubject);
+container.bind<IServiceStandardSubject>(TYPES.ServiceStandardSubject).to(ServiceStandardSubjectImpl);
+container.bind<IRepoStandardSubject>(TYPES.RepoStandardSubject).to(RepoStandardSubjectImpl);
 
 container
   .bind<ControllerSubject>(TYPES.ControllerSubject)

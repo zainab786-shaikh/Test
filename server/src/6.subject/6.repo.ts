@@ -5,6 +5,7 @@ import { IRepoSubject } from "./5.repo.model";
 import { DTOSubject } from "./7.dto.model";
 import { RequestContextProvider } from "../common/service/request-context.service";
 import { container } from "../ioc/container";
+import { generateNextCode } from "../common/utility/common-utils";
 
 @injectable()
 export class RepoSubjectImpl implements IRepoSubject {
@@ -32,11 +33,9 @@ export class RepoSubjectImpl implements IRepoSubject {
     return found !== null;
   }
 
-  async getAll(inStandardId: number): Promise<ISubject[] | null> {
+  async getAll(): Promise<ISubject[] | null> {
     const SubjectModel = this.getModel(DTOSubject);
-    const foundObj = await SubjectModel.findAll<DTOSubject>({
-      where: { standard: inStandardId },
-    });
+    const foundObj = await SubjectModel.findAll<DTOSubject>();
     return foundObj?.map((eachObj) => this.convertToObject(eachObj.dataValues));
   }
 
@@ -51,15 +50,41 @@ export class RepoSubjectImpl implements IRepoSubject {
     return null;
   }
 
+  async getByPath(inSubjectPath: string): Promise<ISubject | null> {
+    const SubjectModel = this.getModel(DTOSubject);
+    const foundObj = await SubjectModel.findOne<DTOSubject>({
+      where: { path: inSubjectPath },
+    });
+    if (foundObj?.dataValues) {
+      return this.convertToObject(foundObj?.dataValues);
+    }
+    return null;
+  }
+
   async create(
     inSubject: Partial<ISubject>,
     transaction?: Transaction
   ): Promise<ISubject | null> {
     const SubjectModel = this.getModel(DTOSubject);
+
+    const lastSubject = await SubjectModel.findOne({
+      order: [['path', 'DESC']],
+      transaction,
+    });
+
+    const newPath = generateNextCode(
+      'T',
+      lastSubject?.path
+    );
+
+    inSubject.path = newPath;
+
     const createdObj = await SubjectModel.create(inSubject, {
       transaction,
     });
+
     createdObj.dataValues.Id = createdObj.Id;
+
     return this.convertToObject(createdObj.dataValues);
   }
 
@@ -94,7 +119,6 @@ export class RepoSubjectImpl implements IRepoSubject {
     return {
       Id: srcObject.Id,
       name: srcObject.name,
-      standard: srcObject.standard,
     };
   }
 }

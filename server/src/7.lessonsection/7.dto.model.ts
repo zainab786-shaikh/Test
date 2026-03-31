@@ -10,6 +10,7 @@ import {
 /* ---------- LESSON SECTION (MAIN) ---------- */
 export class DTOLessonSection extends Model {
   Id?: number;
+  path?: string;
   name!: string;
   lessoninfoId!: number;
   quizId!: number;
@@ -23,30 +24,35 @@ export class DTOLessonSection extends Model {
 /* ---------- LESSON INFO ---------- */
 export class DTOLessonInfo extends Model {
   Id?: number;
+  path?: string;
   data!: ILessonInfo;
 }
 
 /* ---------- QUIZ ---------- */
 export class DTOQuizSet extends Model {
   Id?: number;
+  path?: string;
   data!: IQuiz[];
 }
 
 /* ---------- FILLBLANK ---------- */
 export class DTOFillBlankSet extends Model {
   Id?: number;
+  path?: string;
   data!: IFillInTheBlank[];
 }
 
 /* ---------- TRUEFALSE ---------- */
 export class DTOTrueFalseSet extends Model {
   Id?: number;
+  path?: string;
   data!: ITrueFalse[];
 }
 
 /* ---------- SHORT QUESTION ---------- */
 export class DTOShortQuestionSet extends Model {
   Id?: number;
+  path?: string;
   data!: IShortQuestion[];
 }
 
@@ -55,16 +61,26 @@ export const initDTOLessonSectionModel = (
   schemaName: string,
   sequelize: Sequelize
 ) => {
+  const getBaseIdColumn = () => ({
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    autoIncrementIdentity: true,
+    allowNull: false,
+    field: "Id",
+  });
+
   DTOLessonSection.init(
     {
-      Id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-      name: { type: DataTypes.STRING, allowNull: false },
+      Id: getBaseIdColumn(),
+      name: { type: DataTypes.STRING, allowNull: false, unique: true },
+      path: { type: DataTypes.STRING, allowNull: false, unique: true },
 
-      lessoninfoId: { type: DataTypes.INTEGER, allowNull: false },
-      quizId: { type: DataTypes.INTEGER, allowNull: false },
-      fillblanksId: { type: DataTypes.INTEGER, allowNull: false },
-      truefalseId: { type: DataTypes.INTEGER, allowNull: false },
-      shortquestionId: { type: DataTypes.INTEGER, allowNull: false },
+      lessoninfoId: { type: DataTypes.INTEGER, allowNull: true, unique: true },
+      quizId: { type: DataTypes.INTEGER, allowNull: true, unique: true },
+      fillblanksId: { type: DataTypes.INTEGER, allowNull: true, unique: true },
+      truefalseId: { type: DataTypes.INTEGER, allowNull: true, unique: true },
+      shortquestionId: { type: DataTypes.INTEGER, allowNull: true, unique: true },
 
       subject: { type: DataTypes.INTEGER, allowNull: false },
       lesson: { type: DataTypes.INTEGER, allowNull: false },
@@ -74,12 +90,14 @@ export const initDTOLessonSectionModel = (
       schema: schemaName,
       tableName: "lessonsection",
       timestamps: false,
+      freezeTableName: true,
     }
   );
 
   DTOLessonInfo.init(
     {
-      Id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+      Id: getBaseIdColumn(),
+      path: { type: DataTypes.STRING, allowNull: false, unique: true },
       data: { type: DataTypes.JSONB, allowNull: false },
     },
     {
@@ -87,12 +105,14 @@ export const initDTOLessonSectionModel = (
       schema: schemaName,
       tableName: "lessonsection_lessoninfo",
       timestamps: false,
+      freezeTableName: true,
     }
   );
 
   DTOQuizSet.init(
     {
-      Id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+      Id: getBaseIdColumn(),
+      path: { type: DataTypes.STRING, allowNull: false, unique: true },
       data: { type: DataTypes.JSONB, allowNull: false },
     },
     {
@@ -100,12 +120,14 @@ export const initDTOLessonSectionModel = (
       schema: schemaName,
       tableName: "lessonsection_quiz",
       timestamps: false,
+      freezeTableName: true,
     }
   );
 
   DTOFillBlankSet.init(
     {
-      Id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+      Id: getBaseIdColumn(),
+      path: { type: DataTypes.STRING, allowNull: false, unique: true },
       data: { type: DataTypes.JSONB, allowNull: false },
     },
     {
@@ -113,12 +135,14 @@ export const initDTOLessonSectionModel = (
       schema: schemaName,
       tableName: "lessonsection_fillblanks",
       timestamps: false,
+      freezeTableName: true,
     }
   );
 
   DTOTrueFalseSet.init(
     {
-      Id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+      Id: getBaseIdColumn(),
+      path: { type: DataTypes.STRING, allowNull: false, unique: true },
       data: { type: DataTypes.JSONB, allowNull: false },
     },
     {
@@ -126,12 +150,14 @@ export const initDTOLessonSectionModel = (
       schema: schemaName,
       tableName: "lessonsection_truefalse",
       timestamps: false,
+      freezeTableName: true,
     }
   );
 
   DTOShortQuestionSet.init(
     {
-      Id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+      Id: getBaseIdColumn(),
+      path: { type: DataTypes.STRING, allowNull: false, unique: true },
       data: { type: DataTypes.JSONB, allowNull: false },
     },
     {
@@ -139,6 +165,7 @@ export const initDTOLessonSectionModel = (
       schema: schemaName,
       tableName: "lessonsection_shortquestion",
       timestamps: false,
+      freezeTableName: true,
     }
   );
 };

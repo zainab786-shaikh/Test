@@ -3,6 +3,7 @@ import { ILesson } from "./0.model";
 
 export class DTOLesson extends Model {
   Id?: number;
+  path?: string;
   name!: string;
   subject?: number;
 }
@@ -19,9 +20,15 @@ export const initDTOLessonModel = (
         autoIncrement: true,
         primaryKey: true,
       },
+      path: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
+      },
       name: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true
       },
       subject: {
         type: DataTypes.INTEGER,

@@ -4,6 +4,7 @@ import { handleValidationError } from "../common/validation-error";
 
 const lessonSchema = z.object({
   Id: z.number().min(1).max(9999).nullable().optional(),
+  path: z.string().min(3).max(2048),
   name: z.string().min(3).max(2048),
   subject: z.number().min(1).max(9999).nullable().optional(),
 });

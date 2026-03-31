@@ -21,6 +21,7 @@ export const initDTOStandardModel = (
       name: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true
       },
     },
     {

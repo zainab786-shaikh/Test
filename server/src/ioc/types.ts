@@ -25,6 +25,10 @@ const TYPES = {
   ServiceStandard: Symbol("ServiceStandard"),
   RepoStandard: Symbol("RepoStandard"),
 
+  ControllerStandardSubject: Symbol("ControllerStandardSubject"),
+  ServiceStandardSubject: Symbol("ServiceStandardSubject"),
+  RepoStandardSubject: Symbol("RepoStandardSubject"),
+
   ControllerSubject: Symbol("ControllerSubject"),
   ServiceSubject: Symbol("ServiceSubject"),
   RepoSubject: Symbol("RepoSubject"),

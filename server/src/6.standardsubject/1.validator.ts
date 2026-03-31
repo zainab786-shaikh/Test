@@ -2,24 +2,20 @@ import { Request, Response, NextFunction } from "express";
 import { z } from "zod";
 import { handleValidationError } from "../common/validation-error";
 
-const subjectSchema = z.object({
+const standardsubjectSchema = z.object({
   Id: z.number().min(1).max(9999).nullable().optional(),
-  path: z.string().max(255).nullable().optional(),
-  name: z
-    .string()
-    .min(3)
-    .max(255)
-    .regex(/^[A-Za-z ]+$/),
+  standard: z.number().min(1).max(9999).nullable().optional(),
+  subject: z.number().min(1).max(9999).nullable().optional(),
 });
 
-const validateSubject = (
+const validateStandardSubject = (
   request: Request,
   response: Response,
   next: NextFunction
 ) => {
   try {
     // Validate request body against schema
-    subjectSchema.parse(request.body);
+    standardsubjectSchema.parse(request.body);
     next();
   } catch (error) {
     // Use the common error handler
@@ -27,4 +23,4 @@ const validateSubject = (
   }
 };
 
-export { validateSubject };
+export { validateStandardSubject };

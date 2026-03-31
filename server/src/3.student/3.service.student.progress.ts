@@ -9,9 +9,11 @@ import { IProgress } from "../4.progress/0.model";
 import { IStudent } from "./0.model";
 import { IServiceStudent } from "./3.service.model";
 import { IServiceLessonSection } from "../7.lessonsection/3.service.model";
+import { IServiceStandardSubject } from "../6.standardsubject/3.service.model";
 
 export class ServiceStudentProgressImpl {
   private serviceStudent: IServiceStudent;
+  private serviceStandardSubject: IServiceStandardSubject;
   private serviceSubject: IServiceSubject;
   private serviceLesson: IServiceLesson;
   private serviceLessonSection: IServiceLessonSection;
@@ -20,6 +22,7 @@ export class ServiceStudentProgressImpl {
   constructor() {
     this.serviceStudent = container.get(TYPES.ServiceStudent);
     this.serviceProgress = container.get(TYPES.ServiceProgress);
+    this.serviceStandardSubject = container.get(TYPES.ServiceStandardSubject);
     this.serviceSubject = container.get(TYPES.ServiceSubject);
     this.serviceLesson = container.get(TYPES.ServiceLesson);
     this.serviceLessonSection = container.get(TYPES.ServiceLessonSection);
@@ -30,7 +33,7 @@ export class ServiceStudentProgressImpl {
       throw Error("Error: Student.Standard is Empty");
     }
 
-    const subjectList = await this.serviceSubject.getAll(inStudent.standard);
+    const subjectList = await this.serviceStandardSubject.getAll(inStudent.standard);
     subjectList?.map(async (eachSubject) => {
       if (!eachSubject.Id) {
         throw Error("Error: Subject Id is Empty");

@@ -1,15 +1,15 @@
 
-  @baseUrl = http://localhost:3000
+@baseUrl = http://localhost:3000
 
-  ####
-GET {{baseUrl}}/v1/lessonsection
+####
+GET {{baseUrl}}/v1/lessonsection/1/quiz
 Content-Type: application/json
 tenantid: tenanta
 traceparent: 12345
 Authorization: bearer Token
 
- ####
-  # @name Createlessonsection
+####
+# @name Createlessonsection
 
 POST {{baseUrl}}/v1/lessonsectionsection
 Content-Type: application/json
@@ -18,12 +18,12 @@ traceparent: 12345
 Authorization: bearer Token
 
 {
-  "Name": "",
-  "Explanation": "",
-  "Quiz": "",
-  "FillBlanks": "",
-  "TrueFalse": "",
-  "subject": 0
+"Name": "",
+"Explanation": "",
+"Quiz": "",
+"FillBlanks": "",
+"TrueFalse": "",
+"subject": 0
 }
 
 ### Capture Id from Response
@@ -44,12 +44,12 @@ traceparent: 12345
 Authorization: bearer Token
 
 {
-  "Name": "",
-  "Explanation": "",
-  "Quiz": "",
-  "FillBlanks": "",
-  "TrueFalse": "",
-  "subject": 0
+"Name": "",
+"Explanation": "",
+"Quiz": "",
+"FillBlanks": "",
+"TrueFalse": "",
+"subject": 0
 }
 
 ####

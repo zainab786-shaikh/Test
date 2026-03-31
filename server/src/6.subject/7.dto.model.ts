@@ -3,8 +3,8 @@ import { ISubject } from "./0.model";
 
 export class DTOSubject extends Model {
   Id?: number;
+  path?: string;
   name!: string;
-  standard?: number;
 }
 
 export const initDTOSubjectModel = (
@@ -19,20 +19,15 @@ export const initDTOSubjectModel = (
         autoIncrement: true,
         primaryKey: true,
       },
+      path: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        unique: true
+      },
       name: {
         type: DataTypes.STRING,
         allowNull: false,
-      },
-      standard: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-          model: {
-            schema: schemaName,
-            tableName: "standard",
-          },
-          key: "Id",
-        },
+        unique: true
       },
     },
     {

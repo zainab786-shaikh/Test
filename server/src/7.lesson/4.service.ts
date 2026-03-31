@@ -23,7 +23,12 @@ export class ServiceLessonImpl implements IServiceLesson {
     return retObject;
   }
 
-  async create(inLessonInfo: ILesson): Promise<ILesson | null> {
+  async getByPath(inPath: string): Promise<ILesson | null> {
+    const retObject = await this.repoService.getByPath(inPath);
+    return retObject;
+  }
+
+  async create(inLessonInfo: Partial<ILesson>): Promise<ILesson | null> {
     const retObject = await this.repoService.create(inLessonInfo);
     return retObject;
   }
@@ -33,8 +38,18 @@ export class ServiceLessonImpl implements IServiceLesson {
     return retObject;
   }
 
+  async updateByPath(inPath: string, inLessonInfo: ILesson): Promise<number> {
+    const retObject = await this.repoService.updateByPath(inPath, inLessonInfo);
+    return retObject;
+  }
+
   async delete(inLessonId: number): Promise<number> {
     const retObject = await this.repoService.delete(inLessonId);
+    return retObject;
+  }
+
+  async deleteByPath(inPath: string): Promise<number> {
+    const retObject = await this.repoService.deleteByPath(inPath);
     return retObject;
   }
 }

@@ -5,8 +5,9 @@ import { DTOSubject } from "./7.dto.model";
 
 export interface IRepoSubject {
   isExist(inSubjectId: number): Promise<boolean>;
-  getAll(inStandardId: number): Promise<ISubject[] | null>;
+  getAll(): Promise<ISubject[] | null>;
   getById(inSubjectId: number): Promise<ISubject | null>;
+  getByPath(inSubjectPath: string): Promise<ISubject | null>;
   create(
     inSubject: ISubject,
     transaction?: Transaction
