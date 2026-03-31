@@ -8,11 +8,14 @@ sudo systemctl status postgresql
 ## Creation of the database
 sudo -u postgres psql
 
--- Create the database if you haven't yet
-CREATE DATABASE tenant_1_db;
+### Creating user root and granting it access
+CREATE USER root WITH PASSWORD 'your_password_here';
+ALTER USER root WITH SUPERUSER;
 
 -- Grant all privileges to your root user
-GRANT ALL PRIVILEGES ON DATABASE tenant_1_db TO root;
+CREATE USER root WITH PASSWORD 'your_password_here';
+CREATE DATABASE my_database OWNER root;
+GRANT ALL PRIVILEGES ON DATABASE my_database TO root;
 
 ## Gramt access to postgresql
 sudo nano /etc/postgresql/16/main/postgresql.conf
@@ -33,3 +36,12 @@ CREATE SCHEMA IF NOT EXISTS tenanta;
 -- Give your root user permission to use it
 GRANT ALL ON SCHEMA tenanta TO root;
 
+
+
+### Adding the initial users:
+INSERT INTO tenanta.logindetail VALUES (1,'admin','1111-1111-1111','admin','admin'),(2,'teacher','2222-2222-2222','teacher','teacher'),(3,'Yusuf Shaikh','2222-2222-2220','student','student'),(4,'principal','4444-4444-4444','principal','principal'),(6,'Affan Ansari','2222-2222-2221','student','student'),(7,'Zainab Shaikh','5555-5555-5550','student','student'),(8,'Mehndi Shaikh','5555-5555-5551','student','student');
+
+INSERT INTO tenanta.school` VALUES (1, 'Saboo Siddik', 'Police Lane, Nagpada, Mumbai')
+
+
+CREATE EXTENSION IF NOT EXISTS vector;
