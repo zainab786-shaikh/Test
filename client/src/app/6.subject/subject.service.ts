@@ -21,10 +21,19 @@ export class SubjectService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(inStandardId: number): Observable<ISubject[]> {
+  getAll(): Observable<ISubject[]> {
+    return this.http.get<ISubject[]>(
+      `${this.apiUrl}/subject`,
+      {
+        headers: this.headers,
+      }
+    );
+  }
+
+  getStandardAll(inStandardId: number): Observable<ISubject[]> {
     this.standardId = inStandardId;
     return this.http.get<ISubject[]>(
-      `${this.apiUrl}/subject/standard/${inStandardId}`,
+      `${this.apiUrl}/standardsubject/standard/${inStandardId}`,
       {
         headers: this.headers,
       }

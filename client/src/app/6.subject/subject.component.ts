@@ -31,7 +31,7 @@ import { SubjectService } from './subject.service';
   styleUrls: ['./subject.component.css'],
 })
 export class SubjectComponent implements OnInit {
-  standardId = 0;
+  standardId: number | null = null;
 
   displayedColumns: string[] = ['name', 'actions'];
   dataSource: ISubject[] = [];
@@ -49,16 +49,24 @@ export class SubjectComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      this.standardId = +params['standardId'];
+      this.standardId = params['standardId'] ? +params['standardId'] : null;
       this.loadSubjects();
       this.initForm();
     });
   }
 
   loadSubjects(): void {
-    this.subjectService.getAll(this.standardId).subscribe((data) => {
-      this.dataSource = data;
-    });
+    if (this.standardId) {
+      // Case: /subject/standard/:standardId
+      this.subjectService.getStandardAll(this.standardId).subscribe((data) => {
+        this.dataSource = data;
+      });
+    } else {
+      // Case: /subject
+      this.subjectService.getAll().subscribe((data) => {
+        this.dataSource = data;
+      });
+    }
   }
 
   initForm(): void {

@@ -90,7 +90,7 @@ export class DashboardServiceHelper {
 
   private getSubjects(schoolStandards: ISchoolStandard[]) {
     return from(schoolStandards).pipe(
-      mergeMap((standard) => this.subjectService.getAll(standard.standard!)),
+      mergeMap((standard) => this.subjectService.getStandardAll(standard.standard!)),
       toArray(),
       map((subjectLists) => subjectLists.flat())
     );

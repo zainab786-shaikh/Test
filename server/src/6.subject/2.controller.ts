@@ -54,7 +54,7 @@ export class ControllerSubject extends BaseController {
           .json({ message: "subjectList not found" });
       }
 
-      res.status(HttpStatusCode.OK).json(subjectList);
+      res. status(HttpStatusCode.OK).json(subjectList);
     } catch (error: any) {
       this.logger.error(error);
       return this.handleError(error, res);

@@ -90,8 +90,8 @@ export class StandardComponent implements OnInit {
     });
   }
 
-  onSubjects(standardId: number) {
-    this.router.navigate(['subject/standard', standardId]);
+  onStandardSubjects(standardId: number) {
+    this.router.navigate(['standardsubject/standard', standardId]);
   }
 
   onSubmit(): void {

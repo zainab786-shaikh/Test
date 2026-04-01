@@ -16,6 +16,7 @@ import { FillBlankComponent } from './9.evaluation/4.fillblank/fillblank.compone
 import { TrueFalseComponent } from './9.evaluation/5.truefalse/truefalse.component';
 import { EvaluationComponent } from './9.evaluation/1.evaluation/evaluation.component';
 import { LessonSectionComponent } from './7.lessonsection/lessonsection.component';
+import { StandardSubjectComponent } from './6.standardsubject/standardsubject.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -34,21 +35,29 @@ export const routes: Routes = [
   //====================================| Admin routes
   { path: 'admin', redirectTo: 'school', pathMatch: 'full' },
   { path: 'school', component: SchoolComponent },
-  {
-    path: 'schoolstandard/school/:schoolId',
-    component: SchoolStandardComponent,
-  },
+  { path: 'schoolstandard/school/:schoolId', component: SchoolStandardComponent},
   { path: 'standard', component: StandardComponent },
+  { path: 'standardsubject/standard/:standardId',component: StandardSubjectComponent},
+
   {
     path: 'student/school/:schoolId/standard/:standardId',
     component: StudentComponent,
   },
-  { path: 'standard', component: StandardComponent },
   { path: 'subject/standard/:standardId', component: SubjectComponent },
-  { path: 'lesson/subject/:subjectId', component: LessonComponent },
-  {
-    path: 'lessonsection/subject/:subjectId/lesson/:lessonId',
-    component: LessonSectionComponent,
+  
+  //====================================| Content Writer routes
+  { path: 'manage', redirectTo: 'subject', pathMatch: 'full' },
+  { 
+    path: 'subject', 
+    component: SubjectComponent // Reusing existing component
+  },
+  { 
+    path: 'lesson/subject/:subjectId', 
+    component: LessonComponent 
+  },
+  { 
+    path: 'lessonsection/subject/:subjectId/lesson/:lessonId', 
+    component: LessonSectionComponent 
   },
 
   //====================================| Students routes

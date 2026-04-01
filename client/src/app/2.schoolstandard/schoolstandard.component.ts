@@ -6,21 +6,22 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { forkJoin } from 'rxjs';
+
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatOptionModule } from '@angular/material/core';
-import { Router } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
-import { forkJoin } from 'rxjs';
+import { MatSelectModule } from '@angular/material/select';
 
 import { ISchoolStandard } from './schoolstandard.model';
 import { SchoolStandardService } from './schoolstandard.service';
 import { StandardService } from '../5.standard/standard.service';
 import { IStandard } from '../5.standard/standard.model';
-import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-schoolstandard',
