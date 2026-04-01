@@ -41,6 +41,7 @@ export class LessonSectionComponent implements OnInit {
     'Quiz',
     'FillBlanks',
     'TrueFalse',
+    'ShortQuestion',
     'actions',
   ];
   dataSource: ILessonSection[] = [];
@@ -112,6 +113,14 @@ export class LessonSectionComponent implements OnInit {
         ],
       ],
       truefalse: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(102400),
+        ],
+      ],
+      shortquestion: [
         '',
         [
           Validators.required,

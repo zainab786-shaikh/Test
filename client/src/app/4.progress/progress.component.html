@@ -26,6 +26,10 @@
         <th mat-header-cell *matHeaderCellDef>TrueFalse</th>
         <td mat-cell *matCellDef="let element">{{ element.truefalse }}</td>
       </ng-container>
+      <ng-container matColumnDef="ShortQuestion">
+        <th mat-header-cell *matHeaderCellDef>ShortQuestion</th>
+        <td mat-cell *matCellDef="let element">{{ element.shortquestion }}</td>
+      </ng-container>
 
       <ng-container matColumnDef="School">
         <th mat-header-cell *matHeaderCellDef>School</th>
@@ -111,6 +115,13 @@
         <mat-label>TrueFalse</mat-label>
         <input matInput formControlName="truefalse" />
         <mat-error *ngFor="let error of getErrorMessages('truefalse')">{{
+          error
+        }}</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>ShortQuestion</mat-label>
+        <input matInput formControlName="shortquestion" />
+        <mat-error *ngFor="let error of getErrorMessages('shortquestion')">{{
           error
         }}</mat-error>
       </mat-form-field>

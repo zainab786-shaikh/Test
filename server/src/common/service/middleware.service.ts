@@ -30,27 +30,25 @@ export class MiddlewareProvider {
   }
 
   // Middleware to handle exception and modify response body
-  public middlewareException(req: Request, res: Response, next: NextFunction) {
+  public middlewareException(
+    err: any,
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    this.logger.error(`Error encountered: ${err.message || err}`);
+
     res.setHeader(
       CONSTANT.SECURITY.STRICT_TRANSPORT_SECURITY,
       CONSTANT.SECURITY.MAX_AGE
     );
 
-    const originalSend = res.send;
-    res.send = function (data) {
-      try {
-        if (res?.statusCode && data) {
-          const resBody = JSON.parse(data);
-          if (resBody?.Error) {
-            data = { code: res.statusCode, error: resBody.Error };
-          }
-        }
-      } catch (err: any) {
-        console.warn(`Error parsing response body: ${err.message}`);
-      }
-      return originalSend.call(this, data);
-    };
-    next();
+    const statusCode = err.status || err.statusCode || HttpStatusCode.INTERNAL_SERVER_ERROR;
+    
+    res.status(statusCode).json({
+      code: statusCode,
+      error: err.message || "Internal Server Error",
+    });
   }
 
   // Main middleware to validate tenant information

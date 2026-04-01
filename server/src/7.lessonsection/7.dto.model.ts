@@ -8,6 +8,7 @@ export class DTOLessonSection extends Model {
   quiz!: string;
   fillblanks!: string;
   truefalse!: string;
+  shortquestion!: string;
   subject?: number;
   lesson?: number;
 }
@@ -41,6 +42,10 @@ export const initDTOLessonSectionModel = (
         allowNull: false,
       },
       truefalse: {
+        type: DataTypes.TEXT("long"),
+        allowNull: false,
+      },
+      shortquestion: {
         type: DataTypes.TEXT("long"),
         allowNull: false,
       },

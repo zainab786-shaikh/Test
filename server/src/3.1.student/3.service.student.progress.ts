@@ -46,6 +46,7 @@ export class ServiceStudentProgressImpl {
             quiz: 0,
             fillblanks: 0,
             truefalse: 0,
+            shortquestion: 0,
             school: inStudent.school,
             standard: inStudent.standard,
             student: inStudent?.Id,

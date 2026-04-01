@@ -39,6 +39,7 @@ export class ProgressComponent implements OnInit {
     'Quiz',
     'FillBlanks',
     'TrueFalse',
+    'ShortQuestion',
     'School',
     'Standard',
     'Subject',
@@ -83,6 +84,7 @@ export class ProgressComponent implements OnInit {
       quiz: ['', [Validators.required]],
       fillblanks: ['', [Validators.required]],
       truefalse: ['', [Validators.required]],
+      shortquestion: ['', [Validators.required]],
     });
   }
 
@@ -112,6 +114,7 @@ export class ProgressComponent implements OnInit {
         quiz: Number(this.progressForm.value.quiz),
         fillblanks: Number(this.progressForm.value.fillblanks),
         truefalse: Number(this.progressForm.value.truefalse),
+        shortquestion: Number(this.progressForm.value.shortquestion),
         school: this.schoolId,
         standard: this.standardId,
         student: this.studentId,

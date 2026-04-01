@@ -1,48 +1,88 @@
-<mat-card class="sq-container">
+<mat-card class="quiz-container">
   <mat-card-title>
     <span>Short Answer Questions</span>
   </mat-card-title>
   
-  <mat-card-content *ngIf="questions.length > 0 && currentIndex < questions.length">
-    <div class="question-count">Question {{ currentIndex + 1 }} of {{ questions.length }}</div>
-    
-    <div class="sq-item">
+  <mat-card-content>
+    <div *ngFor="let eachQuestion of questions; let i = index" class="quiz-item">
       <mat-card class="sub-card">
-        <p class="question-text">{{ questions[currentIndex].question }}</p>
+        <p class="question-text"><strong>Question {{ i + 1 }}:</strong> {{ eachQuestion.question }}</p>
+        <p class="reference-answer">Answer: {{ eachQuestion.answer }}</p>
         
         <div class="input-row">
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Your Answer</mat-label>
-            <textarea matInput [(ngModel)]="userAnswer" rows="3" [disabled]="isAnswered"></textarea>
+            <textarea matInput [(ngModel)]="eachQuestion.userAnswer" rows="3" [disabled]="eachQuestion.answered"></textarea>
           </mat-form-field>
         </div>
 
-        <div *ngIf="isAnswered" class="feedback-message" [ngClass]="{'correct-feedback': isCorrect, 'wrong-feedback': !isCorrect}">
-          <mat-icon>{{ isCorrect ? 'check_circle' : 'info' }}</mat-icon>
-          <span>{{ feedback }}</span>
+        <mat-icon
+          *ngIf="eachQuestion.answered"
+          [ngClass]="{
+            'success-icon': eachQuestion.userAnswer.trim().toLowerCase() === eachQuestion.answer.trim().toLowerCase(),
+            'error-icon': eachQuestion.userAnswer.trim().toLowerCase() !== eachQuestion.answer.trim().toLowerCase()
+          }"
+        >
+          {{ eachQuestion.userAnswer.trim().toLowerCase() === eachQuestion.answer.trim().toLowerCase() ? "check_circle" : "cancel" }}
+        </mat-icon>
+
+        <div *ngIf="eachQuestion.answered && eachQuestion.feedback" class="feedback-message" 
+          [ngClass]="{
+            'correct-feedback': eachQuestion.userAnswer.trim().toLowerCase() === eachQuestion.answer.trim().toLowerCase(), 
+            'wrong-feedback': eachQuestion.userAnswer.trim().toLowerCase() !== eachQuestion.answer.trim().toLowerCase()
+          }">
+          {{ eachQuestion.feedback }}
         </div>
 
-        <div class="button-footer">
-          <button *ngIf="!isAnswered" mat-raised-button color="primary" (click)='submitAnswer()' [disabled]='!userAnswer.trim()'>
-            Check Answer
-          </button>
-          <button *ngIf="isAnswered" mat-raised-button color="accent" (click)='nextQuestion()'>
-            {{ currentIndex === questions.length - 1 ? 'Finish' : 'Next Question' }}
+        <!-- Ask Bot Button -->
+        <div class="ask-bot-container">
+          <button mat-raised-button color="accent" class="ask-bot-button" (click)="askBot(eachQuestion.question)">
+            <mat-icon class="bot-icon">smart_toy</mat-icon>
+            Ask Bot
           </button>
         </div>
       </mat-card>
     </div>
-  </mat-card-content>
 
-  <mat-card-content *ngIf="questions.length === 0">
-    <div class="empty-state">No short answer questions for this section.</div>
-  </mat-card-content>
-  
-  <mat-card-content *ngIf="questions.length > 0 && currentIndex >= questions.length">
-    <div class="complete-state">
-      <mat-icon color="primary" class="big-icon">task_alt</mat-icon>
-      <h3>All questions completed!</h3>
-      <p>Click Next to continue with the evaluation.</p>
+    <div class="button-container" *ngIf="questions.length > 0">
+      <button mat-raised-button color="primary" (click)="submitAnswers()" [disabled]="!isAnyAnswerEntered()">
+        Submit
+      </button>
+      <button mat-raised-button color="primary" (click)="resetShortQuestion()">
+        Reset
+      </button>
+    </div>
+
+    <div *ngIf="questions.length === 0" class="empty-state">
+      No short answer questions for this section.
     </div>
   </mat-card-content>
 </mat-card>
+
+<!-- Chatbot UI -->
+<div *ngIf="showBot" class="bot-container">
+  <mat-card class="bot-card">
+    <mat-card-title>
+      <mat-icon>smart_toy</mat-icon>
+      <span>Quiz Assistant</span>
+      <button mat-icon-button class="exit-button" (click)="closeBot()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-card-title>
+
+    <div class="chat-messages">
+      <div *ngIf="botQuestion" class="bot-message"><strong>Q:</strong> {{ botQuestion }}</div>
+      <div *ngIf="botResponse" class="bot-message">{{ botResponse }}</div>
+    </div>
+
+    <div class="bot-input-container">
+      <input
+        class="bot-input"
+        [(ngModel)]="userQuery"
+        placeholder="Ask a follow-up question..."
+        (keyup.enter)="sendBotQuery()"
+      />
+      <button class="send-button" (click)="sendBotQuery()">Send</button>
+    </div>
+  </mat-card>
+</div>

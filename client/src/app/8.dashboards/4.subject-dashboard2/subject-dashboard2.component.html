@@ -90,6 +90,12 @@
                           onmouseover="this.style.background='rgba(99, 102, 241, 0.1)'; this.style.color='var(--primary)'"
                           onmouseout="this.style.background='transparent'; this.style.color='var(--text-mid)'">
                           ▹ {{ section.name }}
+                          <div class="sub-scores" style="display: inline-flex; gap: 8px; margin-left: 12px; font-size: 0.75rem;">
+                            <span *ngIf="section.quiz !== undefined" [style.color]="section.quiz >= 90 ? '#059669' : '#d97706'">Q:{{section.quiz}}%</span>
+                            <span *ngIf="section.fillblanks !== undefined" [style.color]="section.fillblanks >= 90 ? '#059669' : '#d97706'">F:{{section.fillblanks}}%</span>
+                            <span *ngIf="section.truefalse !== undefined" [style.color]="section.truefalse >= 90 ? '#059669' : '#d97706'">T:{{section.truefalse}}%</span>
+                            <span *ngIf="section.shortquestion !== undefined" [style.color]="section.shortquestion >= 90 ? '#059669' : '#d97706'">S:{{section.shortquestion}}%</span>
+                          </div>
                         </div>
                       </ng-container>
                     </div>
@@ -123,6 +129,12 @@
                       <ng-container *ngFor="let section of lesson.childList ?? []">
                         <div style="font-size: 0.95rem; color: var(--text-mid); padding: 6px 8px;">
                           ✓ {{ section.name }}
+                          <div class="sub-scores" style="display: inline-flex; gap: 8px; margin-left: 12px; font-size: 0.75rem;">
+                            <span *ngIf="section.quiz !== undefined" style="color: #059669">Q:{{section.quiz}}%</span>
+                            <span *ngIf="section.fillblanks !== undefined" style="color: #059669">F:{{section.fillblanks}}%</span>
+                            <span *ngIf="section.truefalse !== undefined" style="color: #059669">T:{{section.truefalse}}%</span>
+                            <span *ngIf="section.shortquestion !== undefined" style="color: #059669">S:{{section.shortquestion}}%</span>
+                          </div>
                         </div>
                       </ng-container>
                     </div>
@@ -157,6 +169,12 @@
                       <ng-container *ngFor="let section of lesson.childList ?? []">
                         <div style="font-size: 0.95rem; color: var(--text-mid); padding: 6px 8px;">
                           • {{ section.name }}
+                          <div class="sub-scores" style="display: inline-flex; gap: 8px; margin-left: 12px; font-size: 0.75rem;">
+                            <span *ngIf="section.quiz !== undefined" [style.color]="section.quiz >= 90 ? '#059669' : '#d97706'">Q:{{section.quiz}}%</span>
+                            <span *ngIf="section.fillblanks !== undefined" [style.color]="section.fillblanks >= 90 ? '#059669' : '#d97706'">F:{{section.fillblanks}}%</span>
+                            <span *ngIf="section.truefalse !== undefined" [style.color]="section.truefalse >= 90 ? '#059669' : '#d97706'">T:{{section.truefalse}}%</span>
+                            <span *ngIf="section.shortquestion !== undefined" [style.color]="section.shortquestion >= 90 ? '#059669' : '#d97706'">S:{{section.shortquestion}}%</span>
+                          </div>
                         </div>
                       </ng-container>
                     </div>

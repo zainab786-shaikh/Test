@@ -31,7 +31,7 @@
     "http": "^0.0.1-security",
     "inversify": "^6.1.4",
     "inversify-express-utils": "^6.4.7",
-    "jsonwebtoken": "^9.0.2",
+    "jsonwebtoken": "^9.0.3",
     "moments": "^0.0.2",
     "morgan": "^1.10.0",
     "path": "^0.12.7",

@@ -10,6 +10,10 @@ export interface IChildNode {
   Id: number;
   name: string;
   score: number;
+  quiz?: number;
+  fillblanks?: number;
+  truefalse?: number;
+  shortquestion?: number;
   expanded: boolean;
   childList?: IChildNode[] | null;
 }

@@ -106,6 +106,7 @@ export class RepoLessonSectionImpl implements IRepoLessonSection {
       quiz: srcObject.quiz,
       fillblanks: srcObject.fillblanks,
       truefalse: srcObject.truefalse,
+      shortquestion: srcObject.shortquestion,
       subject: srcObject.subject,
       lesson: srcObject.lesson,
     };
@@ -119,6 +120,7 @@ export class RepoLessonSectionImpl implements IRepoLessonSection {
       quiz: srcObject.quiz?.slice(0, 1000),
       fillblanks: srcObject.fillblanks?.slice(0, 1000),
       truefalse: srcObject.truefalse?.slice(0, 1000),
+      shortquestion: srcObject.shortquestion?.slice(0, 1000),
       subject: srcObject.subject,
     };
   }

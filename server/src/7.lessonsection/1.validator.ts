@@ -9,6 +9,7 @@ const lessonsectionSchema = z.object({
   quiz: z.string().min(3).max(102400),
   fillblanks: z.string().min(3).max(102400),
   truefalse: z.string().min(3).max(102400),
+  shortquestion: z.string().min(3).max(102400),
   subject: z.number().min(1).max(9999).nullable().optional(),
   lesson: z.number().min(1).max(9999).nullable().optional(),
 });

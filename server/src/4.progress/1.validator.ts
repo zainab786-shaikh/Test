@@ -7,6 +7,7 @@ const progressSchema = z.object({
   quiz: z.number().max(100),
   fillblanks: z.number().max(100),
   truefalse: z.number().max(100),
+  shortquestion: z.number().max(100),
   school: z.number().min(1).max(9999).nullable().optional(),
   standard: z.number().min(1).max(9999).nullable().optional(),
   student: z.number().min(1).max(9999).nullable().optional(),

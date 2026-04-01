@@ -68,7 +68,7 @@ export class ProgressService {
       map((data: IProgress[]) => {
         return data.map(progress => ({
           ...progress,
-          score: (progress.quiz + progress.fillblanks + progress.truefalse) / 3 // Example score calculation
+          score: (progress.quiz + progress.fillblanks + progress.truefalse + progress.shortquestion) / 4 // Example score calculation
         }));
       })
     );

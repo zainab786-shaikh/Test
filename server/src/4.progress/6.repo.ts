@@ -151,6 +151,7 @@ export class RepoProgressImpl implements IRepoProgress {
       quiz: srcObject.quiz,
       fillblanks: srcObject.fillblanks,
       truefalse: srcObject.truefalse,
+      shortquestion: srcObject.shortquestion,
       school: srcObject.school,
       standard: srcObject.standard,
       student: srcObject.student,

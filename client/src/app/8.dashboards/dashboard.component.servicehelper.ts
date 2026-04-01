@@ -218,7 +218,7 @@ export class DashboardServiceHelper {
   public getPerfPerLessonSection(progressList: IProgress[]): IChildNode[] {
     const lessonSectionMap = new Map<
       number,
-      { score: number; count: number }
+      { score: number; count: number; quiz?: number; fillblanks?: number; truefalse?: number; shortquestion?: number }
     >();
     progressList.forEach((p) => {
       if (!lessonSectionMap.has(p.lessonsection!)) {
@@ -227,6 +227,11 @@ export class DashboardServiceHelper {
       let lessonsection = lessonSectionMap.get(p.lessonsection!)!;
       lessonsection.score += p.quiz + p.fillblanks + p.truefalse + p.shortquestion;
       lessonsection.count += 4;
+      // Store latest scores
+      lessonsection.quiz = p.quiz;
+      lessonsection.fillblanks = p.fillblanks;
+      lessonsection.truefalse = p.truefalse;
+      lessonsection.shortquestion = p.shortquestion;
     });
 
     return Array.from(lessonSectionMap.entries()).map(
@@ -237,6 +242,10 @@ export class DashboardServiceHelper {
             this.lessonsections.find((s) => s.Id === lessonsectionId)?.name ||
             'Unknown',
           score: data.score / data.count,
+          quiz: (data as any).quiz,
+          fillblanks: (data as any).fillblanks,
+          truefalse: (data as any).truefalse,
+          shortquestion: (data as any).shortquestion,
           expanded: false,
         };
       }
