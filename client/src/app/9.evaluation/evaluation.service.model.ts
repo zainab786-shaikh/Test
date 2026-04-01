@@ -15,6 +15,8 @@ export interface IQuiz {
   question: string;
   options: string[];
   answer: number;
+}export interface IShortQuestion {
+  id: number;
+  question: string;
+  answer: string;
 }
-
-

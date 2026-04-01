@@ -1,0 +1,48 @@
+<mat-card class="sq-container">
+  <mat-card-title>
+    <span>Short Answer Questions</span>
+  </mat-card-title>
+  
+  <mat-card-content *ngIf="questions.length > 0 && currentIndex < questions.length">
+    <div class="question-count">Question {{ currentIndex + 1 }} of {{ questions.length }}</div>
+    
+    <div class="sq-item">
+      <mat-card class="sub-card">
+        <p class="question-text">{{ questions[currentIndex].question }}</p>
+        
+        <div class="input-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Your Answer</mat-label>
+            <textarea matInput [(ngModel)]="userAnswer" rows="3" [disabled]="isAnswered"></textarea>
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="isAnswered" class="feedback-message" [ngClass]="{'correct-feedback': isCorrect, 'wrong-feedback': !isCorrect}">
+          <mat-icon>{{ isCorrect ? 'check_circle' : 'info' }}</mat-icon>
+          <span>{{ feedback }}</span>
+        </div>
+
+        <div class="button-footer">
+          <button *ngIf="!isAnswered" mat-raised-button color="primary" (click)='submitAnswer()' [disabled]='!userAnswer.trim()'>
+            Check Answer
+          </button>
+          <button *ngIf="isAnswered" mat-raised-button color="accent" (click)='nextQuestion()'>
+            {{ currentIndex === questions.length - 1 ? 'Finish' : 'Next Question' }}
+          </button>
+        </div>
+      </mat-card>
+    </div>
+  </mat-card-content>
+
+  <mat-card-content *ngIf="questions.length === 0">
+    <div class="empty-state">No short answer questions for this section.</div>
+  </mat-card-content>
+  
+  <mat-card-content *ngIf="questions.length > 0 && currentIndex >= questions.length">
+    <div class="complete-state">
+      <mat-icon color="primary" class="big-icon">task_alt</mat-icon>
+      <h3>All questions completed!</h3>
+      <p>Click Next to continue with the evaluation.</p>
+    </div>
+  </mat-card-content>
+</mat-card>

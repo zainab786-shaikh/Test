@@ -5,6 +5,7 @@ export interface ILessonSection {
   quiz: string;
   fillblanks: string;
   truefalse: string;
+  shortquestion: string;
   subject?: number;
   lesson?: number;
 }

@@ -19,6 +19,10 @@
       <ng-container *ngIf="currentStep === 3">
         <app-fillblank [lessonId]="lessonId" [lessonsectionId]="lessonsectionId" (score)="updateScore('FillBlank', $event)"></app-fillblank>
       </ng-container>
+
+      <ng-container *ngIf="currentStep === 4">
+        <app-shortquestion [lessonId]="lessonId" [lessonsectionId]="lessonsectionId" (score)="updateScore('ShortQuestion', $event)"></app-shortquestion>
+      </ng-container>
     </mat-card-content>
 
     <mat-card-actions>
@@ -27,7 +31,7 @@
           <mat-icon>info</mat-icon>
           <span>If you've understood the explanation, click Next to continue</span>
         </div>
-        <button mat-button color="primary" (click)="nextStep()" [disabled]="(currentStep === 1 && quizScore < 90) || (currentStep === 2 && trueFalseScore < 90) || (currentStep === 3 && fillBlankScore < 90)">
+        <button mat-button color="primary" (click)="nextStep()" [disabled]="(currentStep === 1 && quizScore < 90) || (currentStep === 2 && trueFalseScore < 90) || (currentStep === 3 && fillBlankScore < 90) || (currentStep === 4 && shortQuestionScore < 90)">
           {{ progress == 100 ? "Submit" : "Next" }}
         </button>
       </div>

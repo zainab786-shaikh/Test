@@ -6,6 +6,7 @@ export class DTOProgress extends Model {
   quiz!: number;
   fillblanks!: number;
   truefalse!: number;
+  shortquestion!: number;
   school?: number;
   standard?: number;
   student?: number;
@@ -35,6 +36,10 @@ export const initDTOProgressModel = (
         allowNull: false,
       },
       truefalse: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      shortquestion: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },

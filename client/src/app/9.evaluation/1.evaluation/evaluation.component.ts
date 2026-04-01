@@ -8,6 +8,7 @@ import { ExplanationComponent } from '../2.explanation/explanation.component';
 import { FillBlankComponent } from '../4.fillblank/fillblank.component';
 import { QuizComponent } from '../3.quiz/quiz.component';
 import { TrueFalseComponent } from '../5.truefalse/truefalse.component';
+import { ShortQuestionComponent } from '../6.shortquestion/shortquestion.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProgressService } from '../../4.progress/progress.service';
 
@@ -23,6 +24,7 @@ import { ProgressService } from '../../4.progress/progress.service';
     FillBlankComponent,
     QuizComponent,
     TrueFalseComponent,
+    ShortQuestionComponent,
   ],
   templateUrl: './evaluation.component.html',
   styleUrls: ['./evaluation.component.css'],
@@ -35,13 +37,14 @@ export class EvaluationComponent {
   lessonId = 1;
   lessonsectionId = 1;
 
-  steps = ['Explanation', 'Quiz', 'TrueFalse', 'FillBlank'];
+  steps = ['Explanation', 'Quiz', 'TrueFalse', 'FillBlank', 'ShortQuestion'];
   currentStep = 0;
   progress = 0;
 
   quizScore = 0;
   trueFalseScore = 0;
   fillBlankScore = 0;
+  shortQuestionScore = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -64,6 +67,7 @@ export class EvaluationComponent {
         quiz: this.quizScore,
         fillblanks: this.fillBlankScore,
         truefalse: this.trueFalseScore,
+        shortquestion: this.shortQuestionScore,
         school: this.schoolId,
         standard: this.standardId,
         student: this.studentId,
@@ -96,22 +100,15 @@ export class EvaluationComponent {
     } else if (this.currentStep === 3 && this.fillBlankScore >= 90) {
       this.currentStep++;
       this.updateProgress();
+    } else if (this.currentStep === 4 && this.shortQuestionScore >= 90) {
+      this.currentStep++;
+      this.updateProgress();
     } else {
       //do nothing
     }
 
     if (this.progress == 100) {
       this.doneStep();
-
-      this.router.navigate([
-        'student-dashboard',
-        'school',
-        this.schoolId,
-        'standard',
-        this.standardId,
-        'student',
-        this.studentId,
-      ]);
     }
   }
 
@@ -128,6 +125,9 @@ export class EvaluationComponent {
       this.nextStep();
     } else if (component === 'FillBlank') {
       this.fillBlankScore = score;
+      this.nextStep();
+    } else if (component === 'ShortQuestion') {
+      this.shortQuestionScore = score;
       this.nextStep();
     }
   }

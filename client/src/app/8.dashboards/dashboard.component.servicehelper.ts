@@ -127,10 +127,10 @@ export class DashboardServiceHelper {
   //==========================================================| Overall Performance
   public getOverallPerformance(progressList: IProgress[]): number {
     const total = progressList.reduce(
-      (sum, p) => sum + p.quiz + p.fillblanks + p.truefalse,
+      (sum, p) => sum + p.quiz + p.fillblanks + p.truefalse + p.shortquestion,
       0
     );
-    return total / (progressList.length * 3);
+    return total / (progressList.length * 4);
   }
 
   //==========================================================| Performance Grouping
@@ -143,8 +143,8 @@ export class DashboardServiceHelper {
       }
       let std = standardMap.get(p.standard!)!;
 
-      std.score += p.quiz + p.fillblanks + p.truefalse;
-      std.count += 3;
+      std.score += p.quiz + p.fillblanks + p.truefalse + p.shortquestion;
+      std.count += 4;
     });
 
     return Array.from(standardMap.entries()).map(([standard, data]) => ({
@@ -163,8 +163,8 @@ export class DashboardServiceHelper {
       }
       let subj = subjectMap.get(p.subject!)!;
 
-      subj.score += p.quiz + p.fillblanks + p.truefalse;
-      subj.count += 3;
+      subj.score += p.quiz + p.fillblanks + p.truefalse + p.shortquestion;
+      subj.count += 4;
     });
 
     return Array.from(subjectMap.entries()).map(([subject, data]) => ({
@@ -182,8 +182,8 @@ export class DashboardServiceHelper {
         studentMap.set(p.student!, { score: 0, count: 0 });
       }
       let student = studentMap.get(p.student!)!;
-      student.score += p.quiz + p.fillblanks + p.truefalse;
-      student.count += 3;
+      student.score += p.quiz + p.fillblanks + p.truefalse + p.shortquestion;
+      student.count += 4;
     });
 
     return Array.from(studentMap.entries()).map(([student, data]) => ({
@@ -201,8 +201,8 @@ export class DashboardServiceHelper {
         lessonMap.set(p.lesson!, { score: 0, count: 0 });
       }
       let lesson = lessonMap.get(p.lesson!)!;
-      lesson.score += p.quiz + p.fillblanks + p.truefalse;
-      lesson.count += 3;
+      lesson.score += p.quiz + p.fillblanks + p.truefalse + p.shortquestion;
+      lesson.count += 4;
     });
 
     return Array.from(lessonMap.entries()).map(([lessonId, data]) => {
@@ -225,8 +225,8 @@ export class DashboardServiceHelper {
         lessonSectionMap.set(p.lessonsection!, { score: 0, count: 0 });
       }
       let lessonsection = lessonSectionMap.get(p.lessonsection!)!;
-      lessonsection.score += p.quiz + p.fillblanks + p.truefalse;
-      lessonsection.count += 3;
+      lessonsection.score += p.quiz + p.fillblanks + p.truefalse + p.shortquestion;
+      lessonsection.count += 4;
     });
 
     return Array.from(lessonSectionMap.entries()).map(

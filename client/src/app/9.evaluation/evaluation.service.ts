@@ -13,7 +13,7 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
-import { IFillInTheBlank, IQuiz, ITrueFalse } from './evaluation.service.model';
+import { IFillInTheBlank, IQuiz, ITrueFalse, IShortQuestion } from './evaluation.service.model';
 
 @Injectable({
   providedIn: 'root',
@@ -126,6 +126,22 @@ export class EvaluationService {
             truefalse
           ) as ITrueFalse[];
           return shuffledTrueFalse.slice(0, this.NUMBER_OF_QUESTIONS); // Return only the first 3 true/false questions
+        })
+      );
+  }
+
+  getShortQuestions(lessonSectionId: number): Observable<IShortQuestion[]> {
+    return this.http
+      .get<string>(`${this.apiUrl}/${lessonSectionId}/shortquestion`, {
+        headers: this.headers,
+      })
+      .pipe(
+        map((response) => {
+          const shortQuestions: IShortQuestion[] = JSON.parse(response);
+          const shuffledShortQuestions = (this.shuffleQZFBArray(
+            shortQuestions as any
+          ) as unknown) as IShortQuestion[];
+          return shuffledShortQuestions.slice(0, this.NUMBER_OF_QUESTIONS);
         })
       );
   }

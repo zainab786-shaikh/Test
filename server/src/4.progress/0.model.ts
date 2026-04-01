@@ -3,6 +3,7 @@ export interface IProgress {
   quiz: number;
   fillblanks: number;
   truefalse: number;
+  shortquestion: number;
   school?: number;
   standard?: number;
   student?: number;

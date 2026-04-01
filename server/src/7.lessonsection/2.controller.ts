@@ -133,6 +133,29 @@ export class ControllerLessonSection extends BaseController {
     }
   }
 
+  @httpGet("/:Id/shortquestion")
+  async getShortQuestion(@request() req: Request, @response() res: Response) {
+    try {
+      const lessonSectionId = +req.params.Id;
+      const lessonSection = await this.serviceLessonSection.get(
+        lessonSectionId
+      );
+      this.logger.info("Retrieved Explanation:" + lessonSection?.shortquestion);
+
+      this.setCommonHeaders(res);
+      if (!lessonSection?.shortquestion) {
+        return res
+          .status(HttpStatusCode.NOT_FOUND)
+          .json({ message: "lessonList not found" });
+      }
+
+      res.status(HttpStatusCode.OK).json(lessonSection?.shortquestion);
+    } catch (error: any) {
+      this.logger.error(error);
+      return this.handleError(error, res);
+    }
+  }
+
   @httpGet("/subject/:subjectId/lesson/:lessonId/")
   async getAll(@request() req: Request, @response() res: Response) {
     try {
