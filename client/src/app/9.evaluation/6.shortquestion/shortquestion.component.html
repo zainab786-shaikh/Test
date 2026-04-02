@@ -4,32 +4,32 @@
   </mat-card-title>
   
   <mat-card-content>
-    <div *ngFor="let eachQuestion of questions; let i = index" class="quiz-item">
-      <mat-card class="sub-card">
-        <p class="question-text"><strong>Question {{ i + 1 }}:</strong> {{ eachQuestion.question }}</p>
+    <div *ngFor="let eachQuestion of short_questions; let questionIndex = index" class="quiz-item">
+      <mat-card class="sub-card" [class.disabled-card]="!isControlEnabled(questionIndex)">
+        <p class="question-text"><strong>Question {{ questionIndex + 1 }}:</strong> {{ eachQuestion.question }}</p>
         <p class="reference-answer">Answer: {{ eachQuestion.answer }}</p>
         
         <div class="input-row">
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Your Answer</mat-label>
-            <textarea matInput [(ngModel)]="eachQuestion.userAnswer" rows="3" [disabled]="eachQuestion.answered"></textarea>
+            <textarea matInput [(ngModel)]="eachQuestion.user_answer" rows="3" [disabled]="eachQuestion.answered"></textarea>
           </mat-form-field>
         </div>
 
         <mat-icon
           *ngIf="eachQuestion.answered"
           [ngClass]="{
-            'success-icon': eachQuestion.userAnswer.trim().toLowerCase() === eachQuestion.answer.trim().toLowerCase(),
-            'error-icon': eachQuestion.userAnswer.trim().toLowerCase() !== eachQuestion.answer.trim().toLowerCase()
+            'success-icon': eachQuestion.user_answer?.trim()?.toLowerCase() === eachQuestion.answer.trim().toLowerCase(),
+            'error-icon': eachQuestion.user_answer?.trim()?.toLowerCase() !== eachQuestion.answer.trim().toLowerCase()
           }"
         >
-          {{ eachQuestion.userAnswer.trim().toLowerCase() === eachQuestion.answer.trim().toLowerCase() ? "check_circle" : "cancel" }}
+          {{ eachQuestion.user_answer?.trim()?.toLowerCase() === eachQuestion.answer.trim().toLowerCase() ? "check_circle" : "cancel" }}
         </mat-icon>
 
         <div *ngIf="eachQuestion.answered && eachQuestion.feedback" class="feedback-message" 
           [ngClass]="{
-            'correct-feedback': eachQuestion.userAnswer.trim().toLowerCase() === eachQuestion.answer.trim().toLowerCase(), 
-            'wrong-feedback': eachQuestion.userAnswer.trim().toLowerCase() !== eachQuestion.answer.trim().toLowerCase()
+            'correct-feedback': eachQuestion.user_answer?.trim()?.toLowerCase() === eachQuestion.answer.trim().toLowerCase(), 
+            'wrong-feedback': eachQuestion.user_answer?.trim()?.toLowerCase() !== eachQuestion.answer.trim().toLowerCase()
           }">
           {{ eachQuestion.feedback }}
         </div>
@@ -40,20 +40,36 @@
             <mat-icon class="bot-icon">smart_toy</mat-icon>
             Ask Bot
           </button>
+          <button mat-raised-button color="accent" class="ask-bot-button" (click)="submitAnswerVoice(questionIndex)">
+            <mat-icon class="bot-icon">mic</mat-icon>
+            Speak
+          </button>
         </div>
       </mat-card>
     </div>
 
-    <div class="button-container" *ngIf="questions.length > 0">
-      <button mat-raised-button color="primary" (click)="submitAnswers()" [disabled]="!isAnyAnswerEntered()">
+    <div class="button-container" *ngIf="short_questions.length > 0">
+      <button 
+        mat-raised-button 
+        color="primary" 
+        (click)="submitAnswers()" 
+        [disabled]="!isAnyAnswerEntered()"
+      >
         Submit
+      </button>
+      <button
+        mat-raised-button
+        class="interactive-button"
+        (click)="toggleInteractiveMode()"
+      >
+        {{isInteractive() ? 'Stop Interactive' : 'Start Interactive'}}
       </button>
       <button mat-raised-button color="primary" (click)="resetShortQuestion()">
         Reset
       </button>
     </div>
 
-    <div *ngIf="questions.length === 0" class="empty-state">
+    <div *ngIf="short_questions.length === 0" class="empty-state">
       No short answer questions for this section.
     </div>
   </mat-card-content>

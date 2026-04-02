@@ -4,4 +4,5 @@ export interface IQuizComponent extends IQuiz {
   selectedAnswer: number | null;
   answered: boolean;
   feedback?: string;
+  user_answer?: string;
 }

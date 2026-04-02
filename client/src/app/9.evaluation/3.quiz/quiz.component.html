@@ -3,8 +3,8 @@
     <span>Quiz</span>
   </mat-card-title>
   <mat-card-content>
-    <div *ngFor="let eachQuiz of quizzes" class="quiz-item">
-      <mat-card class="sub-card">
+    <div *ngFor="let eachQuiz of quizzes; let questionIndex = index" class="quiz-item">
+      <mat-card class="sub-card" [class.disabled-card]="!isControlEnabled(questionIndex)">
         <p>{{ eachQuiz.question }}</p>
         <p>{{ eachQuiz.answer }}</p>
         <mat-radio-group [(ngModel)]="eachQuiz.selectedAnswer">
@@ -34,7 +34,13 @@
             </span>
           </mat-radio-button>
         </mat-radio-group>
-        <div *ngIf="eachQuiz.answered && eachQuiz.feedback" class="feedback-message" [ngClass]="{'correct-feedback': eachQuiz.selectedAnswer === eachQuiz.answer, 'wrong-feedback': eachQuiz.selectedAnswer !== eachQuiz.answer}">
+        <div *ngIf="eachQuiz.answered && eachQuiz.feedback" 
+             class="feedback-message" 
+             [ngClass]="{
+              'correct-feedback': eachQuiz.selectedAnswer === eachQuiz.answer, 
+              'wrong-feedback': eachQuiz.selectedAnswer !== eachQuiz.answer
+              }"
+          >
           {{ eachQuiz.feedback }}
         </div>
         <!-- Ask Bot Button -->
@@ -43,8 +49,11 @@
             <mat-icon class="bot-icon">smart_toy</mat-icon>
             Ask Bot
           </button>
+          <button mat-raised-button color="accent" class="ask-bot-button" (click)="submitAnswerVoice(questionIndex)">
+            <mat-icon class="bot-icon">mic</mat-icon>
+            Speak
+          </button>
         </div>
-
       </mat-card>
     </div>
     <div class="button-container">
@@ -55,6 +64,13 @@
         [disabled]="!isAnyQuizAttempted()"
       >
         Submit
+      </button>
+      <button
+        mat-raised-button
+        class="interactive-button"
+        (click)="toggleInteractiveMode()"
+      >
+        {{isInteractive() ? 'Stop Interactive' : 'Start Interactive'}}
       </button>
       <button mat-raised-button class="reset-button" (click)="resetQuiz()">
         Reset

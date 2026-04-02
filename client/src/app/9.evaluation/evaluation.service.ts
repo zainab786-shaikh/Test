@@ -87,7 +87,10 @@ export class EvaluationService {
       })
       .pipe(
         map((response) => {
-          const quizzes: IQuiz[] = JSON.parse(response);
+          let quizzes: IQuiz[] = JSON.parse(response);
+          quizzes = quizzes.map((q) => { q.answer = q.answer - 1; return q; }); // Convert 1-based to 0-based index
+          console.log(quizzes);
+
           const shuffledQuizzes = this.shuffleQZFBArray(quizzes) as IQuiz[];
           return shuffledQuizzes
             .map((quiz) => this.shuffleOptions(quiz))
@@ -103,7 +106,10 @@ export class EvaluationService {
       })
       .pipe(
         map((response) => {
-          const fillBlanks: IFillInTheBlank[] = JSON.parse(response);
+          let fillBlanks: IFillInTheBlank[] = JSON.parse(response);
+          fillBlanks = fillBlanks.map((q) => { q.answer = q.answer - 1; return q; }); // Convert 1-based to 0-based index
+          console.log(fillBlanks);
+          
           const shuffledFillBlanks = this.shuffleQZFBArray(
             fillBlanks
           ) as IFillInTheBlank[];
@@ -228,6 +234,14 @@ export class EvaluationService {
       this.abortController = null;
       console.log('⛔ Generation stopped.');
     }
+  }
+
+  compareTextToEmbedding(text: string, user_answer: string): Observable<{ match: boolean }> {
+    // return this.http.post<{ match: boolean }>(`${this.baseUrl}/compare_text_to_embedding`, {
+    //   text,
+    //   user_answer
+    // });
+    return of({ match: true });
   }
 
   ngOnDestroy() {

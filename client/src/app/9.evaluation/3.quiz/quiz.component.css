@@ -15,6 +15,13 @@ mat-card.quiz-container {
   transition: all 0.3s ease;
 }
 
+.disabled-card {
+  pointer-events: none;
+  opacity: 0.5;
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
 mat-card-title {
   display: flex;
   justify-content: center;
@@ -93,25 +100,7 @@ mat-radio-button:hover {
   margin-left: 8px;
 }
 
-.feedback-message {
-  margin-top: 16px;
-  padding: 12px 16px;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  line-height: 1.4;
-}
 
-.correct-feedback {
-  background-color: rgba(46, 125, 50, 0.1);
-  color: #2e7d32;
-  border-left: 4px solid #2e7d32;
-}
-
-.wrong-feedback {
-  background-color: rgba(198, 40, 40, 0.1);
-  color: #c62828;
-  border-left: 4px solid #c62828;
-}
 
 .button-container {
   display: flex;
@@ -171,6 +160,26 @@ button.mat-raised-button:last-child:hover {
   }
 }
 
+.feedback-message {
+  margin-top: 16px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.correct-feedback {
+  background-color: rgba(46, 125, 50, 0.1);
+  color: #2e7d32;
+  border-left: 4px solid #2e7d32;
+}
+
+.wrong-feedback {
+  background-color: rgba(198, 40, 40, 0.1);
+  color: #c62828;
+  border-left: 4px solid #c62828;
+}
+
 /* Styling for Ask Bot Button */
 /* Ask Bot Button */
 .ask-bot-button {
@@ -193,6 +202,7 @@ button.mat-raised-button:last-child:hover {
 .ask-bot-container {
   display: flex;
   justify-content: flex-end;
+  gap: 10px;
   margin-top: 10px;
 }
 

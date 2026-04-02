@@ -1,11 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { EvaluationService } from '../evaluation.service'; // Import service if you are fetching the data from backend
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { EvaluationService } from '../evaluation.service';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
 import { ITrueFalseComponent } from './truefalse.component.model';
+import { VoiceService } from '../voice.service';
+import { NavigationStart, Router } from '@angular/router';
 
 @Component({
   selector: 'app-truefalse',
@@ -25,16 +27,35 @@ export class TrueFalseComponent implements OnInit {
   @Output() score = new EventEmitter<number>(); // Ensure this emits a number
 
   trueFalseQuestions: ITrueFalseComponent[] = [];
+  currentVoiceSelectionIndex = 0;
+  constructor(
+    private router: Router,
+    private evaluationService: EvaluationService,
+    private voiceService: VoiceService,
+    private cdr: ChangeDetectorRef
+  ) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.voiceService.stopSpeaking();
+      }
+    });
+  }
 
-  constructor(private evaluationService: EvaluationService) {}
-
-  // Load the questions
+  private validate_data (data: any){
+    return data.filter((q: any) => q.answer !== true && q.answer !== false).length === 0;
+  }
   private load() {
     this.evaluationService.getTrueFalse(this.lessonsectionId).subscribe((data) => {
+      if (!this.validate_data(data)) {
+        console.error('Invalid quiz data received:', data);
+        return;
+      }
       this.trueFalseQuestions = data.map((q) => ({
         ...q,
         selectedAnswer: null,
         answered: false,
+        feedback: undefined,
+        user_answer: undefined
       }));
     });
   }
@@ -43,19 +64,6 @@ export class TrueFalseComponent implements OnInit {
     this.load();
   }
 
-  // // Handle Submit
-  // submitAnswers() {
-  //   let calculatedScore = 0;
-  //   this.trueFalseQuestions.forEach((eachTrueFalse) => {
-  //     calculatedScore += +(
-  //       eachTrueFalse.answer == eachTrueFalse.selectedAnswer
-  //     );
-  //     eachTrueFalse.answered = true;
-  //   });
-  //   this.score.emit((calculatedScore / this.trueFalseQuestions.length) * 100);
-  // }
-
-  // Reset the questions
   resetTrueFalse() {
     this.load();
   }
@@ -73,13 +81,11 @@ export class TrueFalseComponent implements OnInit {
       calculatedScore += +isCorrect; // Increment score if correct
       eachTrueFalse.answered = true;
 
-      // Add feedback based on correctness
       eachTrueFalse.feedback = isCorrect
         ? "Great job! That's the correct answer."
         : `The correct answer was "${eachTrueFalse.answer ? 'True' : 'False'}". Keep practicing!`;
     });
 
-    // Emit the calculated score
     this.score.emit((calculatedScore / this.trueFalseQuestions.length) * 100);
   }
 
@@ -135,15 +141,20 @@ export class TrueFalseComponent implements OnInit {
 
     // Construct a strict bot context for True/False questions
     const contextPrompt = `
-      You are a strict AI tutor. Only answer user questions related to the given True/False question.
+       You are an AI tutor assisting students with true and false questions. Your role is to:
+      - Explain the question in simple terms.
+      - Provide the correct answer.
+      - Explain WHY it is correct.
+      - Compare the given true and false options to clarify misunderstandings.
 
       **Question:** "${this.botQuestion}"
       **Correct Answer:** "${correctAnswer}"
 
-      - If the user asks about the question, explain it clearly.
-      - If the user asks about the correct answer, explain why it is correct.
-      - If the user asks why the incorrect option is wrong, clarify with reasoning.
-      - If the user asks something unrelated, respond with: "You are asking outside the context."
+      Guidelines:
+      1. First, explain what the question means.
+      2. Then, reveal the correct answer.
+      3. Finally, explain why the correct answer is correct by comparing it to other options.
+      4. If the user asks an unrelated question, respond with: "You are asking outside the context."
 
       **User's Query:** "${query}"
     `;
@@ -161,9 +172,86 @@ export class TrueFalseComponent implements OnInit {
     });
   }
 
-
-
   stopBotResponse() {
     this.botResponse = "Chat stopped.";
   }
+
+  //=============================================| Voice Interaction
+  isInteractiveMode = false;
+  isInteractive(): boolean {
+    return this.isInteractiveMode;
+  }
+
+  isControlEnabled(currentIndex: number): boolean {
+    let isEnabled = true;
+    if (this.isInteractiveMode) {
+      isEnabled = (currentIndex === this.currentVoiceSelectionIndex)
+    }
+    return isEnabled;
+  }
+
+  toggleInteractiveMode() {
+    this.isInteractiveMode = !this.isInteractiveMode;
+    if (this.isInteractiveMode) {
+      this.currentVoiceSelectionIndex = 0;
+      this.readCurrentQuestion(this.currentVoiceSelectionIndex);
+    } else {
+      this.voiceService.stopSpeaking();
+    }
+  }
+  formatQuestionForSpeech(currentIndex: number): string {
+    const q = this.trueFalseQuestions[currentIndex];
+    let speech = `${currentIndex + 1}. ${q.question}. `;
+        speech += " options are True or False. ";
+    return speech;
+  }
+
+  readCurrentQuestion(currentIndex: number) {
+    if (!this.trueFalseQuestions) return;
+    this.voiceService.speak(this.formatQuestionForSpeech(currentIndex));
+  }
+
+  submitAnswerVoice(currentIndex: number) {
+    this.voiceService.stopSpeaking();
+    this.voiceService.listen((heard) => {
+      if (heard != null && heard.trim() !== '') {
+        this.trueFalseQuestions[currentIndex].user_answer = heard;
+        this.processAnswer(this.currentVoiceSelectionIndex, heard);
+      } else {
+        // ignore empty/whitespace recognition results and keep previous state
+        console.warn('Voice input was empty or whitespace.');
+      }
+    });
+  }
+
+  processAnswer(currentIndex: number, userAnswer: string) {
+    const currentQ = this.trueFalseQuestions[currentIndex];
+    const answer = currentQ.answer.toString(); // "true" or "false"
+    const spoken = userAnswer.toLowerCase();
+
+    this.evaluationService.compareTextToEmbedding(spoken, answer).subscribe(response => {
+      const isCorrect = response.match;
+      currentQ.answered = true;
+      currentQ.selectedAnswer = isCorrect ? currentQ.answer : null; // Mark as correct if it matches, otherwise keep it null
+      let text = isCorrect
+        ? `Correct. ${spoken}`
+        : `That is incorrect. Correct answer is: ${this.trueFalseQuestions[currentIndex].answer}`;
+      this.trueFalseQuestions[currentIndex].feedback = text;
+      this.cdr.detectChanges();
+      this.readExplanation(currentIndex, text);
+    })
+  }
+
+  readExplanation(currentIndex: number, text: string) {
+    if (!this.trueFalseQuestions) return;
+    this.voiceService.speak(text, () => {
+      if (currentIndex < this.trueFalseQuestions.length) {
+          this.currentVoiceSelectionIndex++;
+          this.readCurrentQuestion(this.currentVoiceSelectionIndex);
+          this.cdr.detectChanges();
+      }
+    });
+    
+  }
+
 }

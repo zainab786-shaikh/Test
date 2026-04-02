@@ -3,8 +3,8 @@
     <span>True or False</span>
   </mat-card-title>
   <mat-card-content>
-    <div *ngFor="let eachTrueFalse of trueFalseQuestions" class="quiz-item">
-      <mat-card class="sub-card">
+    <div *ngFor="let eachTrueFalse of trueFalseQuestions; let questionIndex = index" class="quiz-item">
+      <mat-card class="sub-card" [class.disabled-card]="!isControlEnabled(questionIndex)">
         <p>{{ eachTrueFalse.question }}</p>
         <p>{{ eachTrueFalse.answer }}</p>
         <mat-radio-group [(ngModel)]="eachTrueFalse.selectedAnswer">
@@ -42,6 +42,10 @@
             <mat-icon class="bot-icon">smart_toy</mat-icon>
             Ask Bot
           </button>
+          <button mat-raised-button color="accent" class="ask-bot-button" (click)="submitAnswerVoice(questionIndex)">
+            <mat-icon class="bot-icon">mic</mat-icon>
+            Speak
+          </button>
         </div>
       </mat-card>
     </div>
@@ -53,6 +57,13 @@
         [disabled]="!isAnyAnswerSelected()"
       >
         Submit
+      </button>
+      <button
+        mat-raised-button
+        class="interactive-button"
+        (click)="toggleInteractiveMode()"
+      >
+        {{isInteractive() ? 'Stop Interactive' : 'Start Interactive'}}
       </button>
       <button mat-raised-button color="primary" (click)="resetTrueFalse()">
         Reset

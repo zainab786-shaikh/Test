@@ -4,4 +4,5 @@ export interface ITrueFalseComponent extends ITrueFalse {
   selectedAnswer: boolean | null;
   answered: boolean;
   feedback?: string; // Add feedback property
+  user_answer?: string;
 }

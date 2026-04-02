@@ -3,8 +3,8 @@
     <span>Fill in the Blank</span>
   </mat-card-title>
   <mat-card-content>
-    <div *ngFor="let eachFillBlank of fillBlanks" class="quiz-item">
-      <mat-card class="sub-card">
+    <div *ngFor="let eachFillBlank of fillBlanks; let questionIndex = index" class="quiz-item">
+      <mat-card class="sub-card" [class.disabled-card]="!isControlEnabled(questionIndex)">
         <p>
           <span>{{ eachFillBlank.question.split("______")[0] }}</span>
           <mat-select
@@ -45,12 +45,15 @@
         >
           {{ eachFillBlank.feedback }}
         </div>
-
         <!-- Ask Bot Button -->
         <div class="ask-bot-container">
           <button mat-raised-button color="accent" class="ask-bot-button" (click)="askBot(eachFillBlank.question)">
             <mat-icon class="bot-icon">smart_toy</mat-icon>
             Ask Bot
+          </button>
+          <button mat-raised-button color="accent" class="ask-bot-button" (click)="submitAnswerVoice(questionIndex)">
+            <mat-icon class="bot-icon">mic</mat-icon>
+            Speak
           </button>
         </div>
       </mat-card>
@@ -64,13 +67,19 @@
       >
         Submit
       </button>
+      <button
+        mat-raised-button
+        class="interactive-button"
+        (click)="toggleInteractiveMode()"
+      >
+        {{isInteractive() ? 'Stop Interactive' : 'Start Interactive'}}
+      </button>
       <button mat-raised-button color="primary" (click)="resetFillBlank()">
         Reset
       </button>
     </div>
   </mat-card-content>
 </mat-card>
-
 
 <!-- Chatbot UI -->
 <div *ngIf="showBot" class="bot-container">
