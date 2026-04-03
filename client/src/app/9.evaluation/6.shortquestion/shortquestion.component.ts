@@ -191,13 +191,16 @@ export class ShortQuestionComponent implements OnInit {
   }
   formatQuestionForSpeech(currentIndex: number): string {
     const q = this.short_questions[currentIndex];
+    if (q == null) return '';
     let speech = `${currentIndex + 1}. ${q.question}. `;
     return speech;
   }
 
   readCurrentQuestion(currentIndex: number) {
     if (!this.short_questions) return;
-    this.voiceService.speak(this.formatQuestionForSpeech(currentIndex));
+    let text = this.formatQuestionForSpeech(currentIndex);
+    if (text.trim() === '') return; // Don't attempt to speak if text is empty
+    this.voiceService.speak(text);
   }
 
   submitAnswerVoice(currentIndex: number) {
@@ -218,12 +221,12 @@ export class ShortQuestionComponent implements OnInit {
     const answer = currentQ.answer.toLowerCase();
     const spoken = user_answer.toLowerCase();
 
-    this.evaluationService.compareTextToEmbedding(spoken, answer).subscribe(response => {
+    this.evaluationService.aiCompareText(spoken, answer).subscribe(response => {
       const isCorrect = response.match;
       currentQ.answered = true;
       let text = isCorrect
         ? `Correct. ${spoken}`
-        : `That is incorrect. Correct answer is: ${this.short_questions[currentIndex].answer}`;
+        : `That is incorrect. Correct answer is: ${answer}`;
       this.short_questions[currentIndex].feedback = text;
       this.cdr.detectChanges();
       this.readExplanation(currentIndex, text);

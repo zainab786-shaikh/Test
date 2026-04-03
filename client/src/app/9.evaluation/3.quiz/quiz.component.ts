@@ -198,6 +198,8 @@ export class QuizComponent implements OnInit {
   }
   formatQuestionForSpeech(currentIndex: number): string {
     const q = this.quizzes[currentIndex];
+    if (q == null) return '';
+
     let speech = `${currentIndex + 1}. ${q.question}. `;
     q.options.forEach((opt: string, index: number) => {
       speech += `${index + 1}: ${opt}. `;
@@ -207,7 +209,9 @@ export class QuizComponent implements OnInit {
 
   readCurrentQuestion(currentIndex: number) {
     if (!this.quizzes) return;
-    this.voiceService.speak(this.formatQuestionForSpeech(currentIndex));
+    let text = this.formatQuestionForSpeech(currentIndex);
+    if (text.trim() === '') return; // Don't attempt to speak if text is empty
+    this.voiceService.speak(text);
   }
 
   submitAnswerVoice(currentIndex: number) {
@@ -228,13 +232,13 @@ export class QuizComponent implements OnInit {
     const answer = currentQ.options[currentQ.answer].toLowerCase();
     const spoken = userAnswer.toLowerCase();
 
-    this.evaluationService.compareTextToEmbedding(spoken, answer).subscribe(response => {
+    this.evaluationService.aiCompareText(spoken, answer).subscribe(response => {
       const isCorrect = response.match;
       currentQ.answered = true;
       currentQ.selectedAnswer = isCorrect ? currentQ.answer : null; // Mark as correct if it matches, otherwise keep it null
       let text = isCorrect
         ? `Correct. ${spoken}`
-        : `That is incorrect. Correct answer is: ${this.quizzes[currentIndex].answer}`;
+        : `That is incorrect. Correct answer is: ${answer}`;
       this.quizzes[currentIndex].feedback = text;
       this.cdr.detectChanges();
       this.readExplanation(currentIndex, text);

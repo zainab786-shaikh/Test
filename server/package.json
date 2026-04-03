@@ -34,6 +34,7 @@
     "jsonwebtoken": "^9.0.3",
     "moments": "^0.0.2",
     "morgan": "^1.10.0",
+    "node-fetch": "^3.3.2",
     "path": "^0.12.7",
     "pg": "^8.20.0",
     "pg-hstore": "^2.3.4",

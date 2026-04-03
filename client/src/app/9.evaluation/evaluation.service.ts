@@ -19,6 +19,7 @@ import { IFillInTheBlank, IQuiz, ITrueFalse, IShortQuestion } from './evaluation
   providedIn: 'root',
 })
 export class EvaluationService {
+  private apiBaseUrl = 'http://localhost:3000/v1';
   private apiUrl = 'http://localhost:3000/v1/lessonsection';
   private baseUrl = `http://localhost:11434/api/generate`;
   private abortController: AbortController | null = null;
@@ -236,12 +237,11 @@ export class EvaluationService {
     }
   }
 
-  compareTextToEmbedding(text: string, user_answer: string): Observable<{ match: boolean }> {
-    // return this.http.post<{ match: boolean }>(`${this.baseUrl}/compare_text_to_embedding`, {
-    //   text,
-    //   user_answer
-    // });
-    return of({ match: true });
+  aiCompareText(answer: string, user_answer: string): Observable<{ match: boolean }> {
+    return this.http.post<{ match: boolean }>(`${this.apiBaseUrl}/ai/compare`,{
+      answer,
+      user_answer
+    }, {headers: this.headers});
   }
 
   ngOnDestroy() {

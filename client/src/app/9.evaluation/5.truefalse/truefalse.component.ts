@@ -201,6 +201,7 @@ export class TrueFalseComponent implements OnInit {
   }
   formatQuestionForSpeech(currentIndex: number): string {
     const q = this.trueFalseQuestions[currentIndex];
+    if (q == null) return '';
     let speech = `${currentIndex + 1}. ${q.question}. `;
         speech += " options are True or False. ";
     return speech;
@@ -208,7 +209,9 @@ export class TrueFalseComponent implements OnInit {
 
   readCurrentQuestion(currentIndex: number) {
     if (!this.trueFalseQuestions) return;
-    this.voiceService.speak(this.formatQuestionForSpeech(currentIndex));
+    let text = this.formatQuestionForSpeech(currentIndex);
+    if (text.trim() === '') return; // Don't attempt to speak if text is empty
+    this.voiceService.speak(text);
   }
 
   submitAnswerVoice(currentIndex: number) {
@@ -229,13 +232,13 @@ export class TrueFalseComponent implements OnInit {
     const answer = currentQ.answer.toString(); // "true" or "false"
     const spoken = userAnswer.toLowerCase();
 
-    this.evaluationService.compareTextToEmbedding(spoken, answer).subscribe(response => {
+    this.evaluationService.aiCompareText(spoken, answer).subscribe(response => {
       const isCorrect = response.match;
       currentQ.answered = true;
       currentQ.selectedAnswer = isCorrect ? currentQ.answer : null; // Mark as correct if it matches, otherwise keep it null
       let text = isCorrect
         ? `Correct. ${spoken}`
-        : `That is incorrect. Correct answer is: ${this.trueFalseQuestions[currentIndex].answer}`;
+        : `That is incorrect. Correct answer is: ${answer}`;
       this.trueFalseQuestions[currentIndex].feedback = text;
       this.cdr.detectChanges();
       this.readExplanation(currentIndex, text);

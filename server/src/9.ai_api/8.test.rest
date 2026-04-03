@@ -1,0 +1,27 @@
+### Test AI Compare API
+
+POST http://localhost:3000/v1/ai/compare
+Content-Type: application/json
+tenantid: tenanta
+traceparent: 12345
+
+{
+  "answer": "The sky is blue",
+  "user_answer": "Sky appears blue in color"
+}
+
+###
+
+### Test AI Compare API - Negative Case
+
+POST http://localhost:3000/v1/ai/compare
+Content-Type: application/json
+tenantid: tenanta
+traceparent: 12345
+
+{
+  "answer": "The sky is blue",
+  "user_answer": "Grass is green"
+}
+
+###

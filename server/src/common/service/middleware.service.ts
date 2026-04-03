@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { inject } from "inversify";
+import { inject, injectable } from "inversify";
 import TYPES from "../../ioc/types";
 import { container } from "../../ioc/container";
 
@@ -12,6 +12,7 @@ import { RequestContextProvider } from "./request-context.service";
 import { RequestContext } from "./request-context.service";
 import { Validate } from "../validate";
 
+@injectable()
 export class MiddlewareProvider {
   private logger: ILogger;
   private tenantService: ServiceTenant;
@@ -27,6 +28,7 @@ export class MiddlewareProvider {
     this.validate = validate;
 
     this.middlewareValidateTenant = this.middlewareValidateTenant.bind(this);
+    this.middlewareException = this.middlewareException.bind(this);
   }
 
   // Middleware to handle exception and modify response body

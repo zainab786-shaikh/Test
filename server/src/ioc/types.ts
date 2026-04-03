@@ -43,6 +43,9 @@ const TYPES = {
 
   ControllerChat: Symbol("ControllerChat"),
   ServiceChat: Symbol("ServiceChat"),
+
+  ControllerAI: Symbol("ControllerAI"),
+  ServiceAI: Symbol("ServiceAI"),
 };
 
 export default TYPES;
