@@ -176,7 +176,7 @@ export class EvaluationService {
       this.abortController = new AbortController();
 
       const requestBody = {
-        model: 'llama3.2',
+        model: 'ministral-3:3b',
         prompt: prompt,
         stream: true,
       };

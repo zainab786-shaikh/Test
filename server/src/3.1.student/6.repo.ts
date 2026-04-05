@@ -72,8 +72,8 @@ export class RepoStudentImpl implements IRepoStudent {
     const StudentModel = this.getModel(DTOStudent);
     const createdObj = await StudentModel.create(inStudent, {
       transaction,
+      returning: true,
     });
-    createdObj.dataValues.Id = createdObj.Id;
     return this.convertToObject(createdObj.dataValues);
   }
 

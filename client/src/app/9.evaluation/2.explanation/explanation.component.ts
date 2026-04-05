@@ -137,7 +137,7 @@ export class ExplanationComponent implements OnInit, OnDestroy, AfterViewChecked
     let textExplanation = this.convertHtmlToPlainText(this.explanation);
 
     let modifiedPrompt =
-      `Use only brief answer unless asked explicitly to explain in detail.
+    `Use only brief answer unless asked explicitly to explain in detail.
     Be crisp and clear. Answer the question within the context only. \n\n The question is: ${userQuestion}.
     Else simply mention 'You are asking question outside the context'
     `;
