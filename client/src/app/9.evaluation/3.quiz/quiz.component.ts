@@ -196,6 +196,7 @@ export class QuizComponent implements OnInit {
       this.voiceService.stopSpeaking();
     }
   }
+
   formatQuestionForSpeech(currentIndex: number): string {
     const q = this.quizzes[currentIndex];
     if (q == null) return '';

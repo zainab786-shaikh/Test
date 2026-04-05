@@ -39,7 +39,7 @@ atexit.register(cleanup)
 def initialize_app():
     """Initializes global dependencies and lesson classes."""
     db_params = {
-        "dbname": "tenanta",
+        "dbname": "tenantb",
         "user": "root",
         "password": "Allahu",
         "host": "127.0.0.1"
