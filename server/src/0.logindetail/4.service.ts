@@ -93,7 +93,7 @@ export class ServiceLoginDetailImpl implements IServiceLoginDetail {
       referenceId: user.referenceId,
     };
 
-    return jwt.sign(payload, this.jwtSecret, { expiresIn: this.jwtExpiresIn });
+    return jwt.sign(payload, this.jwtSecret, { expiresIn: this.jwtExpiresIn as any });
   }
 
   /**

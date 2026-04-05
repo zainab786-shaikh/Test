@@ -1,4 +1,4 @@
-import fetch from "node-fetch";
+import axios from "axios";
 import { injectable } from "inversify";
 import { IServiceAI } from "./3.service.model";
 import { IAICompareRequest, IAICompareResponse } from "./0.model";
@@ -8,22 +8,15 @@ export class ServiceAI implements IServiceAI {
   private ai_apiUrl = "http://localhost:4000";
 
   async compare(data: IAICompareRequest): Promise<IAICompareResponse> {
-    const res = await fetch(`${this.ai_apiUrl}/compare`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+    try {
+      const res = await axios.post(`${this.ai_apiUrl}/compare`, {
         text1: data.answer,
         text2: data.user_answer,
-      }),
-    });
+      });
 
-    if (!res.ok) {
-      throw new Error(`AI API error: ${res.status}`);
+      return res.data as IAICompareResponse;
+    } catch (error: any) {
+      throw new Error(`AI API error: ${error.message}`);
     }
-
-    const json = (await res.json()) as IAICompareResponse; // FIX
-    return json;
   }
 }
