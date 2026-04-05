@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, ActivatedRoute, Router } from '@angular/router'; // Import RouterModule
+import { RouterModule, ActivatedRoute, Router } from '@angular/router'; 
 import { FormsModule } from '@angular/forms';
 import { LoginDetailService } from '../../0.logindetail/logindetail.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,7 +11,7 @@ import { StudentService } from '../../3.1.student/student.service';
 @Component({
   selector: 'app-profile-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule], // ✅ Ensure RouterModule is imported
+  imports: [CommonModule, FormsModule, RouterModule], 
   templateUrl: './profile-dashboard.component.html',
   styleUrls: ['./profile-dashboard.component.css'],
 })
@@ -116,10 +116,10 @@ export class ProfileDashboardComponent implements OnInit {
     this.cdr.detectChanges();
   }
   logout() {
-    // Perform logout logic (e.g., clear session/token)
-    localStorage.removeItem('authToken'); // Example: Clear authentication token
+    
+    localStorage.removeItem('authToken'); 
 
-    // Navigate to the login page
+    
     this.router.navigate(['/login']);
   }
 

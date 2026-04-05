@@ -1,5 +1,5 @@
-// Type definitions for Web Speech API
-// This declaration file fills in the missing TypeScript definitions for speech recognition
+
+
 
 interface Window {
   SpeechRecognition: typeof SpeechRecognition;
@@ -14,12 +14,12 @@ declare class SpeechRecognition extends EventTarget {
 
   constructor();
 
-  // Methods
+  
   abort(): void;
   start(): void;
   stop(): void;
 
-  // Events
+  
   onstart: (event: Event) => void;
   onresult: (event: SpeechRecognitionEvent) => void;
   onerror: (event: SpeechRecognitionErrorEvent) => void;

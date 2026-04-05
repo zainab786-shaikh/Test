@@ -21,7 +21,7 @@
   background: var(--bg);
   color: var(--text);
   font-family: var(--font);
-  /* Reset tailwind defaults inside our app to ensure consistency */
+  
   box-sizing: border-box;
 }
 
@@ -34,14 +34,14 @@
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  background: linear-gradient(135deg, #f0fdf4 0%, #e0e7ff 100%); /* very subtle light gradient */
+  background: linear-gradient(135deg, #f0fdf4 0%, #e0e7ff 100%); 
   position: absolute;
   top: 0;
   left: 0;
   font-family: var(--font);
 }
 
-/* Sidebar */
+
 .sd-sidebar {
   width: 280px;
   background: rgba(255, 255, 255, 0.6);
@@ -108,7 +108,7 @@
   flex-shrink: 0;
 }
 
-/* Main Content */
+
 .sd-main {
   flex: 1;
   display: flex;
@@ -152,7 +152,7 @@
   gap: 40px;
 }
 
-/* Cards Row */
+
 .sd-cards-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -220,7 +220,7 @@
   margin-top: 40px;
 }
 
-/* Grid layout for lower sections */
+
 .dashboard-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -232,7 +232,7 @@
   flex-direction: column;
 }
 
-/* Subjects List */
+
 .sd-subject-cards {
   display: flex;
   flex-direction: column;
@@ -286,7 +286,7 @@
 
 .sd-subj-bar {
   height: 8px;
-  background: rgba(0, 0, 0, 0.05); /* very light inner track */
+  background: rgba(0, 0, 0, 0.05); 
   border-radius: 4px;
   overflow: hidden;
 }
@@ -311,7 +311,7 @@
   padding: 1rem 0;
 }
 
-/* Plotly Chart Card */
+
 .sd-chart-box {
   background: var(--glass-bg);
   backdrop-filter: blur(16px);
@@ -322,7 +322,7 @@
   box-shadow: 0 8px 24px rgba(0,0,0,0.05);
 }
 
-/* Upcoming Lessons */
+
 .sd-lessons-list {
   display: flex;
   flex-direction: column;
@@ -397,9 +397,7 @@
   box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
 }
 
-/* -------------------------------
-   Responsive & Mobile Styles
----------------------------------*/
+
 .mobile-menu-btn {
   display: none;
   background: white;

@@ -1,110 +1,116 @@
-<mat-card>
-  <mat-card-title>
-    <button (click)="logout()" class="logout-button">
-      <span class="logout-icon">←</span> Logout
-    </button>
-    <div class="dashboard-header">
-      <h1>College Details</h1>
-    </div>
-    <button
-      mat-icon-button
-      color="primary"
-      class="add-btn"
-      (click)="toggleForm()"
-    >
-      <mat-icon>{{ isFormVisible ? "edit" : "add" }}</mat-icon>
-    </button>
-  </mat-card-title>
-  <mat-card-content>
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>Name</th>
-        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="address">
-        <th mat-header-cell *matHeaderCellDef>Address</th>
-        <td mat-cell *matCellDef="let element">{{ element.address }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Actions</th>
-        <td mat-cell *matCellDef="let element">
-          <button
-            mat-icon-button
-            color="primary"
-            (click)="editSchool(element)"
-            matTooltip="Edit college"
-            matTooltipPosition="above"
-          >
-            <mat-icon>edit</mat-icon>
-          </button>
-
-          <button
-            mat-icon-button
-            color="warn"
-            (click)="deleteSchool(element.Id)"
-            matTooltip="Delete college"
-            matTooltipPosition="above"
-          >
-            <mat-icon>delete</mat-icon>
-          </button>
-
-          <button
-            mat-icon-button
-            color="primary"
-            (click)="onSchoolStandards(element.Id)"
-            matTooltip="List Semister"
-            matTooltipPosition="above"
-          >
-            <mat-icon>list_alt</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
-  </mat-card-content>
-</mat-card>
-
-<mat-card *ngIf="isFormVisible">
-  <mat-card-title>
-    <mat-icon>{{ isEditMode ? "edit" : "add" }}</mat-icon>
-    {{ isEditMode ? "Update College" : "Add College" }}
-  </mat-card-title>
-  <mat-card-content>
-    <form
-      [formGroup]="schoolForm"
-      (ngSubmit)="onSubmit()"
-      class="form-container"
-    >
-      <mat-form-field appearance="fill">
-        <mat-label>Name</mat-label>
-        <input matInput formControlName="name" />
-        <mat-error *ngFor="let error of getErrorMessages('name')">{{
-          error
-        }}</mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>Address</mat-label>
-        <input matInput formControlName="address" />
-        <mat-error *ngFor="let error of getErrorMessages('address')">{{
-          error
-        }}</mat-error>
-      </mat-form-field>
-
-      <div class="form-actions">
-        <button
-          mat-raised-button
-          color="primary"
-          type="submit"
-          [disabled]="schoolForm.invalid"
-        >
-          {{ isEditMode ? "Update" : "Add" }}
-        </button>
-        <button mat-button type="button" (click)="toggleForm()">Cancel</button>
+<div class="page-container">
+  
+  <header class="page-header">
+    <div class="header-content">
+      <button (click)="logout()" class="btn-ghost logout-btn">
+        <mat-icon>arrow_back</mat-icon> Logout
+      </button>
+      <div class="title-container">
+        <h1>College Directory</h1>
+        <p class="subtitle">Manage college details and campus locations</p>
       </div>
-    </form>
-  </mat-card-content>
-</mat-card>
+    </div>
+    <div class="header-actions">
+      <button class="btn-primary" (click)="toggleForm()">
+        <mat-icon>{{ isFormVisible ? 'close' : 'add' }}</mat-icon>
+        <span>{{ isFormVisible ? 'Cancel' : 'New College' }}</span>
+      </button>
+    </div>
+  </header>
+
+  
+  <main class="page-content">
+    
+    
+    <div class="section-card form-section" *ngIf="isFormVisible">
+      <div class="section-header">
+        <div class="section-title">
+          <div class="icon-wrapper">
+            <mat-icon>{{ isEditMode ? "edit" : "add_circle" }}</mat-icon>
+          </div>
+          <h2>{{ isEditMode ? "Update College" : "Add New College" }}</h2>
+        </div>
+      </div>
+      
+      <div class="section-content">
+        <form [formGroup]="schoolForm" (ngSubmit)="onSubmit()" class="modern-form">
+          <div class="form-grid">
+            <div class="form-group">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>College Name</mat-label>
+                <input matInput formControlName="name" placeholder="Enter college name" />
+                <mat-error *ngFor="let error of getErrorMessages('name')">{{ error }}</mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="form-group">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Address</mat-label>
+                <input matInput formControlName="address" placeholder="Enter full address" />
+                <mat-error *ngFor="let error of getErrorMessages('address')">{{ error }}</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" (click)="toggleForm()">Cancel</button>
+            <button type="submit" class="btn-primary submit-btn" [disabled]="schoolForm.invalid">
+              {{ isEditMode ? "Save Changes" : "Create College" }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    
+    <div class="section-card table-section">
+      <div class="section-header">
+        <div class="section-title">
+          <h2>Registered Colleges</h2>
+          <span class="badge" *ngIf="dataSource">{{ dataSource.length }}</span>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table mat-table [dataSource]="dataSource" class="modern-table">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>College Name</th>
+            <td mat-cell *matCellDef="let element">
+               <div class="cell-content primary-cell">{{ element.name }}</div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="address">
+            <th mat-header-cell *matHeaderCellDef>Address</th>
+            <td mat-cell *matCellDef="let element">
+              <div class="cell-content secondary-cell">
+                <mat-icon class="sm-icon">location_on</mat-icon>
+                <span>{{ element.address }}</span>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef class="actions-header">Actions</th>
+            <td mat-cell *matCellDef="let element" class="actions-cell">
+              <div class="action-buttons">
+                <button class="action-btn edit-btn" (click)="editSchool(element)" matTooltip="Edit college">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button class="action-btn delete-btn" (click)="deleteSchool(element.Id)" matTooltip="Delete college">
+                  <mat-icon>delete</mat-icon>
+                </button>
+                <button class="action-btn list-btn" (click)="onSchoolStandards(element.Id)" matTooltip="List Semesters">
+                  <mat-icon>list_alt</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns" class="modern-row"></tr>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>

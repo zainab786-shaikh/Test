@@ -4,7 +4,7 @@ export interface IProgress {
   fillblanks: number;
   truefalse: number;
   shortquestion: number;
-  score?: number; // Add this property
+  score?: number; 
   school?: number;
   standard?: number;
   student?: number;

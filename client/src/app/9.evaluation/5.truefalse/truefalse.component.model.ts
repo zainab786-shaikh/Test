@@ -3,6 +3,6 @@ import { ITrueFalse } from '../evaluation.service.model';
 export interface ITrueFalseComponent extends ITrueFalse {
   selectedAnswer: boolean | null;
   answered: boolean;
-  feedback?: string; // Add feedback property
+  feedback?: string; 
   user_answer?: string;
 }

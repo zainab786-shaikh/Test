@@ -1,78 +1,72 @@
 <div class="dashboard-container">
-  <button (click)="logout()" class="logout-button">
-    <span class="logout-icon">←</span> Logout
-  </button>
-  <div class="dashboard-header">
-    <h1>Teacher Dashboard</h1>
-  </div>
+  <header class="dashboard-header">
+    <div class="header-content">
+      <div class="title-container">
+        <h1>Teacher Dashboard</h1>
+        <p class="subtitle">Monitor student performance at a glance</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button (click)="logout()" class="logout-button">
+        <span class="logout-icon">←</span> Logout
+      </button>
+    </div>
+  </header>
 
-  <div class="overall-performance">
-    <mat-card class="overall-performance-card">
-      <mat-card-header>
-        <mat-card-title>Overall Performance</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
+  <section class="overall-performance">
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-title">
+          <div class="icon-badge chart-icon">
+            <span class="badge-icon">📊</span>
+          </div>
+          <h2>Overall Performance</h2>
+        </div>
+      </div>
+      <div class="section-content chart-content">
         <plotly-plot
           *ngIf="perfOverallPlotter"
           [data]="perfOverallPlotter.barData"
           [layout]="perfOverallPlotter.barLayout"
         ></plotly-plot>
-      </mat-card-content>
-    </mat-card>
-  </div>
+      </div>
+    </div>
+  </section>
 
-  <div class="progress-cards">
-    <mat-card class="dashboard-card">
-      <mat-card-header>
-        <mat-card-title>Progress by Semester</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
+  <section class="progress-cards">
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-title">
+          <div class="icon-badge semester-icon">
+            <span class="badge-icon">🎓</span>
+          </div>
+          <h2>Progress by Semester</h2>
+        </div>
+      </div>
+      <div class="section-content">
         <app-progress-bar
           [parentList]="perfPerStandard"
           (onParentClick)="clickByStandard($event)"
         ></app-progress-bar>
-      </mat-card-content>
-    </mat-card>
+      </div>
+    </div>
 
-    <mat-card class="dashboard-card">
-      <mat-card-header>
-        <mat-card-title>Progress by Subject</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-title">
+          <div class="icon-badge subject-icon">
+            <span class="badge-icon">📚</span>
+          </div>
+          <h2>Progress by Subject</h2>
+        </div>
+      </div>
+      <div class="section-content">
         <app-progress-bar
           [parentList]="perfPerSubject"
           (onParentClick)="clickBySubject($event)"
         ></app-progress-bar>
-      </mat-card-content>
-    </mat-card>
-  </div>
+      </div>
+    </div>
+  </section>
 </div>
 
-<!-- <div class="dashboard-container">
-  <div class="overall-performance">
-    <mat-card class="overall-performance-card">
-      <h2>Overall Performance</h2>
-      <plotly-plot
-        *ngIf="perfOverallPlotter"
-        [data]="perfOverallPlotter.barData"
-        [layout]="perfOverallPlotter.barLayout"
-      ></plotly-plot>
-    </mat-card>
-  </div>
-
-  <mat-card class="dashboard-card">
-    <h2>Progress by Semister</h2>
-    <app-progress-bar
-      [parentList]="perfPerStandard"
-      (onParentClick)="clickByStandard($event)"
-    ></app-progress-bar>
-  </mat-card>
-
-  <mat-card class="dashboard-card">
-    <h2>Progress by Subject</h2>
-    <app-progress-bar
-      [parentList]="perfPerSubject"
-      (onParentClick)="clickBySubject($event)"
-    ></app-progress-bar>
-  </mat-card>
-</div> -->

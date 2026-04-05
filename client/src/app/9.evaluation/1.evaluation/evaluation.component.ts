@@ -104,7 +104,7 @@ export class EvaluationComponent {
       this.currentStep++;
       this.updateProgress();
     } else {
-      //do nothing
+      
     }
 
     if (this.progress == 100) {

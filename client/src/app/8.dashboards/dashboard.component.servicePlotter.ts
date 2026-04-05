@@ -13,10 +13,10 @@ export class BarPlotter {
         marker: {
           color:
             inXPerfValue[0] >= 75
-              ? 'rgba(52, 211, 153, 0.7)' // emerald
+              ? 'rgba(52, 211, 153, 0.7)' 
               : inXPerfValue[0] >= 50
-              ? 'rgba(251, 191, 36, 0.7)' // amber
-              : 'rgba(251, 113, 133, 0.7)', // rose
+              ? 'rgba(251, 191, 36, 0.7)' 
+              : 'rgba(251, 113, 133, 0.7)', 
           line: {
             color:
               inXPerfValue[0] >= 75
@@ -47,7 +47,7 @@ export class BarPlotter {
         zeroline: false
       },
       showlegend: false,
-      height: 140, // compact height
+      height: 140, 
       margin: title ? { l: 20, r: 20, t: 40, b: 40 } : { l: 20, r: 20, t: 10, b: 40 },
       paper_bgcolor: 'transparent',
       plot_bgcolor: 'transparent',

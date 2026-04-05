@@ -86,7 +86,7 @@ export class ShortQuestionComponent implements OnInit {
     return this.short_questions.some(q => q.user_answer && q.user_answer.trim().length > 0);
   }
 
-  // Add bot support for consistency
+  
   showBot = false;
   botQuestion = '';
   botResponse = '';
@@ -94,21 +94,21 @@ export class ShortQuestionComponent implements OnInit {
   isLoading = false;
   errorMessage = '';
 
-  // Show bot when "Ask Bot" is clicked
+  
   askBot(question: string) {
     this.botQuestion = question;
     this.showBot = true;
     this.getBotResponse(question);
   }
 
-  // Close bot
+  
   closeBot() {
     this.showBot = false;
     this.botQuestion = '';
     this.botResponse = '';
   }
 
-  // Handle user follow-up questions
+  
   sendBotQuery() {
     if (this.userQuery.trim()) {
       this.getBotResponse(this.userQuery);
@@ -119,7 +119,7 @@ export class ShortQuestionComponent implements OnInit {
   getBotResponse(query: string) {
     this.isLoading = true;
     this.errorMessage = '';
-    this.botResponse = ''; // Clear previous response
+    this.botResponse = ''; 
 
     const currentQuestion = this.short_questions.find(q => q.question === this.botQuestion);
     if (!currentQuestion) {
@@ -151,7 +151,7 @@ export class ShortQuestionComponent implements OnInit {
 
     this.evaluationService.generateResponse(contextPrompt).subscribe({
       next: (response) => {
-        this.botResponse += response; // Append new streaming response
+        this.botResponse += response; 
         this.isLoading = false;
       },
       error: (error) => {
@@ -166,7 +166,7 @@ export class ShortQuestionComponent implements OnInit {
     this.botResponse = "Chat stopped.";
   }
 
-  //=============================================| Voice Interaction
+  
   isInteractiveMode = false;
   isInteractive(): boolean {
     return this.isInteractiveMode;
@@ -199,7 +199,7 @@ export class ShortQuestionComponent implements OnInit {
   readCurrentQuestion(currentIndex: number) {
     if (!this.short_questions) return;
     let text = this.formatQuestionForSpeech(currentIndex);
-    if (text.trim() === '') return; // Don't attempt to speak if text is empty
+    if (text.trim() === '') return; 
     this.voiceService.speak(text);
   }
 
@@ -210,7 +210,7 @@ export class ShortQuestionComponent implements OnInit {
         this.short_questions[currentIndex].user_answer = heard;
         this.processAnswer(this.currentVoiceSelectionIndex, heard);
       } else {
-        // ignore empty/whitespace recognition results and keep previous state
+        
         console.warn('Voice input was empty or whitespace.');
       }
     });

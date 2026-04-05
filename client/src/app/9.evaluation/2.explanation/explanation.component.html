@@ -1,5 +1,5 @@
 <mat-card class="explanation-container">
-  <!-- Explanation Column -->
+  
   <mat-card class="explanation-card">
     <mat-card-title>
       <mat-icon>menu_book</mat-icon>
@@ -16,7 +16,7 @@
     </mat-card-content>
   </mat-card>
 
-  <!-- Chatbot Column -->
+  
   <mat-card class="chatbot-card">
     <mat-card-title>
       <mat-icon>smart_toy</mat-icon>
@@ -27,7 +27,7 @@
     </mat-card-title>
     <mat-card-content class="chat-container">
       <div class="messages-container" #messagesContainer>
-        <!-- Welcome message only shows when chat is empty -->
+        
         <div class="welcome-message" *ngIf="chatHistory.length === 0">
           <div class="bot-avatar">
             <mat-icon>psychology</mat-icon>
@@ -37,15 +37,15 @@
           </div>
         </div>
 
-        <!-- Display chat history with user and assistant messages -->
+        
         <ng-container *ngFor="let message of chatHistory">
-          <!-- User message -->
+          
           <div class="user-chat-bubble" *ngIf="message.role === 'user'">
             <div class="user-icon">👤</div>
             <div class="user-message">{{ message.content }}</div>
           </div>
 
-          <!-- Assistant message -->
+          
           <div class="bot-chat-bubble" *ngIf="message.role === 'assistant'">
             <div class="bot-icon">🤖</div>
             <div class="bot-message-container">
@@ -62,14 +62,14 @@
           </div>
         </ng-container>
 
-        <!-- Show typing indicator when loading -->
+        
         <div class="typing-indicator" *ngIf="isLoading">
           <span></span>
           <span></span>
           <span></span>
         </div>
 
-        <!-- Show error messages -->
+        
         <div class="error-message" *ngIf="errorMessage">
           <mat-icon>error_outline</mat-icon>
           {{ errorMessage }}
@@ -77,7 +77,7 @@
       </div>
     </mat-card-content>
     <mat-card-actions>
-      <!-- Speech Recognition Status (Shows when recording) -->
+      
       <div class="speech-status" *ngIf="isRecording">
         <span>Listening...</span>
         <div class="wave-animation">
@@ -103,7 +103,7 @@
           <mat-hint *ngIf="isLoading">Please wait while I process your request...</mat-hint>
         </mat-form-field>
 
-        <!-- Speech Recognition Button -->
+        
         <button
           mat-fab
           color="accent"

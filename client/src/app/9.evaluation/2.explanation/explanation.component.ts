@@ -44,8 +44,8 @@ export class ExplanationComponent implements OnInit, OnDestroy, AfterViewChecked
   responseSubscription: Subscription | null = null;
 
   prompt: string = '';
-  responseText: string = ''; // Store accumulated response
-  response$?: Observable<string>; // Observable for streaming
+  responseText: string = ''; 
+  response$?: Observable<string>; 
   isLoading: boolean = false;
   errorMessage: string = '';
   loadingExplanation: boolean = true;
@@ -61,13 +61,13 @@ export class ExplanationComponent implements OnInit, OnDestroy, AfterViewChecked
     this.speechSynthesis = window.speechSynthesis;
   }
 
-  // Speech recognition properties
+  
   recognition: SpeechRecognition | null = null;
   isRecording: boolean = false;
   isSpeechRecognitionSupported: boolean = false;
 
 
-  // Load the questions
+  
   private load() {
     this.loadingExplanation = true;
     this.activeSubscription = this.evaluationService
@@ -94,7 +94,7 @@ export class ExplanationComponent implements OnInit, OnDestroy, AfterViewChecked
   }
 
   ngAfterViewChecked() {
-    // Handle scroll updates after view checks
+    
     if (this.scrollRequired) {
       this.scrollToBottom();
       this.scrollRequired = false;
@@ -108,7 +108,7 @@ export class ExplanationComponent implements OnInit, OnDestroy, AfterViewChecked
     if (this.responseSubscription) {
       this.responseSubscription.unsubscribe();
     }
-    // Clean up speech recognition
+    
     this.stopSpeechRecognition();
   }
 
@@ -119,19 +119,19 @@ export class ExplanationComponent implements OnInit, OnDestroy, AfterViewChecked
       return;
     }
 
-    // Store the user's question before clearing the input
+    
     const userQuestion = this.prompt.trim();
 
-    // Clear input immediately for better UX
+    
     this.prompt = '';
     this.errorMessage = '';
     this.isLoading = true;
 
-    // Add user message to chat history
+    
     this.chatHistory.push({ role: 'user', content: userQuestion });
     this.scrollRequired = true;
 
-    // Reset response text for new conversation
+    
     this.responseText = '';
 
     let textExplanation = this.convertHtmlToPlainText(this.explanation);
@@ -156,7 +156,7 @@ export class ExplanationComponent implements OnInit, OnDestroy, AfterViewChecked
           this.showNotification('Failed to get response');
         },
         complete: () => {
-          // Save assistant response to chat history
+          
           this.chatHistory.push({ role: 'assistant', content: this.responseText });
           this.isLoading = false;
           this.scrollRequired = true;
@@ -204,7 +204,7 @@ export class ExplanationComponent implements OnInit, OnDestroy, AfterViewChecked
   private convertHtmlToPlainText(htmlText: string) {
     try {
       let plainText = convert(htmlText, {
-        wordwrap: 130, // Adjust line breaks for better readability
+        wordwrap: 130, 
         selectors: [
           { selector: 'a', options: { ignoreHref: true } },
           { selector: 'img', format: 'skip' }
@@ -228,22 +228,22 @@ export class ExplanationComponent implements OnInit, OnDestroy, AfterViewChecked
     });
   }
 
-  // Speech recognition methods
+  
   private initSpeechRecognition() {
-    // Check if browser supports speech recognition
+    
     if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
       this.isSpeechRecognitionSupported = true;
 
-      // Create speech recognition instance
+      
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       this.recognition = new SpeechRecognition();
 
-      // Configure recognition
+      
       this.recognition.continuous = false;
       this.recognition.interimResults = true;
       this.recognition.lang = 'en-US';
 
-      // Set up event handlers
+      
       this.recognition.onstart = () => {
         this.isRecording = true;
       };
@@ -253,10 +253,10 @@ export class ExplanationComponent implements OnInit, OnDestroy, AfterViewChecked
           .map(result => result[0].transcript)
           .join('');
 
-        // Update the prompt with the transcript
+        
         this.prompt = transcript;
 
-        // If we have a final result
+        
         if (event.results[0].isFinal) {
           setTimeout(() => {
             this.stopSpeechRecognition();

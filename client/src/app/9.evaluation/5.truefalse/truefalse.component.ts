@@ -24,7 +24,7 @@ import { NavigationStart, Router } from '@angular/router';
 export class TrueFalseComponent implements OnInit {
   @Input() lessonId!: number;
   @Input() lessonsectionId!: number;
-  @Output() score = new EventEmitter<number>(); // Ensure this emits a number
+  @Output() score = new EventEmitter<number>(); 
 
   trueFalseQuestions: ITrueFalseComponent[] = [];
   currentVoiceSelectionIndex = 0;
@@ -68,7 +68,7 @@ export class TrueFalseComponent implements OnInit {
     this.load();
   }
 
-  // Check if any answer has been selected
+  
   isAnyAnswerSelected(): boolean {
     return this.trueFalseQuestions.some(
       (question) => question.selectedAnswer !== null
@@ -78,7 +78,7 @@ export class TrueFalseComponent implements OnInit {
     let calculatedScore = 0;
     this.trueFalseQuestions.forEach((eachTrueFalse) => {
       const isCorrect = eachTrueFalse.answer === eachTrueFalse.selectedAnswer;
-      calculatedScore += +isCorrect; // Increment score if correct
+      calculatedScore += +isCorrect; 
       eachTrueFalse.answered = true;
 
       eachTrueFalse.feedback = isCorrect
@@ -100,21 +100,21 @@ export class TrueFalseComponent implements OnInit {
   isLoading = false;
   errorMessage = '';
 
-  // Show bot when "Ask Bot" is clicked
+  
   askBot(question: string) {
     this.botQuestion = question;
     this.showBot = true;
     this.getBotResponse(question);
   }
 
-  // Close bot
+  
   closeBot() {
     this.showBot = false;
     this.botQuestion = '';
     this.botResponse = '';
   }
 
-  // Handle user follow-up questions
+  
   sendBotQuery() {
     if (this.userQuery.trim()) {
       this.getBotResponse(this.userQuery);
@@ -122,13 +122,13 @@ export class TrueFalseComponent implements OnInit {
     }
   }
 
-  // Fetch bot response for MCQs and True/False questions
+  
   getBotResponse(query: string) {
     this.isLoading = true;
     this.errorMessage = '';
-    this.botResponse = ''; // Clear previous response
+    this.botResponse = ''; 
 
-    // Find the current True/False question
+    
     const currentQuestion = this.trueFalseQuestions.find(q => q.question === this.botQuestion);
 
     if (!currentQuestion) {
@@ -139,7 +139,7 @@ export class TrueFalseComponent implements OnInit {
 
     const correctAnswer = currentQuestion.answer ? "True" : "False";
 
-    // Construct a strict bot context for True/False questions
+    
     const contextPrompt = `
        You are an AI tutor assisting students with true and false questions. Your role is to:
       - Explain the question in simple terms.
@@ -161,7 +161,7 @@ export class TrueFalseComponent implements OnInit {
 
     this.evaluationService.generateResponse(contextPrompt).subscribe({
       next: (response) => {
-        this.botResponse += response; // Append new streaming response
+        this.botResponse += response; 
         this.isLoading = false;
       },
       error: (error) => {
@@ -176,7 +176,7 @@ export class TrueFalseComponent implements OnInit {
     this.botResponse = "Chat stopped.";
   }
 
-  //=============================================| Voice Interaction
+  
   isInteractiveMode = false;
   isInteractive(): boolean {
     return this.isInteractiveMode;
@@ -210,7 +210,7 @@ export class TrueFalseComponent implements OnInit {
   readCurrentQuestion(currentIndex: number) {
     if (!this.trueFalseQuestions) return;
     let text = this.formatQuestionForSpeech(currentIndex);
-    if (text.trim() === '') return; // Don't attempt to speak if text is empty
+    if (text.trim() === '') return; 
     this.voiceService.speak(text);
   }
 
@@ -221,7 +221,7 @@ export class TrueFalseComponent implements OnInit {
         this.trueFalseQuestions[currentIndex].user_answer = heard;
         this.processAnswer(this.currentVoiceSelectionIndex, heard);
       } else {
-        // ignore empty/whitespace recognition results and keep previous state
+        
         console.warn('Voice input was empty or whitespace.');
       }
     });
@@ -229,13 +229,13 @@ export class TrueFalseComponent implements OnInit {
 
   processAnswer(currentIndex: number, userAnswer: string) {
     const currentQ = this.trueFalseQuestions[currentIndex];
-    const answer = currentQ.answer.toString(); // "true" or "false"
+    const answer = currentQ.answer.toString(); 
     const spoken = userAnswer.toLowerCase();
 
     this.evaluationService.aiCompareText(spoken, answer).subscribe(response => {
       const isCorrect = response.match;
       currentQ.answered = true;
-      currentQ.selectedAnswer = isCorrect ? currentQ.answer : null; // Mark as correct if it matches, otherwise keep it null
+      currentQ.selectedAnswer = isCorrect ? currentQ.answer : null; 
       let text = isCorrect
         ? `Correct. ${spoken}`
         : `That is incorrect. Correct answer is: ${answer}`;

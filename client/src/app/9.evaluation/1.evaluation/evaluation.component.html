@@ -1,9 +1,19 @@
-<div class="container">
-  <mat-card>
-    <mat-card-title>Evaluation</mat-card-title>
-    <mat-card-content>
-      <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
+<div class="eval-container">
+  <div class="eval-card">
+    <header class="eval-header">
+      <div class="eval-title-row">
+        <div class="eval-icon">📝</div>
+        <h1>Evaluation</h1>
+      </div>
+      <div class="progress-area">
+        <div class="progress-track">
+          <div class="progress-fill" [style.width]="progress + '%'"></div>
+        </div>
+        <span class="progress-label">{{ progress }}%</span>
+      </div>
+    </header>
 
+    <div class="eval-content">
       <ng-container *ngIf="currentStep === 0">
         <app-explanation [lessonId]="lessonId" [lessonsectionId]="lessonsectionId"></app-explanation>
       </ng-container>
@@ -23,18 +33,21 @@
       <ng-container *ngIf="currentStep === 4">
         <app-shortquestion [lessonId]="lessonId" [lessonsectionId]="lessonsectionId" (score)="updateScore('ShortQuestion', $event)"></app-shortquestion>
       </ng-container>
-    </mat-card-content>
+    </div>
 
-    <mat-card-actions>
+    <footer class="eval-footer">
       <div class="action-container">
         <div class="guidance-message" *ngIf="currentStep === 0">
-          <mat-icon>info</mat-icon>
+          <span class="info-icon">💡</span>
           <span>If you've understood the explanation, click Next to continue</span>
         </div>
-        <button mat-button color="primary" (click)="nextStep()" [disabled]="(currentStep === 1 && quizScore < 90) || (currentStep === 2 && trueFalseScore < 90) || (currentStep === 3 && fillBlankScore < 90) || (currentStep === 4 && shortQuestionScore < 90)">
+        <div class="spacer" *ngIf="currentStep !== 0"></div>
+        <button class="btn-next" (click)="nextStep()" [disabled]="(currentStep === 1 && quizScore < 90) || (currentStep === 2 && trueFalseScore < 90) || (currentStep === 3 && fillBlankScore < 90) || (currentStep === 4 && shortQuestionScore < 90)">
           {{ progress == 100 ? "Submit" : "Next" }}
+          <span class="btn-arrow">→</span>
         </button>
       </div>
-    </mat-card-actions>
-  </mat-card>
+    </footer>
+  </div>
 </div>
+

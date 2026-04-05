@@ -14,7 +14,7 @@ import { MarkdownModule } from 'ngx-markdown';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    { provide: BrowserModule }, // Add BrowserModule here
+    { provide: BrowserModule }, 
     BrowserAnimationsModule,
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideAnimations(),

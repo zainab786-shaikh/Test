@@ -12,12 +12,12 @@ export class SchoolStandardService {
   standardId: number = 0;
   data: ISchoolStandard[] = [];
 
-  // Define the headers
+  
   private headers = new HttpHeaders({
     'Content-Type': 'application/json',
     tenantid: 'tenanta',
     traceparent: '12345',
-    Authorization: 'Bearer Token', // Replace "Token" with your actual token
+    Authorization: 'Bearer Token', 
   });
 
   constructor(private http: HttpClient) {}

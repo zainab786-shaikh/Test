@@ -1,113 +1,178 @@
-/* Dashboard container */
+
+
+:host {
+  --primary: #6366F1;
+  --primary-light: rgba(99, 102, 241, 0.08);
+  --accent: #10B981;
+  --accent-light: rgba(16, 185, 129, 0.08);
+  --bg: #F8FAFC;
+  --surface: #FFFFFF;
+  --text-primary: #0F172A;
+  --text-secondary: #64748B;
+  --border-light: #E2E8F0;
+
+  --s-4: 4px;
+  --s-8: 8px;
+  --s-12: 12px;
+  --s-16: 16px;
+  --s-24: 24px;
+  --s-32: 32px;
+
+  --r-sm: 12px;
+  --r-md: 16px;
+  --r-lg: 24px;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+
+  --transition: 200ms ease-in-out;
+  display: block;
+  font-family: 'Inter', 'Roboto', sans-serif;
+}
+
+
 .dashboard-container {
-  padding: 20px;
-  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-12);
 }
 
-/* Parent card styling */
+
 .parent-card {
-  margin-bottom: 16px;
-  border-radius: 8px;
+  border-radius: var(--r-md) !important;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  background-color: #ffffff;
+  box-shadow: var(--shadow-sm) !important;
+  border: 1px solid var(--border-light);
+  background-color: var(--surface) !important;
+  transition: box-shadow var(--transition), border-color var(--transition);
 }
 
-/* Panel styling */
+.parent-card:hover {
+  box-shadow: var(--shadow-md) !important;
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+
 .parent-panel {
-  border-radius: 8px;
+  border-radius: var(--r-md) !important;
   overflow: hidden;
-  background-color: #ffffff;
+  background-color: var(--surface) !important;
 }
 
 .parent-header {
-  padding: 0;
+  padding: 0 !important;
   height: auto !important;
   min-height: 56px !important;
 }
+
 
 .mat-progress-bar-title-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 16px;
+  padding: var(--s-16) var(--s-24);
+  gap: var(--s-16);
 }
 
-/* Name styling */
+
 .mat-progress-bar-name {
-  font-weight: 500;
-  font-size: 16px;
-  color: #333;
-  margin-right: 16px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  margin-right: var(--s-16);
   flex-shrink: 0;
-  max-width: 200px;
+  max-width: 220px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  letter-spacing: -0.01em;
 }
 
-/* Progress bar wrapper */
+
 .progress-wrapper {
   display: flex;
   align-items: center;
   flex-grow: 1;
   justify-content: space-between;
+  gap: var(--s-12);
 }
 
-/* Progress bar styling */
+
 mat-progress-bar {
-  height: 4px !important;
-  border-radius: 2px !important;
+  height: 6px !important;
+  border-radius: 999px !important;
   flex-grow: 1;
 }
 
 ::ng-deep .mat-mdc-progress-bar {
-  height: 4px !important;
-  border-radius: 2px !important;
+  height: 6px !important;
+  border-radius: 999px !important;
 }
 
-/* Use a simple black progress bar */
+
 ::ng-deep .mat-mdc-progress-bar .mdc-linear-progress__bar-inner {
-  background-color: #000000 !important;
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
 }
 
-/* Score label */
+::ng-deep .mat-primary .mat-mdc-progress-bar-fill::after {
+  background-color: var(--primary) !important;
+}
+
+::ng-deep .mat-accent .mat-mdc-progress-bar-fill::after {
+  background-color: var(--primary) !important;
+}
+
+::ng-deep .mat-warn .mat-mdc-progress-bar-fill::after {
+  background-color: var(--primary) !important;
+}
+
+
+::ng-deep .mat-mdc-progress-bar .mdc-linear-progress__buffer-bar {
+  background-color: var(--border-light) !important;
+}
+
+
 .score-label {
-  min-width: 40px;
+  min-width: 44px;
   text-align: right;
-  font-size: 14px;
-  font-weight: 500;
-  color: #666;
-  margin-left: 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-left: var(--s-8);
+  background: var(--primary-light);
+  padding: 2px var(--s-8);
+  border-radius: 999px;
+  white-space: nowrap;
 }
 
-/* Progress container */
+
 .mat-progress-bar-progress-container {
   padding: 0;
 }
 
-/* Child styling */
 .progress-bar-child {
   padding: 0;
+  border-top: 1px solid var(--border-light);
 }
+
 
 .progress-button {
   width: 100%;
-  padding: 12px 16px;
+  padding: var(--s-12) var(--s-24) var(--s-12) var(--s-32) !important;
   display: flex;
   align-items: center;
   justify-content: space-between;
   text-align: left;
-  height: auto;
-  line-height: normal;
+  height: auto !important;
+  line-height: normal !important;
   background-color: transparent;
-  border-radius: 0;
-  transition: background-color 0.2s;
+  border-radius: 0 !important;
+  transition: background-color var(--transition);
 }
 
 .progress-button:hover {
-  background-color: rgba(0, 0, 0, 0.02);
+  background-color: var(--primary-light) !important;
 }
 
 .button-content {
@@ -115,23 +180,31 @@ mat-progress-bar {
   align-items: center;
   width: 100%;
   justify-content: space-between;
+  gap: var(--s-16);
 }
 
-/* Grandchild styling */
+
 .grandchild-container {
-  margin-left: 16px;
-  border-left: 1px solid #f0f0f0;
+  margin-left: var(--s-24);
+  border-left: 2px solid var(--border-light);
 }
 
 .progress-bar-grandchild {
   width: 100%;
+  border-top: 1px solid var(--border-light);
 }
 
 .grandchild-button {
-  padding-left: 32px;
+  padding-left: var(--s-48) !important;
 }
 
-/* Override material design styles */
+.grandchild-button .mat-progress-bar-name {
+  font-weight: 500;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+
 ::ng-deep .mat-expansion-panel-body {
   padding: 0 !important;
 }
@@ -145,81 +218,34 @@ mat-progress-bar {
 }
 
 ::ng-deep .mat-expansion-indicator::after {
-  color: #888;
+  color: var(--text-secondary);
 }
 
-/* Override progress bar colors */
-::ng-deep .mat-primary .mat-mdc-progress-bar-fill::after {
-  background-color: #000000 !important;
+::ng-deep .mat-expansion-panel-header.mat-expanded {
+  background-color: var(--primary-light) !important;
 }
 
-::ng-deep .mat-accent .mat-mdc-progress-bar-fill::after {
-  background-color: #000000 !important;
+
+@media (max-width: 768px) {
+  .mat-progress-bar-title-container {
+    padding: var(--s-12) var(--s-16);
+  }
+
+  .mat-progress-bar-name {
+    max-width: 120px;
+    font-size: 0.85rem;
+  }
+
+  .progress-button {
+    padding: var(--s-8) var(--s-16) var(--s-8) var(--s-24) !important;
+  }
+
+  .grandchild-button {
+    padding-left: var(--s-32) !important;
+  }
+
+  .grandchild-container {
+    margin-left: var(--s-16);
+  }
 }
 
-::ng-deep .mat-warn .mat-mdc-progress-bar-fill::after {
-  background-color: #000000 !important;
-}
-
-::ng-deep .mat-mdc-progress-bar .mdc-linear-progress__buffer-bar {
-  background-color: #f0f0f0 !important;
-}
-
-/* mat-progress-bar {
-  width: 100%;
-}
-
-mat-progress-bar-button {
-  width: 70%;
-  padding: 10px;
-  margin: 5px;
-  display: flex;
-  align-items: center;
-  width: 80%;
-}
-
-.progress-bar-child {
-  padding-left: 30px; 
-}
-
-.progress-bar-grandchild {
-  padding-left: 60px; 
-}
-
-.progress-bar-child button,
-.progress-bar-grandchild button {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-}
-
-.mat-progress-bar-name {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  flex-shrink: 0;
-}
-
-.mat-progress-bar-progress-bar {
-  flex-grow: 1;
-  min-width: 1000px;
-}
-
-.mat-progress-bar-progress-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-
-.progress-bar-child {
-  display: flex;
-  justify-content: flex-start;
-  width: 70%;
-}
-.progress-bar-grandchild {
-  display: flex;
-  justify-content: flex-end;
-} 
-*/

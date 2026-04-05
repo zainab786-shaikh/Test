@@ -39,7 +39,7 @@ export class DashboardServiceHelper {
   lessons!: ILesson[];
   lessonsections!: ILessonSection[];
 
-  //====================================| Dummy Data
+  
   constructor(
     private schoolService: SchoolService,
     private schoolStandardService: SchoolStandardService,
@@ -124,7 +124,7 @@ export class DashboardServiceHelper {
     );
   }
 
-  //==========================================================| Overall Performance
+  
   public getOverallPerformance(progressList: IProgress[]): number {
     const total = progressList.reduce(
       (sum, p) => sum + p.quiz + p.fillblanks + p.truefalse + p.shortquestion,
@@ -133,8 +133,8 @@ export class DashboardServiceHelper {
     return total / (progressList.length * 4);
   }
 
-  //==========================================================| Performance Grouping
-  // School => Standard => Student => Subject => Lesson
+  
+  
   public getPerfPerStandard(progressList: IProgress[]): IChildNode[] {
     const standardMap = new Map<number, { score: number; count: number }>();
     progressList.forEach((p) => {
@@ -227,7 +227,7 @@ export class DashboardServiceHelper {
       let lessonsection = lessonSectionMap.get(p.lessonsection!)!;
       lessonsection.score += p.quiz + p.fillblanks + p.truefalse + p.shortquestion;
       lessonsection.count += 4;
-      // Store latest scores
+      
       lessonsection.quiz = p.quiz;
       lessonsection.fillblanks = p.fillblanks;
       lessonsection.truefalse = p.truefalse;
@@ -252,88 +252,88 @@ export class DashboardServiceHelper {
     );
   }
 
-  //==========================================================| Each Latest Assesment
-  // getLatestAssessments(
-  //   schoolId: number,
-  //   standardId: number,
-  //   studentId: number
-  // ) {
-  //   let filteredProgress = this.progress.filter(
-  //     (eachProgress) =>
-  //       eachProgress.school == schoolId &&
-  //       eachProgress.standard == standardId &&
-  //       eachProgress.student == studentId
-  //   );
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
-  //   const subjectMap = new Map<
-  //     number,
-  //     { lesson: number; qz: number; fb: number; tf: number }
-  //   >();
+  
+  
+  
+  
 
-  //   filteredProgress.forEach((p) => {
-  //     if (!subjectMap.has(p.subject!)) {
-  //       subjectMap.set(p.subject!, {
-  //         lesson: p.lesson!,
-  //         qz: p.Quiz,
-  //         fb: p.FillBlanks,
-  //         tf: p.TrueFalse,
-  //       });
-  //     }
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
-  //     if (p.Quiz != 0 || p.FillBlanks != 0 || p.TrueFalse != 0) {
-  //       let data = subjectMap.get(p.subject!)!;
-  //       data.lesson = p.lesson!;
-  //       data.qz = p.Quiz;
-  //       data.fb = p.FillBlanks;
-  //       data.tf = p.TrueFalse;
-  //     }
-  //   });
+  
+  
+  
+  
+  
+  
+  
+  
 
-  //   return Array.from(subjectMap.entries()).map(([subject, data]) => ({
-  //     subject: this.subjects.find((s) => s.Id === subject)?.name || 'Unknown',
-  //     lesson:
-  //       this.lessons.find((l) => l.Id === data.lesson!)?.Name || 'Unknown',
-  //     qz: data.qz,
-  //     fb: data.fb,
-  //     tf: data.tf,
-  //   }));
-  // }
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
-  // getComparisonData() {
-  //   return this.subjectScores.map((s) => ({
-  //     subject: s.subject,
-  //     studentScore: s.score,
-  //     classAvg: s.score - 5, // Assuming class average is 5% lower for now
-  //   }));
-  // }
+  
+  
+  
+  
+  
+  
+  
 
-  // generateGoals() {
-  //   return this.comparisonData
-  //     .filter((data) => data.studentScore < data.classAvg)
-  //     .map(
-  //       (data) =>
-  //         `Improve in ${data.subject}. Your score: ${data.studentScore}%, Class Average: ${data.classAvg}%. Focus on weak areas.`
-  //     );
-  // }
+  
+  
+  
+  
+  
+  
+  
+  
 
-  // generateActivityFeed() {
-  //   const completed = this.progress.map(
-  //     (p) =>
-  //       `Completed ${
-  //         this.lessons.find((l) => l.Id === p.lesson)?.Name || 'Unknown'
-  //       } in ${
-  //         this.subjects.find((s) => s.Id === p.subject)?.name || 'Unknown'
-  //       } - Score: ${p.Quiz}%`
-  //   );
-  //   const nextLessons = this.lessons.filter(
-  //     (l) => !this.progress.some((p) => p.lesson === l.Id)
-  //   );
-  //   const upcoming = nextLessons.map(
-  //     (l) =>
-  //       `Upcoming lesson: ${l.Name} in ${
-  //         this.subjects.find((s) => s.Id === l.subject)?.name || 'Unknown'
-  //       }`
-  //   );
-  //   return [...completed, ...upcoming];
-  // }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 }

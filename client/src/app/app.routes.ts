@@ -20,14 +20,14 @@ import { LessonSectionComponent } from './7.lessonsection/lessonsection.componen
 import { SubjectDashboard2Component } from './8.dashboards/4.subject-dashboard2/subject-dashboard2.component';
 import { ProfileDashboardComponent } from './8.dashboards/5.profile-dashboard/profile-dashboard.component';
 
-import { LandingPageComponent } from './landingPage/landing-page/landing-page.component'; // Import Landing Page
+import { LandingPageComponent } from './landingPage/landing-page/landing-page.component'; 
 import { TeacherComponent } from './3.2.teacher/teacher.component';
 export const routes: Routes = [
-  { path: '', component: LandingPageComponent }, // ✅ Landing Page as Default Route
-  { path: 'login', component: LoginComponent }, // ✅ Add Login Page route
+  { path: '', component: LandingPageComponent }, 
+  { path: 'login', component: LoginComponent }, 
   { path: 'login-details', component: LoginDetailComponent },
 
-  //====================================| Principal/Teachers routes
+  
   { path: 'principal', redirectTo: 'school-dashboard', pathMatch: 'full' },
   { path: 'teacher', redirectTo: 'school-dashboard', pathMatch: 'full' },
 
@@ -37,7 +37,7 @@ export const routes: Routes = [
     component: StandardDashboardComponent,
   },
 
-  //====================================| Admin routes
+  
   { path: 'admin', redirectTo: 'school', pathMatch: 'full' },
   { path: 'school', component: SchoolComponent },
   {
@@ -61,7 +61,7 @@ export const routes: Routes = [
     component: LessonSectionComponent,
   },
 
-  //====================================| Students routes
+  
   {
     path: 'student/school/:schoolId/standard/:standardId/student/:studentId',
     redirectTo: 'student-dashboard',
@@ -79,12 +79,12 @@ export const routes: Routes = [
     path: 'progress/school/:schoolId/standard/:standardId/student/:studentId',
     component: ProgressComponent,
   },
-  // ✅ NEW ROUTE for Subject Dashboard 2
+  
   {
     path: 'subject-dashboard2/school/:schoolId/standard/:standardId/student/:studentId',
     component: SubjectDashboard2Component,
   },
-  // ✅ NEW ROUTE for Profile Dashboard
+  
   {
     path: 'profile-dashboard/school/:schoolId/standard/:standardId/student/:studentId',
     component: ProfileDashboardComponent,
