@@ -173,11 +173,13 @@ mat-card-title {
   margin-top: var(--s-32);
 }
 
-button.mat-raised-button {
+button {
   font-size: 0.9rem;
   font-weight: 600;
+  border: none;
   border-radius: var(--r-sm);
   padding: var(--s-12) var(--s-24);
+  cursor: pointer;
   transition: all var(--transition);
   font-family: inherit;
 }
@@ -208,6 +210,16 @@ button.mat-raised-button[disabled] {
   background-color: rgba(99, 102, 241, 0.15) !important;
 }
 
+button.mat-raised-button:last-child {
+  background-color: var(--bg) !important;
+  color: var(--text-secondary) !important;
+  border: 1px solid var(--border-light) !important;
+}
+
+button.mat-raised-button:last-child:hover {
+  background-color: var(--border-light) !important;
+  color: var(--text-primary) !important;
+}
 
 .ask-bot-container {
   display: flex;
@@ -399,7 +411,7 @@ button.mat-raised-button[disabled] {
     flex-direction: column;
   }
 
-  button.mat-raised-button {
+  button {
     width: 100%;
   }
 
