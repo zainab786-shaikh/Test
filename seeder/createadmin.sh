@@ -1,1 +1,0 @@
-npx sequelize-cli db:seed --seed 20240216121000-admin-seed.ts

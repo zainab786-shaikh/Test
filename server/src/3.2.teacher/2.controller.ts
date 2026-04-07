@@ -73,7 +73,7 @@ export class ControllerTeacher extends BaseController {
   @httpGet("/adhaar/:adhaar", validateAdhaar)
   async getByAdhaar(@request() req: Request, @response() res: Response) {
     try {
-      const adhaar = req.params.adhaar;
+      const adhaar = req.params.adhaar as string;
       const teacher = await this.serviceTeacher.getByAdhaar(adhaar);
       this.logger.info("Retrieved Teacher:" + teacher);
 
@@ -120,13 +120,15 @@ export class ControllerTeacher extends BaseController {
 
       if (teacherObj) {
         // Create corresponding logindetail
+        if (!this.serviceLoginDetail.getByName(teacherObj.name)){
         const loginDetail = {
-          name: teacherObj.name,
-          adhaar: teacherObj.adhaar,
-          password: "teacher",
-          role: "teacher"
-        } as ILoginDetail;
-        await this.serviceLoginDetail.create(loginDetail);
+            name: teacherObj.name,
+            adhaar: teacherObj.adhaar,
+            password: "teacher",
+            role: "teacher"
+          } as ILoginDetail;
+          await this.serviceLoginDetail.create(loginDetail);
+        }
       }
 
       this.setCommonHeaders(res);

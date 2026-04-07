@@ -85,7 +85,7 @@ export class ControllerLoginDetail extends BaseController {
   @httpGet("/user/:name", validateName)
   async getByUser(@request() req: Request, @response() res: Response) {
     try {
-      const username = req.params.name;
+      const username = req.params.name as string;
       const logindetail = await this.serviceLoginDetail.getByName(username);
       this.logger.info("Retrieved logindetail:" + logindetail);
 

@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import jwt, { SignOptions } from "jsonwebtoken";
 import { inject } from "inversify";
 import TYPE from "../ioc/types";
 import { container } from "../ioc/container";
@@ -26,7 +26,9 @@ export class ServiceLoginDetailImpl implements IServiceLoginDetail {
   constructor() {
     this.repoService = container.get(TYPE.RepoLoginDetail);
     this.jwtSecret = process.env.JWT_SECRET || "your-default-secret-change-in-production";
-    this.jwtExpiresIn = process.env.JWT_EXPIRES_IN || "24h";
+    this.jwtExpiresIn = process.env.JWT_EXPIRES_IN && typeof process.env.JWT_EXPIRES_IN === "string"
+    ? process.env.JWT_EXPIRES_IN
+    : "24h";
   }
 
   async getAll(): Promise<ILoginDetail[] | null> {
@@ -92,8 +94,11 @@ export class ServiceLoginDetailImpl implements IServiceLoginDetail {
       role: user.role,
       referenceId: user.referenceId,
     };
+    const options: SignOptions = {
+      expiresIn: this.jwtExpiresIn as SignOptions["expiresIn"]
+    };
 
-    return jwt.sign(payload, this.jwtSecret, { expiresIn: this.jwtExpiresIn });
+    return jwt.sign(payload, this.jwtSecret, options);
   }
 
   /**

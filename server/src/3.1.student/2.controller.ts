@@ -76,7 +76,7 @@ export class ControllerStudent extends BaseController {
   @httpGet("/adhaar/:adhaar", validateAdhaar)
   async getByAdhaar(@request() req: Request, @response() res: Response) {
     try {
-      const adhaar = req.params.adhaar;
+      const adhaar: string = req.params.adhaar as string;
       const student = await this.serviceStudent.getByAdhaar(adhaar);
       this.logger.info("Retrieved student:" + student);
 
@@ -124,13 +124,15 @@ export class ControllerStudent extends BaseController {
         await this.serviceStudentProgressImpl.create(studentObj);
 
         // Create corresponding logindetail
-        const loginDetail = {
-          name: studentObj.name,
-          adhaar: studentObj.adhaar,
-          password: "student",
-          role: "student"
-        } as ILoginDetail;
-        await this.serviceLoginDetail.create(loginDetail);
+        if (!this.serviceLoginDetail.getByName(studentObj.name)){
+          const loginDetail = {
+            name: studentObj.name,
+            adhaar: studentObj.adhaar,
+            password: "student",
+            role: "student"
+          } as ILoginDetail;
+          await this.serviceLoginDetail.create(loginDetail);
+        }
       }
       this.setCommonHeaders(res);
       res.status(HttpStatusCode.OK).json(studentObj);

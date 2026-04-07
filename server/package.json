@@ -43,6 +43,7 @@
     "sequelize": "^6.37.5",
     "typescript-ioc": "^3.2.2",
     "typescript-rest": "^3.0.4",
+    "uuid": "^13.0.0",
     "winston": "^3.17.0",
     "zod": "^3.23.8"
   },
