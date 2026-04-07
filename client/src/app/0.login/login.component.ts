@@ -28,9 +28,9 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   loginForm: FormGroup;
   errorMessage: string = '';
-  hidePassword: boolean = true; // Toggle password visibility
-  showVisibilityIcon: boolean = false; // Control visibility of the eye icon
-  isLoading: boolean = false; // Track login state
+  hidePassword: boolean = true; 
+  showVisibilityIcon: boolean = false; 
+  isLoading: boolean = false; 
 
   constructor(
     private router: Router,
@@ -43,15 +43,15 @@ export class LoginComponent {
     });
   }
 
-  // Handle password input event
+  
   onPasswordInput(event: Event): void {
     const input = event.target as HTMLInputElement;
-    this.showVisibilityIcon = input.value.length > 0; // Show icon if input is not empty
+    this.showVisibilityIcon = input.value.length > 0; 
   }
 
-  // Fill demo credentials for different roles (for demonstration purposes)
+  
   fillDemoCredentials(role: string): void {
-    this.errorMessage = ''; // Clear any previous error
+    this.errorMessage = ''; 
 
     switch (role) {
       case 'admin':
@@ -61,7 +61,7 @@ export class LoginComponent {
         this.loginForm.setValue({ username: 'teacher', password: 'teacher' });
         break;
       case 'student':
-        this.loginForm.setValue({ username: 'student', password: 'student' });
+        this.loginForm.setValue({ username: 'Yusuf Shaikh', password: 'student' });
         break;
     }
 

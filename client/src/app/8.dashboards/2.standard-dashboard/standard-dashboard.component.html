@@ -1,33 +1,70 @@
 <div class="dashboard-container">
-  <button 
-      (click)="goBack()" 
-      class="back-button">
-      <span class="back-icon">←</span> Back
-    </button>
-  <div class="overall-performance">
-    <mat-card class="overall-performance-card">
-      <h2>Overall Performance</h2>
-      <plotly-plot
-        *ngIf="perfOverallPlotter"
-        [data]="perfOverallPlotter.barData"
-        [layout]="perfOverallPlotter.barLayout"
-      ></plotly-plot>
-    </mat-card>
-  </div>
+  <header class="dashboard-header">
+    <div class="header-content">
+      <button (click)="goBack()" class="back-button">
+        <span class="back-icon">←</span> Back
+      </button>
+      <div class="title-container">
+        <h1>Standard Dashboard</h1>
+        <p class="subtitle">Drill-down performance by subject and student</p>
+      </div>
+    </div>
+  </header>
 
-  <mat-card class="dashboard-card">
-    <h2>Progress by Subject</h2>
-    <app-progress-bar
-      [parentList]="perfPerSubject"
-      (onParentClick)="clickBySubject($event)"
-    ></app-progress-bar>
-  </mat-card>
+  <section class="overall-performance">
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-title">
+          <div class="icon-badge chart-icon">
+            <span class="badge-icon">📊</span>
+          </div>
+          <h2>Overall Performance</h2>
+        </div>
+      </div>
+      <div class="section-content chart-content">
+        <plotly-plot
+          *ngIf="perfOverallPlotter"
+          [data]="perfOverallPlotter.barData"
+          [layout]="perfOverallPlotter.barLayout"
+        ></plotly-plot>
+      </div>
+    </div>
+  </section>
 
-  <mat-card class="dashboard-card">
-    <h2>Progress by Student</h2>
-    <app-progress-bar
-      [parentList]="perfPerStudent"
-      (onParentClick)="clickByStudent($event)"
-    ></app-progress-bar>
-  </mat-card>
+  <section class="progress-cards">
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-title">
+          <div class="icon-badge subject-icon">
+            <span class="badge-icon">📚</span>
+          </div>
+          <h2>Progress by Subject</h2>
+        </div>
+      </div>
+      <div class="section-content">
+        <app-progress-bar
+          [parentList]="perfPerSubject"
+          (onParentClick)="clickBySubject($event)"
+        ></app-progress-bar>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-title">
+          <div class="icon-badge student-icon">
+            <span class="badge-icon">👩‍🎓</span>
+          </div>
+          <h2>Progress by Student</h2>
+        </div>
+      </div>
+      <div class="section-content">
+        <app-progress-bar
+          [parentList]="perfPerStudent"
+          (onParentClick)="clickByStudent($event)"
+        ></app-progress-bar>
+      </div>
+    </div>
+  </section>
 </div>
+

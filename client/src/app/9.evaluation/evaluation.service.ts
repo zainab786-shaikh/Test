@@ -33,12 +33,12 @@ export class EvaluationService {
 
   NUMBER_OF_QUESTIONS = 3;
 
-  // Define the headers
+  
   private headers = new HttpHeaders({
     'Content-Type': 'application/json',
     tenantid: 'tenanta',
     traceparent: '12345',
-    Authorization: 'Bearer Token', // Replace "Token" with your actual token
+    Authorization: 'Bearer Token', 
   });
 
   constructor(private http: HttpClient) {}
@@ -89,13 +89,13 @@ export class EvaluationService {
       .pipe(
         map((response) => {
           let quizzes: IQuiz[] = JSON.parse(response);
-          quizzes = quizzes.map((q) => { q.answer = q.answer - 1; return q; }); // Convert 1-based to 0-based index
+          quizzes = quizzes.map((q) => { q.answer = q.answer - 1; return q; }); 
           console.log(quizzes);
 
           const shuffledQuizzes = this.shuffleQZFBArray(quizzes) as IQuiz[];
           return shuffledQuizzes
             .map((quiz) => this.shuffleOptions(quiz))
-            .slice(0, this.NUMBER_OF_QUESTIONS); // Return only the first 3 quizzes
+            .slice(0, this.NUMBER_OF_QUESTIONS); 
         })
       );
   }
@@ -108,7 +108,7 @@ export class EvaluationService {
       .pipe(
         map((response) => {
           let fillBlanks: IFillInTheBlank[] = JSON.parse(response);
-          fillBlanks = fillBlanks.map((q) => { q.answer = q.answer - 1; return q; }); // Convert 1-based to 0-based index
+          fillBlanks = fillBlanks.map((q) => { q.answer = q.answer - 1; return q; }); 
           console.log(fillBlanks);
           
           const shuffledFillBlanks = this.shuffleQZFBArray(
@@ -116,7 +116,7 @@ export class EvaluationService {
           ) as IFillInTheBlank[];
           return shuffledFillBlanks
             .map((fillblank) => this.shuffleOptions(fillblank))
-            .slice(0, this.NUMBER_OF_QUESTIONS); // Return only the first 3 fill-in-the-blanks
+            .slice(0, this.NUMBER_OF_QUESTIONS); 
         })
       );
   }
@@ -132,7 +132,7 @@ export class EvaluationService {
           const shuffledTrueFalse = this.shuffleQZFBArray(
             truefalse
           ) as ITrueFalse[];
-          return shuffledTrueFalse.slice(0, this.NUMBER_OF_QUESTIONS); // Return only the first 3 true/false questions
+          return shuffledTrueFalse.slice(0, this.NUMBER_OF_QUESTIONS); 
         })
       );
   }
@@ -155,16 +155,16 @@ export class EvaluationService {
 
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
-      // A client-side or network error occurred. Handle it accordingly.
+      
       console.error('An error occurred:', error.error.message);
     } else {
-      // The backend returned an unsuccessful response code.
+      
       console.error(
         `Backend returned code ${error.status}, ` + `body was: ${error.error}`
       );
     }
 
-    // Return an observable with a user-facing error message
+    
     return throwError(
       () => new Error('Something bad happened; please try again later.')
     );
@@ -172,7 +172,7 @@ export class EvaluationService {
 
   generateResponse(prompt: string): Observable<string> {
     return new Observable((observer) => {
-      this.stopGeneration(); // Abort previous request if any
+      this.stopGeneration(); 
       this.abortController = new AbortController();
 
       const requestBody = {
@@ -203,13 +203,13 @@ export class EvaluationService {
 
             buffer += decoder.decode(value, { stream: true });
             const parts = buffer.split('\n');
-            buffer = parts.pop() || ''; // Keep incomplete part
+            buffer = parts.pop() || ''; 
 
             parts.forEach((jsonString) => {
               try {
                 if (jsonString.trim()) {
                   const jsonResponse = JSON.parse(jsonString);
-                  observer.next(jsonResponse.response); // Send chunk to Angular
+                  observer.next(jsonResponse.response); 
                   if (jsonResponse.done) observer.complete();
                 }
               } catch (error) {

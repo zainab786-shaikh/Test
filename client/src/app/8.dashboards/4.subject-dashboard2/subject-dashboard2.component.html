@@ -1,7 +1,7 @@
 <div class="sidebar-overlay" [class.open]="isSidebarOpen" (click)="toggleSidebar()"></div>
 
 <div class="dashboard-wrapper">
-  <!-- Sidebar -->
+  
   <aside class="sd-sidebar" [class.open]="isSidebarOpen">
     <div class="sd-logo">📚 YoZo</div>
     <nav class="sd-nav">
@@ -21,7 +21,7 @@
     </nav>
   </aside>
 
-  <!-- Main Content -->
+  
   <main class="sd-main">
     <header class="sd-header">
       <div class="header-left">
@@ -38,7 +38,7 @@
     <div class="sd-content">
       <div class="sd-section-title" style="margin-bottom: 24px;">Welcome, {{studentName}}!</div>
 
-      <!-- Subject cards grid -->
+      
       <div class="sd-cards-row" style="grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));">
         <div class="sd-subj cursor-hover" *ngFor="let lesson of completedLessonSectionData" style="cursor: pointer;"
           (click)="toggleDashboard(lesson.Id)" [class.active-subject]="showDashboard && selectedLessonId === lesson.Id">
@@ -62,10 +62,10 @@
         </div>
       </div>
 
-      <!-- Detail Dashboard (Only shows when a subject is clicked) -->
+      
       <div class="dashboard-grid mt-8" *ngIf="showDashboard">
 
-        <!-- Next Lessons -->
+        
         <div class="grid-col">
           <h3 class="sd-section-title" style="color: var(--primary); display: flex; align-items: center; gap: 8px;">
             <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
@@ -109,7 +109,7 @@
           </div>
         </div>
 
-        <!-- Completed Lessons -->
+        
         <div class="grid-col">
           <h3 class="sd-section-title" style="color: #059669; display: flex; align-items: center; gap: 8px;">
             <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
@@ -148,7 +148,7 @@
           </div>
         </div>
 
-        <!-- Pending Topics -->
+        
         <div class="grid-col" style="grid-column: 1 / -1; margin-top: 16px;">
           <h3 class="sd-section-title" style="color: #d97706; display: flex; align-items: center; gap: 8px;">
             <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">

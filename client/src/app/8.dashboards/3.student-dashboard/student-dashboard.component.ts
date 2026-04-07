@@ -17,7 +17,7 @@ import { BarPlotter } from '../dashboard.component.servicePlotter';
 import { ProgressService } from '../../4.progress/progress.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IProgress } from '../../4.progress/progress.model';
-import { RouterModule } from '@angular/router'; // Add this import
+import { RouterModule } from '@angular/router'; 
 import { StandardService } from '../../5.standard/standard.service';
 import { StudentService } from '../../3.1.student/student.service';
 PlotlyModule.plotlyjs = PlotlyJS;
@@ -48,7 +48,7 @@ export class StudentDashboardComponent {
   studentId!: number;
 
   perfOverall!: number;
-  perfOverallPlotter: BarPlotter = new BarPlotter([], [], 'Loading...'); // Initialize with default
+  perfOverallPlotter: BarPlotter = new BarPlotter([], [], 'Loading...'); 
 
   perfPerSubject!: IChildNode[];
   perfPerLesson!: IChildNode[];
@@ -57,12 +57,12 @@ export class StudentDashboardComponent {
   completedLessonSectionData!: IChildNode[] | [];
   nextLessonSectionData!: IChildNode[] | [];
   pendingLessonSectionData!: IChildNode[] | [];
-  menuItems: any[] = []; // Initialize as an empty array
+  menuItems: any[] = []; 
 
-  // Mobile sidebar state
+  
   isSidebarOpen: boolean = false;
 
-  // Add these properties below
+  
   totalLessons: number = 0;
   completedLessons: number = 0;
   totalSubjects: number = 0;
@@ -98,7 +98,7 @@ export class StudentDashboardComponent {
   }
 
   ngOnInit(): void {
-    // Initialize menuItems after IDs are set
+    
     this.menuItems = [
       {
         path: [
@@ -218,20 +218,20 @@ export class StudentDashboardComponent {
             return eachSubject;
           });
 
-          // 🔹 ADD NEW LOGIC FOR PROGRESS TRACKING HERE
-          // Calculate total lessons and completed lessons
-          this.totalLessons = data.length; // Assuming data contains all lessons
+          
+          
+          this.totalLessons = data.length; 
           this.completedLessons = data.filter(
             (lesson) => lesson.score === 100
           ).length;
 
-          // Calculate total subjects and covered subjects
+          
           this.totalSubjects = this.perfPerSubject.length;
           this.coveredSubjects = this.perfPerSubject.filter((subject) =>
             subject.childList?.some((lesson) => lesson.score === 100)
           ).length;
 
-          // Calculate overall progress percentage
+          
           this.overallProgress =
             this.totalLessons > 0
               ? Math.round((this.completedLessons / this.totalLessons) * 100)
@@ -249,15 +249,15 @@ export class StudentDashboardComponent {
     );
 
     let filteredSubjectData = copiedSubjectData
-      // First, filter to only include subjects with at least one lesson section that passes the comparison
+      
       .filter((subject) =>
         subject.childList?.some((lesson) =>
           lesson.childList?.some((lessonSection) => comparisonFn(lessonSection))
         )
       )
-      // Then map those subjects to include only the qualifying lessons and lesson sections
+      
       .map((subject) => {
-        // Create a new subject object with filtered lessons
+        
         return {
           ...subject,
           childList: subject.childList
@@ -266,7 +266,7 @@ export class StudentDashboardComponent {
                 comparisonFn(lessonSection)
               )
             )
-            // For each qualifying lesson, filter to only include sections that pass the comparison
+            
             .map((lesson: IChildNode) => {
               return {
                 ...lesson,
@@ -297,7 +297,7 @@ export class StudentDashboardComponent {
     let subjectId = event.parentId;
     let lessonId = event.childId;
     let lessonSectionId = event.grandChildId;
-    //'evaluation/school/:schoolId/standard/:standardId/student/:studentId/subject/:subjectId/lesson/:lessonId',
+    
     this.router.navigate([
       'evaluation',
       'school',

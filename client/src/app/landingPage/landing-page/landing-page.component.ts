@@ -11,11 +11,11 @@ import { RouterModule } from '@angular/router';
 })
 export class LandingPageComponent implements OnInit, OnDestroy {
 
-  // Navbar state
+  
   isScrolled = false;
   mobileMenuOpen = false;
 
-  // Typewriter
+  
   typewriterPhrases: string[] = [
     'AI-Powered Learning 🤖',
     'Mastery-Based Education 📚',
@@ -28,13 +28,13 @@ export class LandingPageComponent implements OnInit, OnDestroy {
   deleting = false;
   private typewriterInterval: any;
 
-  // FAQ
+  
   openFaq: number | null = null;
 
-  // Screenshot tabs
+  
   activeTab = 0;
 
-  // -------- DATA --------
+  
 
   mockSubjects = [
     { icon: '📐', name: 'Mathematics', progress: 78, color: '#6366f1' },
@@ -131,16 +131,16 @@ export class LandingPageComponent implements OnInit, OnDestroy {
 
 
   faqs = [
-    { q: 'What is YoZO?', a: 'YoZO is an AI-powered school learning platform that helps students learn topic by topic, tracks their progress automatically, and helps teachers generate unique question papers for each student.' },
+    { q: 'What is YoZo?', a: 'YoZo is an AI-powered school learning platform that helps students learn topic by topic, tracks their progress automatically, and helps teachers generate unique question papers for each student.' },
     { q: 'How does the AI help students learn?', a: 'The AI presents lessons as structured explanations followed by quizzes. Students must demonstrate mastery before unlocking the next topic. It adapts to each student\'s pace and provides an AI doubt-solving chatbot.' },
     { q: 'Can teachers track individual student progress?', a: 'Yes! Teachers get real-time dashboards showing overall class progress, subject-wise performance, and individual student analytics including which topics they\'ve mastered and where they\'re struggling.' },
     { q: 'Can schools customize subjects and curriculum?', a: 'Absolutely. Schools can add their own subjects, lessons, and lesson sections. The platform is built to be fully customizable to match your school\'s curriculum and standards.' },
-    { q: 'How does YoZO prevent cheating?', a: 'The AI Question Paper Generator creates a unique question paper for each student based on the same topics. Since no two papers are identical, cheating is effectively eliminated.' },
-    { q: 'Is the platform secure?', a: 'Yes. YoZO uses secure authentication, encrypted data storage, and role-based access control. Teachers see only their classes, and students see only their own data.' },
-    { q: 'How quickly can we set up YoZO for our school?', a: 'Most schools are fully set up within one day. Our onboarding process guides admins through adding teachers, students, subjects, and lessons step by step.' },
+    { q: 'How does YoZo prevent cheating?', a: 'The AI Question Paper Generator creates a unique question paper for each student based on the same topics. Since no two papers are identical, cheating is effectively eliminated.' },
+    { q: 'Is the platform secure?', a: 'Yes. YoZo uses secure authentication, encrypted data storage, and role-based access control. Teachers see only their classes, and students see only their own data.' },
+    { q: 'How quickly can we set up YoZo for our school?', a: 'Most schools are fully set up within one day. Our onboarding process guides admins through adding teachers, students, subjects, and lessons step by step.' },
   ];
 
-  // -------- LIFECYCLE --------
+  
 
   ngOnInit(): void {
     this.startTypewriter();
@@ -151,7 +151,7 @@ export class LandingPageComponent implements OnInit, OnDestroy {
     if (this.typewriterInterval) clearInterval(this.typewriterInterval);
   }
 
-  // -------- TYPEWRITER --------
+  
 
   startTypewriter(): void {
     this.typewriterInterval = setInterval(() => {
@@ -171,13 +171,13 @@ export class LandingPageComponent implements OnInit, OnDestroy {
     }, this.deleting ? 55 : 95);
   }
 
-  // -------- FAQ --------
+  
 
   toggleFaq(i: number): void {
     this.openFaq = this.openFaq === i ? null : i;
   }
 
-  // -------- NAV --------
+  
 
   toggleMobileMenu(): void {
     this.mobileMenuOpen = !this.mobileMenuOpen;
@@ -189,7 +189,7 @@ export class LandingPageComponent implements OnInit, OnDestroy {
     this.mobileMenuOpen = false;
   }
 
-  // -------- SCROLL EFFECTS --------
+  
 
   @HostListener('window:scroll', [])
   onWindowScroll(): void {

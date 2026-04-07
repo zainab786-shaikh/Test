@@ -11,12 +11,12 @@ export class LoginDetailService {
 
   data: ILoginDetail[] = [];
 
-  // Define the headers
+  
   private headers = new HttpHeaders({
     'Content-Type': 'application/json',
     tenantid: 'tenanta',
     traceparent: '12345',
-    Authorization: 'Bearer Token', // Replace "Token" with your actual token
+    Authorization: 'Bearer Token', 
   });
 
   constructor(private http: HttpClient) {}
@@ -64,7 +64,7 @@ export class LoginDetailService {
       }
     );
   }
-  // ✅ Add this method to get logged-in user details
+  
   getLoggedInUser(): Observable<ILoginDetail> {
     return this.http.get<ILoginDetail>(`${this.getLoggedInUser}/user/me`, {
       headers: this.headers,

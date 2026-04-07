@@ -1,8 +1,8 @@
-<!-- Overlay for mobile sidebar -->
+
 <div class="sidebar-overlay" [class.open]="isSidebarOpen" (click)="toggleSidebar()"></div>
 
 <div class="dashboard-wrapper">
-  <!-- Sidebar -->
+  
   <aside class="sd-sidebar" [class.open]="isSidebarOpen">
     <div class="sd-logo">📚 YoZo</div>
     <nav class="sd-nav">
@@ -16,7 +16,7 @@
         </svg>
         <span>{{item.label}}</span>
       </a>
-      <!-- Add a close button for mobile inside the sidebar -->
+      
       <a class="sd-nav-item mobile-close-btn" (click)="toggleSidebar()">
         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -26,7 +26,7 @@
     </nav>
   </aside>
 
-  <!-- Main Content -->
+  
   <main class="sd-main">
     <header class="sd-header">
       <div class="header-left">
@@ -40,7 +40,7 @@
     </header>
 
     <div class="sd-content">
-      <!-- Top Stats Card Row -->
+      
       <div class="sd-cards-row">
         <div class="sd-stat-card border-card cursor-hover">
           <span>{{completedLessons}} / {{totalLessons}}</span>
@@ -57,11 +57,11 @@
       </div>
 
       <div class="dashboard-grid">
-        <!-- Subjects Overview Column -->
+        
         <div class="grid-col">
           <h3 class="sd-section-title">Subjects Overview</h3>
           <div class="sd-subject-cards">
-            <!-- Iterate over subjectData -->
+            
             <div class="sd-subj" *ngFor="let s of subjectData">
               <div class="sd-subj-icon">📘</div>
               <div class="sd-subj-info">
@@ -76,7 +76,7 @@
           </div>
         </div>
 
-        <!-- Right Column / Upcoming lessons -->
+        
         <div class="grid-col">
           <h3 class="sd-section-title">Upcoming Lessons</h3>
           <div class="sd-lessons-list">
@@ -103,7 +103,7 @@
         </div>
       </div>
 
-      <!-- Full-width Overall Performance -->
+      
       <div class="full-width-section mt-8">
         <h3 class="sd-section-title">Overall Performance</h3>
         <div class="sd-chart-box">

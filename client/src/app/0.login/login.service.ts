@@ -22,12 +22,12 @@ export class LoginService {
     private studentService: StudentService
   ) {}
 
-  // Define the headers
+  
   private headers = new HttpHeaders({
     'Content-Type': 'application/json',
     tenantid: 'tenanta',
     traceparent: '12345',
-    Authorization: 'Bearer Token', // Replace "Token" with your actual token
+    Authorization: 'Bearer Token', 
   });
 
   validate(inUsername: string, inPassword: string): Observable<ILoginDetail> {

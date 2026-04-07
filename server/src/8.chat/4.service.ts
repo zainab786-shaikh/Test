@@ -1,3 +1,4 @@
+import axios from "axios";
 import { IContext, IMessage } from "./0.model";
 import { IServiceChat } from "./3.service.model";
 
@@ -37,10 +38,7 @@ export class ServiceChatImpl implements IServiceChat {
       : userMessage;
 
     try {
-      // Dynamic import of axios (since it might not be installed yet)
-      const axios = await import("axios");
-
-      const response = await axios.default.post<OllamaStreamResponse>(
+      const response = await axios.post<OllamaStreamResponse>(
         url,
         {
           model: this.ollamaModel,

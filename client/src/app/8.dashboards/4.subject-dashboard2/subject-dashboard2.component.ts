@@ -17,7 +17,7 @@ import { BarPlotter } from '../dashboard.component.servicePlotter';
 import { ProgressService } from '../../4.progress/progress.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IProgress } from '../../4.progress/progress.model';
-import { RouterModule } from '@angular/router'; // Add this import
+import { RouterModule } from '@angular/router'; 
 import { StandardService } from '../../5.standard/standard.service';
 import { StudentService } from '../../3.1.student/student.service';
 PlotlyModule.plotlyjs = PlotlyJS;
@@ -48,7 +48,7 @@ export class SubjectDashboard2Component {
   studentId!: number;
 
   perfOverall!: number;
-  perfOverallPlotter: BarPlotter = new BarPlotter([], [], 'Loading...'); // Initialize with default
+  perfOverallPlotter: BarPlotter = new BarPlotter([], [], 'Loading...'); 
 
   perfPerSubject!: IChildNode[];
   perfPerLesson!: IChildNode[];
@@ -58,8 +58,8 @@ export class SubjectDashboard2Component {
   nextLessonSectionData!: IChildNode[] | [];
   pendingLessonSectionData!: IChildNode[] | [];
 
-  menuItems: any[] = []; // Initialize as an empty array
-  showDashboard: boolean = false; // Initially hidden
+  menuItems: any[] = []; 
+  showDashboard: boolean = false; 
   isSidebarOpen: boolean = false;
 
   toggleSidebar() {
@@ -94,7 +94,7 @@ export class SubjectDashboard2Component {
   }
 
   ngOnInit(): void {
-    // Initialize menuItems after IDs are set
+    
     this.menuItems = [
       {
         path: [
@@ -291,7 +291,7 @@ export class SubjectDashboard2Component {
     let subjectId = event.parentId;
     let lessonId = event.childId;
     let lessonSectionId = event.grandChildId;
-    //'evaluation/school/:schoolId/standard/:standardId/student/:studentId/subject/:subjectId/lesson/:lessonId',
+    
     this.router.navigate([
       'evaluation',
       'school',

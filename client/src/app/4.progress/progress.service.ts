@@ -19,12 +19,12 @@ export class ProgressService {
   lessonId: number = 0;
   data: IProgress[] = [];
 
-  // Define the headers
+  
   private headers = new HttpHeaders({
     'Content-Type': 'application/json',
     tenantid: 'tenanta',
     traceparent: '12345',
-    Authorization: 'Bearer Token', // Replace "Token" with your actual token
+    Authorization: 'Bearer Token', 
   });
 
   constructor(private http: HttpClient) {}
@@ -68,7 +68,7 @@ export class ProgressService {
       map((data: IProgress[]) => {
         return data.map(progress => ({
           ...progress,
-          score: (progress.quiz + progress.fillblanks + progress.truefalse + progress.shortquestion) / 4 // Example score calculation
+          score: (progress.quiz + progress.fillblanks + progress.truefalse + progress.shortquestion) / 4 
         }));
       })
     );

@@ -66,7 +66,7 @@ export class SchoolDashboardComponent {
       this.progressService.getAllSchool(this.schoolId).subscribe((data) => {
         this.perfOverall = this.serviceHelper.getOverallPerformance(data);
 
-        // Standard => Overall
+        
         let perfPerStandardTemp = this.serviceHelper.getPerfPerStandard(data);
         this.perfPerStandard = perfPerStandardTemp.map((eachStandard) => {
           return {

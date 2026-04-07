@@ -2,10 +2,7 @@ import { inject } from '@angular/core';
 import { Router, CanActivateFn, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
-/**
- * Authentication Guard
- * Checks if user is logged in before allowing access
- */
+
 export const authGuard: CanActivateFn = (
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -17,18 +14,14 @@ export const authGuard: CanActivateFn = (
         return true;
     }
 
-    // Redirect to login with return URL
+    
     router.navigate(['/login'], {
         queryParams: { returnUrl: state.url }
     });
     return false;
 };
 
-/**
- * Role Guard Factory
- * Checks if user has required role(s)
- * Usage in routes: canActivate: [roleGuard(['admin', 'principal'])]
- */
+
 export function roleGuard(allowedRoles: string[]): CanActivateFn {
     return (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
         const authService = inject(AuthService);
@@ -47,16 +40,13 @@ export function roleGuard(allowedRoles: string[]): CanActivateFn {
             return true;
         }
 
-        // User is authenticated but doesn't have required role
+        
         router.navigate(['/unauthorized']);
         return false;
     };
 }
 
-/**
- * Guest Guard
- * Redirects authenticated users away from login/register pages
- */
+
 export const guestGuard: CanActivateFn = (
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -68,7 +58,7 @@ export const guestGuard: CanActivateFn = (
         return true;
     }
 
-    // Redirect authenticated users to their role-specific page
+    
     const role = authService.getUserRole();
     switch (role) {
         case 'admin':

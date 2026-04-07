@@ -26,7 +26,7 @@ import { NavigationStart, Router } from '@angular/router';
 export class QuizComponent implements OnInit {
   @Input() lessonId!: number;
   @Input() lessonsectionId!: number;
-  @Output() score = new EventEmitter<number>(); // Ensure this emits a number
+  @Output() score = new EventEmitter<number>(); 
 
   quizzes: IQuizComponent[] = [];
   currentVoiceSelectionIndex = 0;
@@ -96,21 +96,21 @@ export class QuizComponent implements OnInit {
   isLoading = false;
   errorMessage = '';
 
-  // Show bot when "Ask Bot" is clicked
+  
   askBot(question: string) {
     this.botQuestion = question;
     this.showBot = true;
     this.getBotResponse(question);
   }
 
-  // Close bot
+  
   closeBot() {
     this.showBot = false;
     this.botQuestion = '';
     this.botResponse = '';
   }
 
-  // Handle user follow-up questions
+  
   sendBotQuery() {
     if (this.userQuery.trim()) {
       this.getBotResponse(this.userQuery);
@@ -121,9 +121,9 @@ export class QuizComponent implements OnInit {
   getBotResponse(query: string) {
     this.isLoading = true;
     this.errorMessage = '';
-    this.botResponse = ''; // Clear previous response
+    this.botResponse = ''; 
 
-    // Find the MCQ question matching the botQuestion
+    
     const currentQuestion = this.quizzes.find(q => q.question === this.botQuestion);
 
     if (!currentQuestion) {
@@ -135,7 +135,7 @@ export class QuizComponent implements OnInit {
     const correctAnswer = currentQuestion.options[currentQuestion.answer];
     const options = currentQuestion.options.join(', ');
 
-    // Construct a structured explanation for the bot
+    
     const contextPrompt = `
       You are an AI tutor assisting students with multiple-choice questions. Your role is to:
       - Explain the question in simple terms.
@@ -158,7 +158,7 @@ export class QuizComponent implements OnInit {
 
     this.evaluationService.generateResponse(contextPrompt).subscribe({
       next: (response) => {
-        this.botResponse += response; // Append new streaming response
+        this.botResponse += response; 
         this.isLoading = false;
       },
       error: (error) => {
@@ -173,7 +173,7 @@ export class QuizComponent implements OnInit {
     this.botResponse = "Chat stopped.";
   }
 
-  //=============================================| Voice Interaction
+  
   isInteractiveMode = false;
   isInteractive(): boolean {
     return this.isInteractiveMode;
@@ -211,7 +211,7 @@ export class QuizComponent implements OnInit {
   readCurrentQuestion(currentIndex: number) {
     if (!this.quizzes) return;
     let text = this.formatQuestionForSpeech(currentIndex);
-    if (text.trim() === '') return; // Don't attempt to speak if text is empty
+    if (text.trim() === '') return; 
     this.voiceService.speak(text);
   }
 
@@ -222,7 +222,7 @@ export class QuizComponent implements OnInit {
         this.quizzes[currentIndex].user_answer = heard;
         this.processAnswer(this.currentVoiceSelectionIndex, heard);
       } else {
-        // ignore empty/whitespace recognition results and keep previous state
+        
         console.warn('Voice input was empty or whitespace.');
       }
     });
@@ -236,7 +236,7 @@ export class QuizComponent implements OnInit {
     this.evaluationService.aiCompareText(spoken, answer).subscribe(response => {
       const isCorrect = response.match;
       currentQ.answered = true;
-      currentQ.selectedAnswer = isCorrect ? currentQ.answer : null; // Mark as correct if it matches, otherwise keep it null
+      currentQ.selectedAnswer = isCorrect ? currentQ.answer : null; 
       let text = isCorrect
         ? `Correct. ${spoken}`
         : `That is incorrect. Correct answer is: ${answer}`;

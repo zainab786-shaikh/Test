@@ -1,11 +1,11 @@
 <div class="app-container">
 
-  <!-- ===== NAVIGATION ===== -->
+  
   <nav class="navbar" [class.scrolled]="isScrolled">
     <div class="navbar-container">
       <div class="navbar-brand">
-        <img src="images/logo.png" alt="YoZO Logo" class="logo" onerror="this.style.display='none'" />
-        <span class="navbar-title">YoZO</span>
+        <img src="images/logo.png" alt="YoZo Logo" class="logo" onerror="this.style.display='none'" />
+        <span class="navbar-title">YoZo</span>
       </div>
       <div class="nav-links">
         <a (click)="scrollToSection('home')" class="nav-link">Home</a>
@@ -29,7 +29,7 @@
 
   <main class="main-content">
 
-    <!-- ===== 1. HERO SECTION ===== -->
+    
     <section class="hero-section" id="home">
       <div class="hero-bg-orb orb-1"></div>
       <div class="hero-bg-orb orb-2"></div>
@@ -45,7 +45,7 @@
             Learning is <span class="gradient-text">Here</span>
           </h1>
           <p class="hero-subtitle">
-            YoZO helps students learn step-by-step, tracks progress automatically, and helps teachers create
+            YoZo helps students learn step-by-step, tracks progress automatically, and helps teachers create
             personalized question papers — powered by AI.
           </p>
           <div class="hero-pill-row">
@@ -55,9 +55,9 @@
             </div>
           </div>
           <div class="hero-buttons">
-            <a href="https://wa.me/919892058858?text=Hi%2C%20we%20are%20interested%20in%20a%20school%20demo%20for%20YoZO."
+            <a href="https://wa.me/919892058858?text=Hi%2C%20we%20are%20interested%20in%20a%20school%20demo%20for%20YoZo."
               target="_blank" class="btn-primary">WhatsApp Us 💬</a>
-            <a href="mailto:shaikh.zainab.arif@gmail.com?subject=YoZO%20School%20Demo%20Request"
+            <a href="mailto:shaikh.zainab.arif@gmail.com?subject=YoZo%20School%20Demo%20Request"
               class="btn-primary">Email Us ✉️</a>
             <a [routerLink]="'/login'" class="btn-primary">Login</a>
           </div>
@@ -101,7 +101,7 @@
       </div>
     </section>
 
-    <!-- ===== 2. PROBLEM SECTION ===== -->
+    
     <section class="problem-section" id="problem">
       <div class="section-container">
         <div class="section-header">
@@ -120,14 +120,14 @@
         <div class="problem-solution-banner reveal">
           <div class="solution-glow"></div>
           <span class="solution-label">💡 The Solution</span>
-          <h3>"YoZO solves all of this — intelligently."</h3>
+          <h3>"YoZo solves all of this — intelligently."</h3>
           <p>Our AI-powered platform addresses every gap with smart technology and real-time insights.</p>
           <a (click)="scrollToSection('features')" class="btn-primary">See How →</a>
         </div>
       </div>
     </section>
 
-    <!-- ===== 3. FEATURES SECTION ===== -->
+    
     <section class="features-section" id="features">
       <div class="section-container">
         <div class="section-header">
@@ -152,12 +152,12 @@
       </div>
     </section>
 
-    <!-- ===== 4. HOW IT WORKS ===== -->
+    
     <section class="how-it-works-section" id="how-it-works">
       <div class="section-container">
         <div class="section-header">
           <div class="section-badge">🔄 Process</div>
-          <h2 class="section-title">How <span class="gradient-text">YoZO Works</span></h2>
+          <h2 class="section-title">How <span class="gradient-text">YoZo Works</span></h2>
           <p class="section-subtitle">A simple, powerful learning flow designed for mastery.</p>
         </div>
         <div class="flow-steps">
@@ -177,13 +177,13 @@
       </div>
     </section>
 
-    <!-- ===== 5. PLATFORM FOR EVERYONE ===== -->
+    
     <section class="for-everyone-section" id="for-everyone">
       <div class="section-container">
         <div class="section-header">
           <div class="section-badge">👥 Who It's For</div>
           <h2 class="section-title">Built for <span class="gradient-text">Everyone</span></h2>
-          <p class="section-subtitle">YoZO serves every stakeholder in the school ecosystem.</p>
+          <p class="section-subtitle">YoZo serves every stakeholder in the school ecosystem.</p>
         </div>
         <div class="persona-grid">
           <div class="persona-card reveal" *ngFor="let persona of personas; let i = index"
@@ -203,12 +203,12 @@
       </div>
     </section>
 
-    <!-- ===== 6. SCREENSHOTS SECTION ===== -->
+    
     <section class="screenshots-section" id="screenshots">
       <div class="section-container">
         <div class="section-header">
           <div class="section-badge">📸 Platform Preview</div>
-          <h2 class="section-title">See <span class="gradient-text">YoZO in Action</span></h2>
+          <h2 class="section-title">See <span class="gradient-text">YoZo in Action</span></h2>
           <p class="section-subtitle">A sneak peek into the clean, powerful interface your school will use daily.</p>
         </div>
         <div class="screenshots-tabs">
@@ -221,14 +221,14 @@
           <div class="screenshot-mockup">
             <div class="screen-topbar">
               <div class="screen-dots"><span></span><span></span><span></span></div>
-              <div class="screen-url">YoZO.app / {{ screenshotTabs[activeTab]?.url }}</div>
+              <div class="screen-url">yozo.app / {{ screenshotTabs[activeTab]?.url }}</div>
             </div>
             <div class="screen-content">
               <ng-container [ngSwitch]="activeTab">
-                <!-- Student Dashboard -->
+                
                 <div *ngSwitchCase="0" class="screen-dashboard">
                   <div class="sd-sidebar">
-                    <div class="sd-logo">📚 YoZO</div>
+                    <div class="sd-logo">📚 YoZo</div>
                     <div class="sd-nav-item active">🏠 Dashboard</div>
                     <div class="sd-nav-item">📖 Subjects</div>
                     <div class="sd-nav-item">📊 Progress</div>
@@ -256,7 +256,7 @@
                     </div>
                   </div>
                 </div>
-                <!-- Lesson View -->
+                
                 <div *ngSwitchCase="1" class="screen-lesson">
                   <div class="lesson-header">📖 Chapter 3: Photosynthesis</div>
                   <div class="lesson-body">
@@ -270,7 +270,7 @@
                     </div>
                   </div>
                 </div>
-                <!-- Quiz -->
+                
                 <div *ngSwitchCase="2" class="screen-quiz">
                   <div class="quiz-header">🧠 Quiz — Chapter 3</div>
                   <div class="quiz-question">Q1. What is the primary pigment used in photosynthesis?</div>
@@ -287,7 +287,7 @@
                     </div>
                   </div>
                 </div>
-                <!-- Teacher Dashboard -->
+                
                 <div *ngSwitchCase="3" class="screen-teacher">
                   <div class="teacher-header">👩‍🏫 Teacher Dashboard — Class 9A</div>
                   <div class="teacher-stats">
@@ -308,7 +308,7 @@
                     </div>
                   </div>
                 </div>
-                <!-- Question Paper Generator -->
+                
                 <div *ngSwitchCase="4" class="screen-qpgen">
                   <div class="qp-header">📄 AI Question Paper Generator</div>
                   <div class="qp-form">
@@ -342,7 +342,7 @@
 
 
 
-    <!-- ===== 11. CTA SECTION ===== -->
+    
     <section class="cta-section" id="cta">
       <div class="cta-bg-orb"></div>
       <div class="section-container">
@@ -350,11 +350,11 @@
           <div class="cta-icon-row">🏫 🤖 📊</div>
           <h2 class="cta-title">Ready to Transform <span class="gradient-text-light">Your School?</span></h2>
           <p class="cta-subtitle">We are partnering with forward-thinking schools to pioneer AI-powered learning. Let's
-            schedule a session to demo YoZO at your campus.</p>
+            schedule a session to demo YoZo at your campus.</p>
           <div class="cta-buttons">
-            <a href="https://wa.me/919892058858?text=Hi%2C%20we%20are%20interested%20in%20a%20school%20demo%20for%20YoZO."
+            <a href="https://wa.me/919892058858?text=Hi%2C%20we%20are%20interested%20in%20a%20school%20demo%20for%20YoZo."
               target="_blank" class="btn-outline-white btn-large">WhatsApp Us 💬</a>
-            <a href="mailto:shaikh.zainab.arif@gmail.com?subject=YoZO%20School%20Demo%20Request"
+            <a href="mailto:shaikh.zainab.arif@gmail.com?subject=YoZo%20School%20Demo%20Request"
               class="btn-outline-white btn-large">Email Us ✉️</a>
           </div>
           <div class="cta-features-row">
@@ -366,13 +366,13 @@
       </div>
     </section>
 
-    <!-- ===== 12. FAQ SECTION ===== -->
+    
     <section class="faq-section" id="faq">
       <div class="section-container">
         <div class="section-header">
           <div class="section-badge">❓ FAQ</div>
           <h2 class="section-title">Frequently Asked <span class="gradient-text">Questions</span></h2>
-          <p class="section-subtitle">Everything you need to know about YoZO.</p>
+          <p class="section-subtitle">Everything you need to know about YoZo.</p>
         </div>
         <div class="faq-list">
           <div class="faq-item reveal" *ngFor="let faq of faqs; let i = index" [class.open]="openFaq === i">
@@ -390,14 +390,14 @@
 
   </main>
 
-  <!-- ===== FOOTER ===== -->
+  
   <footer class="footer" id="contact">
     <div class="footer-top">
       <div class="section-container footer-grid">
         <div class="footer-col footer-brand-col">
           <div class="footer-brand">
-            <img src="images/logo.png" alt="YoZO" class="footer-logo" onerror="this.style.display='none'" />
-            <span class="footer-brand-name">YoZO</span>
+            <img src="images/logo.png" alt="YoZo" class="footer-logo" onerror="this.style.display='none'" />
+            <span class="footer-brand-name">YoZo</span>
           </div>
           <p class="footer-tagline">AI-powered learning platform for schools. Help students master concepts, not just
             memorize them.</p>
@@ -439,7 +439,7 @@
     </div>
     <div class="footer-bottom">
       <div class="section-container footer-bottom-inner">
-        <p>© 2025 YoZO. All rights reserved. Built with ❤️ for education.</p>
+        <p>© 2025 YoZo. All rights reserved. Built with ❤️ for education.</p>
         <div class="footer-legal">
           <a href="#">Privacy</a>
           <a href="#">Terms</a>
@@ -449,7 +449,7 @@
     </div>
   </footer>
 
-  <!-- Back to top button -->
+  
   <button class="back-to-top" (click)="scrollToSection('home')" [class.visible]="isScrolled"
     title="Back to top">↑</button>
 

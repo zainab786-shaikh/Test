@@ -1,23 +1,16 @@
-<div class="container">
-  <div class="login-wrapper">
-    <!-- Logo/Branding Section -->
-    <div class="brand-section">
-      <div class="logo-container">
-        <mat-icon class="logo-icon">school</mat-icon>
+<div class="auth-page">
+  <div class="auth-container">
+    <div class="auth-brand">
+      <div class="logo-box">
+        <mat-icon>school</mat-icon>
       </div>
       <h1 class="app-name"><span class="highlight">Y</span>o<span class="highlight">Z</span>o</h1>
     </div>
 
-    <mat-card class="login-container">
-      <mat-card-title class="login-title">
-        Sign In
-      </mat-card-title>
-      <mat-card-subtitle>Welcome back! Please login to your account</mat-card-subtitle>
-
-      <mat-card-content>
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-          <!-- Username Field -->
-          <mat-form-field appearance="outline" class="input-field">
+    <div class="auth-card">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="full-width">
             <mat-label>Username</mat-label>
             <input matInput type="text" formControlName="username" required />
             <mat-icon matSuffix class="field-icon">person</mat-icon>
@@ -25,9 +18,10 @@
               Username is required
             </mat-error>
           </mat-form-field>
+        </div>
 
-          <!-- Password Field -->
-          <mat-form-field appearance="outline" class="input-field">
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="full-width">
             <mat-label>Password</mat-label>
             <input
               matInput
@@ -36,8 +30,6 @@
               required
               (input)="onPasswordInput($event)"
             />
-            <mat-icon matSuffix class="field-icon">lock</mat-icon>
-            <!-- Conditionally render the visibility toggle icon -->
             <button
               mat-icon-button
               matSuffix
@@ -52,42 +44,36 @@
               Password is required
             </mat-error>
           </mat-form-field>
+        </div>
 
           <!-- Forgot Password Link -->
           <div class="forgot-password" style="display: none;">
             <a href="#">Forgot Password?</a>
           </div>
 
-          <!-- Login Button -->
-          <mat-card-actions>
-            <button
-              mat-raised-button
-              color="accent"
-              type="submit"
-              class="submit-button"
-              [disabled]="loginForm.invalid"
-            >
-              <span>Login</span>
-              <mat-icon>arrow_forward</mat-icon>
-            </button>
-          </mat-card-actions>
+        <button
+          type="submit"
+          class="btn-primary auth-submit"
+          [disabled]="loginForm.invalid"
+        >
+          <span>Sign Into Account</span>
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
 
-          <!-- Error Message -->
-          <div *ngIf="errorMessage" class="error-container">
-            <mat-icon class="error-icon">error</mat-icon>
-            <p class="error-message">{{ errorMessage }}</p>
-          </div>
-        </form>
-      </mat-card-content>
-    </mat-card>
+        <div *ngIf="errorMessage" class="error-alert">
+          <mat-icon>error_outline</mat-icon>
+          <span>{{ errorMessage }}</span>
+        </div>
+      </form>
+    </div>
 
-    <!-- User role selector for demo purposes -->
-    <div class="user-role-section">
-      <p class="role-label">For demo access:</p>
-      <div class="role-buttons">
-        <button mat-stroked-button (click)="fillDemoCredentials('admin')" type="button">Admin</button>
-        <button mat-stroked-button (click)="fillDemoCredentials('teacher')" type="button">Teacher</button>
-        <button mat-stroked-button (click)="fillDemoCredentials('student')" type="button">Student</button>
+    
+    <div class="demo-section">
+      <p>Quick Access Demo Roles:</p>
+      <div class="demo-roles">
+        <button class="btn-demo" (click)="fillDemoCredentials('admin')" type="button">Admin</button>
+        <button class="btn-demo" (click)="fillDemoCredentials('teacher')" type="button">Teacher</button>
+        <button class="btn-demo" (click)="fillDemoCredentials('student')" type="button">Student</button>
       </div>
     </div>
   </div>

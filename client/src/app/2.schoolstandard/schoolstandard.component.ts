@@ -50,7 +50,7 @@ export class SchoolStandardComponent implements OnInit {
   displayedColumns: string[] = ['name', 'actions'];
   dataSource: ISchoolStandard[] = [];
   isFormVisible = false;
-  //isEditMode = false;
+  
   currentSchoolStandardId: number | null = null;
   schoolstandardForm!: FormGroup;
 
@@ -89,7 +89,7 @@ export class SchoolStandardComponent implements OnInit {
         );
         return {
           ...item,
-          name: standard ? standard.name : '', // Retain existing name if no match found
+          name: standard ? standard.name : '', 
         };
       });
     });
@@ -98,22 +98,22 @@ export class SchoolStandardComponent implements OnInit {
   initForm(): void {
     this.schoolstandardForm = this.fb.group({
       Id: [null, []],
-      standard: [null, []], // Add this line for standard selection
+      standard: [null, []], 
     });
   }
 
   toggleForm(): void {
     this.isFormVisible = !this.isFormVisible;
-    //this.isEditMode = false;
+    
     this.schoolstandardForm.reset();
   }
 
-  // editSchoolStandard(schoolstandardId: ISchoolStandard): void {
-  //   this.isFormVisible = true;
-  //   this.isEditMode = true;
-  //   this.currentSchoolStandardId = schoolstandardId.Id ?? null;
-  //   this.schoolstandardForm.patchValue(schoolstandardId);
-  // }
+  
+  
+  
+  
+  
+  
 
   deleteSchoolStandard(schoolstandardId: number): void {
     this.schoolstandardService.delete(schoolstandardId).subscribe(() => {
@@ -163,7 +163,7 @@ export class SchoolStandardComponent implements OnInit {
         pattern: 'Invalid format.',
       };
 
-      // Handle specific error messages for the 'standard' control
+      
       if (
         controlName === 'standard' &&
         control.errors &&

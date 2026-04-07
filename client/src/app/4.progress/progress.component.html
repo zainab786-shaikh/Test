@@ -1,142 +1,153 @@
-<mat-card>
-  <mat-card-title>
-    <span>Progress Details</span>
-    <button
-      mat-icon-button
-      color="primary"
-      class="add-btn"
-      (click)="toggleForm()"
-    >
-      <mat-icon>{{ isFormVisible ? "edit" : "add" }}</mat-icon>
-    </button>
-  </mat-card-title>
-  <mat-card-content>
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-      <ng-container matColumnDef="Quiz">
-        <th mat-header-cell *matHeaderCellDef>Quiz</th>
-        <td mat-cell *matCellDef="let element">{{ element.quiz }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="FillBlanks">
-        <th mat-header-cell *matHeaderCellDef>FillBlanks</th>
-        <td mat-cell *matCellDef="let element">{{ element.fillblanks }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="TrueFalse">
-        <th mat-header-cell *matHeaderCellDef>TrueFalse</th>
-        <td mat-cell *matCellDef="let element">{{ element.truefalse }}</td>
-      </ng-container>
-      <ng-container matColumnDef="ShortQuestion">
-        <th mat-header-cell *matHeaderCellDef>ShortQuestion</th>
-        <td mat-cell *matCellDef="let element">{{ element.shortquestion }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="School">
-        <th mat-header-cell *matHeaderCellDef>School</th>
-        <td mat-cell *matCellDef="let element">{{ element.school }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="Standard">
-        <th mat-header-cell *matHeaderCellDef>Standard</th>
-        <td mat-cell *matCellDef="let element">{{ element.standard }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="Subject">
-        <th mat-header-cell *matHeaderCellDef>Subject</th>
-        <td mat-cell *matCellDef="let element">{{ element.subject }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="Lesson">
-        <th mat-header-cell *matHeaderCellDef>Lesson</th>
-        <td mat-cell *matCellDef="let element">{{ element.lesson }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="LessonSection">
-        <th mat-header-cell *matHeaderCellDef>Lesson Section</th>
-        <td mat-cell *matCellDef="let element">{{ element.lessonsection }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Actions</th>
-        <td mat-cell *matCellDef="let element">
-          <button
-            mat-icon-button
-            color="primary"
-            (click)="editProgress(element)"
-          >
-            <mat-icon>edit</mat-icon>
-          </button>
-          <!--
-          <button
-            mat-icon-button
-            color="warn"
-            (click)="deleteProgress(element.Id)"
-          >
-            <mat-icon>delete</mat-icon>
-          </button>
-          -->
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
-  </mat-card-content>
-</mat-card>
-
-<mat-card *ngIf="isFormVisible">
-  <mat-card-title>
-    <mat-icon>{{ "edit" }}</mat-icon>
-    {{ "Update Progress" }}
-  </mat-card-title>
-  <mat-card-content>
-    <form
-      [formGroup]="progressForm"
-      (ngSubmit)="onSubmit()"
-      class="form-container"
-    >
-      <mat-form-field appearance="fill">
-        <mat-label>Quiz</mat-label>
-        <input matInput formControlName="quiz" />
-        <mat-error *ngFor="let error of getErrorMessages('quiz')">{{
-          error
-        }}</mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>FillBlanks</mat-label>
-        <input matInput formControlName="fillblanks" />
-        <mat-error *ngFor="let error of getErrorMessages('fillblanks')">{{
-          error
-        }}</mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>TrueFalse</mat-label>
-        <input matInput formControlName="truefalse" />
-        <mat-error *ngFor="let error of getErrorMessages('truefalse')">{{
-          error
-        }}</mat-error>
-      </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>ShortQuestion</mat-label>
-        <input matInput formControlName="shortquestion" />
-        <mat-error *ngFor="let error of getErrorMessages('shortquestion')">{{
-          error
-        }}</mat-error>
-      </mat-form-field>
-
-      <div class="form-actions">
-        <button
-          mat-raised-button
-          color="primary"
-          type="submit"
-          [disabled]="progressForm.invalid"
-        >
-          {{ "Update" }}
-        </button>
-        <button mat-button type="button" (click)="toggleForm()">Cancel</button>
+<div class="page-container">
+  
+  <header class="page-header">
+    <div class="header-content">
+      <div class="title-container">
+        <h1>Progress Details</h1>
+        <p class="subtitle">Monitor student progress and assessment scores</p>
       </div>
-    </form>
-  </mat-card-content>
-</mat-card>
+    </div>
+    <div class="header-actions">
+      <button class="btn-primary" (click)="toggleForm()">
+        <mat-icon>{{ isFormVisible ? 'close' : 'add' }}</mat-icon>
+        <span>{{ isFormVisible ? 'Cancel' : 'New Progress' }}</span>
+      </button>
+    </div>
+  </header>
+
+  
+  <main class="page-content">
+    
+    
+    <div class="section-card form-section" *ngIf="isFormVisible">
+      <div class="section-header">
+        <div class="section-title">
+          <div class="icon-wrapper">
+            <mat-icon>{{ "edit" }}</mat-icon>
+          </div>
+          <h2>{{ "Update Progress" }}</h2>
+        </div>
+      </div>
+      
+      <div class="section-content">
+        <form [formGroup]="progressForm" (ngSubmit)="onSubmit()" class="modern-form">
+          <div class="form-grid">
+            <div class="form-group">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Quiz</mat-label>
+                <input matInput formControlName="quiz" />
+                <mat-error *ngFor="let error of getErrorMessages('quiz')">{{ error }}</mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="form-group">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>FillBlanks</mat-label>
+                <input matInput formControlName="fillblanks" />
+                <mat-error *ngFor="let error of getErrorMessages('fillblanks')">{{ error }}</mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="form-group">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>TrueFalse</mat-label>
+                <input matInput formControlName="truefalse" />
+                <mat-error *ngFor="let error of getErrorMessages('truefalse')">{{ error }}</mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="form-group">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>ShortQuestion</mat-label>
+                <input matInput formControlName="shortquestion" />
+                <mat-error *ngFor="let error of getErrorMessages('shortquestion')">{{ error }}</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" (click)="toggleForm()">Cancel</button>
+            <button type="submit" class="btn-primary submit-btn" [disabled]="progressForm.invalid">
+              Update Progress
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    
+    <div class="section-card table-section">
+      <div class="section-header">
+        <div class="section-title">
+          <h2>Recorded Progress</h2>
+          <span class="badge" *ngIf="dataSource">{{ dataSource.length || 0 }}</span>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table mat-table [dataSource]="dataSource" class="modern-table">
+          <ng-container matColumnDef="Quiz">
+            <th mat-header-cell *matHeaderCellDef>Quiz</th>
+            <td mat-cell *matCellDef="let element">
+               <div class="cell-content primary-cell">{{ element.quiz }}</div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="FillBlanks">
+            <th mat-header-cell *matHeaderCellDef>FillBlanks</th>
+            <td mat-cell *matCellDef="let element">{{ element.fillblanks }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="TrueFalse">
+            <th mat-header-cell *matHeaderCellDef>TrueFalse</th>
+            <td mat-cell *matCellDef="let element">{{ element.truefalse }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="ShortQuestion">
+            <th mat-header-cell *matHeaderCellDef>ShortQuestion</th>
+            <td mat-cell *matCellDef="let element">{{ element.shortquestion }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="School">
+            <th mat-header-cell *matHeaderCellDef>School</th>
+            <td mat-cell *matCellDef="let element">{{ element.school }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="Standard">
+            <th mat-header-cell *matHeaderCellDef>Standard</th>
+            <td mat-cell *matCellDef="let element">{{ element.standard }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="Subject">
+            <th mat-header-cell *matHeaderCellDef>Subject</th>
+            <td mat-cell *matCellDef="let element">{{ element.subject }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="Lesson">
+            <th mat-header-cell *matHeaderCellDef>Lesson</th>
+            <td mat-cell *matCellDef="let element">{{ element.lesson }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="LessonSection">
+            <th mat-header-cell *matHeaderCellDef>Lesson Section</th>
+            <td mat-cell *matCellDef="let element">{{ element.lessonsection }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef class="actions-header">Actions</th>
+            <td mat-cell *matCellDef="let element" class="actions-cell">
+              <div class="action-buttons">
+                <button class="action-btn edit-btn" (click)="editProgress(element)" matTooltip="Edit Progress">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns" class="modern-row"></tr>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>

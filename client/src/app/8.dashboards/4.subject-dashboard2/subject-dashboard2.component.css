@@ -1,17 +1,17 @@
+
 :host {
-  --primary: #4f46e5;
-  --primary-dark: #4338ca;
-  --bg: #f8fafc;
-  --bg-light: #ffffff;
-  --bg-dark: #e2e8f0;
-  --text: #0f172a;
-  --text-mid: #475569;
-  --text-light: #94a3b8;
-  --glass-bg: rgba(255, 255, 255, 0.75);
-  --glass-border: rgba(255, 255, 255, 0.5);
+  --primary: #6366F1;
+  --primary-dark: #4F46E5;
+  --secondary: #F43F5E;
+  --accent: #10B981;
+  --bg: #F8FAFC;
+  --surface: #FFFFFF;
+  --text: #0F172A;
+  --text-mid: #64748B;
+  --text-light: #94A3B8;
+  --border-light: #E2E8F0;
   --radius: 16px;
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --transition: all 200ms ease-in-out;
 
   display: block;
   height: 100vh;
@@ -20,8 +20,7 @@
   padding: 0;
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font);
-  /* Reset tailwind defaults inside our app to ensure consistency */
+  font-family: 'Inter', 'Roboto', sans-serif;
   box-sizing: border-box;
 }
 
@@ -36,39 +35,32 @@
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  background: linear-gradient(135deg, #f0fdf4 0%, #e0e7ff 100%);
-  /* very subtle light gradient */
+  background: var(--bg);
   position: absolute;
   top: 0;
   left: 0;
-  font-family: var(--font);
+  font-family: 'Inter', 'Roboto', sans-serif;
 }
 
-/* Sidebar */
+
 .sd-sidebar {
   width: 280px;
-  background: rgba(255, 255, 255, 0.6);
-  border-right: 1px solid var(--glass-border);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  background: var(--surface);
+  border-right: 1px solid var(--border-light);
   padding: 40px 24px;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
   z-index: 10;
-  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .sd-logo {
   font-weight: 800;
   font-size: 1.6rem;
   margin-bottom: 50px;
-  color: var(--primary-dark);
+  color: var(--primary);
   padding-left: 10px;
-  background: linear-gradient(135deg, var(--primary), #ec4899);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   line-height: 1.2;
 }
 
@@ -93,16 +85,15 @@
 }
 
 .sd-nav-item:hover {
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(99, 102, 241, 0.04);
   color: var(--text);
   transform: translateX(4px);
 }
 
 .sd-nav-item.active {
-  background: white;
-  color: var(--primary);
-  border-color: rgba(99, 102, 241, 0.2);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
 }
 
 .sd-nav-icon {
@@ -111,7 +102,7 @@
   flex-shrink: 0;
 }
 
-/* Main Content */
+
 .sd-main {
   flex: 1;
   display: flex;
@@ -143,10 +134,7 @@
 }
 
 .sd-welcome .highlight {
-  background: linear-gradient(135deg, var(--primary), #ec4899);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--primary);
 }
 
 .sd-content {
@@ -156,7 +144,7 @@
   gap: 40px;
 }
 
-/* Cards Row */
+
 .sd-cards-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -164,21 +152,19 @@
 }
 
 .sd-stat-card {
-  background: var(--glass-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: var(--surface);
   border-radius: var(--radius);
   padding: 28px 24px;
   text-align: center;
   font-size: 1rem;
   font-weight: 600;
   color: var(--text-mid);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   transition: var(--transition);
 }
 
 .sd-stat-card.border-card {
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--border-light);
 }
 
 .sd-stat-card.cursor-hover:hover {
@@ -224,7 +210,7 @@
   margin-top: 40px;
 }
 
-/* Grid layout for lower sections */
+
 .dashboard-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -236,7 +222,7 @@
   flex-direction: column;
 }
 
-/* Subjects List */
+
 .sd-subject-cards {
   display: flex;
   flex-direction: column;
@@ -247,13 +233,12 @@
   display: flex;
   align-items: center;
   gap: 18px;
-  background: var(--glass-bg);
-  backdrop-filter: blur(16px);
+  background: var(--surface);
   border-radius: 16px;
   padding: 20px 24px;
-  border: 1px solid rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--border-light);
   transition: var(--transition);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .sd-subj:hover {
@@ -291,7 +276,7 @@
 .sd-subj-bar {
   height: 8px;
   background: rgba(0, 0, 0, 0.05);
-  /* very light inner track */
+  
   border-radius: 4px;
   overflow: hidden;
 }
@@ -316,18 +301,17 @@
   padding: 1rem 0;
 }
 
-/* Plotly Chart Card */
+
 .sd-chart-box {
-  background: var(--glass-bg);
-  backdrop-filter: blur(16px);
+  background: var(--surface);
   border-radius: var(--radius);
-  border: 1px solid rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--border-light);
   padding: 24px;
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-/* Upcoming Lessons */
+
 .sd-lessons-list {
   display: flex;
   flex-direction: column;
@@ -338,13 +322,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--glass-bg);
-  backdrop-filter: blur(16px);
+  background: var(--surface);
   border-radius: 16px;
   padding: 20px 24px;
-  border: 1px solid rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--border-light);
   transition: var(--transition);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .sd-lesson-card:hover {
@@ -402,18 +385,16 @@
   box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
 }
 
-/* -------------------------------
-   Responsive & Mobile Styles
----------------------------------*/
+
 .mobile-menu-btn {
   display: none;
-  background: white;
-  border: 1px solid var(--glass-border);
+  background: var(--surface);
+  border: 1px solid var(--border-light);
   border-radius: 8px;
   padding: 8px;
   color: var(--text-mid);
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .header-left {
@@ -445,7 +426,7 @@
 .mobile-close-btn {
   display: none;
   margin-top: auto;
-  color: #e11d48;
+  color: var(--secondary);
 }
 
 .full-width-section {
