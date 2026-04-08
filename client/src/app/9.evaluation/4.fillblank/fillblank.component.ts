@@ -61,6 +61,7 @@ export class FillBlankComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.voiceService.stopSpeaking();
     this.load();
   }
 
@@ -194,9 +195,11 @@ export class FillBlankComponent implements OnInit {
       this.voiceService.stopSpeaking();
     }
   }
+
   formatQuestionForSpeech(currentIndex: number): string {
     const q = this.fillBlanks[currentIndex];
     if (q == null) return '';
+
     let speech = `${currentIndex + 1}. ${q.question.replace(/_+/g, "---")}. `;
     q.options.forEach((opt: string, index: number) => {
       speech += `${index + 1}: ${opt}. `;
@@ -231,22 +234,24 @@ export class FillBlankComponent implements OnInit {
 
     this.evaluationService.aiCompareText(spoken, answer).subscribe(response => {
       const isCorrect = response.match;
-      currentQ.answered = true;
+      currentQ.answered = isCorrect;
       currentQ.selectedAnswer = isCorrect ? currentQ.answer : null; 
       let text = isCorrect
         ? `Correct. ${spoken}`
-        : `That is incorrect. Correct answer is: ${answer}`;
+        : `That is incorrect. Try again.`;
       this.fillBlanks[currentIndex].feedback = text;
       this.cdr.detectChanges();
-      this.readExplanation(currentIndex, text);
+      this.readExplanation(currentIndex, text, isCorrect);
     })
   }
 
-  readExplanation(currentIndex: number, text: string) {
+  readExplanation(currentIndex: number, text: string, isCorrect: boolean) {
     if (!this.fillBlanks) return;
     this.voiceService.speak(text, () => {
       if (currentIndex < this.fillBlanks.length) {
-          this.currentVoiceSelectionIndex++;
+          if (isCorrect) {
+            this.currentVoiceSelectionIndex++;
+          }
           this.readCurrentQuestion(this.currentVoiceSelectionIndex);
           this.cdr.detectChanges();
       }

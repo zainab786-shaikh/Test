@@ -3,8 +3,9 @@ import { EvaluationService } from '../evaluation.service';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
+import { MatRadioModule } from '@angular/material/radio';
+
 import { ITrueFalseComponent } from './truefalse.component.model';
 import { VoiceService } from '../voice.service';
 import { NavigationStart, Router } from '@angular/router';
@@ -61,6 +62,7 @@ export class TrueFalseComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.voiceService.stopSpeaking();
     this.load();
   }
 
@@ -122,7 +124,6 @@ export class TrueFalseComponent implements OnInit {
     }
   }
 
-  
   getBotResponse(query: string) {
     this.isLoading = true;
     this.errorMessage = '';
@@ -202,8 +203,11 @@ export class TrueFalseComponent implements OnInit {
   formatQuestionForSpeech(currentIndex: number): string {
     const q = this.trueFalseQuestions[currentIndex];
     if (q == null) return '';
+
     let speech = `${currentIndex + 1}. ${q.question}. `;
+
         speech += " options are True or False. ";
+
     return speech;
   }
 
@@ -229,27 +233,29 @@ export class TrueFalseComponent implements OnInit {
 
   processAnswer(currentIndex: number, userAnswer: string) {
     const currentQ = this.trueFalseQuestions[currentIndex];
-    const answer = currentQ.answer.toString(); 
+    const answer = currentQ.answer.toString().toLowerCase(); 
     const spoken = userAnswer.toLowerCase();
 
     this.evaluationService.aiCompareText(spoken, answer).subscribe(response => {
       const isCorrect = response.match;
-      currentQ.answered = true;
+      currentQ.answered = isCorrect;
       currentQ.selectedAnswer = isCorrect ? currentQ.answer : null; 
       let text = isCorrect
         ? `Correct. ${spoken}`
-        : `That is incorrect. Correct answer is: ${answer}`;
+        : `That is incorrect. Try again.`;
       this.trueFalseQuestions[currentIndex].feedback = text;
       this.cdr.detectChanges();
-      this.readExplanation(currentIndex, text);
+      this.readExplanation(currentIndex, text, isCorrect);
     })
   }
 
-  readExplanation(currentIndex: number, text: string) {
+  readExplanation(currentIndex: number, text: string, isCorrect: boolean) {
     if (!this.trueFalseQuestions) return;
     this.voiceService.speak(text, () => {
       if (currentIndex < this.trueFalseQuestions.length) {
-          this.currentVoiceSelectionIndex++;
+          if (isCorrect) {
+            this.currentVoiceSelectionIndex++;
+          }
           this.readCurrentQuestion(this.currentVoiceSelectionIndex);
           this.cdr.detectChanges();
       }

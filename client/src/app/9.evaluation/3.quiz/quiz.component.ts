@@ -46,6 +46,7 @@ export class QuizComponent implements OnInit {
   private validate_data (data: any){
     return data.filter((q: any) => q.answer < 0 || q.answer > 3).length === 0;
   }
+
   private load() {
     this.evaluationService.getQuizzes(this.lessonsectionId).subscribe((data) => {
       if (!this.validate_data(data)) {
@@ -63,6 +64,7 @@ export class QuizComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.voiceService.stopSpeaking();
     this.load();
   }
 
@@ -87,7 +89,6 @@ export class QuizComponent implements OnInit {
   isAnyQuizAttempted(): boolean {
     return this.quizzes.some((quiz) => quiz.selectedAnswer !== null);
   }
-
 
   showBot = false;
   botQuestion = '';
@@ -123,7 +124,6 @@ export class QuizComponent implements OnInit {
     this.errorMessage = '';
     this.botResponse = ''; 
 
-    
     const currentQuestion = this.quizzes.find(q => q.question === this.botQuestion);
 
     if (!currentQuestion) {
@@ -135,7 +135,6 @@ export class QuizComponent implements OnInit {
     const correctAnswer = currentQuestion.options[currentQuestion.answer];
     const options = currentQuestion.options.join(', ');
 
-    
     const contextPrompt = `
       You are an AI tutor assisting students with multiple-choice questions. Your role is to:
       - Explain the question in simple terms.
@@ -235,22 +234,24 @@ export class QuizComponent implements OnInit {
 
     this.evaluationService.aiCompareText(spoken, answer).subscribe(response => {
       const isCorrect = response.match;
-      currentQ.answered = true;
+      currentQ.answered = isCorrect;
       currentQ.selectedAnswer = isCorrect ? currentQ.answer : null; 
       let text = isCorrect
         ? `Correct. ${spoken}`
-        : `That is incorrect. Correct answer is: ${answer}`;
+        : `That is incorrect. Try again.`;
       this.quizzes[currentIndex].feedback = text;
       this.cdr.detectChanges();
-      this.readExplanation(currentIndex, text);
+      this.readExplanation(currentIndex, text, isCorrect);
     })
   }
 
-  readExplanation(currentIndex: number, text: string) {
+  readExplanation(currentIndex: number, text: string, isCorrect: boolean) {
     if (!this.quizzes) return;
     this.voiceService.speak(text, () => {
       if (currentIndex < this.quizzes.length) {
-          this.currentVoiceSelectionIndex++;
+          if (isCorrect) {
+            this.currentVoiceSelectionIndex++;
+          }
           this.readCurrentQuestion(this.currentVoiceSelectionIndex);
           this.cdr.detectChanges();
       }

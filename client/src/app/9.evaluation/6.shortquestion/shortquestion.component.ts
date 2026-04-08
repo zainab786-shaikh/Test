@@ -47,6 +47,7 @@ export class ShortQuestionComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.voiceService.stopSpeaking();
     this.load();
   }
 
@@ -122,6 +123,7 @@ export class ShortQuestionComponent implements OnInit {
     this.botResponse = ''; 
 
     const currentQuestion = this.short_questions.find(q => q.question === this.botQuestion);
+
     if (!currentQuestion) {
       this.botResponse = "Error: Question not found.";
       this.isLoading = false;
@@ -129,6 +131,7 @@ export class ShortQuestionComponent implements OnInit {
     }
 
     const correctAnswer = currentQuestion.answer
+
     const contextPrompt = `
       You are an AI tutor assisting students with short answer questions. Your role is to:
       - Explain the question in simple terms.
@@ -189,10 +192,13 @@ export class ShortQuestionComponent implements OnInit {
       this.voiceService.stopSpeaking();
     }
   }
+
   formatQuestionForSpeech(currentIndex: number): string {
     const q = this.short_questions[currentIndex];
     if (q == null) return '';
+
     let speech = `${currentIndex + 1}. ${q.question}. `;
+
     return speech;
   }
 
@@ -223,21 +229,23 @@ export class ShortQuestionComponent implements OnInit {
 
     this.evaluationService.aiCompareText(spoken, answer).subscribe(response => {
       const isCorrect = response.match;
-      currentQ.answered = true;
+      currentQ.answered = isCorrect;
       let text = isCorrect
         ? `Correct. ${spoken}`
-        : `That is incorrect. Correct answer is: ${answer}`;
+        : `That is incorrect. Try again.`;
       this.short_questions[currentIndex].feedback = text;
       this.cdr.detectChanges();
-      this.readExplanation(currentIndex, text);
+      this.readExplanation(currentIndex, text, isCorrect);
     })
   }
 
-  readExplanation(currentIndex: number, text: string) {
+  readExplanation(currentIndex: number, text: string, isCorrect: boolean) {
     if (!this.short_questions) return;
     this.voiceService.speak(text, () => {
       if (currentIndex < this.short_questions.length) {
-          this.currentVoiceSelectionIndex++;
+          if (isCorrect) {
+            this.currentVoiceSelectionIndex++;
+          }
           this.readCurrentQuestion(this.currentVoiceSelectionIndex);
           this.cdr.detectChanges();
       }
