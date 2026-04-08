@@ -2,10 +2,10 @@
 -- PostgreSQL database dump
 --
 
-\restrict 5STifGfXFjsLb8R4oOKdmkmmWG699X5btzRCORbm3VkPDJueNixZL1fdCMWlDBZ
+\restrict shcasRHGG3bwTeb7SoiUQPG6qFRav9UDZpOgM8hX8hhYjgDkwTJzP0AwjVFgSiq
 
--- Dumped from database version 18.3
--- Dumped by pg_dump version 18.3 (Homebrew)
+-- Dumped from database version 18.1
+-- Dumped by pg_dump version 18.1
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -629,7 +629,7 @@ CREATE TABLE public.users (
     avatar_url text,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT users_role_check CHECK (((role)::text = ANY ((ARRAY['admin'::character varying, 'principal'::character varying, 'teacher'::character varying, 'student'::character varying, 'parent'::character varying])::text[])))
+    CONSTRAINT users_role_check CHECK (((role)::text = ANY (ARRAY[('admin'::character varying)::text, ('principal'::character varying)::text, ('teacher'::character varying)::text, ('student'::character varying)::text, ('parent'::character varying)::text])))
 );
 
 
@@ -1955,15 +1955,12 @@ COPY tenanta.lessonsection ("Id", name, explanation, quiz, fillblanks, truefalse
 
 COPY tenanta.logindetail ("Id", name, adhaar, password, role) FROM stdin;
 1	admin	1111-1111-1111	$2b$10$NMoFMEBzXq7yVZUwNFQXL.f5DxKmzwE8ngdlY2SYE5LRe04Hc8aqC	admin
-2	teacher	2222-2222-2222	$2b$10$UHL8hItsIN1mSQIXXFwLru4NHS/D6XCg9OnD5sg6HwOBfUwrFZDRq	teacher
-3	Yusuf Shaikh	2222-2222-2220	$2b$10$xIZKkodENMISD93NUVMHRey49vNeHUYNVUQGa6NlgXX6QiwvXNRwS	student
-4	principal	4444-4444-4444	principal	principal
-6	Affan Ansari	2222-2222-2221	student	student
-7	Zainab Shaikh	5555-5555-5550	$2b$10$aNGWjoTfF1gwwqyfrs2O/eW1W.eHZSnnNm5xSPjXvgs.TxObbIxGG	student
-8	Mehndi Shaikh	5555-5555-5551	$2b$10$g9Lgg2cKtcexbHo0zQskeOIZByNc2eNnh4EmNaFdl941k5REb4ogS	student
-9	Aun Shaikh	2222-2222-2221	$2b$10$o7IFGCkXZhwUMPJnq.PmfO2XdElzoW2L93u3mPuaLp.jkQHyQHOsC	student
-10	testTeacher	2222-2222-2222	$2b$10$cRElonzYAU7..I8n7iUEMetqqqnhQ9Myz/cyyD4tzSpdN0G4kn05e	teacher
-11	Jennifer Elaura	2222-2222-2222	$2b$10$TlvOlKhG86YGiArwViSOfeN17BgTDUIawVPVTbiuVIl5ETqYaX6CS	student
+17	Yusuf Shaikh	2222-2222-2220	$2b$10$k3fO7o/c6pOqWO5dNwSk2.m2L88GLoBfhfJx3VmWqbYqFDTnPATUK	student
+18	Affan Shaikh	2222-2222-2221	$2b$10$PtU0031BlsfH3WdFupyL6.Wsn6E8PbCpY00JLwKFVCUJJyDDQ5ZNS	student
+2	Farahnaaz Sayed	2222-2222-3330	$2b$10$QSdduTL2kZiQ6rT8if00kOTS91CcDrDdtumEzjykfbXdXtwY1Nx/m	teacher
+19	Zainab Shaikh	2222-2222-4440	$2b$10$b2NpMUWPtb5ZP04tnk/p5uvEdKsq9NalvAhwtvoATUfjwbU3vkhDu	student
+20	Mehndi Shaikh	2222-2222-4441	$2b$10$0Kbs9N9QINlRFnEcc.SOyuuF8Ajkbarftea5IimiYqvtGN/FmesfK	student
+3	Zaibunnisa Mallik	2222-2222-5550	$2b$10$hUnUw/qH.Gkf7TixvZNcVOYHv2wPm68BJsm1CiMmTrHRT4aEGZaS.	teacher
 \.
 
 
@@ -1972,159 +1969,130 @@ COPY tenanta.logindetail ("Id", name, adhaar, password, role) FROM stdin;
 --
 
 COPY tenanta.progress ("Id", student, lessonsection, score, quiz, fillblanks, truefalse, subject, lesson, standard, school, shortquestion) FROM stdin;
-217	16	64	0	0	0	0	15	16	6	1	0
-218	16	65	0	0	0	0	15	16	6	1	0
-219	16	66	0	0	0	0	15	16	6	1	0
-220	16	57	0	0	0	0	15	15	6	1	0
-221	16	59	0	0	0	0	15	15	6	1	0
-222	16	60	0	0	0	0	15	15	6	1	0
-223	16	61	0	0	0	0	15	15	6	1	0
-224	16	63	0	0	0	0	15	16	6	1	0
-225	16	67	0	0	0	0	15	17	6	1	0
-226	16	68	0	0	0	0	15	17	6	1	0
-227	16	69	0	0	0	0	15	17	6	1	0
-228	16	70	0	0	0	0	15	17	6	1	0
-229	17	45	0	0	0	0	14	13	6	1	0
-245	17	42	0	0	0	0	14	12	6	1	0
-246	17	56	0	0	0	0	14	14	6	1	0
-247	17	62	0	0	0	0	15	16	6	1	0
-248	17	65	0	0	0	0	15	16	6	1	0
-249	17	43	0	0	0	0	14	12	6	1	0
-250	17	44	0	0	0	0	14	12	6	1	0
-251	17	52	0	0	0	0	14	14	6	1	0
-252	17	53	0	0	0	0	14	14	6	1	0
-253	17	54	0	0	0	0	14	14	6	1	0
-254	17	55	0	0	0	0	14	14	6	1	0
-255	17	63	0	0	0	0	15	16	6	1	0
-256	17	64	0	0	0	0	15	16	6	1	0
-257	17	66	0	0	0	0	15	16	6	1	0
-258	17	67	0	0	0	0	15	17	6	1	0
-259	17	68	0	0	0	0	15	17	6	1	0
-260	17	69	0	0	0	0	15	17	6	1	0
-261	17	70	0	0	0	0	15	17	6	1	0
-291	19	11	0	0	0	0	12	4	5	1	0
-292	19	12	0	0	0	0	12	4	5	1	0
-293	19	9	0	0	0	0	12	4	5	1	0
-294	19	10	0	0	0	0	12	4	5	1	0
-295	19	14	0	0	0	0	12	5	5	1	0
-296	19	15	0	0	0	0	12	5	5	1	0
-297	19	16	0	0	0	0	12	5	5	1	0
-298	19	17	0	0	0	0	12	5	5	1	0
-299	19	20	0	0	0	0	12	5	5	1	0
-300	19	21	0	0	0	0	12	6	5	1	0
-301	19	22	0	0	0	0	12	6	5	1	0
-302	19	23	0	0	0	0	12	6	5	1	0
-141	14	12	0	0	0	0	12	4	5	1	0
-303	19	24	0	0	0	0	12	6	5	1	0
-304	19	25	0	0	0	0	12	6	5	1	0
-305	19	18	0	0	0	0	12	5	5	1	0
-306	19	13	0	0	0	0	12	4	5	1	0
-307	19	19	0	0	0	0	12	5	5	1	0
-308	19	26	0	0	0	0	13	9	5	1	0
-309	19	27	0	0	0	0	13	9	5	1	0
-310	19	28	0	0	0	0	13	9	5	1	0
-311	19	29	0	0	0	0	13	10	5	1	0
-312	19	30	0	0	0	0	13	10	5	1	0
-313	19	31	0	0	0	0	13	10	5	1	0
-314	19	32	0	0	0	0	13	10	5	1	0
-315	19	33	0	0	0	0	13	11	5	1	0
-316	19	36	0	0	0	0	13	11	5	1	0
-317	19	37	0	0	0	0	13	11	5	1	0
-318	19	34	0	0	0	0	13	11	5	1	0
-319	19	35	0	0	0	0	13	11	5	1	0
-320	20	9	0	0	0	0	12	4	5	1	0
-321	20	10	0	0	0	0	12	4	5	1	0
-322	20	12	0	0	0	0	12	4	5	1	0
-323	20	13	0	0	0	0	12	4	5	1	0
-324	20	14	0	0	0	0	12	5	5	1	0
-325	20	15	0	0	0	0	12	5	5	1	0
-326	20	16	0	0	0	0	12	5	5	1	0
-327	20	19	0	0	0	0	12	5	5	1	0
-328	20	11	0	0	0	0	12	4	5	1	0
-329	20	21	0	0	0	0	12	6	5	1	0
-330	20	22	0	0	0	0	12	6	5	1	0
-331	20	23	0	0	0	0	12	6	5	1	0
-332	20	20	0	0	0	0	12	5	5	1	0
-333	20	17	0	0	0	0	12	5	5	1	0
-334	20	18	0	0	0	0	12	5	5	1	0
-335	20	24	0	0	0	0	12	6	5	1	0
-336	20	25	0	0	0	0	12	6	5	1	0
-337	20	26	0	0	0	0	13	9	5	1	0
-338	20	27	0	0	0	0	13	9	5	1	0
-339	20	28	0	0	0	0	13	9	5	1	0
-340	20	29	0	0	0	0	13	10	5	1	0
-341	20	30	0	0	0	0	13	10	5	1	0
-342	20	31	0	0	0	0	13	10	5	1	0
-343	20	32	0	0	0	0	13	10	5	1	0
-344	20	33	0	0	0	0	13	11	5	1	0
-345	20	34	0	0	0	0	13	11	5	1	0
-346	20	35	0	0	0	0	13	11	5	1	0
-347	20	36	0	0	0	0	13	11	5	1	0
-348	20	37	0	0	0	0	13	11	5	1	0
-138	14	9	0	100	100	100	12	4	5	1	100
-140	14	11	0	100	100	100	12	4	5	1	100
-142	14	13	0	0	0	0	12	4	5	1	0
-143	14	14	0	0	0	0	12	5	5	1	0
-144	14	15	0	0	0	0	12	5	5	1	0
-145	14	16	0	0	0	0	12	5	5	1	0
-146	14	17	0	0	0	0	12	5	5	1	0
-147	14	19	0	0	0	0	12	5	5	1	0
-148	14	20	0	0	0	0	12	5	5	1	0
-149	14	22	0	0	0	0	12	6	5	1	0
-150	14	21	0	0	0	0	12	6	5	1	0
-151	14	23	0	0	0	0	12	6	5	1	0
-152	14	18	0	0	0	0	12	5	5	1	0
-153	14	26	0	0	0	0	13	9	5	1	0
-154	14	27	0	0	0	0	13	9	5	1	0
-155	14	28	0	0	0	0	13	9	5	1	0
-156	14	29	0	0	0	0	13	10	5	1	0
-157	14	31	0	0	0	0	13	10	5	1	0
-158	14	33	0	0	0	0	13	11	5	1	0
-159	14	34	0	0	0	0	13	11	5	1	0
-160	14	36	0	0	0	0	13	11	5	1	0
-161	14	37	0	0	0	0	13	11	5	1	0
-162	14	24	0	0	0	0	12	6	5	1	0
-163	14	25	0	0	0	0	12	6	5	1	0
-164	14	30	0	0	0	0	13	10	5	1	0
-165	14	32	0	0	0	0	13	10	5	1	0
-166	14	35	0	0	0	0	13	11	5	1	0
-196	16	38	0	0	0	0	14	12	6	1	0
-197	16	39	0	0	0	0	14	12	6	1	0
-198	16	40	0	0	0	0	14	12	6	1	0
-199	16	41	0	0	0	0	14	12	6	1	0
-200	16	42	0	0	0	0	14	12	6	1	0
-201	16	43	0	0	0	0	14	12	6	1	0
-202	16	46	0	0	0	0	14	13	6	1	0
-203	16	44	0	0	0	0	14	12	6	1	0
-204	16	51	0	0	0	0	14	13	6	1	0
-205	16	52	0	0	0	0	14	14	6	1	0
-206	16	54	0	0	0	0	14	14	6	1	0
-207	16	55	0	0	0	0	14	14	6	1	0
-208	16	47	0	0	0	0	14	13	6	1	0
-209	16	45	0	0	0	0	14	13	6	1	0
-210	16	48	0	0	0	0	14	13	6	1	0
-211	16	49	0	0	0	0	14	13	6	1	0
-212	16	50	0	0	0	0	14	13	6	1	0
-213	16	53	0	0	0	0	14	14	6	1	0
-214	16	56	0	0	0	0	14	14	6	1	0
-215	16	58	0	0	0	0	15	15	6	1	0
-216	16	62	0	0	0	0	15	16	6	1	0
-139	14	10	0	100	100	100	12	4	5	1	100
-230	17	50	0	0	0	0	14	13	6	1	0
-231	17	51	0	0	0	0	14	13	6	1	0
-232	17	46	0	0	0	0	14	13	6	1	0
-233	17	47	0	0	0	0	14	13	6	1	0
-234	17	48	0	0	0	0	14	13	6	1	0
-235	17	49	0	0	0	0	14	13	6	1	0
-236	17	57	0	0	0	0	15	15	6	1	0
-237	17	59	0	0	0	0	15	15	6	1	0
-238	17	60	0	0	0	0	15	15	6	1	0
-239	17	61	0	0	0	0	15	15	6	1	0
-240	17	58	0	0	0	0	15	15	6	1	0
-241	17	38	0	0	0	0	14	12	6	1	0
-242	17	39	0	0	0	0	14	12	6	1	0
-243	17	40	0	0	0	0	14	12	6	1	0
-244	17	41	0	0	0	0	14	12	6	1	0
+423	17	11	0	0	0	0	12	4	5	1	0
+424	17	14	0	0	0	0	12	5	5	1	0
+425	17	16	0	0	0	0	12	5	5	1	0
+426	17	18	0	0	0	0	12	5	5	1	0
+427	17	19	0	0	0	0	12	5	5	1	0
+428	17	15	0	0	0	0	12	5	5	1	0
+429	17	17	0	0	0	0	12	5	5	1	0
+430	17	20	0	0	0	0	12	5	5	1	0
+431	17	25	0	0	0	0	12	6	5	1	0
+432	17	21	0	0	0	0	12	6	5	1	0
+433	17	22	0	0	0	0	12	6	5	1	0
+435	17	24	0	0	0	0	12	6	5	1	0
+434	17	23	0	0	0	0	12	6	5	1	0
+436	17	26	0	0	0	0	13	9	5	1	0
+437	17	27	0	0	0	0	13	9	5	1	0
+438	17	28	0	0	0	0	13	9	5	1	0
+439	17	29	0	0	0	0	13	10	5	1	0
+440	17	30	0	0	0	0	13	10	5	1	0
+441	17	31	0	0	0	0	13	10	5	1	0
+442	17	32	0	0	0	0	13	10	5	1	0
+443	17	33	0	0	0	0	13	11	5	1	0
+444	17	34	0	0	0	0	13	11	5	1	0
+445	17	35	0	0	0	0	13	11	5	1	0
+446	17	36	0	0	0	0	13	11	5	1	0
+447	17	37	0	0	0	0	13	11	5	1	0
+450	18	13	0	0	0	0	12	4	5	1	0
+451	18	9	0	0	0	0	12	4	5	1	0
+452	18	11	0	0	0	0	12	4	5	1	0
+453	18	14	0	0	0	0	12	5	5	1	0
+454	18	16	0	0	0	0	12	5	5	1	0
+455	18	18	0	0	0	0	12	5	5	1	0
+456	18	19	0	0	0	0	12	5	5	1	0
+457	18	15	0	0	0	0	12	5	5	1	0
+458	18	17	0	0	0	0	12	5	5	1	0
+459	18	20	0	0	0	0	12	5	5	1	0
+460	18	25	0	0	0	0	12	6	5	1	0
+461	18	21	0	0	0	0	12	6	5	1	0
+462	18	22	0	0	0	0	12	6	5	1	0
+463	18	23	0	0	0	0	12	6	5	1	0
+464	18	24	0	0	0	0	12	6	5	1	0
+465	18	26	0	0	0	0	13	9	5	1	0
+466	18	27	0	0	0	0	13	9	5	1	0
+467	18	28	0	0	0	0	13	9	5	1	0
+468	18	29	0	0	0	0	13	10	5	1	0
+469	18	30	0	0	0	0	13	10	5	1	0
+470	18	31	0	0	0	0	13	10	5	1	0
+471	18	32	0	0	0	0	13	10	5	1	0
+472	18	33	0	0	0	0	13	11	5	1	0
+473	18	34	0	0	0	0	13	11	5	1	0
+474	18	35	0	0	0	0	13	11	5	1	0
+475	18	36	0	0	0	0	13	11	5	1	0
+476	18	37	0	0	0	0	13	11	5	1	0
+477	19	38	0	0	0	0	14	12	6	1	0
+478	19	39	0	0	0	0	14	12	6	1	0
+479	19	40	0	0	0	0	14	12	6	1	0
+480	19	41	0	0	0	0	14	12	6	1	0
+481	19	42	0	0	0	0	14	12	6	1	0
+482	19	43	0	0	0	0	14	12	6	1	0
+484	19	45	0	0	0	0	14	13	6	1	0
+483	19	44	0	0	0	0	14	12	6	1	0
+485	19	46	0	0	0	0	14	13	6	1	0
+486	19	47	0	0	0	0	14	13	6	1	0
+487	19	48	0	0	0	0	14	13	6	1	0
+489	19	50	0	0	0	0	14	13	6	1	0
+488	19	49	0	0	0	0	14	13	6	1	0
+490	19	51	0	0	0	0	14	13	6	1	0
+491	19	52	0	0	0	0	14	14	6	1	0
+492	19	53	0	0	0	0	14	14	6	1	0
+493	19	54	0	0	0	0	14	14	6	1	0
+494	19	55	0	0	0	0	14	14	6	1	0
+495	19	56	0	0	0	0	14	14	6	1	0
+496	19	57	0	0	0	0	15	15	6	1	0
+497	19	58	0	0	0	0	15	15	6	1	0
+498	19	59	0	0	0	0	15	15	6	1	0
+499	19	60	0	0	0	0	15	15	6	1	0
+500	19	61	0	0	0	0	15	15	6	1	0
+501	19	62	0	0	0	0	15	16	6	1	0
+502	19	63	0	0	0	0	15	16	6	1	0
+503	19	64	0	0	0	0	15	16	6	1	0
+504	19	65	0	0	0	0	15	16	6	1	0
+505	19	66	0	0	0	0	15	16	6	1	0
+506	19	70	0	0	0	0	15	17	6	1	0
+507	19	67	0	0	0	0	15	17	6	1	0
+508	19	68	0	0	0	0	15	17	6	1	0
+509	19	69	0	0	0	0	15	17	6	1	0
+510	20	38	0	0	0	0	14	12	6	1	0
+511	20	39	0	0	0	0	14	12	6	1	0
+512	20	40	0	0	0	0	14	12	6	1	0
+513	20	41	0	0	0	0	14	12	6	1	0
+514	20	42	0	0	0	0	14	12	6	1	0
+515	20	43	0	0	0	0	14	12	6	1	0
+516	20	44	0	0	0	0	14	12	6	1	0
+517	20	45	0	0	0	0	14	13	6	1	0
+518	20	46	0	0	0	0	14	13	6	1	0
+519	20	47	0	0	0	0	14	13	6	1	0
+520	20	48	0	0	0	0	14	13	6	1	0
+521	20	50	0	0	0	0	14	13	6	1	0
+522	20	49	0	0	0	0	14	13	6	1	0
+523	20	51	0	0	0	0	14	13	6	1	0
+524	20	52	0	0	0	0	14	14	6	1	0
+525	20	53	0	0	0	0	14	14	6	1	0
+420	17	12	0	100	100	100	12	4	5	1	100
+421	17	13	0	100	100	100	12	4	5	1	100
+422	17	9	0	50	50	50	12	4	5	1	50
+448	18	10	0	100	100	100	12	4	5	1	100
+449	18	12	0	50	50	50	12	4	5	1	50
+526	20	54	0	0	0	0	14	14	6	1	0
+532	20	60	0	0	0	0	15	15	6	1	0
+536	20	64	0	0	0	0	15	16	6	1	0
+538	20	66	0	0	0	0	15	16	6	1	0
+527	20	55	0	0	0	0	14	14	6	1	0
+537	20	65	0	0	0	0	15	16	6	1	0
+539	20	70	0	0	0	0	15	17	6	1	0
+535	20	63	0	0	0	0	15	16	6	1	0
+531	20	59	0	0	0	0	15	15	6	1	0
+529	20	57	0	0	0	0	15	15	6	1	0
+528	20	56	0	0	0	0	14	14	6	1	0
+530	20	58	0	0	0	0	15	15	6	1	0
+541	20	68	0	0	0	0	15	17	6	1	0
+542	20	69	0	0	0	0	15	17	6	1	0
+533	20	61	0	0	0	0	15	15	6	1	0
+534	20	62	0	0	0	0	15	16	6	1	0
+540	20	67	0	0	0	0	15	17	6	1	0
+419	17	10	0	100	100	100	12	4	5	1	100
 \.
 
 
@@ -2162,11 +2130,10 @@ COPY tenanta.standard ("Id", name) FROM stdin;
 --
 
 COPY tenanta.student ("Id", name, adhaar, school, standard) FROM stdin;
-14	Yusuf Shaikh	2222-2222-2220	1	5
-16	Zainab Shaikh	5555-5555-5550	1	6
-17	Mehndi Shaikh	5555-5555-5551	1	6
-19	Aun Shaikh	2222-2222-2221	1	5
-20	Jennifer Elaura	2222-2222-2222	1	5
+17	Yusuf Shaikh	2222-2222-2220	1	5
+18	Affan Shaikh	2222-2222-2221	1	5
+19	Zainab Shaikh	2222-2222-4440	1	6
+20	Mehndi Shaikh	2222-2222-4441	1	6
 \.
 
 
@@ -2187,7 +2154,8 @@ COPY tenanta.subject ("Id", name, standard) FROM stdin;
 --
 
 COPY tenanta.teacher ("Id", name, adhaar, school, standard) FROM stdin;
-2	testTeacher	2222-2222-2222	1	5
+10	Farahnaaz Sayed	2222-2222-3330	1	5
+11	Zaibunnisa Mallik	2222-2222-5550	1	6
 \.
 
 
@@ -2335,28 +2303,28 @@ SELECT pg_catalog.setval('tenanta."lessonsection_Id_seq"', 70, true);
 -- Name: logindetail_Id_seq; Type: SEQUENCE SET; Schema: tenanta; Owner: postgres
 --
 
-SELECT pg_catalog.setval('tenanta."logindetail_Id_seq"', 1, false);
+SELECT pg_catalog.setval('tenanta."logindetail_Id_seq"', 3, true);
 
 
 --
 -- Name: progress_Id_seq; Type: SEQUENCE SET; Schema: tenanta; Owner: postgres
 --
 
-SELECT pg_catalog.setval('tenanta."progress_Id_seq"', 1, false);
+SELECT pg_catalog.setval('tenanta."progress_Id_seq"', 542, true);
 
 
 --
 -- Name: school_Id_seq; Type: SEQUENCE SET; Schema: tenanta; Owner: postgres
 --
 
-SELECT pg_catalog.setval('tenanta."school_Id_seq"', 1, false);
+SELECT pg_catalog.setval('tenanta."school_Id_seq"', 2, true);
 
 
 --
 -- Name: schoolstandard_Id_seq; Type: SEQUENCE SET; Schema: tenanta; Owner: postgres
 --
 
-SELECT pg_catalog.setval('tenanta."schoolstandard_Id_seq"', 1, false);
+SELECT pg_catalog.setval('tenanta."schoolstandard_Id_seq"', 10, true);
 
 
 --
@@ -2370,7 +2338,7 @@ SELECT pg_catalog.setval('tenanta."standard_Id_seq"', 1, false);
 -- Name: student_Id_seq; Type: SEQUENCE SET; Schema: tenanta; Owner: postgres
 --
 
-SELECT pg_catalog.setval('tenanta."student_Id_seq"', 1, false);
+SELECT pg_catalog.setval('tenanta."student_Id_seq"', 20, true);
 
 
 --
@@ -2384,7 +2352,7 @@ SELECT pg_catalog.setval('tenanta."subject_Id_seq"', 15, true);
 -- Name: teacher_Id_seq; Type: SEQUENCE SET; Schema: tenanta; Owner: postgres
 --
 
-SELECT pg_catalog.setval('tenanta."teacher_Id_seq"', 1, false);
+SELECT pg_catalog.setval('tenanta."teacher_Id_seq"', 11, true);
 
 
 --
@@ -3158,5 +3126,5 @@ REVOKE USAGE ON SCHEMA public FROM PUBLIC;
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 5STifGfXFjsLb8R4oOKdmkmmWG699X5btzRCORbm3VkPDJueNixZL1fdCMWlDBZ
+\unrestrict shcasRHGG3bwTeb7SoiUQPG6qFRav9UDZpOgM8hX8hhYjgDkwTJzP0AwjVFgSiq
 

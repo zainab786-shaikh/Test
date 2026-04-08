@@ -10,9 +10,9 @@ psql -U %PGUSER% -c "CREATE DATABASE %DBNAME%;"
 
 REM Restore backup (choose one based on file type)
 REM For .sql file
-psql -U %PGUSER% -d %DBNAME% -f fullbackup.sql
+psql -U %PGUSER% -d %DBNAME% -f mydb_backup.sql
 
 REM For .dump / .backup file
-REM pg_restore -U %PGUSER% -d %DBNAME% fullback.dump
+REM pg_restore -U %PGUSER% -d %DBNAME% mydb_backup.sql
 
 pause
