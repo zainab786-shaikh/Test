@@ -17,6 +17,7 @@ import { BarPlotter } from '../dashboard.component.servicePlotter';
 import { ProgressService } from '../../4.progress/progress.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { ISchool } from '../../1.school/school.model';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -38,6 +39,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
 export class SchoolDashboardComponent {
   schoolId: number = 1;
 
+  schoolInfo!: ISchool;
   perfOverall!: number;
   perfOverallPlotter!: BarPlotter;
 
@@ -63,6 +65,7 @@ export class SchoolDashboardComponent {
 
   ngOnInit(): void {
     this.serviceHelper.initializeDashboardData(this.schoolId).subscribe(() => {
+      this.schoolInfo = this.serviceHelper.schools[0];
       this.progressService.getAllSchool(this.schoolId).subscribe((data) => {
         this.perfOverall = this.serviceHelper.getOverallPerformance(data);
 
