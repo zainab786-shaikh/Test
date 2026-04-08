@@ -35,6 +35,7 @@
 mat-card {
   margin: 0;
   padding: 0;
+  max-width: 100%;
   border-radius: var(--r-lg) !important;
   box-shadow: var(--shadow-sm) !important;
   background-color: var(--surface) !important;
@@ -681,4 +682,32 @@ markdown h1, markdown h2, markdown h3, markdown h4 {
 
 markdown p {
   margin-bottom: var(--s-12);
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--s-12);
+  margin-top: var(--s-32);
+}
+
+button {
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--r-sm);
+  padding: var(--s-12) var(--s-24);
+  cursor: pointer;
+  transition: all var(--transition);
+  font-family: inherit;
+}
+
+.interactive-button {
+  background-color: var(--primary-light) !important;
+  color: var(--primary) !important;
+  border: 1px solid rgba(99, 102, 241, 0.2) !important;
+}
+
+.interactive-button:hover {
+  background-color: rgba(99, 102, 241, 0.15) !important;
 }

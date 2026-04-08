@@ -8,6 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { IFillBlankComponent } from './fillblank.component.model';
 import { VoiceService } from '../voice.service';
 import { NavigationStart, Router } from '@angular/router';
+import { MarkdownModule } from 'ngx-markdown';
 
 @Component({
   selector: 'app-fillblank',
@@ -17,6 +18,7 @@ import { NavigationStart, Router } from '@angular/router';
     MatIconModule,
     FormsModule,
     MatSelectModule,
+    MarkdownModule
   ],
   templateUrl: './fillblank.component.html',
   styleUrl: './fillblank.component.css',
@@ -87,7 +89,6 @@ export class FillBlankComponent implements OnInit {
     return this.fillBlanks.some((question) => question.selectedAnswer !== null);
   }
 
-
   showBot = false;
   botQuestion = '';
   botResponse = '';
@@ -122,7 +123,6 @@ export class FillBlankComponent implements OnInit {
     this.errorMessage = '';
     this.botResponse = ''; 
 
-    
     const currentQuestion = this.fillBlanks.find(q => q.question === this.botQuestion);
 
     if (!currentQuestion) {
@@ -134,9 +134,8 @@ export class FillBlankComponent implements OnInit {
     const correctAnswer = currentQuestion.options[currentQuestion.answer];
     const options = currentQuestion.options.join(', ');
 
-    
     const contextPrompt = `
-            You are an AI tutor assisting students with fill in the blanks questions with multiple options. Your role is to:
+    You are an AI tutor assisting students with fill in the blanks questions with multiple options. Your role is to:
       - Explain the question in simple terms.
       - Provide the correct answer.
       - Explain WHY it is correct.
@@ -148,8 +147,8 @@ export class FillBlankComponent implements OnInit {
 
       Guidelines:
       1. First, explain what the question means.
-      2. Then, reveal the correct answer.
-      3. Finally, explain why the correct answer is correct by comparing it to other options.
+      2. Don't give away the correct answer.
+      3. Finally, give the hint about the correct answer by comparing it to other options.
       4. If the user asks an unrelated question, respond with: "You are asking outside the context."
 
       **User's Query:** "${query}"

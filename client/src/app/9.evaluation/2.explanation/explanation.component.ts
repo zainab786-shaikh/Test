@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, AfterViewChecked } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -13,6 +13,7 @@ import { MarkdownModule } from 'ngx-markdown';
 import { convert } from 'html-to-text';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { VoiceService } from '../voice.service';
 
 @Component({
   selector: 'app-explanation',
@@ -56,6 +57,8 @@ export class ExplanationComponent implements OnInit, OnDestroy, AfterViewChecked
   constructor(
     private sanitizer: DomSanitizer,
     private evaluationService: EvaluationService,
+    private voiceService: VoiceService,
+    private cdr: ChangeDetectorRef,
     private snackBar: MatSnackBar
   ) {
     this.speechSynthesis = window.speechSynthesis;
@@ -66,8 +69,6 @@ export class ExplanationComponent implements OnInit, OnDestroy, AfterViewChecked
   isRecording: boolean = false;
   isSpeechRecognitionSupported: boolean = false;
 
-
-  
   private load() {
     this.loadingExplanation = true;
     this.activeSubscription = this.evaluationService
@@ -90,7 +91,6 @@ export class ExplanationComponent implements OnInit, OnDestroy, AfterViewChecked
 
   ngOnInit() {
     this.load();
-    this.initSpeechRecognition();
   }
 
   ngAfterViewChecked() {
@@ -108,8 +108,30 @@ export class ExplanationComponent implements OnInit, OnDestroy, AfterViewChecked
     if (this.responseSubscription) {
       this.responseSubscription.unsubscribe();
     }
-    
-    this.stopSpeechRecognition();
+  }
+
+  isInteractiveMode = false;
+  isInteractive(): boolean {
+    return this.isInteractiveMode;
+  }
+
+  toggleSpeaking(messageContent: string) {
+    this.isSpeaking = !this.isSpeaking
+    if (this.isSpeaking) {
+      this.voiceService.speak(messageContent);
+    } else {
+      this.voiceService.stopSpeaking();
+    } 
+  }
+
+  toggleInteractiveMode() {
+    this.isInteractiveMode = !this.isInteractiveMode;
+    if (this.isInteractiveMode) {
+      let textExplanation = this.convertHtmlToPlainText(this.explanation);
+      this.voiceService.speak(textExplanation);
+    } else {
+      this.voiceService.stopSpeaking();
+    }
   }
 
   sendQuestion() {
@@ -118,11 +140,9 @@ export class ExplanationComponent implements OnInit, OnDestroy, AfterViewChecked
       this.showNotification('Please enter a question');
       return;
     }
-
-    
+   
     const userQuestion = this.prompt.trim();
-
-    
+   
     this.prompt = '';
     this.errorMessage = '';
     this.isLoading = true;
@@ -228,125 +248,16 @@ export class ExplanationComponent implements OnInit, OnDestroy, AfterViewChecked
     });
   }
 
-  
-  private initSpeechRecognition() {
-    
-    if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
-      this.isSpeechRecognitionSupported = true;
-
-      
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      this.recognition = new SpeechRecognition();
-
-      
-      this.recognition.continuous = false;
-      this.recognition.interimResults = true;
-      this.recognition.lang = 'en-US';
-
-      
-      this.recognition.onstart = () => {
-        this.isRecording = true;
-      };
-
-      this.recognition.onresult = (event: SpeechRecognitionEvent) => {
-        const transcript = Array.from(event.results)
-          .map(result => result[0].transcript)
-          .join('');
-
-        
-        this.prompt = transcript;
-
-        
-        if (event.results[0].isFinal) {
-          setTimeout(() => {
-            this.stopSpeechRecognition();
-          }, 1000);
-        }
-      };
-
-      this.recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
-        console.error('Speech recognition error:', event.error);
-
-        let message = '';
-        switch(event.error) {
-          case 'not-allowed':
-            message = 'Microphone access denied. Please allow microphone access.';
-            break;
-          case 'no-speech':
-            message = 'No speech detected. Please try again.';
-            break;
-          case 'network':
-            message = 'Network error occurred. Please check your connection.';
-            break;
-          default:
-            message = `Error: ${event.error}. Please try again.`;
-        }
-
-        this.errorMessage = message;
-        this.stopSpeechRecognition();
-      };
-
-      this.recognition.onend = () => {
-        this.isRecording = false;
-      };
-    } else {
-      this.isSpeechRecognitionSupported = false;
-      console.warn('Speech recognition is not supported in this browser.');
-    }
-  }
-
-  toggleSpeechRecognition() {
-    if (!this.isSpeechRecognitionSupported) {
-      this.errorMessage = 'Speech recognition is not supported in this browser.';
-      this.showNotification('Speech recognition not supported');
-      return;
-    }
-
-    if (this.isRecording) {
-      this.stopSpeechRecognition();
-    } else {
-      this.startSpeechRecognition();
-    }
-  }
-
-  private startSpeechRecognition() {
-    if (this.recognition && !this.isRecording) {
-      this.errorMessage = '';
-      try {
-        this.recognition.start();
-        this.showNotification('Listening...');
-      } catch (error) {
-        console.error('Error starting speech recognition:', error);
-        this.errorMessage = 'Error starting speech recognition. Please try again.';
+  askQuestion() {
+    this.voiceService.stopSpeaking();
+    this.voiceService.listen((heard) => {
+      if (heard != null && heard.trim() !== '') {
+        this.prompt = heard;
+        this.sendQuestion();
+      } else {
+        console.warn('Voice input was empty or whitespace.');
       }
-    }
-  }
+    });
 
-  private stopSpeechRecognition() {
-    if (this.recognition && this.isRecording) {
-      try {
-        this.recognition.stop();
-      } catch (error) {
-        console.error('Error stopping speech recognition:', error);
-      }
-    }
-  }
-
-  speak(text: string) {
-    if (this.isSpeaking) {
-      this.stopSpeaking();
-    }
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.onend = () => {
-      this.isSpeaking = false;
-    };
-    this.isSpeaking = true;
-    this.speechSynthesis.speak(utterance);
-  }
-
-  stopSpeaking() {
-    this.speechSynthesis.cancel();
-    this.isSpeaking = false;
   }
 }

@@ -9,6 +9,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { ITrueFalseComponent } from './truefalse.component.model';
 import { VoiceService } from '../voice.service';
 import { NavigationStart, Router } from '@angular/router';
+import { MarkdownModule } from 'ngx-markdown';
 
 @Component({
   selector: 'app-truefalse',
@@ -18,6 +19,7 @@ import { NavigationStart, Router } from '@angular/router';
     MatIconModule,
     MatRadioModule,
     FormsModule,
+    MarkdownModule
   ],
   templateUrl: './truefalse.component.html',
   styleUrls: ['./truefalse.component.css'],
@@ -153,8 +155,8 @@ export class TrueFalseComponent implements OnInit {
 
       Guidelines:
       1. First, explain what the question means.
-      2. Then, reveal the correct answer.
-      3. Finally, explain why the correct answer is correct by comparing it to other options.
+      2. Don't give away the correct answer.
+      3. Finally, give the hint about the correct answer by comparing it to other options.
       4. If the user asks an unrelated question, respond with: "You are asking outside the context."
 
       **User's Query:** "${query}"
@@ -200,6 +202,7 @@ export class TrueFalseComponent implements OnInit {
       this.voiceService.stopSpeaking();
     }
   }
+
   formatQuestionForSpeech(currentIndex: number): string {
     const q = this.trueFalseQuestions[currentIndex];
     if (q == null) return '';

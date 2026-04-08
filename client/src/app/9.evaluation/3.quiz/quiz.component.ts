@@ -9,6 +9,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { IQuizComponent } from './quiz.component.model';
 import { VoiceService } from '../voice.service';
 import { NavigationStart, Router } from '@angular/router';
+import { MarkdownModule } from 'ngx-markdown';
 
 @Component({
   selector: 'app-quiz',
@@ -19,6 +20,7 @@ import { NavigationStart, Router } from '@angular/router';
     FormsModule,
     MatInputModule,
     MatRadioModule,
+    MarkdownModule
   ],
   templateUrl: './quiz.component.html',
   styleUrl: './quiz.component.css',
@@ -148,8 +150,8 @@ export class QuizComponent implements OnInit {
 
       Guidelines:
       1. First, explain what the question means.
-      2. Then, reveal the correct answer.
-      3. Finally, explain why the correct answer is correct by comparing it to other options.
+      2. Don't give away the correct answer.
+      3. Finally, give the hint about the correct answer by comparing it to other options.
       4. If the user asks an unrelated question, respond with: "You are asking outside the context."
 
       **User's Query:** "${query}"
