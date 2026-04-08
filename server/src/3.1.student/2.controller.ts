@@ -124,8 +124,9 @@ export class ControllerStudent extends BaseController {
         await this.serviceStudentProgressImpl.create(studentObj);
 
         // Create corresponding logindetail
-        if (!this.serviceLoginDetail.getByName(studentObj.name)){
+        if (! await this.serviceLoginDetail.getByName(studentObj.name)){
           const loginDetail = {
+            Id: studentObj.Id,
             name: studentObj.name,
             adhaar: studentObj.adhaar,
             password: "student",

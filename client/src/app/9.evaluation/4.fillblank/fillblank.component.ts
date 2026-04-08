@@ -239,6 +239,7 @@ export class FillBlankComponent implements OnInit {
         ? `Correct. ${spoken}`
         : `That is incorrect. Try again.`;
       this.fillBlanks[currentIndex].feedback = text;
+      this.fillBlanks[currentIndex].selectedAnswer = this.fillBlanks[currentIndex].answer;
       this.cdr.detectChanges();
       this.readExplanation(currentIndex, text, isCorrect);
     })

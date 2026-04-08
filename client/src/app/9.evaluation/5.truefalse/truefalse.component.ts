@@ -247,6 +247,7 @@ export class TrueFalseComponent implements OnInit {
         ? `Correct. ${spoken}`
         : `That is incorrect. Try again.`;
       this.trueFalseQuestions[currentIndex].feedback = text;
+      this.trueFalseQuestions[currentIndex].selectedAnswer = this.trueFalseQuestions[currentIndex].answer;
       this.cdr.detectChanges();
       this.readExplanation(currentIndex, text, isCorrect);
     })

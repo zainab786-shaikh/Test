@@ -120,8 +120,9 @@ export class ControllerTeacher extends BaseController {
 
       if (teacherObj) {
         // Create corresponding logindetail
-        if (!this.serviceLoginDetail.getByName(teacherObj.name)){
+        if (! await this.serviceLoginDetail.getByName(teacherObj.name)){
         const loginDetail = {
+            Id: teacherObj.Id,
             name: teacherObj.name,
             adhaar: teacherObj.adhaar,
             password: "teacher",

@@ -242,6 +242,7 @@ export class QuizComponent implements OnInit {
         ? `Correct. ${spoken}`
         : `That is incorrect. Try again.`;
       this.quizzes[currentIndex].feedback = text;
+      this.quizzes[currentIndex].selectedAnswer = this.quizzes[currentIndex].answer;
       this.cdr.detectChanges();
       this.readExplanation(currentIndex, text, isCorrect);
     })

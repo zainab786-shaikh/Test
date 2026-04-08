@@ -200,7 +200,6 @@ export class ShortQuestionComponent implements OnInit {
     if (q == null) return '';
 
     let speech = `${currentIndex + 1}. ${q.question}. `;
-
     return speech;
   }
 
@@ -232,10 +231,12 @@ export class ShortQuestionComponent implements OnInit {
     this.evaluationService.aiCompareText(spoken, answer).subscribe(response => {
       const isCorrect = response.match;
       currentQ.answered = isCorrect;
+      
       let text = isCorrect
         ? `Correct. ${spoken}`
         : `That is incorrect. Try again.`;
       this.short_questions[currentIndex].feedback = text;
+      this.short_questions[currentIndex].user_answer = this.short_questions[currentIndex].answer;
       this.cdr.detectChanges();
       this.readExplanation(currentIndex, text, isCorrect);
     })
@@ -252,6 +253,5 @@ export class ShortQuestionComponent implements OnInit {
           this.cdr.detectChanges();
       }
     });
-    
   }
 }

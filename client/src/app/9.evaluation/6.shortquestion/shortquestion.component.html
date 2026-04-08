@@ -40,7 +40,9 @@
             <mat-icon class="bot-icon">smart_toy</mat-icon>
             Ask Bot
           </button>
-          <button mat-raised-button color="accent" class="ask-bot-button" (click)="submitAnswerVoice(questionIndex)">
+          <button mat-raised-button color="accent" class="ask-bot-button" 
+            (click)="submitAnswerVoice(questionIndex)" 
+            [disabled]="!isInteractive()">
             <mat-icon class="bot-icon">mic</mat-icon>
             Speak
           </button>
