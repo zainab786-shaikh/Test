@@ -9,6 +9,7 @@ export interface IRepoLessonSection {
     inSubjectId: number,
     inLessonSectionId: number
   ): Promise<ILessonSection[] | null>;
+  getByLessonId(inLessonId: number): Promise<ILessonSection[] | null>;
   getById(inLessonSectionId: number): Promise<ILessonSection | null>;
   create(
     inLessonSection: ILessonSection,

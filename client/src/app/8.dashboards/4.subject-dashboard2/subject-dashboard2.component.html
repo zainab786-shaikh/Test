@@ -1,9 +1,9 @@
 <div class="sidebar-overlay" [class.open]="isSidebarOpen" (click)="toggleSidebar()"></div>
 
 <div class="dashboard-wrapper">
-  
+
   <aside class="sd-sidebar" [class.open]="isSidebarOpen">
-    <div class="sd-logo">📚 YoZo</div>
+    <div class="sd-logo">📚 LearnZy</div>
     <nav class="sd-nav">
       <a *ngFor="let item of menuItems" [routerLink]="item.path" routerLinkActive="active"
         [routerLinkActiveOptions]="{exact: false}" class="sd-nav-item">
@@ -21,7 +21,7 @@
     </nav>
   </aside>
 
-  
+
   <main class="sd-main">
     <header class="sd-header">
       <div class="header-left">
@@ -38,7 +38,7 @@
     <div class="sd-content">
       <div class="sd-section-title" style="margin-bottom: 24px;">Welcome, {{studentName}}!</div>
 
-      
+
       <div class="sd-cards-row" style="grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));">
         <div class="sd-subj cursor-hover" *ngFor="let lesson of completedLessonSectionData" style="cursor: pointer;"
           (click)="toggleDashboard(lesson.Id)" [class.active-subject]="showDashboard && selectedLessonId === lesson.Id">
@@ -62,10 +62,10 @@
         </div>
       </div>
 
-      
+
       <div class="dashboard-grid mt-8" *ngIf="showDashboard">
 
-        
+
         <div class="grid-col">
           <h3 class="sd-section-title" style="color: var(--primary); display: flex; align-items: center; gap: 8px;">
             <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
@@ -90,11 +90,16 @@
                           onmouseover="this.style.background='rgba(99, 102, 241, 0.1)'; this.style.color='var(--primary)'"
                           onmouseout="this.style.background='transparent'; this.style.color='var(--text-mid)'">
                           ▹ {{ section.name }}
-                          <div class="sub-scores" style="display: inline-flex; gap: 8px; margin-left: 12px; font-size: 0.75rem;">
-                            <span *ngIf="section.quiz !== undefined" [style.color]="section.quiz >= 90 ? '#059669' : '#d97706'">Q:{{section.quiz}}%</span>
-                            <span *ngIf="section.fillblanks !== undefined" [style.color]="section.fillblanks >= 90 ? '#059669' : '#d97706'">F:{{section.fillblanks}}%</span>
-                            <span *ngIf="section.truefalse !== undefined" [style.color]="section.truefalse >= 90 ? '#059669' : '#d97706'">T:{{section.truefalse}}%</span>
-                            <span *ngIf="section.shortquestion !== undefined" [style.color]="section.shortquestion >= 90 ? '#059669' : '#d97706'">S:{{section.shortquestion}}%</span>
+                          <div class="sub-scores"
+                            style="display: inline-flex; gap: 8px; margin-left: 12px; font-size: 0.75rem;">
+                            <span *ngIf="section.quiz !== undefined"
+                              [style.color]="section.quiz >= 90 ? '#059669' : '#d97706'">Q:{{section.quiz}}%</span>
+                            <span *ngIf="section.fillblanks !== undefined"
+                              [style.color]="section.fillblanks >= 90 ? '#059669' : '#d97706'">F:{{section.fillblanks}}%</span>
+                            <span *ngIf="section.truefalse !== undefined"
+                              [style.color]="section.truefalse >= 90 ? '#059669' : '#d97706'">T:{{section.truefalse}}%</span>
+                            <span *ngIf="section.shortquestion !== undefined"
+                              [style.color]="section.shortquestion >= 90 ? '#059669' : '#d97706'">S:{{section.shortquestion}}%</span>
                           </div>
                         </div>
                       </ng-container>
@@ -109,7 +114,7 @@
           </div>
         </div>
 
-        
+
         <div class="grid-col">
           <h3 class="sd-section-title" style="color: #059669; display: flex; align-items: center; gap: 8px;">
             <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
@@ -129,11 +134,15 @@
                       <ng-container *ngFor="let section of lesson.childList ?? []">
                         <div style="font-size: 0.95rem; color: var(--text-mid); padding: 6px 8px;">
                           ✓ {{ section.name }}
-                          <div class="sub-scores" style="display: inline-flex; gap: 8px; margin-left: 12px; font-size: 0.75rem;">
+                          <div class="sub-scores"
+                            style="display: inline-flex; gap: 8px; margin-left: 12px; font-size: 0.75rem;">
                             <span *ngIf="section.quiz !== undefined" style="color: #059669">Q:{{section.quiz}}%</span>
-                            <span *ngIf="section.fillblanks !== undefined" style="color: #059669">F:{{section.fillblanks}}%</span>
-                            <span *ngIf="section.truefalse !== undefined" style="color: #059669">T:{{section.truefalse}}%</span>
-                            <span *ngIf="section.shortquestion !== undefined" style="color: #059669">S:{{section.shortquestion}}%</span>
+                            <span *ngIf="section.fillblanks !== undefined"
+                              style="color: #059669">F:{{section.fillblanks}}%</span>
+                            <span *ngIf="section.truefalse !== undefined"
+                              style="color: #059669">T:{{section.truefalse}}%</span>
+                            <span *ngIf="section.shortquestion !== undefined"
+                              style="color: #059669">S:{{section.shortquestion}}%</span>
                           </div>
                         </div>
                       </ng-container>
@@ -148,7 +157,7 @@
           </div>
         </div>
 
-        
+
         <div class="grid-col" style="grid-column: 1 / -1; margin-top: 16px;">
           <h3 class="sd-section-title" style="color: #d97706; display: flex; align-items: center; gap: 8px;">
             <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
@@ -169,11 +178,16 @@
                       <ng-container *ngFor="let section of lesson.childList ?? []">
                         <div style="font-size: 0.95rem; color: var(--text-mid); padding: 6px 8px;">
                           • {{ section.name }}
-                          <div class="sub-scores" style="display: inline-flex; gap: 8px; margin-left: 12px; font-size: 0.75rem;">
-                            <span *ngIf="section.quiz !== undefined" [style.color]="section.quiz >= 90 ? '#059669' : '#d97706'">Q:{{section.quiz}}%</span>
-                            <span *ngIf="section.fillblanks !== undefined" [style.color]="section.fillblanks >= 90 ? '#059669' : '#d97706'">F:{{section.fillblanks}}%</span>
-                            <span *ngIf="section.truefalse !== undefined" [style.color]="section.truefalse >= 90 ? '#059669' : '#d97706'">T:{{section.truefalse}}%</span>
-                            <span *ngIf="section.shortquestion !== undefined" [style.color]="section.shortquestion >= 90 ? '#059669' : '#d97706'">S:{{section.shortquestion}}%</span>
+                          <div class="sub-scores"
+                            style="display: inline-flex; gap: 8px; margin-left: 12px; font-size: 0.75rem;">
+                            <span *ngIf="section.quiz !== undefined"
+                              [style.color]="section.quiz >= 90 ? '#059669' : '#d97706'">Q:{{section.quiz}}%</span>
+                            <span *ngIf="section.fillblanks !== undefined"
+                              [style.color]="section.fillblanks >= 90 ? '#059669' : '#d97706'">F:{{section.fillblanks}}%</span>
+                            <span *ngIf="section.truefalse !== undefined"
+                              [style.color]="section.truefalse >= 90 ? '#059669' : '#d97706'">T:{{section.truefalse}}%</span>
+                            <span *ngIf="section.shortquestion !== undefined"
+                              [style.color]="section.shortquestion >= 90 ? '#059669' : '#d97706'">S:{{section.shortquestion}}%</span>
                           </div>
                         </div>
                       </ng-container>

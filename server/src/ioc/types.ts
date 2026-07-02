@@ -46,6 +46,12 @@ const TYPES = {
 
   ControllerAI: Symbol("ControllerAI"),
   ServiceAI: Symbol("ServiceAI"),
+
+
+  ControllerWorksheet: Symbol("ControllerWorksheet"),
+  ServiceWorksheet: Symbol("ServiceWorksheet"),
+  RepoWorksheet: Symbol("RepoWorksheet"),
+  RepoWorksheetQuestion: Symbol("RepoWorksheetQuestion"),
 };
 
 export default TYPES;

@@ -1,36 +1,34 @@
 <div class="sidebar-overlay" [class.open]="isSidebarOpen" (click)="toggleSidebar()"></div>
 
 <div class="dashboard-wrapper">
-  
+
   <aside class="sd-sidebar" [class.open]="isSidebarOpen">
-    <div class="sd-logo">📚 YoZo</div>
+    <div class="sd-logo">📚 LearnZy</div>
     <nav class="sd-nav">
-      <a *ngFor="let item of menuItems"
-         [routerLink]="item.path"
-         routerLinkActive="active"
-         [routerLinkActiveOptions]="{exact: false}"
-         class="sd-nav-item">
+      <a *ngFor="let item of menuItems" [routerLink]="item.path" routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: false}" class="sd-nav-item">
         <svg class="sd-nav-icon" [attr.viewBox]="item.viewBox" xmlns="http://www.w3.org/2000/svg">
-           <path fill="currentColor" [attr.d]="item.svgPath"></path>
+          <path fill="currentColor" [attr.d]="item.svgPath"></path>
         </svg>
         <span>{{item.label}}</span>
       </a>
       <a class="sd-nav-item mobile-close-btn" (click)="toggleSidebar()">
         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
         <span>Close</span>
       </a>
     </nav>
   </aside>
 
-  
+
   <main class="sd-main">
     <header class="sd-header">
       <div class="header-left">
         <button class="mobile-menu-btn" (click)="toggleSidebar()">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
-            <path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
           </svg>
         </button>
         <div class="sd-welcome">Your Profile</div>
@@ -38,17 +36,24 @@
     </header>
 
     <div class="sd-content">
-      <div class="sd-stat-card border-card w-full text-left" style="text-align: left; display: flex; align-items: center; gap: 20px;">
-        <div style="background: rgba(99, 102, 241, 0.1); padding: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; width: 80px; height: 80px;">
+      <div class="sd-stat-card border-card w-full text-left"
+        style="text-align: left; display: flex; align-items: center; gap: 20px;">
+        <div
+          style="background: rgba(99, 102, 241, 0.1); padding: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; width: 80px; height: 80px;">
           <svg class="sd-nav-icon" viewBox="0 0 448 512" style="width: 40px; height: 40px; color: var(--primary);">
-            <path fill="currentColor" d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"></path>
+            <path fill="currentColor"
+              d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z">
+            </path>
           </svg>
         </div>
         <div>
           <h2 style="font-size: 2rem; font-weight: 800; color: var(--text); margin-bottom: 8px;">{{ studentName }}</h2>
-          <p style="color: var(--text-mid); font-size: 1.1rem; margin-bottom: 4px;"><strong>Adhaar Number:</strong> {{ adhaarNumber }}</p>
-          <p style="color: var(--text-mid); font-size: 1.1rem; margin-bottom: 4px;"><strong>Email id:</strong> {{ studentName.replace(" ", ".") }}&#64;saboosiddikpolytechnic.com</p>
-          <p style="color: var(--text-mid); font-size: 1.1rem; margin-bottom: 0;"><strong>Sem:</strong> {{ standardName }}</p>
+          <p style="color: var(--text-mid); font-size: 1.1rem; margin-bottom: 4px;"><strong>Adhaar Number:</strong> {{
+            adhaarNumber }}</p>
+          <!-- <p style="color: var(--text-mid); font-size: 1.1rem; margin-bottom: 4px;"><strong>Email id:</strong> {{
+            studentName.replace(" ", ".") }}&#64;saboosiddikpolytechnic.com</p> -->
+          <p style="color: var(--text-mid); font-size: 1.1rem; margin-bottom: 0;"><strong>Sem:</strong> {{ standardName
+            }}</p>
         </div>
       </div>
 
@@ -58,19 +63,31 @@
           <div class="sd-lessons-list">
             <a href="https://uxpilot.ai" class="sd-lesson-card" style="text-decoration: none;">
               <div class="sd-lesson-info" style="flex-direction: row; align-items: center; gap: 12px;">
-                <svg viewBox="0 0 512 512" style="width: 20px; height: 20px; color: var(--primary);"><path fill="currentColor" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM169.8 165.3c7.9-22.3 29.1-37.3 52.8-37.3h58.3c34.9 0 63.1 28.3 63.1 63.1c0 22.6-12.1 43.5-31.7 54.8L280 264.4c-.2 13-10.9 23.6-24 23.6c-13.3 0-24-10.7-24-24V250.5c0-8.6 4.6-16.5 12.1-20.8l44.3-25.4c4.7-2.7 7.6-7.7 7.6-13.1c0-8.4-6.8-15.1-15.1-15.1H222.6c-3.4 0-6.4 2.1-7.5 5.3l-.4 1.2c-4.4 12.5-18.2 19-30.6 14.6s-19-18.2-14.6-30.6l.4-1.2zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"></path></svg>
+                <svg viewBox="0 0 512 512" style="width: 20px; height: 20px; color: var(--primary);">
+                  <path fill="currentColor"
+                    d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM169.8 165.3c7.9-22.3 29.1-37.3 52.8-37.3h58.3c34.9 0 63.1 28.3 63.1 63.1c0 22.6-12.1 43.5-31.7 54.8L280 264.4c-.2 13-10.9 23.6-24 23.6c-13.3 0-24-10.7-24-24V250.5c0-8.6 4.6-16.5 12.1-20.8l44.3-25.4c4.7-2.7 7.6-7.7 7.6-13.1c0-8.4-6.8-15.1-15.1-15.1H222.6c-3.4 0-6.4 2.1-7.5 5.3l-.4 1.2c-4.4 12.5-18.2 19-30.6 14.6s-19-18.2-14.6-30.6l.4-1.2zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z">
+                  </path>
+                </svg>
                 <div class="sd-lesson-title">FAQs</div>
               </div>
             </a>
             <a href="https://uxpilot.ai" class="sd-lesson-card" style="text-decoration: none;">
               <div class="sd-lesson-info" style="flex-direction: row; align-items: center; gap: 12px;">
-                <svg viewBox="0 0 640 512" style="width: 20px; height: 20px; color: var(--primary);"><path fill="currentColor" d="M208 352c114.9 0 208-78.8 208-176S322.9 0 208 0S0 78.8 0 176c0 38.6 14.7 74.3 39.6 103.4c-3.5 9.4-8.7 17.7-14.2 24.7c-4.8 6.2-9.7 11-13.3 14.3c-1.8 1.6-3.3 2.9-4.3 3.7c-.5 .4-.9 .7-1.1 .8l-.2 .2 0 0 0 0C1 327.2-1.4 334.4 .8 340.9S9.1 352 16 352c21.8 0 43.8-5.6 62.1-12.5c9.2-3.5 17.8-7.4 25.3-11.4C134.1 343.3 169.8 352 208 352zM448 176c0 112.3-99.1 196.9-216.5 207C255.8 457.4 336.4 512 432 512c38.2 0 73.9-8.7 104.7-23.9c7.5 4 16 7.9 25.2 11.4c18.3 6.9 40.3 12.5 62.1 12.5c6.9 0 13.1-4.5 15.2-11.1c2.1-6.6-.2-13.8-5.8-17.9l0 0 0 0-.2-.2c-.2-.2-.6-.4-1.1-.8c-1-.8-2.5-2-4.3-3.7c-3.6-3.3-8.5-8.1-13.3-14.3c-5.5-7-10.7-15.4-14.2-24.7c24.9-29 39.6-64.7 39.6-103.4c0-92.8-84.9-168.9-192.6-175.5c.4 5.1 .6 10.3 .6 15.5z"></path></svg>
+                <svg viewBox="0 0 640 512" style="width: 20px; height: 20px; color: var(--primary);">
+                  <path fill="currentColor"
+                    d="M208 352c114.9 0 208-78.8 208-176S322.9 0 208 0S0 78.8 0 176c0 38.6 14.7 74.3 39.6 103.4c-3.5 9.4-8.7 17.7-14.2 24.7c-4.8 6.2-9.7 11-13.3 14.3c-1.8 1.6-3.3 2.9-4.3 3.7c-.5 .4-.9 .7-1.1 .8l-.2 .2 0 0 0 0C1 327.2-1.4 334.4 .8 340.9S9.1 352 16 352c21.8 0 43.8-5.6 62.1-12.5c9.2-3.5 17.8-7.4 25.3-11.4C134.1 343.3 169.8 352 208 352zM448 176c0 112.3-99.1 196.9-216.5 207C255.8 457.4 336.4 512 432 512c38.2 0 73.9-8.7 104.7-23.9c7.5 4 16 7.9 25.2 11.4c18.3 6.9 40.3 12.5 62.1 12.5c6.9 0 13.1-4.5 15.2-11.1c2.1-6.6-.2-13.8-5.8-17.9l0 0 0 0-.2-.2c-.2-.2-.6-.4-1.1-.8c-1-.8-2.5-2-4.3-3.7c-3.6-3.3-8.5-8.1-13.3-14.3c-5.5-7-10.7-15.4-14.2-24.7c24.9-29 39.6-64.7 39.6-103.4c0-92.8-84.9-168.9-192.6-175.5c.4 5.1 .6 10.3 .6 15.5z">
+                  </path>
+                </svg>
                 <div class="sd-lesson-title">Chat Support</div>
               </div>
             </a>
             <a href="https://uxpilot.ai" class="sd-lesson-card" style="text-decoration: none;">
               <div class="sd-lesson-info" style="flex-direction: row; align-items: center; gap: 12px;">
-                <svg viewBox="0 0 512 512" style="width: 20px; height: 20px; color: var(--primary);"><path fill="currentColor" d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"></path></svg>
+                <svg viewBox="0 0 512 512" style="width: 20px; height: 20px; color: var(--primary);">
+                  <path fill="currentColor"
+                    d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z">
+                  </path>
+                </svg>
                 <div class="sd-lesson-title">Email Support</div>
               </div>
             </a>
@@ -79,15 +96,17 @@
         <div class="grid-col">
           <h3 class="sd-section-title">Account Area</h3>
           <div class="sd-lessons-list">
-             <div class="sd-lesson-card" style="flex-direction: column; align-items: flex-start; gap: 16px;">
-                 <div class="sd-lesson-info">
-                   <div class="sd-lesson-title">Logout Session</div>
-                   <div style="color: var(--text-mid); font-size: 0.95rem;">You will need to login again to access your dashboard.</div>
-                 </div>
-                 <button (click)="logout()" style="cursor: pointer; background: #e11d48; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 1rem; width: 100%; transition: all 0.3s; box-shadow: 0 4px 12px rgba(225, 29, 72, 0.2);">
-                   Logout out completely
-                 </button>
-             </div>
+            <div class="sd-lesson-card" style="flex-direction: column; align-items: flex-start; gap: 16px;">
+              <div class="sd-lesson-info">
+                <div class="sd-lesson-title">Logout Session</div>
+                <div style="color: var(--text-mid); font-size: 0.95rem;">You will need to login again to access your
+                  dashboard.</div>
+              </div>
+              <button (click)="logout()"
+                style="cursor: pointer; background: #e11d48; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 1rem; width: 100%; transition: all 0.3s; box-shadow: 0 4px 12px rgba(225, 29, 72, 0.2);">
+                Logout out completely
+              </button>
+            </div>
           </div>
         </div>
       </div>

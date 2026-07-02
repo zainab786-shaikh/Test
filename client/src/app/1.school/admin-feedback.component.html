@@ -1,0 +1,49 @@
+<div class="admin-feedback-container">
+  <div class="admin-header">
+    <div class="header-left">
+      <button class="back-link" routerLink="/school">
+        <mat-icon>arrow_back</mat-icon>
+        <span>Back to Colleges</span>
+      </button>
+      <h1>System Diagnostics & Feedback</h1>
+      <p>Analyze student feedback and system performance metrics.</p>
+    </div>
+    <div class="summary-card" *ngIf="analytics">
+      <div class="stat-value">{{ analytics.totalResponses }}</div>
+      <div class="stat-label">Total Responses</div>
+    </div>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="loader"></div>
+    <p>Loading analytics...</p>
+  </div>
+
+  <div *ngIf="!isLoading && analytics" class="analytics-content">
+    <section class="charts-section">
+      <div class="chart-card">
+        <h3>Average Ratings by Category</h3>
+        <div class="chart-container">
+          <plotly-plot
+            [data]="chartData"
+            [layout]="chartLayout"
+            [config]="{responsive: true, displayModeBar: false}"
+          ></plotly-plot>
+        </div>
+      </div>
+    </section>
+
+    <section class="suggestions-section">
+      <h3>Student Suggestions & Improvements</h3>
+      <div class="suggestions-grid">
+        <div *ngFor="let suggestion of analytics.suggestions" class="suggestion-card">
+          <mat-icon class="quote-icon">format_quote</mat-icon>
+          <p>{{ suggestion }}</p>
+        </div>
+        <div *ngIf="analytics.suggestions.length === 0" class="empty-suggestions">
+          No written suggestions received yet.
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

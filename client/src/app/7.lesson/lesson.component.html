@@ -1,6 +1,9 @@
 <div class="page-container">
   <header class="page-header">
     <div class="header-content">
+      <button class="btn-back" (click)="goBack()" style="margin-right: 12px; border-radius: 50%; border: 1px solid var(--border-light); background: var(--surface); color: var(--text-secondary); width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: var(--shadow-sm); transition: all var(--transition);">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
       <div class="title-container">
         <h1>Lesson Details</h1>
         <p class="subtitle">Manage subject lessons</p>
@@ -77,6 +80,9 @@
                 </button>
                 <button class="action-btn list-btn" (click)="onLessonSections(element.Id)" matTooltip="Lesson Sections">
                   <mat-icon>list_alt</mat-icon>
+                </button>
+                <button class="action-btn worksheet-btn" (click)="onGenerateWorksheet(element.Id)" matTooltip="Generate Worksheet" style="color: #4f46e5;">
+                  <mat-icon>picture_as_pdf</mat-icon>
                 </button>
               </div>
             </td>

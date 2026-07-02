@@ -1,0 +1,260 @@
+<div class="page-container">
+  <!-- Header -->
+  <header class="page-header">
+    <div class="header-content">
+      <button class="btn-back" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <div class="title-container">
+        <h1>Worksheet Generator</h1>
+        <p class="subtitle">Create custom printable question papers for your classes</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-content">
+    <!-- Generation Success Screen -->
+    <div class="section-card success-card animate-fade-in" *ngIf="generationSuccess">
+      <div class="success-content">
+        <div class="success-icon-wrapper">
+          <mat-icon class="success-icon">check_circle</mat-icon>
+        </div>
+        <h2>Worksheets Generated Successfully!</h2>
+        <p class="success-description">
+          We have generated unique worksheets for all <strong>{{ worksheetForm.value.studentCount }}</strong> students. 
+          A separate answer key with all correct answers is also prepared.
+        </p>
+        
+        <div class="success-actions">
+          <button class="btn-primary btn-lg" (click)="downloadZip()">
+            <mat-icon>download_for_offline</mat-icon>
+            <span>Download Worksheets (ZIP)</span>
+          </button>
+          
+          <div class="secondary-actions">
+            <button class="btn-secondary" (click)="resetForm()">
+              <mat-icon>restart_alt</mat-icon>
+              <span>Generate Another</span>
+            </button>
+            <button class="btn-ghost" (click)="goBack()">
+              <mat-icon>arrow_back</mat-icon>
+              <span>Back to Lessons</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Configuration Form -->
+    <div class="section-card form-section" *ngIf="!generationSuccess && !isGenerating">
+      <div class="section-header">
+        <div class="section-title">
+          <div class="icon-wrapper">
+            <mat-icon>settings</mat-icon>
+          </div>
+          <h2>Configure Worksheet Options</h2>
+        </div>
+        <div class="meta-badges">
+          <span class="meta-badge subject-badge">
+            <mat-icon class="sm-icon">menu_book</mat-icon>
+            <span>{{ subjectName || 'Loading Subject...' }}</span>
+          </span>
+          <span class="meta-badge lesson-badge">
+            <mat-icon class="sm-icon">class</mat-icon>
+            <span>{{ lessonName || 'Loading Lesson...' }}</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="section-content">
+        <form [formGroup]="worksheetForm" (ngSubmit)="onSubmit()" class="modern-form">
+          
+          <!-- General Details -->
+          <div class="form-grid">
+            <div class="form-group">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Worksheet Title</mat-label>
+                <input matInput formControlName="title" placeholder="Enter worksheet title" />
+                <mat-error *ngIf="worksheetForm.get('title')?.hasError('required')">Title is required.</mat-error>
+                <mat-error *ngIf="worksheetForm.get('title')?.hasError('minlength')">Title must be at least 3 characters long.</mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="form-group">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Number of Students</mat-label>
+                <input type="number" matInput formControlName="studentCount" />
+                <mat-error *ngIf="worksheetForm.get('studentCount')?.hasError('required')">Please enter number of students.</mat-error>
+                <mat-error *ngIf="worksheetForm.get('studentCount')?.hasError('min')">Must be at least 1 student.</mat-error>
+                <mat-error *ngIf="worksheetForm.get('studentCount')?.hasError('max')">Limit is 500 students.</mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="form-group">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Total Marks (Optional)</mat-label>
+                <input type="number" matInput formControlName="totalMarks" placeholder="e.g. 50" />
+                <mat-error *ngIf="worksheetForm.get('totalMarks')?.hasError('min')">Must be a positive number.</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- Question Quantities -->
+          <div class="quantities-section">
+            <div class="section-subtitle">
+              <h3>Question Selection</h3>
+              <p>Specify how many questions of each type to include on each student's worksheet.</p>
+            </div>
+
+            <div class="quantity-grid">
+              
+              <!-- MCQ Quantity -->
+              <div class="quantity-card" [class.disabled]="availableCounts.MCQ === 0">
+                <div class="qty-info">
+                  <div class="qty-icon-wrapper mcq-color">
+                    <mat-icon>quiz</mat-icon>
+                  </div>
+                  <div class="qty-text">
+                    <h4>Multiple Choice (MCQ)</h4>
+                    <span class="qty-available">Available in DB: {{ availableCounts.MCQ }}</span>
+                  </div>
+                </div>
+                <div class="qty-input-wrapper">
+                  <input type="number" formControlName="mcqQty" class="qty-input" min="0" [max]="availableCounts.MCQ" (input)="onQtyInput('mcqQty', availableCounts.MCQ)" />
+                </div>
+              </div>
+
+              <!-- True / False Quantity -->
+              <div class="quantity-card" [class.disabled]="availableCounts.TRUE_FALSE === 0">
+                <div class="qty-info">
+                  <div class="qty-icon-wrapper tf-color">
+                    <mat-icon>flaky</mat-icon>
+                  </div>
+                  <div class="qty-text">
+                    <h4>True / False</h4>
+                    <span class="qty-available">Available in DB: {{ availableCounts.TRUE_FALSE }}</span>
+                  </div>
+                </div>
+                <div class="qty-input-wrapper">
+                  <input type="number" formControlName="trueFalseQty" class="qty-input" min="0" [max]="availableCounts.TRUE_FALSE" (input)="onQtyInput('trueFalseQty', availableCounts.TRUE_FALSE)" />
+                </div>
+              </div>
+
+              <!-- Fill in the Blanks Quantity -->
+              <div class="quantity-card" [class.disabled]="availableCounts.FILL_BLANK === 0">
+                <div class="qty-info">
+                  <div class="qty-icon-wrapper fb-color">
+                    <mat-icon>space_bar</mat-icon>
+                  </div>
+                  <div class="qty-text">
+                    <h4>Fill in the Blanks</h4>
+                    <span class="qty-available">Available in DB: {{ availableCounts.FILL_BLANK }}</span>
+                  </div>
+                </div>
+                <div class="qty-input-wrapper">
+                  <input type="number" formControlName="fillBlankQty" class="qty-input" min="0" [max]="availableCounts.FILL_BLANK" (input)="onQtyInput('fillBlankQty', availableCounts.FILL_BLANK)" />
+                </div>
+              </div>
+
+              <!-- Short Answer Quantity -->
+              <div class="quantity-card" [class.disabled]="availableCounts.SHORT_ANSWER === 0">
+                <div class="qty-info">
+                  <div class="qty-icon-wrapper sa-color">
+                    <mat-icon>notes</mat-icon>
+                  </div>
+                  <div class="qty-text">
+                    <h4>Short Answer</h4>
+                    <span class="qty-available">Available in DB: {{ availableCounts.SHORT_ANSWER }}</span>
+                  </div>
+                </div>
+                <div class="qty-input-wrapper">
+                  <input type="number" formControlName="shortAnswerQty" class="qty-input" min="0" [max]="availableCounts.SHORT_ANSWER" (input)="onQtyInput('shortAnswerQty', availableCounts.SHORT_ANSWER)" />
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Total Counter & Error Display -->
+          <div class="form-footer-meta">
+            <div class="total-counter">
+              <span>Total Questions: </span>
+              <strong>{{ getTotalQuestions() }}</strong>
+            </div>
+            
+            <div class="validation-error" *ngIf="errorMessage">
+              <mat-icon class="err-icon">error_outline</mat-icon>
+              <span>{{ errorMessage }}</span>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" (click)="goBack()">Cancel</button>
+            <button type="submit" class="btn-primary submit-btn" [disabled]="worksheetForm.invalid || getTotalQuestions() === 0">
+              <mat-icon>bolt</mat-icon>
+              <span>Generate Worksheets</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Generating Loader Screen -->
+    <div class="section-card loader-card animate-fade-in" *ngIf="isGenerating">
+      <div class="loader-content">
+        <mat-progress-spinner mode="indeterminate" diameter="60" strokeWidth="5" color="primary"></mat-progress-spinner>
+        <h2>Generating Worksheets...</h2>
+        <p>Randomizing question pools, shuffling options, and building printable PDFs for each student. This may take a few seconds.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Warning Modal (Overlap / Reuse Alert) -->
+  <div class="modal-backdrop animate-fade-in" *ngIf="showWarningModal">
+    <div class="modal-card animate-scale-up">
+      <div class="modal-header">
+        <div class="warning-icon-wrapper">
+          <mat-icon>warning</mat-icon>
+        </div>
+        <h3>Insufficient Unique Questions</h3>
+      </div>
+      <div class="modal-body">
+        <p>The database does not have enough unique questions to distribute to all students without overlap. See details below:</p>
+        
+        <table class="warning-table">
+          <thead>
+            <tr>
+              <th>Question Type</th>
+              <th>Available Questions</th>
+              <th>Required for Unique Set</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of warningData?.available | keyvalue">
+              <td><strong>{{ item.key }}</strong></td>
+              <td>{{ item.value }}</td>
+              <td>{{ warningData?.required?.[item.key] }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="alert-message">
+          <strong>How would you like to proceed?</strong>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" (click)="cancelWarning()">
+          <mat-icon>edit</mat-icon>
+          <span>Change Quantities (Reduce size)</span>
+        </button>
+        <button class="btn-primary btn-warning-action" (click)="confirmReuse()">
+          <mat-icon>rule</mat-icon>
+          <span>Allow Question Reuse</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

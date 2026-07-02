@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
   ReactiveFormsModule,
@@ -44,8 +44,13 @@ export class LessonComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private lessonService: LessonService
+    private lessonService: LessonService,
+    private location: Location
   ) {}
+
+  goBack(): void {
+    this.location.back();
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -98,6 +103,15 @@ export class LessonComponent implements OnInit {
   onLessonSections(lessonId: number) {
     this.router.navigate([
       'lessonsection/subject',
+      this.subjectId,
+      'lesson',
+      lessonId,
+    ]);
+  }
+
+  onGenerateWorksheet(lessonId: number) {
+    this.router.navigate([
+      'worksheet-generator/subject',
       this.subjectId,
       'lesson',
       lessonId,

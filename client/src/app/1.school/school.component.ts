@@ -20,6 +20,7 @@ import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-school',
+  standalone: true,
   imports: [
     CommonModule,
     MatTableModule,
@@ -28,7 +29,7 @@ import { Location } from '@angular/common';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatTooltipModule, 
+    MatTooltipModule,
   ],
   templateUrl: './school.component.html',
   styleUrls: ['./school.component.css'],
@@ -50,7 +51,7 @@ export class SchoolComponent implements OnInit {
   ) {}
 
   logout(): void {
-    this.location.back();
+    this.router.navigate(['/login']);
   }
 
   ngOnInit(): void {
@@ -73,7 +74,7 @@ export class SchoolComponent implements OnInit {
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(255),
-          Validators.pattern('^[A-Za-z ]+$'),
+          Validators.pattern(/^[A-Za-z0-9'.\-,&() ]+$/),
         ],
       ],
       address: [
@@ -82,7 +83,7 @@ export class SchoolComponent implements OnInit {
           Validators.required,
           Validators.minLength(16),
           Validators.maxLength(255),
-          Validators.pattern(/^[A-Za-z0-9'.\-, ]*$/),
+          Validators.pattern(/^[A-Za-z0-9'.\/\-,() ]+$/),
         ],
       ],
     });

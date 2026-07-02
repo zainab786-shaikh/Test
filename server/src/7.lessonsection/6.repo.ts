@@ -48,6 +48,18 @@ export class RepoLessonSectionImpl implements IRepoLessonSection {
     );
   }
 
+  async getByLessonId(inLessonId: number): Promise<ILessonSection[] | null> {
+    const LessonSectionModel = this.getModel(DTOLessonSection);
+    const foundObj = await LessonSectionModel.findAll<DTOLessonSection>({
+      where: {
+        lesson: inLessonId,
+      },
+    });
+    return foundObj?.map((eachObj) =>
+      this.convertToObject(eachObj.dataValues)
+    );
+  }
+
   async getById(inLessonSectionId: number): Promise<ILessonSection | null> {
     const LessonSectionModel = this.getModel(DTOLessonSection);
     const foundObj = await LessonSectionModel.findOne<DTOLessonSection>({

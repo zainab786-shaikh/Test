@@ -22,6 +22,8 @@ import { ProfileDashboardComponent } from './8.dashboards/5.profile-dashboard/pr
 
 import { LandingPageComponent } from './landingPage/landing-page/landing-page.component'; 
 import { TeacherComponent } from './3.2.teacher/teacher.component';
+import { WorksheetGeneratorComponent } from './11.worksheet-generator/worksheet-generator.component';
+
 export const routes: Routes = [
   { path: '', component: LandingPageComponent }, 
   { path: 'login', component: LoginComponent }, 
@@ -40,6 +42,7 @@ export const routes: Routes = [
   
   { path: 'admin', redirectTo: 'school', pathMatch: 'full' },
   { path: 'school', component: SchoolComponent },
+
   {
     path: 'schoolstandard/school/:schoolId',
     component: SchoolStandardComponent,
@@ -59,6 +62,10 @@ export const routes: Routes = [
   {
     path: 'lessonsection/subject/:subjectId/lesson/:lessonId',
     component: LessonSectionComponent,
+  },
+  {
+    path: 'worksheet-generator/subject/:subjectId/lesson/:lessonId',
+    component: WorksheetGeneratorComponent,
   },
 
   
@@ -89,4 +96,5 @@ export const routes: Routes = [
     path: 'profile-dashboard/school/:schoolId/standard/:standardId/student/:studentId',
     component: ProfileDashboardComponent,
   },
+
 ];

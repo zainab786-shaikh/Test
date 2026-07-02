@@ -73,6 +73,13 @@ import { ControllerAI } from "../9.ai_api/2.controller";
 import { IServiceAI } from "../9.ai_api/3.service.model";
 import { ServiceAI } from "../9.ai_api/4.service";
 
+
+import { ControllerWorksheet } from "../11.worksheet/2.controller";
+import { IServiceWorksheet } from "../11.worksheet/3.service.model";
+import { WorksheetServiceImpl } from "../11.worksheet/4.service";
+import { IRepoWorksheet, IRepoWorksheetQuestion } from "../11.worksheet/5.repo.model";
+import { RepoWorksheetImpl, RepoWorksheetQuestionImpl } from "../11.worksheet/6.repo";
+
 const container = new Container();
 container.bind<ILogger>(TYPES.LoggerService).to(LoggerService);
 container.bind(ServiceTenant).toSelf().inSingletonScope();
@@ -155,4 +162,18 @@ container
 container
   .bind<IServiceAI>(TYPES.ServiceAI)
   .to(ServiceAI);
+
+container
+  .bind<ControllerWorksheet>(TYPES.ControllerWorksheet)
+  .to(ControllerWorksheet);
+container
+  .bind<IServiceWorksheet>(TYPES.ServiceWorksheet)
+  .to(WorksheetServiceImpl);
+container
+  .bind<IRepoWorksheet>(TYPES.RepoWorksheet)
+  .to(RepoWorksheetImpl);
+container
+  .bind<IRepoWorksheetQuestion>(TYPES.RepoWorksheetQuestion)
+  .to(RepoWorksheetQuestionImpl);
+
 export { container };

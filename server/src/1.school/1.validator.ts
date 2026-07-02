@@ -8,12 +8,12 @@ const schoolSchema = z.object({
     .string()
     .min(3)
     .max(255)
-    .regex(/^[A-Za-z ]*$/),
+    .regex(/^[A-Za-z0-9'.\-,&() ]*$/),
   address: z
     .string()
     .min(16)
     .max(255)
-    .regex(/^[A-Za-z0-9.\-, ]*$/),
+    .regex(/^[A-Za-z0-9'.\/\-,() ]*$/),
 });
 
 const validateSchool = (

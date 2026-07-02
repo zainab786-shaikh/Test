@@ -501,8 +501,17 @@ mat-card-title .mat-icon {
 .input-send-button, .input-stop-button, .input-speech-button {
   box-shadow: var(--shadow-md) !important;
   transition: all var(--transition);
-  transform: scale(0.8);
+  transform: scale(0.9);
   margin: -4px;
+  overflow: visible !important;
+  padding: 0 !important;
+}
+
+.input-send-button mat-icon, .input-stop-button mat-icon, .input-speech-button mat-icon {
+  font-size: 22px !important;
+  height: 20px !important;
+  width: 20px !important;
+  transform: translateX(-2px);
 }
 
 .input-send-button {

@@ -17,6 +17,7 @@ import { BarPlotter } from '../dashboard.component.servicePlotter';
 import { ProgressService } from '../../4.progress/progress.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { AuthService } from '../../core/services/auth.service';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -50,7 +51,8 @@ export class StandardDashboardComponent {
     private router: Router,
     private progressService: ProgressService,
     private serviceHelper: DashboardServiceHelper,
-    private location: Location
+    private location: Location,
+    private authService: AuthService
   ) {
     this.route.params.subscribe((params) => {
       this.schoolId = +params['schoolId'];
@@ -63,6 +65,21 @@ export class StandardDashboardComponent {
   }
 
   ngOnInit(): void {
+    const userRole = this.authService.getUserRole();
+    if (userRole === 'teacher') {
+      const user = this.authService.getUser() as any;
+      if (user && user.standard && this.standardId !== user.standard) {
+        this.router.navigate([
+          'standard-dashboard',
+          'school',
+          user.school || this.schoolId,
+          'standard',
+          user.standard
+        ]);
+        return;
+      }
+    }
+
     this.serviceHelper.initializeDashboardData(this.schoolId).subscribe(() => {
       this.progressService
         .getAllStandard(this.schoolId, this.standardId)
@@ -101,6 +118,7 @@ export class StandardDashboardComponent {
 
   clickBySubject(parentId: number) {
     console.log('Subject Id: ' + parentId);
+    this.router.navigate(['lesson', 'subject', parentId]);
   }
 
   clickByStudent(parentId: number) {

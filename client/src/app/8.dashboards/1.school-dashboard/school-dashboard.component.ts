@@ -18,6 +18,7 @@ import { ProgressService } from '../../4.progress/progress.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { ISchool } from '../../1.school/school.model';
+import { AuthService } from '../../core/services/auth.service';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -51,7 +52,8 @@ export class SchoolDashboardComponent {
     private router: Router,
     private progressService: ProgressService,
     private serviceHelper: DashboardServiceHelper,
-    private location: Location
+    private location: Location,
+    private authService: AuthService
   ) {
     this.schoolId = 1;
     this.route.params.subscribe((params) => {
@@ -64,6 +66,36 @@ export class SchoolDashboardComponent {
   }
 
   ngOnInit(): void {
+    const userRole = this.authService.getUserRole();
+    if (userRole === 'teacher') {
+      const user = this.authService.getUser() as any;
+      if (user && user.school && user.standard) {
+        this.router.navigate([
+          'standard-dashboard',
+          'school',
+          user.school,
+          'standard',
+          user.standard
+        ]);
+        return;
+      }
+    }
+    if (userRole === 'student') {
+      const user = this.authService.getUser() as any;
+      if (user && user.school && user.standard && user.studentId) {
+        this.router.navigate([
+          'student-dashboard',
+          'school',
+          user.school,
+          'standard',
+          user.standard,
+          'student',
+          user.studentId
+        ]);
+        return;
+      }
+    }
+
     this.serviceHelper.initializeDashboardData(this.schoolId).subscribe(() => {
       this.schoolInfo = this.serviceHelper.schools[0];
       this.progressService.getAllSchool(this.schoolId).subscribe((data) => {
@@ -114,5 +146,6 @@ export class SchoolDashboardComponent {
 
   clickBySubject(parentId: number) {
     console.log('Subject Id: ' + parentId);
+    this.router.navigate(['lesson', 'subject', parentId]);
   }
 }

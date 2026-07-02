@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
+import { AuthService } from '../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -35,7 +36,8 @@ export class LoginComponent {
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private authService: AuthService
   ) {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
@@ -79,6 +81,9 @@ export class LoginComponent {
     const { username, password } = this.loginForm.value;
     this.loginService.validate(username, password).subscribe({
       next: (apiResponse: any) => {
+        if (apiResponse && apiResponse.token) {
+          this.authService.setAuthData(apiResponse);
+        }
         const userInfo = apiResponse?.user || apiResponse;
         if (userInfo) {
           if (userInfo?.role == 'admin') {
@@ -89,16 +94,25 @@ export class LoginComponent {
             this.loginService
               .getTeacherAdhaar(userInfo.adhaar)
               .subscribe((teacher) => {
+                apiResponse.user.school = teacher.school;
+                apiResponse.user.standard = teacher.standard;
+                this.authService.setAuthData(apiResponse);
                 this.router.navigate([
-                  'school-dashboard',
+                  'standard-dashboard',
                   'school',
-                  teacher.school
+                  teacher.school,
+                  'standard',
+                  teacher.standard
                 ]);
               });
           } else if (userInfo?.role == 'student') {
             this.loginService
               .getByAdhaar(userInfo.adhaar)
               .subscribe((student) => {
+                apiResponse.user.school = student.school;
+                apiResponse.user.standard = student.standard;
+                apiResponse.user.studentId = student.Id;
+                this.authService.setAuthData(apiResponse);
                 this.router.navigate([
                   'student-dashboard',
                   'school',

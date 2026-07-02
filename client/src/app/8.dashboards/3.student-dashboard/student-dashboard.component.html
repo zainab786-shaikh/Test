@@ -1,38 +1,35 @@
-
 <div class="sidebar-overlay" [class.open]="isSidebarOpen" (click)="toggleSidebar()"></div>
 
 <div class="dashboard-wrapper">
-  
+
   <aside class="sd-sidebar" [class.open]="isSidebarOpen">
-    <div class="sd-logo">📚 YoZo</div>
+    <div class="sd-logo">📚 LearnZy</div>
     <nav class="sd-nav">
-      <a *ngFor="let item of menuItems"
-         [routerLink]="item.path"
-         routerLinkActive="active"
-         [routerLinkActiveOptions]="{exact: false}"
-         class="sd-nav-item">
+      <a *ngFor="let item of menuItems" [routerLink]="item.path" routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: false}" class="sd-nav-item">
         <svg class="sd-nav-icon" [attr.viewBox]="item.viewBox" xmlns="http://www.w3.org/2000/svg">
-           <path fill="currentColor" [attr.d]="item.svgPath"></path>
+          <path fill="currentColor" [attr.d]="item.svgPath"></path>
         </svg>
         <span>{{item.label}}</span>
       </a>
-      
+
       <a class="sd-nav-item mobile-close-btn" (click)="toggleSidebar()">
         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
         <span>Close</span>
       </a>
     </nav>
   </aside>
 
-  
+
   <main class="sd-main">
     <header class="sd-header">
       <div class="header-left">
         <button class="mobile-menu-btn" (click)="toggleSidebar()">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
-            <path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
           </svg>
         </button>
         <div class="sd-welcome">Welcome back, <span class="highlight">{{studentName}}</span> 🚀</div>
@@ -40,7 +37,7 @@
     </header>
 
     <div class="sd-content">
-      
+
       <div class="sd-cards-row">
         <div class="sd-stat-card border-card cursor-hover">
           <span>{{completedLessons}} / {{totalLessons}}</span>
@@ -57,11 +54,11 @@
       </div>
 
       <div class="dashboard-grid">
-        
+
         <div class="grid-col">
           <h3 class="sd-section-title">Subjects Overview</h3>
           <div class="sd-subject-cards">
-            
+
             <div class="sd-subj" *ngFor="let s of subjectData">
               <div class="sd-subj-icon">📘</div>
               <div class="sd-subj-info">
@@ -76,7 +73,7 @@
           </div>
         </div>
 
-        
+
         <div class="grid-col">
           <h3 class="sd-section-title">Upcoming Lessons</h3>
           <div class="sd-lessons-list">
@@ -92,27 +89,26 @@
                         'student', studentId
                       ]" class="sd-btn-play">
                   <svg viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg" width="12" height="12">
-                      <path fill="currentColor" d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"></path>
+                    <path fill="currentColor"
+                      d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z">
+                    </path>
                   </svg>
                   <span>Start</span>
                 </a>
               </div>
             </ng-container>
-            <div *ngIf="!nextLessonSectionData || nextLessonSectionData.length === 0" class="empty-state">No upcoming lessons.</div>
+            <div *ngIf="!nextLessonSectionData || nextLessonSectionData.length === 0" class="empty-state">No upcoming
+              lessons.</div>
           </div>
         </div>
       </div>
 
-      
+
       <div class="full-width-section mt-8">
         <h3 class="sd-section-title">Overall Performance</h3>
         <div class="sd-chart-box">
-           <plotly-plot
-             *ngIf="perfOverallPlotter"
-             [data]="perfOverallPlotter.barData"
-             [layout]="perfOverallPlotter.barLayout"
-             [config]="{displayModeBar: false, responsive: true}"
-           ></plotly-plot>
+          <plotly-plot *ngIf="perfOverallPlotter" [data]="perfOverallPlotter.barData"
+            [layout]="perfOverallPlotter.barLayout" [config]="{displayModeBar: false, responsive: true}"></plotly-plot>
         </div>
       </div>
 

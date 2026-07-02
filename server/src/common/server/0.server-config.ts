@@ -28,7 +28,9 @@ const serverConfig = {
         "http://127.0.0.1:4200",
       ];
 
-      if (!origin || allowedOrigins.includes(origin)) {
+      const isLocalhost = origin && (origin.startsWith("http://localhost:") || origin.startsWith("http://127.0.0.1:"));
+
+      if (!origin || allowedOrigins.includes(origin) || isLocalhost) {
         callback(null, origin);
       } else {
         callback(new Error("Not allowed by CORS"));
